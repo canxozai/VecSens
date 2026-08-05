@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>VecSens — Kişiselleştirilmiş Aim Analizi</title>
+  <meta name="description" content="VecSens: Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse DPI ve sensitivity ayarlarını hesapla."/>
+  <link rel="icon" type="image/png" href="logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:       #080c14;
+      --bg2:      #0d1220;
+      --card:     #111827;
+      --glass:    rgba(255,255,255,.03);
+      --border:   rgba(255,255,255,.06);
+      --bactive:  rgba(99,179,237,.4);
+      --blue:     #63b3ed;
+      --purple:   #7c3aed;
+      --green:    #10b981;
+      --red:      #ef4444;
+      --amber:    #f59e0b;
+      --gbtn:     linear-gradient(135deg,#63b3ed,#7c3aed);
+      --t1:       #f1f5f9;
+      --t2:       #94a3b8;
+      --t3:       #64748b;
+      --mono:     'JetBrains Mono',monospace;
+      --sans:     'Outfit',sans-serif;
+      --r1:8px; --r2:12px; --r3:20px; --r4:28px;
+      --shadow:   0 8px 32px rgba(0,0,0,.4);
+      --glow:     0 0 40px rgba(99,179,237,.15);
+      --ease:     all .25s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;line-height:1.6}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(99,179,237,.12) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(124,58,237,.1) 0%,transparent 60%);pointer-events:none;z-index:0}
+    .grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(99,179,237,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,179,237,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+    #app{position:relative;z-index:1;min-height:100vh}
+    .container{max-width:860px;margin:0 auto;padding:0 20px}
+
+    /* ── TOP NAV ── */
+    .topnav{display:flex;justify-content:center;padding:24px 0 0}
+    .nav-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r4);padding:5px}
+    .nav-tab{display:flex;align-items:center;gap:7px;padding:9px 20px;border-radius:20px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);transition:var(--ease);white-space:nowrap}
+    .nav-tab:hover{color:var(--t2);background:rgba(255,255,255,.05)}
+    .nav-tab.active{background:var(--gbtn);color:#fff;box-shadow:0 4px 16px rgba(99,179,237,.3)}
+    .nav-badge{background:rgba(99,179,237,.2);color:var(--blue);border-radius:999px;padding:1px 7px;font-size:11px;font-weight:700}
+
+    /* ── HEADER ── */
+    .header{padding:28px 0 16px;text-align:center}
+    .logo-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,179,237,.1);border:1px solid rgba(99,179,237,.2);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+    .logo-badge .dot{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+    .header h1{font-size:clamp(26px,5vw,44px);font-weight:800;background:linear-gradient(135deg,#f1f5f9 0%,#63b3ed 50%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;margin-bottom:10px}
+    .header p{color:var(--t2);font-size:15px;max-width:480px;margin:0 auto}
+
+    /* ── PROGRESS ── */
+    .progress-wrapper{margin:22px 0}
+    .progress-info{display:flex;justify-content:space-between;margin-bottom:8px}
+    .progress-label{font-size:13px;color:var(--t2);font-weight:500}
+    .progress-count{font-family:var(--mono);font-size:13px;color:var(--blue)}
+    .progress-track{height:4px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--gbtn);border-radius:999px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(99,179,237,.4)}
+
+    /* ── PHASE ── */
+    .phase-indicator{display:flex;gap:6px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+    .phase-dot{display:flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);color:var(--t3);transition:var(--ease)}
+    .phase-dot.active{background:rgba(99,179,237,.12);border-color:rgba(99,179,237,.3);color:var(--blue)}
+    .phase-dot.done{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:var(--green)}
+
+    /* ── QUESTION CARD ── */
+    .question-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r4);padding:32px;box-shadow:var(--shadow);position:relative;overflow:hidden;animation:slideIn .35s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(99,179,237,.4),transparent)}
+    .question-number{display:inline-flex;align-items:center;gap:6px;background:rgba(99,179,237,.1);border:1px solid rgba(99,179,237,.2);border-radius:var(--r1);padding:3px 10px;font-family:var(--mono);font-size:11px;color:var(--blue);margin-bottom:14px}
+    .question-title{font-size:19px;font-weight:700;color:var(--t1);margin-bottom:5px;line-height:1.35}
+    .question-subtitle{font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.5}
+    .multi-hint{display:inline-flex;align-items:center;gap:5px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);border-radius:var(--r1);padding:3px 10px;font-size:12px;color:#a78bfa;margin-bottom:14px}
+
+    /* ── OPTIONS ── */
+    .options-grid{display:grid;gap:9px;grid-template-columns:1fr}
+    .options-grid.two-col{grid-template-columns:repeat(2,1fr)}
+    @media(max-width:560px){.options-grid.two-col{grid-template-columns:1fr}}
+    .option-btn{display:flex;align-items:center;gap:11px;padding:13px 16px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:var(--ease);text-align:left;color:var(--t2);font-family:var(--sans);font-size:14px;font-weight:500;user-select:none}
+    .option-btn:hover{border-color:rgba(99,179,237,.3);color:var(--t1);transform:translateY(-1px);box-shadow:0 4px 16px rgba(99,179,237,.08)}
+    .option-btn.selected{border-color:var(--blue);color:var(--t1);background:rgba(99,179,237,.1);box-shadow:0 0 0 1px rgba(99,179,237,.2),0 4px 16px rgba(99,179,237,.1)}
+    .option-btn.unsure{border-style:dashed;border-color:rgba(100,116,139,.4)}
+    .option-btn.unsure.selected{border-color:rgba(100,116,139,.7);background:rgba(100,116,139,.1)}
+    .option-icon{font-size:19px;flex-shrink:0}
+    .option-text{flex:1}
+    .option-check{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:var(--ease);flex-shrink:0}
+    .option-btn.selected .option-check{background:var(--blue);border-color:var(--blue)}
+    .option-check::after{content:'';width:5px;height:9px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);opacity:0;transition:opacity .15s}
+    .option-btn.selected .option-check::after{opacity:1}
+    .option-btn.radio .option-check{border-radius:50%}
+    .option-btn.radio.selected .option-check{background:var(--blue);border-color:var(--blue);box-shadow:inset 0 0 0 3px var(--card)}
+    .option-btn.radio .option-check::after{display:none}
+
+    /* ── INPUTS ── */
+    .input-group{margin-bottom:14px}
+    .input-label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:7px;letter-spacing:.04em;text-transform:uppercase}
+    .input-field{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;color:var(--t1);font-family:var(--sans);font-size:15px;outline:none;transition:var(--ease)}
+    .input-field:focus{border-color:var(--blue);background:rgba(99,179,237,.05);box-shadow:0 0 0 3px rgba(99,179,237,.1)}
+    .input-field::placeholder{color:var(--t3)}
+    .inputs-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+
+    /* ── BUTTONS ── */
+    .nav-buttons{display:flex;gap:10px;margin-top:24px;justify-content:flex-end}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:12px 26px;border-radius:var(--r2);font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;border:none;transition:var(--ease)}
+    .btn-primary{background:var(--gbtn);color:white;box-shadow:0 4px 16px rgba(99,179,237,.3)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,179,237,.4)}
+    .btn-secondary{background:transparent;color:var(--t2);border:1px solid var(--border)}
+    .btn-secondary:hover{border-color:rgba(255,255,255,.15);color:var(--t1);background:var(--glass)}
+    .btn-ghost{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+    .btn-ghost:hover{background:rgba(16,185,129,.15);transform:translateY(-1px)}
+    .btn-sm{padding:8px 16px;font-size:13px}
+
+    /* ── RESULTS ── */
+    .results-header{text-align:center;padding:36px 0 28px}
+    .results-header h2{font-size:30px;font-weight:800;background:linear-gradient(135deg,#f1f5f9,#63b3ed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+    .analysis-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r4);padding:26px;margin-bottom:18px;box-shadow:var(--shadow)}
+    .analysis-card h3{font-size:15px;font-weight:700;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+    .analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+    .analysis-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:13px}
+    .analysis-item .label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+    .analysis-item .value{font-size:15px;font-weight:600;color:var(--t1)}
+    .analysis-item .value.pos{color:var(--green)}
+    .analysis-item .value.neg{color:var(--red)}
+    .analysis-item .value.warn{color:var(--amber)}
+
+    /* ── PROFILE CARDS ── */
+    .profiles-section{margin-top:28px}
+    .profiles-section h2{font-size:21px;font-weight:700;margin-bottom:18px;color:var(--t1)}
+    .profile-card{border-radius:var(--r4);border:1px solid;padding:26px;margin-bottom:16px;position:relative;overflow:hidden;transition:var(--ease)}
+    .profile-card:hover{transform:translateY(-3px);box-shadow:var(--glow)}
+    .profile-card.precision{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.02));border-color:rgba(16,185,129,.25)}
+    .profile-card.balanced{background:linear-gradient(135deg,rgba(99,179,237,.1),rgba(99,179,237,.02));border-color:rgba(99,179,237,.3)}
+    .profile-card.speed{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.02));border-color:rgba(245,158,11,.25)}
+    .profile-card.recommended::after{content:'✦ ÖNERİLEN';position:absolute;top:14px;right:14px;background:var(--gbtn);color:white;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.08em}
+    .profile-header{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+    .profile-icon{width:42px;height:42px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+    .profile-card.precision .profile-icon{background:rgba(16,185,129,.15)}
+    .profile-card.balanced  .profile-icon{background:rgba(99,179,237,.15)}
+    .profile-card.speed     .profile-icon{background:rgba(245,158,11,.15)}
+    .profile-name{font-size:17px;font-weight:700;color:var(--t1)}
+    .profile-tagline{font-size:13px;color:var(--t2)}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+    @media(max-width:560px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:var(--r2);padding:11px 13px;text-align:center}
+    .stat-box .stat-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:4px}
+    .stat-box .stat-value{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--t1)}
+    .stat-box .stat-sub{font-size:11px;color:var(--t3);margin-top:2px}
+    .profile-why{background:rgba(255,255,255,.03);border-left:3px solid;border-radius:0 var(--r1) var(--r1) 0;padding:11px 15px;margin-bottom:13px;font-size:13px;color:var(--t2);line-height:1.6}
+    .profile-card.precision .profile-why{border-color:var(--green)}
+    .profile-card.balanced  .profile-why{border-color:var(--blue)}
+    .profile-card.speed     .profile-why{border-color:var(--amber)}
+    .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    @media(max-width:500px){.pros-cons{grid-template-columns:1fr}}
+    .pros{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:var(--r2);padding:11px 13px}
+    .cons{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:var(--r2);padding:11px 13px}
+    .pros h4{color:var(--green);font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.04em}
+    .cons h4{color:var(--red);font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.04em}
+    .pros ul,.cons ul{list-style:none}
+    .pros ul li,.cons ul li{font-size:12px;color:var(--t2);margin-bottom:3px;padding-left:15px;position:relative}
+    .pros ul li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+    .cons ul li::before{content:'✗';position:absolute;left:0;color:var(--red);font-weight:700}
+
+    /* ── FINE TUNE ── */
+    .finetune-card{background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(99,179,237,.05));border:1px solid rgba(124,58,237,.25);border-radius:var(--r4);padding:26px;margin-top:24px;animation:slideIn .35s ease}
+    .finetune-card h3{font-size:17px;font-weight:700;margin-bottom:5px;color:var(--t1)}
+    .finetune-card p{font-size:13px;color:var(--t2);margin-bottom:18px}
+    .finetune-question{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);gap:14px}
+    .finetune-question:last-of-type{border-bottom:none}
+    .finetune-q{font-size:13px;color:var(--t2);flex:1}
+    .finetune-options{display:flex;gap:5px;flex-shrink:0}
+    .ftbtn{padding:5px 11px;border-radius:var(--r1);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--t3);font-family:var(--sans);transition:var(--ease)}
+    .ftbtn:hover{border-color:rgba(255,255,255,.2);color:var(--t1)}
+    .ftbtn.ay{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.4);color:var(--green)}
+    .ftbtn.an{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:var(--red)}
+    .ftbtn.ao{background:rgba(99,179,237,.12);border-color:rgba(99,179,237,.3);color:var(--blue)}
+    .adj-result{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:var(--r3);padding:18px 22px;margin-top:18px;animation:slideIn .35s ease}
+    .adj-result h4{color:var(--green);font-size:13px;font-weight:700;margin-bottom:10px}
+    .adj-values{display:flex;gap:14px;flex-wrap:wrap}
+    .adj-val{font-family:var(--mono);font-size:13px;color:var(--t1)}
+    .adj-val span{color:var(--t3);font-size:11px}
+
+    /* ── LOADING ── */
+    .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:22px}
+    .spinner{width:52px;height:52px;border:3px solid rgba(99,179,237,.15);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{color:var(--t2);font-size:15px}
+    .loading-steps{display:flex;flex-direction:column;gap:9px;width:290px}
+    .loading-step{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t3);opacity:0;transform:translateX(-10px);transition:all .4s ease}
+    .loading-step.visible{opacity:1;transform:translateX(0);color:var(--t2)}
+    .loading-step.done{color:var(--green)}
+    .step-icon{font-size:15px}
+    /* ── RES SELECT ── */
+    .res-group{width:100%}
+    .res-aspect-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+    .res-aspect-btn{padding:5px 12px;border-radius:var(--r1);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--t3);font-family:var(--sans);transition:var(--ease)}
+    .res-aspect-btn:hover{border-color:rgba(255,255,255,.2);color:var(--t1)}
+    .res-aspect-btn.active{background:rgba(99,179,237,.18);border-color:rgba(99,179,237,.5);color:var(--blue)}
+    .res-presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:4px}
+    .res-preset-btn{padding:6px 13px;border-radius:var(--r1);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t2);font-family:var(--mono);transition:var(--ease)}
+    .res-preset-btn:hover{border-color:rgba(255,255,255,.2);color:var(--t1);background:rgba(255,255,255,.08)}
+    .res-preset-btn.selected{background:rgba(99,179,237,.18);border-color:rgba(99,179,237,.5);color:var(--blue)}
+
+    /* ══════════════════════════════════════
+       PRO PLAYERS PAGE
+    ══════════════════════════════════════ */
+    .page-header{padding:32px 0 24px;text-align:center}
+    .page-header h2{font-size:28px;font-weight:800;background:linear-gradient(135deg,#f1f5f9,#63b3ed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .page-header p{font-size:14px;color:var(--t2)}
+
+    .game-tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+    .game-tab{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--t3);font-family:var(--sans);transition:var(--ease)}
+    .game-tab:hover{border-color:rgba(99,179,237,.3);color:var(--t2)}
+    .game-tab.active{background:rgba(99,179,237,.12);border-color:rgba(99,179,237,.4);color:var(--blue)}
+
+    .pro-table-wrap{overflow-x:auto;border-radius:var(--r4);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .pro-table{width:100%;border-collapse:collapse;font-size:14px}
+    .pro-table thead tr{background:rgba(255,255,255,.04)}
+    .pro-table th{padding:13px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);cursor:pointer;user-select:none;white-space:nowrap;border-bottom:1px solid var(--border);transition:color .2s}
+    .pro-table th:hover{color:var(--blue)}
+    .pro-table th.sorted{color:var(--blue)}
+    .sort-arrow{margin-left:4px;opacity:.5}
+    .sort-arrow.asc::after{content:'↑'}
+    .sort-arrow.desc::after{content:'↓'}
+    .pro-table td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--t2);transition:background .15s}
+    .pro-table tr:last-child td{border-bottom:none}
+    .pro-table tr:hover td{background:rgba(255,255,255,.03)}
+    .pro-table tr.user-row td{background:rgba(99,179,237,.06)!important;color:var(--t1)}
+    .pro-table .mono{font-family:var(--mono);color:var(--t1)}
+    .pro-table .highlight{color:var(--blue);font-weight:600}
+    .player-name{font-weight:600;color:var(--t1)}
+    .team-badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(255,255,255,.06);color:var(--t3)}
+
+    .pro-stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+    .pro-stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:16px;text-align:center}
+    .pro-stat .ps-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+    .pro-stat .ps-value{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--t1)}
+    .pro-stat .ps-sub{font-size:11px;color:var(--t3);margin-top:3px}
+
+    .user-highlight-box{background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:var(--r3);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .user-highlight-box .uh-label{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .user-highlight-box .uh-vals{display:flex;gap:16px;flex-wrap:wrap}
+    .user-highlight-box .uh-val{font-family:var(--mono);font-size:14px;color:var(--t1)}
+    .user-highlight-box .uh-val span{color:var(--t3);font-size:11px;margin-right:4px}
+
+    /* ══════════════════════════════════════
+       FEEDBACK PAGE
+    ══════════════════════════════════════ */
+    .feedback-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r4);padding:28px;margin-bottom:18px;box-shadow:var(--shadow)}
+    .feedback-card h3{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:7px}
+
+    .stars-row{display:flex;gap:8px;margin-bottom:6px}
+    .star-btn{font-size:28px;cursor:pointer;border:none;background:none;transition:transform .15s;line-height:1;filter:grayscale(1) opacity(.4)}
+    .star-btn.active,.star-btn:hover{filter:none;transform:scale(1.15)}
+
+    .fb-options{display:grid;gap:8px;grid-template-columns:1fr}
+    .fb-option{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;color:var(--t2);font-size:14px;transition:var(--ease);user-select:none}
+    .fb-option:hover{border-color:rgba(99,179,237,.3);color:var(--t1)}
+    .fb-option.selected{border-color:var(--blue);background:rgba(99,179,237,.08);color:var(--t1)}
+    .fb-checkbox{width:16px;height:16px;border:2px solid var(--border);border-radius:3px;flex-shrink:0;transition:var(--ease);display:flex;align-items:center;justify-content:center}
+    .fb-option.selected .fb-checkbox{background:var(--blue);border-color:var(--blue)}
+    .fb-checkbox::after{content:'';width:4px;height:8px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);opacity:0;transition:opacity .15s}
+    .fb-option.selected .fb-checkbox::after{opacity:1}
+
+    textarea.input-field{min-height:100px;resize:vertical;line-height:1.6}
+
+    .fb-success{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:var(--r4);padding:36px;text-align:center;animation:slideIn .35s ease}
+    .fb-success .tick{font-size:48px;margin-bottom:12px}
+    .fb-success h3{font-size:20px;font-weight:700;color:var(--green);margin-bottom:8px}
+    .fb-success p{font-size:14px;color:var(--t2)}
+
+    .prev-feedbacks{margin-top:24px}
+    .prev-feedbacks h3{font-size:15px;font-weight:700;color:var(--t2);margin-bottom:14px}
+    .prev-fb-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:10px;font-size:13px;color:var(--t2)}
+    .prev-fb-item .pfb-date{font-size:11px;color:var(--t3);margin-bottom:6px}
+    .prev-fb-item .pfb-stars{color:var(--amber);font-size:16px;margin-bottom:4px}
+
+    /* ── MISC ── */
+    .hidden{display:none!important}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:22px 0}
+    .footer{text-align:center;padding:28px 0 20px;color:var(--t3);font-size:12px}
+    .logo-badge img{vertical-align:middle}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div id="app">
+  <div class="container">
+
+    <!-- TOP NAV -->
+    <div class="topnav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" id="ntab-analysis"  onclick="switchPage('analysis')">🎯 Analiz</button>
+        <button class="nav-tab"        id="ntab-pros"      onclick="switchPage('pros')">🏆 Pro Oyuncular</button>
+        <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">💬 Geri Bildirim</button>
+      </div>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo-badge">
+        <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.style.display='none'"/>
+        <span class="dot"></span>VecSens
+      </div>
+      <h1>VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span></h1>
+      <p>Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.</p>
+    </div>
+
+    <!-- ANALYSIS PAGE -->
+    <div id="page-analysis">
+      <div class="progress-wrapper" id="progressWrapper">
+        <div class="progress-info">
+          <span class="progress-label" id="progressLabel">Profil Oluşturma</span>
+          <span class="progress-count" id="progressCount">1 / 27</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:3.7%"></div></div>
+      </div>
+      <div class="phase-indicator" id="phaseIndicator">
+        <div class="phase-dot active" id="phase1">① Profil</div>
+        <div class="phase-dot" id="phase2">② Ekipman</div>
+        <div class="phase-dot" id="phase3">③ Oyun Tarzı</div>
+        <div class="phase-dot" id="phase4">④ Mevcut Durum</div>
+        <div class="phase-dot" id="phase5">⑤ Analiz</div>
+      </div>
+      <div id="questionArea"></div>
+      <div id="resultsArea" class="hidden"></div>
+    </div>
+
+    <!-- PRO PLAYERS PAGE -->
+    <div id="page-pros" class="hidden">
+      <div class="page-header">
+        <div class="logo-badge"><span class="dot"></span>Profesyonel Veriler</div>
+        <h2>Pro Oyuncu Ayarları</h2>
+        <p>Dünya genelindeki profesyonel oyuncuların doğrulanmış mouse ayarları</p>
+      </div>
+      <div id="prosContent"></div>
+    </div>
+
+    <!-- FEEDBACK PAGE -->
+    <div id="page-feedback" class="hidden">
+      <div class="page-header">
+        <div class="logo-badge"><span class="dot"></span>Geri Bildirim</div>
+        <h2>Deneyimini Paylaş</h2>
+        <p>Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol</p>
+      </div>
+      <div id="feedbackContent"></div>
+    </div>
+
+    <div class="footer">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  STATIC DATA
+// ════════════════════════════════════════════════════════════
+const GAMES = [
+  {id:'valorant',   label:'Valorant',           icon:'🎯'},
+  {id:'cs2',        label:'Counter-Strike 2',   icon:'💣'},
+  {id:'r6',         label:'Rainbow Six Siege',  icon:'🛡️'},
+  {id:'apex',       label:'Apex Legends',       icon:'🔥'},
+  {id:'warzone',    label:'Call of Duty Warzone',icon:'🪖'},
+  {id:'pubg',       label:'PUBG',               icon:'🐔'},
+  {id:'fortnite',   label:'Fortnite',           icon:'⛏️'},
+  {id:'overwatch',  label:'Overwatch 2',        icon:'🦸'},
+  {id:'battlefield',label:'Battlefield',        icon:'🚁'},
+  {id:'thefinals',  label:'The Finals',         icon:'📺'},
+  {id:'destiny',    label:'Destiny 2',          icon:'🌌'},
+  {id:'other',      label:'Diğer',              icon:'🎮'},
+];
+
+// Yaw values — oyun motorunun derece/count çarpanı (araştırılmış)
+const YAW = {
+  valorant:0.07, cs2:0.022, apex:0.022, r6:0.00572958,
+  warzone:0.0066, pubg:0.02, fortnite:0.0066, overwatch:0.0066,
+  battlefield:0.0066, thefinals:0.0066, destiny:0.0066, other:0.07,
+};
+
+// cm/360 = 914.4 / (DPI × sens × yaw)
+function calcCm360(dpi, sens, gameId) {
+  const y = YAW[gameId] || 0.07;
+  return Math.round((914.4 / (dpi * sens * y)) * 10) / 10;
+}
+// sens = 914.4 / (DPI × cm360 × yaw)
+function calcSens(cm360, dpi, gameId) {
+  const y = YAW[gameId] || 0.07;
+  const ranges = {
+    valorant:[0.10,3.00], cs2:[0.30,8.00], apex:[0.30,6.00], r6:[1,80],
+    warzone:[1,20], pubg:[20,100], fortnite:[0.03,0.40], overwatch:[2,50],
+    battlefield:[2,50], thefinals:[0.10,3.00], destiny:[1,12], other:[0.10,3.00],
+  };
+  const [mn,mx] = ranges[gameId] || [0.10,3.00];
+  const s = 914.4 / (dpi * cm360 * y);
+  return +Math.max(mn, Math.min(mx, +s.toFixed(2))).toFixed(2);
+}
+
+// ── PRO PLAYER DATABASE ──
+// Kaynak: prosettings.net — doğrulanmış veriler (2024–2025)
+// (Ayarlar zaman içinde değişebilir, güncel bilgi için prosettings.net ziyaret edin)
+const PRO_DATA = {
+  valorant: [
+    {name:'TenZ',      slug:'tenz',      dpi:1600, sens:0.24},
+    {name:'aspas',     slug:'aspas',     dpi:800,  sens:0.4},
+    {name:'yay',       slug:'yay',       dpi:800,  sens:0.38},
+    {name:'Derke',     slug:'derke',     dpi:400,  sens:0.74},
+    {name:'nAts',      slug:'nats',      dpi:800,  sens:0.49},
+    {name:'Chronicle', slug:'chronicle', dpi:1600, sens:0.175},
+    {name:'zekken',    slug:'zekken',    dpi:1600, sens:0.175},
+    {name:'saadhak',   slug:'saadhak',   dpi:900,  sens:0.255},
+    {name:'Alfajer',   slug:'alfajer',   dpi:400,  sens:0.45},
+    {name:'leaf',      slug:'leaf',      dpi:1600, sens:0.08},
+    {name:'Demon1',    slug:'demon1',    dpi:1600, sens:0.1},
+    {name:'bang',      slug:'bang',      dpi:800,  sens:0.32},
+    {name:'Boaster',   slug:'boaster',   dpi:800,  sens:0.24},
+    {name:'Less',      slug:'less',      dpi:800,  sens:0.32},
+    {name:'Victor',    slug:'victor',    dpi:800,  sens:0.275},
+    {name:'Marved',    slug:'marved',    dpi:1600, sens:0.153},
+    {name:'cNed',      slug:'cned',      dpi:800,  sens:0.3},
+  ],
+  cs2: [
+    {name:'s1mple',     slug:'s1mple',     dpi:400,  sens:3.09},
+    {name:'ZywOo',      slug:'zywoo',      dpi:400,  sens:2.0},
+    {name:'NiKo',       slug:'niko',       dpi:800,  sens:0.9},
+    {name:'m0NESY',     slug:'m0nesy',     dpi:400,  sens:2.3},
+    {name:'donk',       slug:'donk',       dpi:800,  sens:1.25},
+    {name:'ropz',       slug:'ropz',       dpi:400,  sens:1.77},
+    {name:'device',     slug:'device',     dpi:800,  sens:0.95},
+    {name:'sh1ro',      slug:'sh1ro',      dpi:800,  sens:1.04},
+    {name:'XANTARES',   slug:'xantares',   dpi:400,  sens:2.3},
+    {name:'frozen',     slug:'frozen',     dpi:400,  sens:2.0},
+    {name:'Twistzz',    slug:'twistzz',    dpi:400,  sens:1.59},
+    {name:'karrigan',   slug:'karrigan',   dpi:800,  sens:0.9},
+    {name:'blameF',     slug:'blamef',     dpi:400,  sens:1.55},
+    {name:'YEKINDAR',   slug:'yekindar',   dpi:800,  sens:1.2},
+    {name:'EliGE',      slug:'elige',      dpi:1600, sens:0.625},
+    {name:'NAF',        slug:'naf',        dpi:800,  sens:0.8},
+    {name:'electroNic', slug:'electronic', dpi:400,  sens:2.2},
+    {name:'Spinx',      slug:'spinx',      dpi:900,  sens:1.1},
+    {name:'Jame',       slug:'jame',       dpi:3200, sens:0.3},
+  ],
+  apex: [
+    {name:'ImperialHal', slug:'imperialhal', dpi:800,  sens:1.1},
+    {name:'Genburten',   slug:'genburten',   dpi:800,  sens:1.5},
+    {name:'Aceu',        slug:'aceu',        dpi:1600, sens:0.85},
+    {name:'Albralelie',  slug:'albralelie',  dpi:800,  sens:1.0},
+    {name:'Sweetdreams', slug:'sweetdreams', dpi:800,  sens:1.35},
+    {name:'Dropped',     slug:'dropped',     dpi:400,  sens:2.2},
+    {name:'Faide',       slug:'faide',       dpi:1700, sens:0.8},
+    {name:'Reps',        slug:'reps',        dpi:800,  sens:1.1},
+    {name:'Dizzy',       slug:'dizzy',       dpi:800,  sens:1.3},
+  ],
+  r6: [
+    {name:'Pengu',    slug:'pengu',    dpi:1600, sens:2},
+    {name:'Beaulo',   slug:'beaulo',   dpi:800,  sens:34},
+    {name:'Canadian', slug:'canadian', dpi:800,  sens:4},
+    {name:'Nesk',     slug:'nesk',     dpi:800,  sens:5},
+    {name:'njr',      slug:'njr',      dpi:800,  sens:12},
+  ],
+  overwatch: [
+    {name:'Fleta',    slug:'fleta',    dpi:800,  sens:9},
+    {name:'Profit',   slug:'profit',   dpi:800,  sens:8.25},
+    {name:'Decay',    slug:'decay',    dpi:1600, sens:2.03},
+    {name:'Danteh',   slug:'danteh',   dpi:800,  sens:6.0},
+    {name:'Birdring', slug:'birdring', dpi:1600, sens:2.15},
+    {name:'Super',    slug:'super',    dpi:800,  sens:7.75},
+  ],
+};
+
+// Hangi oyunların pro verisi var
+const PRO_GAME_IDS = ['valorant','cs2','apex','r6','overwatch'];
+
+const ROLES_BY_GAME = {
+  valorant:    ['Düellocu (Duelist)','Gözcü (Sentinel)','Kontrol Uzmanı (Controller)','Öncü (Initiator)'],
+  cs2:         ['Entry Fragger','Support','AWPer','Lurker','IGL (Lider)'],
+  r6:          ['Saldırgan (Attacker)','Savunmacı (Defender)','Roamer','Anchor'],
+  apex:        ['Saldırgan (Skirmisher)','Savunmacı (Defensive)','Destek (Support)','Keşifçi (Recon)'],
+  warzone:     ['Saldırgan','Sniper','Destek','Ekip Lideri'],
+  pubg:        ['Saldırgan','Sniper','Destek','Keşifçi'],
+  fortnite:    ['Saldırgan','Yapı Odaklı','Sniper','Destek'],
+  overwatch:   ['Tank','Hasar (DPS)','Destek (Support)'],
+  battlefield: ['Saldırgan (Assault)','Mühendis (Engineer)','Destek (Support)','Keşifçi (Recon)'],
+  thefinals:   ['Hafif (Light)','Orta (Medium)','Ağır (Heavy)'],
+  destiny:     ['Hunter','Warlock','Titan'],
+  other:       ['Saldırgan','Savunmacı','Sniper','Destek','Keşifçi'],
+};
+
+const RANKS_BY_GAME = {
+  valorant:    ['Demir (Iron)','Bronz (Bronze)','Gümüş (Silver)','Altın (Gold)','Platin (Platinum)','Elmas (Diamond)','Yükselen (Ascendant)','Ölümsüz (Immortal)','Radiant','Rank yok / Unrated'],
+  cs2:         ['Silver 1-4','Gold Nova 1-4','MG 1-2','MGE','DMG','LE','LEM','Supreme','Global Elite','Rank yok'],
+  r6:          ['Copper','Bronze','Silver','Gold','Platinum','Diamond','Champion','Rank yok'],
+  apex:        ['Bronze','Silver','Gold','Platinum','Diamond','Master','Predator','Rank yok'],
+  warzone:     ['Bronze','Silver','Gold','Platinum','Diamond','Crimson','Iridescent','Rank yok'],
+  pubg:        ['Bronze','Silver','Gold','Platinum','Diamond','Master','Rank yok'],
+  fortnite:    ['Bronze','Silver','Gold','Platinum','Diamond','Elite','Champion','Unreal','Rank yok'],
+  overwatch:   ['Bronz','Gümüş','Altın','Platin','Elmas','Master','Grandmaster','Top 500','Rank yok'],
+  battlefield: ['Rank yok / Seviye bazlı'],
+  thefinals:   ['Bronze','Silver','Gold','Platinum','Diamond','Ruby','Rank yok'],
+  destiny:     ['Rank yok / Sezon bazlı'],
+  other:       ['Düşük','Orta','Yüksek','En yüksek','Rank yok'],
+};
+
+// ════════════════════════════════════════════════════════════
+//  RESOLUTION PRESETS
+// ════════════════════════════════════════════════════════════
+const RES_PRESETS = {
+  '16:9':  ['1280×720','1366×768','1600×900','1920×1080','2560×1440','3840×2160'],
+  '4:3':   ['640×480','800×600','1024×768','1280×960','1400×1050','1600×1200'],
+  '16:10': ['1280×800','1440×900','1680×1050','1920×1200','2560×1600'],
+  '21:9':  ['2560×1080','3440×1440','3840×1600'],
+};
+
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+const state = {
+  currentPage: 'analysis',
+  answers: {},
+  currentQ: 0,
+  fineTuneAnswers: {},
+  adjustmentRound: 0,
+  computedProfiles: null,
+  recIdx: 1,
+  proGameFilter: 'valorant',
+  proSortCol: 'cm360',
+  proSortDir: 'asc',
+  analysisComplete: false,
+  resAspect: '16:9',
+};
+
+// ════════════════════════════════════════════════════════════
+//  PAGE SWITCHING
+// ════════════════════════════════════════════════════════════
+function switchPage(page) {
+  state.currentPage = page;
+  ['analysis','pros','feedback'].forEach(p => {
+    document.getElementById(`page-${p}`).classList.toggle('hidden', p !== page);
+    document.getElementById(`ntab-${p}`).classList.toggle('active', p === page);
+  });
+  if (page === 'pros')     renderProPage();
+  if (page === 'feedback') renderFeedbackPage();
+}
+
+// ════════════════════════════════════════════════════════════
+//  QUESTIONS
+// ════════════════════════════════════════════════════════════
+function buildQuestions() {
+  const games = state.answers.q1 || [];
+  const primaryGame = games[0] || 'other';
+  const roles = ROLES_BY_GAME[primaryGame] || ROLES_BY_GAME.other;
+  const ranks = RANKS_BY_GAME[primaryGame] || RANKS_BY_GAME.other;
+
+  return [
+    {id:'q1',phase:1,title:'Hangi FPS oyunlarını oynuyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
+      options:GAMES.map(g=>({value:g.id,label:g.label,icon:g.icon}))},
+
+    {id:'q2',phase:2,title:'Mouse marka ve modelini yazar mısın?',subtitle:'Örn: Logitech G Pro X Superlight 2, Razer DeathAdder V3...',type:'text',placeholder:'Mouse marka ve modeli',allowUnsure:true},
+
+    {id:'q3',phase:2,title:'Şu an kullandığın DPI kaç?',subtitle:'Mouse\'un hassasiyet değeri. Mouse yazılımından veya üzerindeki düğmeden öğrenebilirsin.',type:'single',allowUnsure:true,
+      options:[
+        {value:'200',  label:'200 DPI', icon:'🐌'},
+        {value:'400',  label:'400 DPI', icon:'🐢'},
+        {value:'600',  label:'600 DPI', icon:'🐢'},
+        {value:'800',  label:'800 DPI', icon:'⚡'},
+        {value:'1000', label:'1000 DPI',icon:'⚡'},
+        {value:'1200', label:'1200 DPI',icon:'⚡'},
+        {value:'1600', label:'1600 DPI',icon:'🚀'},
+        {value:'2400', label:'2400 DPI',icon:'🚀'},
+        {value:'3200', label:'3200 DPI',icon:'🚀'},
+        {value:'4000', label:'4000 DPI',icon:'🔥'},
+        {value:'6400', label:'6400 DPI',icon:'🔥'},
+        {value:'custom',label:'Diğer — Kendim yazacağım',icon:'✏️'},
+      ]},
+
+    {id:'q3b',phase:2,title:'DPI değerini gir:',subtitle:'Mouse yazılımından öğrenebilirsin.',type:'text',placeholder:'Örn: 1800',
+      condition:()=>state.answers.q3==='custom',skipIfHidden:true},
+
+    {id:'q4',phase:2,title:'Mouse Polling Rate (Yoklama Hızı) nedir?',subtitle:'Mouse\'un bilgisayara saniyede kaç kez konum verisi gönderdiğidir. Daha yüksek = daha az gecikme.',type:'single',allowUnsure:true,
+      options:[{value:'125',label:'125 Hz'},{value:'250',label:'250 Hz'},{value:'500',label:'500 Hz'},{value:'1000',label:'1000 Hz',icon:'⚡'},{value:'2000',label:'2000 Hz',icon:'🚀'},{value:'4000',label:'4000 Hz',icon:'🚀'},{value:'8000',label:'8000 Hz',icon:'🔥'}]},
+
+    {id:'q5',phase:2,title:'Mousepad\'in ne kadar büyük?',subtitle:'Mousepad boyutu hareket alanını doğrudan etkiler.',type:'single',allowUnsure:true,
+      options:[{value:'small',label:'Küçük (~20×25 cm)',icon:'📦'},{value:'medium',label:'Orta (~30×35 cm)',icon:'📋'},{value:'large',label:'Büyük (~40×45 cm)',icon:'🗂️'},{value:'xxl',label:'XXL (45 cm+)',icon:'📐'},{value:'custom',label:'Ölçüsünü biliyorum',icon:'📏'}]},
+
+    {id:'q5b',phase:2,title:'Mousepad ölçülerini gir (cm):',subtitle:'',type:'inputs',
+      fields:[{key:'width',label:'Genişlik (cm)',placeholder:'Örn: 45'},{key:'height',label:'Yükseklik (cm)',placeholder:'Örn: 40'}],
+      condition:()=>state.answers.q5==='custom',skipIfHidden:true},
+
+    {id:'q6',phase:2,title:'Monitörünün özellikleri neler?',subtitle:'Birden fazla alanı doldur.',type:'inputs',allowUnsure:true,
+      fields:[{key:'size',label:'Boyut (inç)',placeholder:'Örn: 24, 27...'},{key:'res',label:'Çözünürlük',type:'resselect'},{key:'hz',label:'Yenileme Hızı (Hz)',placeholder:'Örn: 144, 240...'}]},
+
+    {id:'q7',phase:2,title:'Oyundaki Görüş Alanı (FOV) değerin kaç?',subtitle:'FOV, ekranda ne kadar geniş bir alan gördüğünü belirler. Genellikle 90–110 arasında olur.',type:'single',allowUnsure:true,
+      options:[{value:'80',label:'80'},{value:'90',label:'90'},{value:'100',label:'100'},{value:'103',label:'103 (Valorant varsayılanı)'},{value:'110',label:'110'},{value:'120',label:'120'}]},
+
+    {id:'q8',phase:3,title:'Oyunda en çok hangi rolü oynuyorsun?',subtitle:`Ana oyunun için (${(GAMES.find(g=>g.id===primaryGame)||GAMES[0]).label}) rol seç.`,type:'single',
+      options:roles.map(r=>({value:r,label:r}))},
+
+    {id:'q9',phase:3,title:'En çok hangi silah türlerini kullanıyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
+      options:[{value:'sniper',label:'Keskin Nişancı (Sniper)',icon:'🔭'},{value:'rifle',label:'Tüfek (Rifle)',icon:'🔫'},{value:'lmg',label:'Hafif Makineli (LMG)',icon:'💥'},{value:'shotgun',label:'Av Tüfeği (Shotgun)',icon:'🪖'},{value:'dmr',label:'Yarı Otomatik (DMR)',icon:'🎯'},{value:'pistol',label:'Tabanca (Pistol)',icon:'🔑'}]},
+
+    {id:'q10',phase:3,title:'Nişan alma stilin hangisine daha yakın?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
+      options:[{value:'flick',label:'Ani sıçrama (Flick) — İmleci hızlıca hedefe götürürüm',icon:'⚡'},{value:'track',label:'Takip (Tracking) — Sürekli hedefi nişanda tutarım',icon:'🎯'},{value:'switch',label:'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım',icon:'🔄'},{value:'micro',label:'Mikro düzeltme — Küçük hassas hareketler yaparım',icon:'🔬'},{value:'mixed',label:'Hepsini benzer oranda kullanıyorum',icon:'⚖️'}]},
+
+    {id:'q11',phase:3,title:'Fareyi nasıl tutuyorsun?',subtitle:'Tutuş tarzı, önerilen sensitivity değerini etkiler.',type:'single',allowUnsure:true,
+      options:[{value:'palm',label:'Avuç içi tutuşu — Elin tamamı mouse\'u kaplar',icon:'🖐️'},{value:'claw',label:'Pençe tutuşu — Parmaklar kıvrık, avuç değmez',icon:'🦀'},{value:'finger',label:'Parmak ucu tutuşu — Sadece parmak uçları temas eder',icon:'👆'}]},
+
+    {id:'q12',phase:3,title:'Fareyi hareket ettirirken ne kullanıyorsun?',subtitle:'Bu bilgi, önerilen cm/360 değerini doğrudan etkiler.',type:'single',allowUnsure:true,
+      options:[{value:'wrist',label:'Sadece bileğim',icon:'🤏'},{value:'arm',label:'Sadece kolum',icon:'💪'},{value:'both',label:'Hem kolum hem bileğim',icon:'🙌'}]},
+
+    {id:'q13',phase:3,title:'El ölçülerin neler? (İsteğe bağlı)',subtitle:'Mouse modelini ve tutuş tavsiyesini daha iyi eşleştirmeye yardımcı olur.',type:'inputs',allowUnsure:true,
+      fields:[{key:'length',label:'Avuç Uzunluğu (cm)',placeholder:'Örn: 18'},{key:'width',label:'Avuç Genişliği (cm)',placeholder:'Örn: 9'}]},
+
+    {id:'q14',phase:3,title:'Mouse\'u hareket ettirecek yeterli masa alanın var mı?',subtitle:'Mousepad\'ini rahatça kullanabiliyor musun?',type:'single',
+      options:[{value:'yes',label:'Evet, yeterli alan var',icon:'✅'},{value:'no',label:'Hayır, alanım kısıtlı',icon:'❌'}]},
+
+    {id:'q15',phase:2,title:'Oyunda ortalama kaç FPS alıyorsun?',subtitle:'Daha yüksek FPS, daha akıcı ve tutarlı bir aim deneyimi sağlar.',type:'single',
+      options:[{value:'low',label:'60\'ın altı',icon:'🐢'},{value:'mid',label:'60 – 120',icon:'👍'},{value:'good',label:'120 – 180',icon:'⚡'},{value:'high',label:'180 – 240',icon:'🚀'},{value:'ultra',label:'240 ve üzeri',icon:'🔥'}]},
+
+    {id:'q16',phase:2,title:'Fare İvmesi (Mouse Acceleration) açık mı?',subtitle:'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir.',type:'single',allowUnsure:true,
+      options:[{value:'on',label:'Açık',icon:'⚡'},{value:'off',label:'Kapalı',icon:'✅'}]},
+
+    {id:'q17',phase:2,title:'Ham Girdi (Raw Input) açık mı?',subtitle:'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir.',type:'single',allowUnsure:true,
+      options:[{value:'on',label:'Açık',icon:'✅'},{value:'off',label:'Kapalı',icon:'⚠️'}]},
+
+    {id:'q18',phase:2,title:'Windows işaretçi hızı kaçıncı kademede?',subtitle:'Denetim Masası → Fare → İşaretçi Seçenekleri → Hız. Önerilen değer: 6/11.',type:'single',allowUnsure:true,
+      options:[{value:'1',label:'1/11'},{value:'2',label:'2/11'},{value:'3',label:'3/11'},{value:'4',label:'4/11'},{value:'5',label:'5/11'},{value:'6',label:'6/11 — Önerilen'},{value:'7',label:'7/11'},{value:'8',label:'8/11'},{value:'9',label:'9/11'},{value:'10',label:'10/11'},{value:'11',label:'11/11'}]},
+
+    {id:'q19',phase:2,title:'"İşaretçi hassasiyetini artır" seçeneği açık mı?',subtitle:'Bu özellik (Enhance Pointer Precision) mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir.',type:'single',allowUnsure:true,
+      options:[{value:'on',label:'Açık',icon:'⚠️'},{value:'off',label:'Kapalı',icon:'✅'}]},
+
+    {id:'q20',phase:4,title:'Şu anda kullandığın sensitivity değeri nedir?',subtitle:'DPI ve oyun içi hassasiyet değerini birlikte yaz.',type:'inputs',allowUnsure:true,
+      fields:[{key:'dpi',label:'DPI',placeholder:'Örn: 800'},{key:'sens',label:'Oyun İçi Hassasiyet',placeholder:'Örn: 0.35'}]},
+
+    {id:'q21',phase:4,title:'Mevcut hassasiyetin hakkında ne düşünüyorsun?',subtitle:'',type:'single',
+      options:[{value:'way_fast',label:'Çok hızlı — Nişan her yere kaçıyor',icon:'🚀'},{value:'bit_fast',label:'Biraz hızlı — Zaman zaman hedefi geçiyorum',icon:'⚡'},{value:'perfect',label:'Tam ideal — Çok memnunum',icon:'✅'},{value:'bit_slow',label:'Biraz yavaş — Zaman zaman yetişemiyorum',icon:'🐢'},{value:'way_slow',label:'Çok yavaş — Hedefe hiç yetişemiyorum',icon:'🐌'}]},
+
+    {id:'q22',phase:4,title:'Nişan alırken en çok hangi sorunu yaşıyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
+      options:[{value:'overshoot',label:'Nişanım hedefi geçiyor (Overshoot)',icon:'➡️'},{value:'undershoot',label:'Nişanım hedefe ulaşamıyor (Undershoot)',icon:'⬅️'},{value:'track',label:'Hareket eden hedefleri takip etmek zor',icon:'🔄'},{value:'flick',label:'Ani sıçrama (Flick) atışlarda zorlanıyorum',icon:'⚡'},{value:'micro',label:'Küçük nişan düzeltmeleri yapmak zor',icon:'🔬'},{value:'turn180',label:'180 derece dönemiyorum',icon:'↩️'},{value:'recoil',label:'Geri tepme (Recoil) kontrolü zor',icon:'💥'},{value:'none',label:'Belirgin bir sorunum yok',icon:'✅'}]},
+
+    {id:'q23',phase:4,title:'Nişan geliştirici (Aim Trainer) kullanıyor musun?',subtitle:'Aim trainer, nişan becerilerini geliştirmeye yönelik özel uygulamalardır.',type:'single',
+      options:[{value:'aimlab',label:'Aim Lab',icon:'🎯'},{value:'kovaak',label:'KovaaK\'s',icon:'🏆'},{value:'both',label:'İkisi de',icon:'🎯🏆'},{value:'no',label:'Hayır, kullanmıyorum',icon:'❌'}]},
+
+    {id:'q24',phase:4,title:'FPS oyunlarında deneyimin ne seviyede?',subtitle:'',type:'single',
+      options:[{value:'beginner',label:'Yeni başladım (6 aydan az)',icon:'🌱'},{value:'intermediate',label:'Orta seviye (6 ay – 2 yıl)',icon:'📈'},{value:'advanced',label:'İleri seviye (2+ yıl)',icon:'⭐'},{value:'competitive',label:'Rekabetçi oyuncu / Profesyonel sahne',icon:'🏆'}]},
+
+    {id:'q25',phase:4,title:'Ana oyundaki rankın nedir?',subtitle:'',type:'single',
+      options:ranks.map(r=>({value:r,label:r}))},
+
+    {id:'q26',phase:4,title:'Senin için hangisi daha öncelikli?',subtitle:'Bu öncelik, hangi profili birincil öneri olarak sunacağımızı belirler.',type:'single',
+      options:[{value:'precision',label:'Maksimum İsabet — Her atışı isabet ettirmek istiyorum',icon:'🎯'},{value:'speed',label:'Maksimum Hız — Çok hızlı tepki vermek istiyorum',icon:'⚡'},{value:'balanced',label:'Dengeli — İkisini birden istiyorum',icon:'⚖️'},{value:'auto',label:'Sen karar ver — Verilerimi analiz et',icon:'🤖'}]},
+
+    {id:'q27',phase:3,title:'Birden fazla FPS oyunu oynuyor musun?',subtitle:'Evet ise, tüm oyunlara uygun evrensel bir sensitivity de hesaplayabiliriz.',type:'single',
+      options:[{value:'evet',label:'Evet, birden fazla oyun oynuyorum',icon:'🎮'},{value:'hayir',label:'Hayır, sadece tek oyun oynuyorum',icon:'🎯'}]},
+  ];
+}
+
+function getVisibleQuestions() {
+  return buildQuestions().filter(q => !q.condition || q.condition());
+}
+
+// ════════════════════════════════════════════════════════════
+//  RENDER QUESTION
+// ════════════════════════════════════════════════════════════
+function renderQuestion(idx) {
+  const visible = getVisibleQuestions();
+  if (idx >= visible.length) { showLoading(); return; }
+  const q = visible[idx];
+  state.currentQ = idx;
+
+  const phaseMap = {1:'Profil',2:'Ekipman',3:'Oyun Tarzı',4:'Mevcut Durum'};
+  document.getElementById('progressLabel').textContent = phaseMap[q.phase]||'Devam';
+  document.getElementById('progressCount').textContent = `${idx+1} / ${visible.length}`;
+  document.getElementById('progressFill').style.width = `${((idx+1)/visible.length)*100}%`;
+  [1,2,3,4,5].forEach(p=>{
+    const el=document.getElementById(`phase${p}`);
+    el.className=q.phase>p?'phase-dot done':q.phase===p?'phase-dot active':'phase-dot';
+  });
+
+  let h = `<div class="question-number">Soru ${idx+1}</div>
+    <div class="question-title">${q.title}</div>
+    ${q.subtitle?`<div class="question-subtitle">${q.subtitle}</div>`:''}`;
+
+  if (q.type==='multi') {
+    h+=`<div class="multi-hint">☑ Birden fazla seçebilirsin</div>`;
+    h+=`<div class="options-grid">`;
+    q.options.forEach(opt=>{
+      const arr=state.answers[q.id]||[];
+      const sel=arr.includes(opt.value)?'selected':'';
+      h+=`<button class="option-btn ${sel}" onclick="toggleMulti('${q.id}','${opt.value}')">
+        ${opt.icon?`<span class="option-icon">${opt.icon}</span>`:''}
+        <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
+    });
+    if (q.allowUnsure) {
+      const us=state.answers[q.id+'_unsure']?'selected unsure':'unsure';
+      h+=`<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+    }
+    h+=`</div>`;
+  } else if (q.type==='single') {
+    const twocol=q.options.length>=4;
+    h+=`<div class="options-grid ${twocol?'two-col':''}">`;
+    q.options.forEach(opt=>{
+      const sel=state.answers[q.id]===opt.value?'selected':'';
+      h+=`<button class="option-btn radio ${sel}" onclick="selectSingle('${q.id}','${opt.value}')">
+        ${opt.icon?`<span class="option-icon">${opt.icon}</span>`:''}
+        <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
+    });
+    if (q.allowUnsure) {
+      const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
+      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+    }
+    h+=`</div>`;
+  } else if (q.type==='text') {
+    const v=state.answers[q.id]||'';
+    h+=`<div class="input-group"><input class="input-field" id="ti_${q.id}" type="text" placeholder="${q.placeholder||''}" value="${typeof v==='string'&&v!=='__unsure__'?v:''}"/></div>`;
+    if (q.allowUnsure) {
+      const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
+      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+    }
+  } else if (q.type==='inputs') {
+    h+=`<div class="inputs-row">`;
+    q.fields.forEach(f=>{
+      const obj=state.answers[q.id]||{};
+      const v=typeof obj==='object'?obj[f.key]||'':'';
+      if (f.type==='resselect') {
+        const aspect = state.resAspect||'16:9';
+        const presets = RES_PRESETS[aspect]||[];
+        h+=`<div class="res-group input-group">
+          <label class="input-label">${f.label}</label>
+          <div class="res-aspect-tabs">`;
+        Object.keys(RES_PRESETS).forEach(ar=>{
+          h+=`<button class="res-aspect-btn${aspect===ar?' active':''}" onclick="setResAspect('${q.id}','${ar}')">${ar}</button>`;
+        });
+        h+=`<button class="res-aspect-btn${aspect==='other'?' active':''}" onclick="setResAspect('${q.id}','other')">Diğer ✏️</button>`;
+        h+=`</div>`;
+        if (aspect==='other') {
+          h+=`<input class="input-field" id="inp_${q.id}_${f.key}" type="text" placeholder="Örn: 1920×1080" value="${v}"/>`;
+        } else {
+          h+=`<div class="res-presets">`;
+          presets.forEach(r=>{
+            const sel=v===r?' selected':'';
+            h+=`<button class="res-preset-btn${sel}" onclick="pickRes('${q.id}','${f.key}','${r}')">${r}</button>`;
+          });
+          h+=`</div>`;
+          h+=`<div style="font-size:12px;color:var(--t3);margin-top:6px">Seçilen: <span style="color:var(--blue);font-weight:600">${v||'—'}</span></div>`;
+          h+=`<input type="hidden" id="inp_${q.id}_${f.key}" value="${v}"/>`;
+        }
+        h+=`</div>`;
+      } else {
+        h+=`<div class="input-group"><label class="input-label">${f.label}</label>
+          <input class="input-field" id="inp_${q.id}_${f.key}" type="text" placeholder="${f.placeholder||''}" value="${v}"/></div>`;
+      }
+    });
+    h+=`</div>`;
+    if (q.allowUnsure) {
+      const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
+      h+=`<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button></div>`;
+    }
+  }
+
+
+  const isLast = idx===visible.length-1;
+  h+=`<div class="nav-buttons">
+    ${idx>0?`<button class="btn btn-secondary" onclick="goBack()">← Geri</button>`:''}
+    <button class="btn btn-primary" onclick="goNext()">${isLast?'Analizi Başlat →':'Devam →'}</button>
+  </div>`;
+
+  document.getElementById('questionArea').innerHTML=`<div class="question-card">${h}</div>`;
+}
+
+function toggleMulti(qId,val) {
+  let arr=state.answers[qId]||[];
+  const i=arr.indexOf(val);
+  if(i>-1)arr.splice(i,1);else arr.push(val);
+  state.answers[qId]=arr;
+  delete state.answers[qId+'_unsure'];
+  renderQuestion(state.currentQ);
+}
+function toggleUnsure(qId) {
+  state.answers[qId+'_unsure']=!state.answers[qId+'_unsure'];
+  state.answers[qId]=[];
+  renderQuestion(state.currentQ);
+}
+function selectSingle(qId,val) {
+  state.answers[qId]=val;
+  renderQuestion(state.currentQ);
+}
+function setResAspect(qId, ar) {
+  state.resAspect = ar;
+  renderQuestion(state.currentQ);
+}
+function pickRes(qId, fKey, val) {
+  const obj = typeof state.answers[qId]==='object' ? {...(state.answers[qId]||{})} : {};
+  obj[fKey] = val;
+  state.answers[qId] = obj;
+  renderQuestion(state.currentQ);
+}
+function saveTextInputs() {
+  const visible=getVisibleQuestions();
+  const q=visible[state.currentQ];
+  if(!q)return;
+  if(q.type==='text'){
+    const el=document.getElementById(`ti_${q.id}`);
+    if(el&&el.value.trim())state.answers[q.id]=el.value.trim();
+  } else if(q.type==='inputs'){
+    const obj=typeof state.answers[q.id]==='object'?{...state.answers[q.id]}:{};
+    q.fields.forEach(f=>{
+      const el=document.getElementById(`inp_${q.id}_${f.key}`);
+      if(el&&el.value.trim()) obj[f.key]=el.value.trim();
+    });
+    if(Object.values(obj).some(v=>v))state.answers[q.id]=obj;
+  }
+}
+function goNext() {
+  saveTextInputs();
+  const visible=getVisibleQuestions();
+  const next=state.currentQ+1;
+  if(next>=visible.length)showLoading();else renderQuestion(next);
+}
+function goBack() {
+  saveTextInputs();
+  if(state.currentQ>0)renderQuestion(state.currentQ-1);
+}
+
+// ════════════════════════════════════════════════════════════
+//  LOADING
+// ════════════════════════════════════════════════════════════
+function showLoading() {
+  document.getElementById('progressWrapper').classList.add('hidden');
+  document.getElementById('phaseIndicator').classList.add('hidden');
+  const steps=[
+    {icon:'🔍',text:'Kullanıcı profili analiz ediliyor...'},
+    {icon:'⚙️',text:'Ekipman verileri işleniyor...'},
+    {icon:'🎯',text:'Nişan stili hesaplanıyor...'},
+    {icon:'📐',text:'cm/360 değeri hesaplanıyor...'},
+    {icon:'🧠',text:'Üç profil oluşturuluyor...'},
+    {icon:'✅',text:'Kişiselleştirilmiş öneriler hazır!'},
+  ];
+  document.getElementById('questionArea').innerHTML=`
+    <div class="loading-screen">
+      <div class="spinner"></div>
+      <div class="loading-text">Aim analizin yapılıyor...</div>
+      <div class="loading-steps">${steps.map((s,i)=>`<div class="loading-step" id="ls${i}"><span class="step-icon">${s.icon}</span>${s.text}</div>`).join('')}</div>
+    </div>`;
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i<steps.length){
+      const el=document.getElementById(`ls${i}`);if(el)el.classList.add('visible');
+      if(i>0){const p=document.getElementById(`ls${i-1}`);if(p)p.classList.add('done');}
+      i++;
+    }else{clearInterval(iv);setTimeout(showResults,600);}
+  },380);
+}
+
+// ════════════════════════════════════════════════════════════
+//  ANALYSIS ENGINE
+// ════════════════════════════════════════════════════════════
+function computeRecommendedCm360() {
+  const a=state.answers;
+  let base=40;
+  if(a.q12==='wrist') base=28;
+  else if(a.q12==='arm') base=55;
+  else if(a.q12==='both') base=40;
+
+  if(a.q11==='palm')   base*=1.05;
+  if(a.q11==='finger') base*=0.90;
+
+  const aims=a.q10||[];
+  if(aims.includes('flick')) base*=0.92;
+  if(aims.includes('micro')) base*=1.08;
+
+  const wpns=a.q9||[];
+  if(wpns.includes('sniper')) base*=1.12;
+  if(wpns.includes('shotgun')) base*=0.90;
+
+  const role=(a.q8||'').toLowerCase();
+  if(role.includes('sentinel')||role.includes('gözcü')||role.includes('sniper')||role.includes('awp')) base*=1.10;
+  if(role.includes('duelist')||role.includes('düellocu')||role.includes('entry')) base*=0.95;
+
+  const pad=a.q5;
+  if(pad==='small')  base=Math.min(base,30);
+  if(pad==='medium') base=Math.min(base,42);
+
+  if(a.q24==='beginner') base*=0.92;
+  if(a.q24==='competitive') base*=1.05;
+
+  const sat=a.q21;
+  if(sat==='way_fast') base*=1.28;
+  if(sat==='bit_fast') base*=1.11;
+  if(sat==='way_slow') base*=0.78;
+  if(sat==='bit_slow') base*=0.90;
+
+  const probs=a.q22||[];
+  if(probs.includes('overshoot')) base*=1.08;
+  if(probs.includes('undershoot')) base*=0.93;
+  if(probs.includes('turn180')) base*=0.88;
+  if(probs.includes('micro')) base*=1.05;
+
+  if(a.q26==='precision') base*=1.10;
+  if(a.q26==='speed') base*=0.88;
+
+  // Clamp to human-playable range
+  return Math.round(Math.max(15, Math.min(120, base))*10)/10;
+}
+
+function getTargetDPI() {
+  const r=state.answers.q3, c=state.answers.q3b;
+  if(r==='custom'&&c) return parseInt(c)||800;
+  if(r==='__unsure__') return 800;
+  return parseInt(r)||800;
+}
+
+function computeProfiles() {
+  const baseCm=computeRecommendedCm360();
+  const dpi=getTargetDPI();
+  const games=state.answers.q1||['other'];
+  const gid=games[0]||'other';
+
+  return [
+    {type:'precision',name:'🎯 Hassasiyet Odaklı',subname:'Precision',tagline:'Her atış sayılır — maksimum kontrol',icon:'🎯',cm360:baseCm*1.18,dpi},
+    {type:'balanced', name:'⚖️ Dengeli',          subname:'Balanced', tagline:'Hız ve hassasiyet dengesi',         icon:'⚖️',cm360:baseCm,     dpi},
+    {type:'speed',    name:'⚡ Hız Odaklı',        subname:'Speed',    tagline:'Hızlı tepki, agresif oyun',        icon:'⚡',cm360:baseCm*0.80,dpi},
+  ].map(p=>{
+    const cm=Math.round(p.cm360*10)/10;
+    const sens=calcSens(cm, p.dpi, gid);
+    const edpi=Math.round(p.dpi*sens);
+    const half=Math.round(cm/2*10)/10;
+    return{...p,cm360:cm,sens,edpi,halfTurn:half};
+  });
+}
+
+function getRecommendedProfile(profiles) {
+  const pref=state.answers.q26;
+  if(pref==='precision') return 0;
+  if(pref==='speed')     return 2;
+  if(pref==='balanced')  return 1;
+  const probs=state.answers.q22||[];
+  if(probs.includes('overshoot')||probs.includes('micro')) return 0;
+  if(probs.includes('turn180')||probs.includes('undershoot')) return 2;
+  return 1;
+}
+
+function getPrimaryGameName() {
+  const g=GAMES.find(x=>x.id===(state.answers.q1||[])[0]);
+  return g?g.label:'Oyun';
+}
+function getPrimaryGameId() { return (state.answers.q1||['other'])[0]||'other'; }
+
+// ════════════════════════════════════════════════════════════
+//  SHOW RESULTS
+// ════════════════════════════════════════════════════════════
+function showResults() {
+  const profiles=computeProfiles();
+  const recIdx=getRecommendedProfile(profiles);
+  state.computedProfiles=profiles;
+  state.recIdx=recIdx;
+  state.analysisComplete=true;
+
+  document.getElementById('progressWrapper').classList.add('hidden');
+  document.getElementById('phaseIndicator').classList.add('hidden');
+  document.getElementById('questionArea').innerHTML='';
+
+  const a=state.answers;
+  const gameName=getPrimaryGameName();
+  const gid=getPrimaryGameId();
+  const dpi=getTargetDPI();
+
+  // Uyarılar
+  const alerts=[];
+  if(a.q19==='on') alerts.push({c:'red',m:'<b>"İşaretçi hassasiyetini artır" (EPP) açık.</b> Kapatman aim tutarlılığını önemli ölçüde artıracak.'});
+  if(a.q16==='on') alerts.push({c:'amber',m:'<b>Fare İvmesi (Mouse Acceleration) açık.</b> Kapatman kas hafızası geliştirmeyi kolaylaştırır.'});
+  if(a.q18&&a.q18!=='6'&&a.q18!=='__unsure__') alerts.push({c:'blue',m:`Windows işaretçi hızın <b>${a.q18}/11</b>. Önerilen değer <b>6/11</b>.`});
+  if(a.q17==='off') alerts.push({c:'amber',m:'<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.'});
+
+  const alertHtml=alerts.length?`<div class="analysis-card">
+    <h3>⚠️ Sistem Uyarıları</h3>
+    ${alerts.map(al=>`<div style="background:rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.07);border:1px solid rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
+  </div>`:'';
+
+  const prosText={
+    precision:['Yüksek isabet oranı','Recoil kontrolü kolay','Uzun menzil avantajı'],
+    balanced: ['Hem flick hem tracking rahat','Çoğu role uygun','Esnek oyun tarzı'],
+    speed:    ['Hızlı 180° dönüş','Agresif flick atışlar','CQC (yakın dövüş) avantajı'],
+  };
+  const consText={
+    precision:['180° dönüş daha yavaş','Agresif flick zor','Yakın dövüşte dezavantaj'],
+    balanced: ['Uç durumlarda orta performans','Her iki tarafa uzlaşı'],
+    speed:    ['Mikro düzeltme zor','Uzak mesafe zorlu','Alışma süreci gerekir'],
+  };
+
+  const profileHtml=profiles.map((p,i)=>{
+    const isRec=i===recIdx;
+    return `<div class="profile-card ${p.type}${isRec?' recommended':''}">
+      <div class="profile-header">
+        <div class="profile-icon">${p.icon}</div>
+        <div><div class="profile-name">${p.name}</div><div class="profile-tagline">${p.tagline}</div></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-label">DPI</div><div class="stat-value">${p.dpi}</div></div>
+        <div class="stat-box"><div class="stat-label">${gameName} Sens</div><div class="stat-value">${p.sens}</div></div>
+        <div class="stat-box"><div class="stat-label">eDPI</div><div class="stat-value">${p.edpi}</div><div class="stat-sub">${p.dpi} × ${p.sens}</div></div>
+        <div class="stat-box"><div class="stat-label">cm/360°</div><div class="stat-value">${p.cm360}</div></div>
+        <div class="stat-box"><div class="stat-label">180° Mesafe</div><div class="stat-value">~${p.halfTurn} cm</div></div>
+        <div class="stat-box"><div class="stat-label">Profil</div><div class="stat-value">${p.subname}</div></div>
+      </div>
+      <div class="profile-why">${getProfileReason(p.type)}</div>
+      <div class="pros-cons">
+        <div class="pros"><h4>✓ AVANTAJLAR</h4><ul>${prosText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
+        <div class="cons"><h4>✗ DEZAVANTAJLAR</h4><ul>${consText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Çoklu oyun tablosu
+  const games=a.q1||[];
+  const multiGameHtml=(games.length>1&&a.q27==='evet')?`
+    <div class="analysis-card">
+      <h3>🎮 Çoklu Oyun Hassasiyet Tablosu</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Dengeli profil baz alınarak (${profiles[1].cm360} cm/360) tüm oyunlar için eşdeğer hassasiyet hesaplandı.</p>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">
+        <thead><tr style="background:rgba(255,255,255,.04)">
+          ${['Oyun','DPI','Hassasiyet','cm/360'].map(h=>`<th style="padding:10px 14px;text-align:left;color:var(--t3);font-size:11px;letter-spacing:.06em;text-transform:uppercase">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>${games.map(id=>{
+          const gname=GAMES.find(g=>g.id===id)?.label||id;
+          const s=calcSens(profiles[1].cm360,dpi,id);
+          return `<tr><td style="padding:10px 14px;border-bottom:1px solid var(--border)">${gname}</td>
+            <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)">${dpi}</td>
+            <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)">${s}</td>
+            <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);color:var(--blue)">${profiles[1].cm360}</td></tr>`;
+        }).join('')}</tbody>
+      </table></div>
+    </div>`:'';
+
+  const html=`
+    <div class="results-header">
+      <div class="logo-badge"><span class="dot"></span>Analiz Tamamlandı</div>
+      <h2>Kişisel Aim Profillerin</h2>
+      <p style="color:var(--t2);font-size:14px">${gameName} için ${profiles.length} farklı profil hesaplandı</p>
+    </div>
+    ${alertHtml}
+    <div class="profiles-section"><h2>🎯 Sensitivity Profillerin</h2>${profileHtml}</div>
+    ${multiGameHtml}
+    <div id="fineTuneSection"></div>
+    <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn">🔧 İnce Ayar Başlat</button>
+      <button class="btn btn-secondary" onclick="switchPage('pros')">🏆 Pro Oyuncuları Gör</button>
+      <button class="btn btn-secondary" onclick="location.reload()">↩ Baştan Başla</button>
+    </div>`;
+
+  document.getElementById('resultsArea').classList.remove('hidden');
+  document.getElementById('resultsArea').innerHTML=html;
+}
+
+function getProfileReason(type) {
+  const a=state.answers;
+  const move={wrist:'Bilek',arm:'Kol',both:'Kol+Bilek'}[a.q12]||'Karma';
+  const grip={palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[a.q11]||'tutuş';
+  if(type==='precision') return `${move} hareketi ve ${grip} tutuşuna göre daha yüksek cm/360, küçük nişan düzeltmelerini kolaylaştırır. Sniper, DMR ve gözetleme rolleri için önerilir.`;
+  if(type==='balanced')  return `Tüm veriler analiz edilerek ${move} hareketi ve ${grip} tutuşu için merkezi dengeli değer hesaplandı. Hem flick hem tracking makul performans sunar.`;
+  if(type==='speed')     return `Daha düşük cm/360, hızlı 180° dönüşler ve agresif flick atışlar için optimize edilmiştir. Düellocu ve Entry Fragger rolleri için uygundur.`;
+  return '';
+}
+
+// ════════════════════════════════════════════════════════════
+//  FINE TUNE
+// ════════════════════════════════════════════════════════════
+const FT_QUESTIONS=[
+  {id:'ft1',q:'Flick atışlarda hedefi geçiyor musun?',hint:'Evet → sensitivity azalt'},
+  {id:'ft2',q:'Hedefe yetişemiyor musun (Undershoot)?',hint:'Evet → sensitivity artır'},
+  {id:'ft3',q:'Hareket eden hedefleri takip etmek rahat mı?',hint:'Tracking kalitesi'},
+  {id:'ft4',q:'Küçük nişan düzeltmeleri (mikro) rahat mı?',hint:'Hassas kontrol'},
+  {id:'ft5',q:'180° dönüş rahat mı?',hint:'Hayır → sensitivity artır'},
+  {id:'ft6',q:'Genel hissiyat nasıl?',hint:'Genel değerlendirme'},
+];
+
+function startFineTune() {
+  document.getElementById('ftBtn')?.classList.add('hidden');
+  const rec=state.computedProfiles[state.recIdx];
+  const gameName=getPrimaryGameName();
+  let h=`<div class="finetune-card">
+    <h3>🔧 İnce Ayar</h3>
+    <p>Önerilen profil üzerinde ince ayar yap. Mevcut öneri: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)</p>
+    ${FT_QUESTIONS.map(fq=>`
+      <div class="finetune-question">
+        <div class="finetune-q">${fq.q}<br><span style="font-size:11px;color:var(--t3)">${fq.hint}</span></div>
+        <div class="finetune-options">
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='yes'?'ay':''}" onclick="ftAnswer('${fq.id}','yes',this)">Evet</button>
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='ok'?'ao':''}"  onclick="ftAnswer('${fq.id}','ok',this)">Rahat</button>
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='no'?'an':''}"  onclick="ftAnswer('${fq.id}','no',this)">Hayır</button>
+        </div>
+      </div>`).join('')}
+    <div style="margin-top:18px">
+      <button class="btn btn-primary" onclick="applyFineTune()">⚡ Ayarı Uygula</button>
+    </div>
+  </div>`;
+  document.getElementById('fineTuneSection').innerHTML=h;
+}
+
+function ftAnswer(id,val,btn) {
+  state.fineTuneAnswers[id]=val;
+  btn.closest('.finetune-options').querySelectorAll('.ftbtn').forEach(b=>b.className='ftbtn');
+  btn.classList.add({yes:'ay',no:'an',ok:'ao'}[val]);
+}
+
+function applyFineTune() {
+  const ft=state.fineTuneAnswers;
+  let m=1.0;
+  if(ft.ft1==='yes') m*=1.06; if(ft.ft1==='no') m*=0.97;
+  if(ft.ft2==='yes') m*=0.93; if(ft.ft2==='no') m*=1.02;
+  if(ft.ft3==='no')  m*=0.98;
+  if(ft.ft4==='no')  m*=1.04;
+  if(ft.ft5==='no')  m*=0.94; if(ft.ft5==='yes') m*=1.02;
+  const rec=state.computedProfiles[state.recIdx];
+  const newCm=Math.round(rec.cm360*m*10)/10;
+  const newSens=calcSens(newCm,rec.dpi,getPrimaryGameId());
+  const newEdpi=Math.round(rec.dpi*newSens);
+  state.computedProfiles[state.recIdx].cm360=newCm;
+  state.computedProfiles[state.recIdx].sens=newSens;
+  state.computedProfiles[state.recIdx].edpi=newEdpi;
+  state.adjustmentRound++;
+  const dir=m>1?'azaltıldı (cm/360 artırıldı)':'artırıldı (cm/360 azaltıldı)';
+  document.getElementById('fineTuneSection').insertAdjacentHTML('beforeend',`
+    <div class="adj-result">
+      <h4>✅ İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}</h4>
+      <div class="adj-values">
+        <div class="adj-val"><span>cm/360 →</span> ${newCm}</div>
+        <div class="adj-val"><span>Hassasiyet →</span> ${newSens}</div>
+        <div class="adj-val"><span>eDPI →</span> ${newEdpi}</div>
+      </div>
+      <p style="font-size:12px;color:var(--t2);margin-top:9px">Bu değeri birkaç gün test et. Hâlâ uygun değilse tekrar ince ayar uygulayabilirsin.</p>
+    </div>
+    ${state.adjustmentRound<3?`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="startFineTune()">🔄 Bir Tur Daha</button></div>`:''}
+  `);
+}
+
+// ════════════════════════════════════════════════════════════
+//  PRO PLAYERS PAGE
+// ════════════════════════════════════════════════════════════
+function renderProPage() {
+  const gameId=state.proGameFilter;
+  const players=(PRO_DATA[gameId]||[]).map(p=>({
+    ...p,
+    edpi: Math.round(p.dpi*p.sens),
+    cm360: calcCm360(p.dpi, p.sens, gameId),
+  }));
+
+  // Sort
+  const col=state.proSortCol, dir=state.proSortDir;
+  players.sort((a,b)=>{
+    const av=col==='name'?a.name:col==='team'?a.team:a[col];
+    const bv=col==='name'?b.name:col==='team'?b.team:b[col];
+    if(typeof av==='string') return dir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+    return dir==='asc'?av-bv:bv-av;
+  });
+
+  // Stats
+  const avgEdpi=Math.round(players.reduce((s,p)=>s+p.edpi,0)/players.length);
+  const avgCm=Math.round(players.reduce((s,p)=>s+p.cm360,0)/players.length*10)/10;
+  const minCm=Math.min(...players.map(p=>p.cm360));
+  const maxCm=Math.max(...players.map(p=>p.cm360));
+
+  // User comparison
+  const userProfiles=state.computedProfiles;
+  const userRec=userProfiles?userProfiles[state.recIdx]:null;
+  const userHighlightHtml=userRec?`
+    <div class="user-highlight-box">
+      <div class="uh-label">📊 Senin Önerilen Dengeli Ayarın</div>
+      <div class="uh-vals">
+        <div class="uh-val"><span>DPI</span>${userRec.dpi}</div>
+        <div class="uh-val"><span>Sens</span>${userRec.sens}</div>
+        <div class="uh-val"><span>eDPI</span>${userRec.edpi}</div>
+        <div class="uh-val"><span>cm/360</span>${userRec.cm360}</div>
+      </div>
+    </div>`:'';
+
+  // Game filter tabs
+  const filterTabs=PRO_GAME_IDS.map(id=>{
+    const g=GAMES.find(x=>x.id===id);
+    return `<button class="game-tab ${gameId===id?'active':''}" onclick="setProGame('${id}')">${g?.icon||''} ${g?.label||id}</button>`;
+  }).join('');
+
+  function sortArrow(col) {
+    if(state.proSortCol!==col) return '<span class="sort-arrow"></span>';
+    return `<span class="sort-arrow ${state.proSortDir}"></span>`;
+  }
+
+  const cols=[
+    {key:'name', label:'Oyuncu'},
+    {key:'dpi',  label:'DPI'},
+    {key:'sens', label:'Hassasiyet'},
+    {key:'edpi', label:'eDPI'},
+    {key:'cm360',label:'cm/360'},
+  ];
+
+  const tableRows=players.map(p=>{
+    const isUser=userRec&&Math.abs(p.cm360-userRec.cm360)<5;
+    const url=`https://prosettings.net/players/${p.slug||p.name.toLowerCase().replace(/[^a-z0-9]/g,'')}/`;
+    return `<tr ${isUser?'class="user-row"':''}>
+      <td><a href="${url}" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:6px">${p.name}<span style="font-size:10px;color:var(--t3);opacity:.7">↗</span></a></td>
+      <td class="mono">${p.dpi}</td>
+      <td class="mono highlight">${p.sens}</td>
+      <td class="mono">${p.edpi}</td>
+      <td class="mono">${p.cm360}</td>
+    </tr>`;
+  }).join('');
+
+  const html=`
+    <div class="game-tabs">${filterTabs}</div>
+
+    ${userHighlightHtml}
+
+    <div class="pro-stats-row">
+      <div class="pro-stat"><div class="ps-label">Ortalama eDPI</div><div class="ps-value">${avgEdpi}</div><div class="ps-sub">${players.length} oyuncu</div></div>
+      <div class="pro-stat"><div class="ps-label">Ortalama cm/360</div><div class="ps-value">${avgCm}</div><div class="ps-sub">cm</div></div>
+      <div class="pro-stat"><div class="ps-label">En Düşük cm/360</div><div class="ps-value">${minCm}</div><div class="ps-sub">En hızlı</div></div>
+      <div class="pro-stat"><div class="ps-label">En Yüksek cm/360</div><div class="ps-value">${maxCm}</div><div class="ps-sub">En yavaş</div></div>
+    </div>
+
+    <div class="pro-table-wrap">
+      <table class="pro-table">
+        <thead><tr>
+          ${cols.map(c=>`<th class="${state.proSortCol===c.key?'sorted':''}" onclick="proSort('${c.key}')">${c.label} ${sortArrow(c.key)}</th>`).join('')}
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--t3);margin-top:12px;text-align:center">
+      Kaynak: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a> — Oyuncu adına tıklayarak kaynağı doğrulayabilirsin. Ayarlar zaman zaman değişebilir.
+      ${userRec?`<br>🔵 Maviye yakın satırlar, senin sensitivity aralığındaki prolar.`:''}
+    </p>`;
+
+  document.getElementById('prosContent').innerHTML=html;
+}
+
+function setProGame(id) {
+  state.proGameFilter=id;
+  renderProPage();
+}
+
+function proSort(col) {
+  if(state.proSortCol===col) state.proSortDir=state.proSortDir==='asc'?'desc':'asc';
+  else{state.proSortCol=col;state.proSortDir='asc';}
+  renderProPage();
+}
+
+// ════════════════════════════════════════════════════════════
+//  FEEDBACK PAGE
+// ════════════════════════════════════════════════════════════
+const FB_LIKES=[
+  'Sorular çok açıklayıcıydı','cm/360 hesabı mantıklıydı','Pro oyuncu karşılaştırması faydalıydı',
+  'Sistem uyarıları işe yaradı','İnce ayar özelliği iyiydi','Tasarım güzeldi',
+];
+const FB_IMPROVE=[
+  'Daha fazla soru olabilir','Pro oyuncu verisi eksik','Arayüz karmaşıktı',
+  'Önerilen sensitivity uygun değildi','Türkçe terimler belirsizdi','Daha fazla oyun desteklenmeli',
+];
+
+let fbState={rating:0,tried:null,likes:[],improve:[],text:''};
+
+function getWebhook(){
+  return localStorage.getItem('discord_webhook') ||
+    'https://discord.com/api/webhooks/1534553232628514939/xNy1K1qiV6OVCg6L2DA65WvROZW70kkUU_QCHCuWaHXLrVJB3cdDFvpkTrLiOoQVij8r';
+}
+
+function saveWebhook(){const el=document.getElementById('webhookInput');if(el){localStorage.setItem('discord_webhook',el.value.trim());el.style.borderColor='var(--green)';setTimeout(()=>{el.style.borderColor='';},1200);}}
+
+function renderFeedbackPage() {
+  const feedbacks=JSON.parse(localStorage.getItem('fps_feedbacks')||'[]');
+  const already=feedbacks.length>0;
+  const wh = getWebhook();
+  const html=`
+    <div class="feedback-card">
+      <h3>⭐ Genel Değerlendirme</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:10px">Uygulama genel olarak nasıldı?</p>
+      <div class="stars-row">
+        ${[1,2,3,4,5].map(n=>`<button class="star-btn ${fbState.rating>=n?'active':''}" onclick="setRating(${n})" title="${n} yıldız">⭐</button>`).join('')}
+      </div>
+      <p id="ratingLabel" style="font-size:13px;color:var(--blue);margin-top:8px;min-height:18px">${fbState.rating?ratingLabel(fbState.rating):''}</p>
+    </div>
+
+    <div class="feedback-card">
+      <h3>🎯 Öneri Deneyimi</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Önerilen sensitivity değerini denedin mi?</p>
+      <div class="fb-options">
+        ${[
+          {v:'yes',l:'Evet, denedim ve faydalı buldum',i:'✅'},
+          {v:'partial',l:'Evet, denedim ama biraz ayarlama gerekti',i:'🔧'},
+          {v:'no',l:'Henüz denemedim',i:'⏳'},
+          {v:'bad',l:'Denedim ama uygun değildi',i:'❌'},
+        ].map(o=>`<div class="fb-option${fbState.tried===o.v?' selected':''}" onclick="setTried('${o.v}')">
+          <span style="font-size:18px">${o.i}</span><span>${o.l}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="feedback-card">
+      <h3>👍 Neyi Beğendin?</h3>
+      <div class="fb-options">
+        ${FB_LIKES.map(l=>`<div class="fb-option${fbState.likes.includes(l)?' selected':''}" onclick="toggleFbLike('${l}')">
+          <span class="fb-checkbox"></span><span>${l}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="feedback-card">
+      <h3>🔧 Neyin Geliştirilmesini İsterdin?</h3>
+      <div class="fb-options">
+        ${FB_IMPROVE.map(l=>`<div class="fb-option${fbState.improve.includes(l)?' selected':''}" onclick="toggleFbImprove('${l}')">
+          <span class="fb-checkbox"></span><span>${l}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="feedback-card">
+      <h3>💬 Ek Yorum</h3>
+      <div class="input-group">
+        <textarea class="input-field" id="fbText" placeholder="Düşüncelerini buraya yaz..." oninput="fbState.text=this.value">${fbState.text}</textarea>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+        <button class="btn btn-primary" onclick="submitFeedback()">📨 Geri Bildirimi Gönder</button>
+      </div>
+    </div>
+
+  `;
+  document.getElementById('feedbackContent').innerHTML=html;
+}
+
+function ratingLabel(r){return['','😔 Çok kötü','🙁 Kötü','😐 Orta','🙂 İyi','🤩 Mükemmel'][r]||''}
+
+function setRating(n) {
+  fbState.rating=n;
+  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('active',i<n));
+  const lbl=document.getElementById('ratingLabel');if(lbl)lbl.textContent=ratingLabel(n);
+}
+function setTried(v) {
+  fbState.tried=v;
+  document.querySelectorAll('.fb-option').forEach(el=>{
+    if(el.getAttribute('onclick')===`setTried('${v}')`) el.classList.add('selected');
+    else if(el.getAttribute('onclick')?.startsWith('setTried')) el.classList.remove('selected');
+  });
+}
+function toggleFbLike(l) {
+  const i=fbState.likes.indexOf(l);
+  if(i>-1)fbState.likes.splice(i,1);else fbState.likes.push(l);
+  renderFeedbackPage();
+}
+function toggleFbImprove(l) {
+  const i=fbState.improve.indexOf(l);
+  if(i>-1)fbState.improve.splice(i,1);else fbState.improve.push(l);
+  renderFeedbackPage();
+}
+
+function submitFeedback() {
+  if(!fbState.rating){alert('Lütfen en az bir yıldız ver!');return;}
+
+  // ── Yerel kayıt ──
+  const feedbacks=JSON.parse(localStorage.getItem('fps_feedbacks')||'[]');
+  feedbacks.push({
+    date:new Date().toISOString(),
+    rating:fbState.rating,
+    tried:fbState.tried,
+    likes:fbState.likes,
+    improve:fbState.improve,
+    text:fbState.text,
+  });
+  localStorage.setItem('fps_feedbacks',JSON.stringify(feedbacks));
+
+  // ── Discord Webhook'a gönder ──
+  const webhookUrl = getWebhook();
+  if(webhookUrl) {
+    const stars = '⭐'.repeat(fbState.rating) + '☆'.repeat(5-fbState.rating);
+    const triedLabel = {
+      yes:     '✅ Evet, faydalı oldu',
+      partial: '🔧 Evet, biraz ayar gerekti',
+      no:      '⏳ Henüz denemedim',
+      bad:     '❌ Denedim ama uygun değildi',
+    }[fbState.tried] || '—';
+
+    const embed = {
+      embeds: [{
+        title: '🎮 FPS Mouse Advisor — Geri Bildirim',
+        color: 0x63b3ed,
+        fields: [
+          {name:'⭐ Değerlendirme', value: stars + ` (${fbState.rating}/5)`, inline:true},
+          {name:'🎯 Sensitivity Deneyimi', value: triedLabel, inline:true},
+          {name:'👍 Beğenilenler', value: fbState.likes.length ? fbState.likes.join('\n') : '—', inline:false},
+          {name:'🔧 Geliştirilmeli', value: fbState.improve.length ? fbState.improve.join('\n') : '—', inline:false},
+          {name:'💬 Yorum', value: fbState.text || '—', inline:false},
+        ],
+        footer:{text:'FPS Mouse Advisor'},
+        timestamp: new Date().toISOString(),
+      }]
+    };
+
+    fetch(webhookUrl, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(embed),
+    }).catch(()=>{
+      // file:// protokolünden CORS hatası alınırsa form-urlencoded ile dene
+      const msg = `🎮 FPS Mouse Advisor Geri Bildirim\n⭐ ${fbState.rating}/5 | ${triedLabel}\n👍 ${fbState.likes.join(', ')||'—'}\n🔧 ${fbState.improve.join(', ')||'—'}\n💬 ${fbState.text||'—'}`;
+      fetch(webhookUrl, {
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:'content='+encodeURIComponent(msg),
+      }).catch(()=>{});
+    });
+  }
+
+  fbState={rating:0,tried:null,likes:[],improve:[],text:''};
+  document.getElementById('feedbackContent').innerHTML=`
+    <div class="fb-success">
+      <div class="tick">🎉</div>
+      <h3>Teşekkürler!</h3>
+      <p>Geri bildiriminiz kaydedildi${webhookUrl?' ve Discord\'a iletildi':' (webhook girilmemiş)'}.</p>
+      <div style="margin-top:18px">
+        <button class="btn btn-primary" onclick="renderFeedbackPage()">Yeni Geri Bildirim Ekle</button>
+      </div>
+    </div>`;
+}
+// ════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>renderQuestion(0));
+</script>
+</body>
+</html>
