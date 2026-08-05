@@ -284,6 +284,7 @@
 
     /* ── MISC ── */
     .hidden{display:none!important}
+    .option-icon{display:none!important}
     .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:22px 0}
     .footer{text-align:center;padding:28px 0 20px;color:var(--t3);font-size:12px}
     .logo-badge img{vertical-align:middle}
@@ -1429,9 +1430,60 @@ function submitFeedback() {
     </div>`;
 }
 // ════════════════════════════════════════════════════════════
+//  EMOJI STRIP
+// ════════════════════════════════════════════════════════════
+const EMOJI_RE = /(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}|[\u2600-\u27BF]|[\uFE00-\uFE0F]|\uFE0F|\u20E3|[\u2300-\u23FF]|\u200D)/gu;
+
+function stripEmojisFromNode(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) nodes.push(n);
+  nodes.forEach(node => {
+    const cleaned = node.textContent.replace(EMOJI_RE, '').replace(/\s{2,}/g, ' ');
+    if (cleaned !== node.textContent) node.textContent = cleaned;
+  });
+}
+
+function stripAll() {
+  stripEmojisFromNode(document.body);
+}
+
+// ════════════════════════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded',()=>renderQuestion(0));
+document.addEventListener('DOMContentLoaded', () => {
+  renderQuestion(0);
+
+  // Enter tuşu → sonraki soru (textarea / input içindeyken çalışmaz)
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    const tag = document.activeElement?.tagName;
+    if (tag === 'TEXTAREA') return;
+    if (tag === 'INPUT') return;
+    if (tag === 'BUTTON') return; // buton zaten Enter ile tetiklenir
+    if (state.currentPage === 'analysis' && !state.analysisComplete) {
+      e.preventDefault();
+      goNext();
+    }
+  });
+
+  // Emoji temizleyici — her render sonrası çalıştır
+  const origRenderQ    = renderQuestion;
+  const origShowLoad   = showLoading;
+  const origRenderPro  = renderProPage;
+  const origRenderFb   = renderFeedbackPage;
+  const origShowResult = showResults;
+
+  renderQuestion   = (...a) => { origRenderQ(...a);    setTimeout(stripAll, 0); };
+  showLoading      = (...a) => { origShowLoad(...a);   setTimeout(stripAll, 0); };
+  renderProPage    = (...a) => { origRenderPro(...a);  setTimeout(stripAll, 0); };
+  renderFeedbackPage = (...a)=>{ origRenderFb(...a);   setTimeout(stripAll, 0); };
+  if(typeof showResults==='function')
+    showResults    = (...a) => { origShowResult(...a); setTimeout(stripAll, 0); };
+
+  setTimeout(stripAll, 100);
+});
 </script>
 </body>
 </html>
