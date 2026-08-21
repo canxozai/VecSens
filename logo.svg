@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Cyan & Blue dynamic gradient -->
+    <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="crossGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background (optional dark slate / transparent) -->
+  <rect width="512" height="512" fill="#080c14" rx="96" />
+
+  <!-- Subtle grid pattern in background -->
+  <circle cx="256" cy="230" r="140" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="2" stroke-dasharray="6,6" />
+  <circle cx="256" cy="230" r="190" fill="none" stroke="rgba(56, 189, 248, 0.04)" stroke-width="1.5" />
+
+  <!-- Outer 'V' Precision Tactical Frame -->
+  <g filter="url(#glow)">
+    <!-- Left Wing of V -->
+    <path d="M 100 135 
+             L 195 135 
+             L 215 175 
+             L 145 175 
+             L 256 395 
+             L 367 175 
+             L 297 175 
+             L 317 135 
+             L 412 135 
+             L 256 445 Z" 
+          fill="url(#vGrad)" 
+          stroke="#38bdf8" 
+          stroke-width="3" 
+          stroke-linejoin="round" />
+
+    <!-- Center Reticle Circle -->
+    <circle cx="256" cy="230" r="68" fill="none" stroke="#ffffff" stroke-width="9" />
+    <circle cx="256" cy="230" r="68" fill="none" stroke="#38bdf8" stroke-width="3" />
+
+    <!-- Inner Target Ring -->
+    <circle cx="256" cy="230" r="26" fill="none" stroke="rgba(56, 189, 248, 0.6)" stroke-width="3" />
+
+    <!-- Center Aim Point -->
+    <circle cx="256" cy="230" r="5" fill="#38bdf8" />
+
+    <!-- Crosshair Lines with Tactical Gaps -->
+    <!-- Top Vertical Line -->
+    <line x1="256" y1="120" x2="256" y2="200" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+    <!-- Bottom Vertical Line -->
+    <line x1="256" y1="260" x2="256" y2="340" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+    <!-- Left Horizontal Line -->
+    <line x1="146" y1="230" x2="226" y2="230" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+    <!-- Right Horizontal Line -->
+    <line x1="286" y1="230" x2="366" y2="230" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+
+    <!-- Precision Crosshair Ticks -->
+    <line x1="248" y1="150" x2="264" y2="150" stroke="#38bdf8" stroke-width="3" />
+    <line x1="248" y1="180" x2="264" y2="180" stroke="#38bdf8" stroke-width="3" />
+    <line x1="248" y1="280" x2="264" y2="280" stroke="#38bdf8" stroke-width="3" />
+    <line x1="248" y1="310" x2="264" y2="310" stroke="#38bdf8" stroke-width="3" />
+
+    <line x1="176" y1="222" x2="176" y2="238" stroke="#38bdf8" stroke-width="3" />
+    <line x1="206" y1="222" x2="206" y2="238" stroke="#38bdf8" stroke-width="3" />
+    <line x1="306" y1="222" x2="306" y2="238" stroke="#38bdf8" stroke-width="3" />
+    <line x1="336" y1="222" x2="336" y2="238" stroke="#38bdf8" stroke-width="3" />
+  </g>
+</svg>

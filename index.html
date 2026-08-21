@@ -2944,8 +2944,15 @@
     }
 
     @keyframes vsSlideUp {
-      from { transform: translate(-50%, 60px); opacity: 0; }
-      to { transform: translate(-50%, 0); opacity: 1; }
+      from {
+        transform: translate(-50%, 60px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
     }
 
     .vs-brand {
@@ -3038,8 +3045,15 @@
     }
 
     @keyframes vsDrawerPop {
-      from { transform: translate(-50%, 20px) scale(0.96); opacity: 0; }
-      to { transform: translate(-50%, 0) scale(1); opacity: 1; }
+      from {
+        transform: translate(-50%, 20px) scale(0.96);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+      }
     }
 
     .vs-drawer-header {
@@ -3106,7 +3120,8 @@
     }
 
     /* Modal Form / Advanced Settings */
-    .admin-form-modal, .admin-auth-modal {
+    .admin-form-modal,
+    .admin-auth-modal {
       position: fixed;
       top: 0;
       left: 0;
@@ -5534,7 +5549,7 @@
     function submitFeedback() {
       const isEn = currentLang === 'en';
       if (!fbState.rating) { alert(isEn ? 'Please provide at least a star rating!' : 'Lütfen en az bir yıldız ver!'); return; }
-      
+
       // Save locally for admin dashboard & analytics
       try {
         const storedFb = JSON.parse(localStorage.getItem('vecsens_feedbacks') || '[]');
@@ -6917,7 +6932,7 @@
       { id: 'stealth_slate', nameTr: 'Stealth Slate', nameEn: 'Stealth Slate', dark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', gbtnStart: '#475569', gbtnEnd: '#1e293b' }, light: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', gbtnStart: '#334155', gbtnEnd: '#0f172a' }, colors: ['#0b0f19', '#64748b', '#cbd5e1'] }
     ];
 
-    let adminConfig = (function() {
+    let adminConfig = (function () {
       try {
         const raw = localStorage.getItem('vecsens_admin_config');
         if (raw) {
@@ -7174,7 +7189,7 @@
       if (fText && (!conf.customTexts || !conf.customTexts['id_footerText'])) {
         fText.textContent = isEn ? (txt.footerEn || txt.footerTr) : txt.footerTr;
       }
-      
+
       document.querySelectorAll('.logo-badge').forEach(b => {
         const dot = b.querySelector('.dot');
         if (dot && b.childNodes[b.childNodes.length - 1]?.nodeType === 3) {
@@ -7208,7 +7223,7 @@
           el.setAttribute('spellcheck', 'false');
           el.setAttribute('data-vs-editable', 'true');
 
-          el.onblur = function() {
+          el.onblur = function () {
             const key = el.id ? `id_${el.id}` : `txt_${el.textContent.trim().slice(0, 20)}`;
             adminConfig.customTexts = adminConfig.customTexts || {};
             adminConfig.customTexts[key] = el.innerHTML;
@@ -7486,7 +7501,7 @@
               <div style="display:flex;flex-direction:column;gap:8px">
                 ${fbs.slice().reverse().map(f => `
                   <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px">
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="color:var(--cyan)">Puan: ${f.rating}/5</b><span style="color:var(--t3)">${f.date||''}</span></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="color:var(--cyan)">Puan: ${f.rating}/5</b><span style="color:var(--t3)">${f.date || ''}</span></div>
                     <div style="color:var(--t1)">${f.text || 'Görüş belirtilmedi'}</div>
                   </div>
                 `).join('')}
@@ -7530,7 +7545,7 @@
       const fbs = JSON.parse(localStorage.getItem('vecsens_feedbacks') || '[]');
       if (!fbs.length) { alert('Dışa aktarılacak geri bildirim yok!'); return; }
       let csv = 'ID,Rating,Text,Date\n';
-      fbs.forEach(f => { csv += `"${f.id}","${f.rating}","${(f.text||'').replace(/"/g,'""')}","${f.date}"\n`; });
+      fbs.forEach(f => { csv += `"${f.id}","${f.rating}","${(f.text || '').replace(/"/g, '""')}","${f.date}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = `vecsens-feedbacks-${Date.now()}.csv`; a.click();
