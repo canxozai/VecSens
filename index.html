@@ -3352,7 +3352,7 @@
 
       <!-- HEADER -->
       <div class="header">
-        <div class="logo-badge" onclick="openSecretVisualStudio()" style="cursor:pointer" title="VecSens (Stüdyo için tıklayın / F2 / `)">
+        <div class="logo-badge">
           <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover"
             onerror="this.style.display='none'" />
           <span class="dot"></span>VecSens
@@ -3468,8 +3468,7 @@
       <div id="toast"></div>
     </div>
 
-    <div class="footer" id="footerText" onclick="openSecretVisualStudio()" ondblclick="openSecretVisualStudio()" style="cursor:pointer" title="VecSens (Stüdyo için tıklayın / F2 / `)">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
-    <button id="secretStudioTrigger" onclick="openSecretVisualStudio()" style="position:fixed;bottom:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(56,189,248,0.2);border:1px solid var(--border);cursor:pointer;opacity:0.4;transition:all 0.2s;z-index:99990;padding:0;outline:none;font-size:11px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.opacity='1';this.style.transform='scale(1.2)'" onmouseout="this.style.opacity='0.4';this.style.transform='scale(1)'" title="Visual Studio (F2 / ` / Logo)">⚙️</button>
+    <div class="footer" id="footerText">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
   </div>
   </div>
 
@@ -6942,6 +6941,13 @@
       if (tb) tb.classList.add('hidden');
       closeAllVsDrawers();
       if (adminConfig.inlineEditActive) toggleVsInlineEdit(false);
+      if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
+        try {
+          history.replaceState(null, null, window.location.pathname + window.location.search);
+        } catch (e) {
+          window.location.hash = '';
+        }
+      }
     }
 
     function closeAllVsDrawers() {
@@ -7531,41 +7537,14 @@
       }
     }
 
-    // ── SECRET KEYBOARD & SHORTCUT LISTENERS ──
-    let keyBuffer = '';
-    let keyBufferTimer = null;
-
-    document.addEventListener('keydown', e => {
-      // Direct Single-Key Triggers: F2 or ` (Backtick)
-      if (e.code === 'F2' || e.code === 'Backquote') {
-        const tag = document.activeElement?.tagName;
-        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
-          e.preventDefault();
-          openSecretVisualStudio();
-          return;
-        }
-      }
-
-      // Shortcut Combinations: Ctrl+Shift+A, Alt+A, Ctrl+Alt+A
-      if (e.code === 'KeyA' && (e.altKey || (e.shiftKey && (e.ctrlKey || e.metaKey)))) {
-        e.preventDefault();
+    // ── THE SINGLE SECRET ADMIN ENTRYPOINT: URL HASH (#admin) ──
+    function checkAdminUrlHash() {
+      if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
         openSecretVisualStudio();
-        return;
       }
+    }
+    window.addEventListener('hashchange', checkAdminUrlHash);
 
-      // Sequential word typing: user typing "admin" anywhere
-      if (e.key && e.key.length === 1) {
-        keyBuffer += e.key.toLowerCase();
-        if (keyBufferTimer) clearTimeout(keyBufferTimer);
-        keyBufferTimer = setTimeout(() => { keyBuffer = ''; }, 2000);
-
-        if (keyBuffer.endsWith('admin') || keyBuffer.endsWith('sens')) {
-          keyBuffer = '';
-          openSecretVisualStudio();
-        }
-      }
-    });
-    //  EMOJI STRIP
     // ════════════════════════════════════════════════════════════
     const EMOJI_RE = /(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}|[\u2600-\u27BF]|[\uFE00-\uFE0F]|\uFE0F|\u20E3|[\u2300-\u23FF]|\u200D)/gu;
 
@@ -7593,8 +7572,10 @@
       applyTheme();
       applyLanguage();
 
-      // Check URL Hash for shared profile
-      if (window.location.hash.startsWith('#share=')) {
+      // Check URL Hash for secret admin (#admin) or shared profile
+      if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
+        setTimeout(openSecretVisualStudio, 150);
+      } else if (window.location.hash.startsWith('#share=')) {
         try {
           const payload = JSON.parse(atob(window.location.hash.replace('#share=', '')));
           if (payload && payload.d && payload.s) {
