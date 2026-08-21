@@ -7,7 +7,10 @@
   <title>VecSens — Kişiselleştirilmiş Aim Analizi</title>
   <meta name="description"
     content="VecSens: Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse DPI ve sensitivity ayarlarını hesapla." />
-  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="alternate icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <meta property="og:image" content="logo-banner.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -104,8 +107,61 @@
     /* ── TOP NAV ── */
     .topnav {
       display: flex;
-      justify-content: center;
-      padding: 24px 0 0
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 24px 0 0;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 14px 6px 8px;
+      border-radius: 14px;
+      background: rgba(15, 22, 36, 0.75);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-brand:hover {
+      border-color: var(--border-bright);
+      background: rgba(56, 189, 248, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.2);
+    }
+
+    .nav-brand-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      border-radius: 6px;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.45));
+      transition: transform 0.3s ease;
+    }
+
+    .nav-brand:hover .nav-brand-logo {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .nav-brand-title {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--t1);
+    }
+
+    .nav-brand-accent {
+      color: var(--cyan);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
     }
 
     .nav-tabs {
@@ -159,10 +215,65 @@
       font-family: var(--mono)
     }
 
-    /* ── HEADER ── */
+    /* ── HEADER & HERO LOGO ── */
     .header {
       padding: 30px 0 18px;
-      text-align: center
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .hero-logo-glow {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.12) 55%, transparent 75%);
+      filter: blur(16px);
+      z-index: 0;
+      animation: heroGlowPulse 4s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes heroGlowPulse {
+      0% {
+        opacity: 0.6;
+        transform: scale(0.92);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.18);
+      }
+    }
+
+    .hero-main-logo {
+      position: relative;
+      z-index: 1;
+      width: clamp(72px, 10vw, 88px);
+      height: clamp(72px, 10vw, 88px);
+      object-fit: contain;
+      background: transparent;
+      padding: 0;
+      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.55));
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .hero-logo-container:hover .hero-main-logo {
+      transform: translateY(-3px) scale(1.06);
+      filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.8));
     }
 
     .logo-badge {
@@ -181,6 +292,18 @@
       font-family: var(--hud);
       margin-bottom: 16px;
       box-shadow: inset 0 0 12px rgba(56, 189, 248, .08);
+    }
+
+    .logo-badge .badge-logo-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
+      vertical-align: middle;
     }
 
     .logo-badge .dot {
@@ -2260,11 +2383,48 @@
       color: var(--cyan) !important;
     }
 
+    html[data-theme="light"] .nav-brand,
+    body[data-theme="light"] .nav-brand {
+      background: var(--card) !important;
+      border-color: var(--border) !important;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
+    }
+
+    html[data-theme="light"] .hero-main-logo,
+    body[data-theme="light"] .hero-main-logo {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      filter: drop-shadow(0 0 14px rgba(30, 58, 138, 0.45)) !important;
+    }
+
+    html[data-theme="light"] .hero-main-logo.glass-box,
+    body[data-theme="light"] .hero-main-logo.glass-box {
+      background: linear-gradient(145deg, #ffffff, #f8fafc) !important;
+      border: 1.5px solid rgba(30, 58, 138, 0.25) !important;
+      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.1), 0 0 16px rgba(30, 58, 138, 0.12) !important;
+      border-radius: 22px !important;
+      padding: 12px !important;
+    }
+
+    html[data-theme="light"] .hero-logo-glow,
+    body[data-theme="light"] .hero-logo-glow {
+      background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.04) 60%, transparent 80%) !important;
+    }
+
     html[data-theme="light"] .logo-badge,
     body[data-theme="light"] .logo-badge {
       background: rgba(30, 58, 138, 0.07) !important;
       border-color: var(--border) !important;
       color: var(--cyan) !important;
+    }
+
+    html[data-theme="light"] .logo-badge .badge-logo-icon,
+    body[data-theme="light"] .logo-badge .badge-logo-icon {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
     }
 
     html[data-theme="light"] .logo-badge .dot,
@@ -2324,6 +2484,7 @@
     body[data-theme="light"] .header h1 {
       background: linear-gradient(135deg, var(--t1) 0%, var(--t2) 50%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
+      background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
       text-shadow: none !important;
     }
@@ -2332,6 +2493,7 @@
     body[data-theme="light"] .header-sub-gradient {
       background: linear-gradient(135deg, var(--t1) 0%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
+      background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
     }
 
@@ -2341,6 +2503,7 @@
     body[data-theme="light"] .page-header h2 {
       background: linear-gradient(135deg, var(--t1) 0%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
+      background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
     }
 
@@ -3318,17 +3481,57 @@
       margin: 22px 0
     }
 
+    .footer-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 36px 0 28px;
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .footer-brand:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .footer-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
+      border-radius: 4px;
+    }
+
+    .footer-brand-title {
+      font-family: var(--display);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--t1);
+      letter-spacing: -0.01em;
+    }
+
     .footer {
       text-align: center;
-      padding: 32px 0 24px;
+      padding: 0;
       color: var(--t3);
       font-size: 12px;
       font-family: var(--hud);
-      letter-spacing: .04em
+      letter-spacing: .04em;
     }
 
     .logo-badge img {
-      vertical-align: middle
+      vertical-align: middle;
     }
 
     ::-webkit-scrollbar {
@@ -3356,8 +3559,12 @@
     <div class="container">
 
       <!-- TOP NAV -->
-      <div class="topnav" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-        <div class="nav-tabs" style="margin:0 auto">
+      <div class="topnav">
+        <div class="nav-brand" onclick="switchPage('analysis')" title="VecSens Precision Aim Advisor">
+          <img src="logo.svg" alt="VecSens" class="nav-brand-logo" onerror="this.onerror=null;this.src='logo.png'" />
+          <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
+        </div>
+        <div class="nav-tabs">
           <button class="nav-tab active" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
           <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Sens & Scope Converter</button>
           <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
@@ -3374,9 +3581,12 @@
 
       <!-- HEADER -->
       <div class="header">
-        <div class="logo-badge">
-          <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover"
-            onerror="this.style.display='none'" />
+        <div class="hero-logo-container" onclick="switchPage('analysis')" title="VecSens Precision Tactical Aim Engine">
+          <div class="hero-logo-glow"></div>
+          <img src="logo.svg" alt="VecSens Logo" class="hero-main-logo" onerror="this.onerror=null;this.src='logo.png'" />
+        </div>
+        <div class="logo-badge" id="mainLogoBadge">
+          <img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
           <span class="dot"></span>VecSens
         </div>
         <h1 id="headerTitle">VecSens<br /><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span></h1>
@@ -3409,7 +3619,7 @@
       <!-- CONVERTER PAGE -->
       <div id="page-converter" class="hidden">
         <div class="page-header">
-          <div class="logo-badge" id="convBadge"><span class="dot"></span>Dönüştürücü & Optimizasyon</div>
+          <div class="logo-badge" id="convBadge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" /><span class="dot"></span>Dönüştürücü & Optimizasyon</div>
           <h2 id="convTitle">Sensitivity & Scope Converter</h2>
           <p id="convSub">Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle
           </p>
@@ -3420,7 +3630,7 @@
       <!-- AIM TEST LAB PAGE -->
       <div id="page-aimtest" class="hidden">
         <div class="page-header">
-          <div class="logo-badge" id="aimBadge"><span class="dot"></span>İnteraktif Laboratuvar</div>
+          <div class="logo-badge" id="aimBadge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" /><span class="dot"></span>İnteraktif Laboratuvar</div>
           <h2 id="aimTitle">Aim & Sensitivity Testi</h2>
           <p id="aimSub">Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al
           </p>
@@ -3431,7 +3641,7 @@
       <!-- PRO PLAYERS PAGE -->
       <div id="page-pros" class="hidden">
         <div class="page-header">
-          <div class="logo-badge" id="prosBadge"><span class="dot"></span>Profesyonel Veriler</div>
+          <div class="logo-badge" id="prosBadge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" /><span class="dot"></span>Profesyonel Veriler</div>
           <h2 id="prosTitle">Pro Oyuncular</h2>
           <p id="prosSub">Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları</p>
         </div>
@@ -3441,7 +3651,7 @@
       <!-- FEEDBACK PAGE -->
       <div id="page-feedback" class="hidden">
         <div class="page-header">
-          <div class="logo-badge" id="fbBadge"><span class="dot"></span>Geri Bildirim</div>
+          <div class="logo-badge" id="fbBadge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" /><span class="dot"></span>Geri Bildirim</div>
           <h2 id="fbTitle">Deneyimini Paylaş</h2>
           <p id="fbSub">Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol</p>
         </div>
@@ -3490,7 +3700,13 @@
       <div id="toast"></div>
     </div>
 
-    <div class="footer" id="footerText">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+    <div class="footer-wrap">
+      <div class="footer-brand" onclick="switchPage('analysis')" title="VecSens">
+        <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
+        <span class="footer-brand-title">VecSens</span>
+      </div>
+      <div class="footer" id="footerText">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+    </div>
   </div>
   </div>
 
@@ -4908,7 +5124,7 @@
 
       const html = `
     <div class="results-header">
-      <div class="logo-badge"><span class="dot"></span>${isEn ? 'Analysis Complete' : 'Analiz Tamamlandı'}</div>
+      <div class="logo-badge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${isEn ? 'Analysis Complete' : 'Analiz Tamamlandı'}</div>
       <h2>${isEn ? 'Your Personalized Aim Profiles' : 'Kişisel Aim Profillerin'}</h2>
       <p style="color:var(--t2);font-size:14px">${isEn ? `${profiles.length} customized sensitivity profiles generated for ${gameName}` : `${gameName} için ${profiles.length} farklı profil hesaplandı`}</p>
       
@@ -6869,26 +7085,26 @@
       if (tPros) tPros.textContent = dict.tabPros;
       const tFb = document.getElementById('ntab-feedback');
       if (tFb) tFb.textContent = dict.tabFeedback;
-      const convBadge = document.getElementById('convBadge');
-      if (convBadge) convBadge.textContent = dict.convBadge;
+      const setBadge = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${text}`;
+      };
+      setBadge('convBadge', dict.convBadge);
       const convTitle = document.getElementById('convTitle');
       if (convTitle) convTitle.textContent = dict.convTitle;
       const convSub = document.getElementById('convSub');
       if (convSub) convSub.textContent = dict.convSub;
-      const aimBadge = document.getElementById('aimBadge');
-      if (aimBadge) aimBadge.textContent = dict.aimBadge;
+      setBadge('aimBadge', dict.aimBadge);
       const aimTitle = document.getElementById('aimTitle');
       if (aimTitle) aimTitle.textContent = dict.aimTitle;
       const aimSub = document.getElementById('aimSub');
       if (aimSub) aimSub.textContent = dict.aimSub;
-      const prosBadge = document.getElementById('prosBadge');
-      if (prosBadge) prosBadge.textContent = dict.prosBadge;
+      setBadge('prosBadge', dict.prosBadge);
       const prosTitle = document.getElementById('prosTitle');
       if (prosTitle) prosTitle.textContent = dict.prosTitle;
       const prosSub = document.getElementById('prosSub');
       if (prosSub) prosSub.textContent = dict.prosSub;
-      const fbBadge = document.getElementById('fbBadge');
-      if (fbBadge) fbBadge.textContent = dict.fbBadge;
+      setBadge('fbBadge', dict.fbBadge);
       const fbTitle = document.getElementById('fbTitle');
       if (fbTitle) fbTitle.textContent = dict.fbTitle;
       const fbSub = document.getElementById('fbSub');
@@ -6916,7 +7132,7 @@
       inlineEditActive: false,
       themeDark: { bg: '#0a0e17', card: '#0f1624', border: '#232f46', cyan: '#38bdf8', blue: '#38bdf8', vctRed: '#ff4655', purple: '#a855f7', green: '#10b981', gbtnStart: '#38bdf8', gbtnEnd: '#0284c7' },
       themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#e2e8f0', cyan: '#1e3a8a', blue: '#1e3a8a', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' },
-      layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
+      layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, heroLogoSize: 84, heroLogoOffsetY: 0, heroLogoAlign: 'center', heroLogoGlass: false, badgeLogoSize: 18, navLogoSize: 26, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
       texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez', footerEn: 'All calculations are performed locally in your browser · No data is sent to external servers' },
       customTexts: {},
       algorithm: { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 },
@@ -7069,12 +7285,23 @@
       const displayFont = lay.displayFont || 'Space Grotesk';
       const hudFont = lay.hudFont || 'JetBrains Mono';
 
+      const heroSize = lay.heroLogoSize !== undefined ? lay.heroLogoSize : 84;
+      const heroOffsetY = lay.heroLogoOffsetY !== undefined ? lay.heroLogoOffsetY : 0;
+      const heroAlign = lay.heroLogoAlign || 'center';
+      const heroGlass = !!lay.heroLogoGlass;
+      const badgeSize = lay.badgeLogoSize !== undefined ? lay.badgeLogoSize : 18;
+      const navSize = lay.navLogoSize !== undefined ? lay.navLogoSize : 26;
+      const heroAlignCss = heroAlign === 'left' ? 'flex-start' : (heroAlign === 'right' ? 'flex-end' : 'center');
+
       styleEl.innerHTML = `
         :root {
           --container-max-width: ${maxW}px !important;
           --card-padding: ${pad}px !important;
           --box-gap: ${gap}px !important;
           --font-scale: ${scale} !important;
+          --hero-logo-size: ${heroSize}px !important;
+          --badge-logo-size: ${badgeSize}px !important;
+          --nav-logo-size: ${navSize}px !important;
           --bg: ${d.bg} !important;
           --bg2: ${d.card} !important;
           --card: ${d.card} !important;
@@ -7103,6 +7330,35 @@
         }
         .container {
           max-width: var(--container-max-width) !important;
+        }
+        .header {
+          align-items: ${heroAlignCss} !important;
+          text-align: ${heroAlign} !important;
+        }
+        .hero-logo-container {
+          transform: translateY(${heroOffsetY}px) !important;
+        }
+        .hero-main-logo {
+          width: var(--hero-logo-size) !important;
+          height: var(--hero-logo-size) !important;
+          ${heroGlass
+            ? 'background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(8,12,20,0.98)) !important; border: 1.5px solid rgba(56,189,248,0.35) !important; border-radius: 22px !important; padding: 12px !important; box-shadow: 0 14px 36px rgba(0,0,0,0.55), 0 0 28px rgba(56,189,248,0.35) !important;'
+            : 'background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.6)) !important;'}
+        }
+        .hero-logo-glow {
+          width: calc(var(--hero-logo-size) * 1.45) !important;
+          height: calc(var(--hero-logo-size) * 1.45) !important;
+        }
+        .logo-badge .badge-logo-icon {
+          width: var(--badge-logo-size) !important;
+          height: var(--badge-logo-size) !important;
+          background: transparent !important;
+          border: none !important;
+        }
+        .nav-brand-logo {
+          width: var(--nav-logo-size) !important;
+          height: var(--nav-logo-size) !important;
+          background: transparent !important;
         }
         .question-card, .analysis-card, .conv-card, .feedback-card, .aimtest-container, .profile-card, .pro-table-wrap, .admin-card {
           padding: var(--card-padding) !important;
@@ -7165,6 +7421,36 @@
         }
       `;
 
+      document.documentElement.style.setProperty('--hero-logo-size', heroSize + 'px');
+      document.documentElement.style.setProperty('--badge-logo-size', badgeSize + 'px');
+      document.documentElement.style.setProperty('--nav-logo-size', navSize + 'px');
+      document.documentElement.style.setProperty('--hero-logo-offset-y', heroOffsetY + 'px');
+      document.documentElement.style.setProperty('--hero-logo-align', heroAlignCss);
+
+      const heroLogoEl = document.querySelector('.hero-main-logo');
+      if (heroLogoEl) {
+        heroLogoEl.classList.toggle('glass-box', heroGlass);
+        heroLogoEl.style.width = heroSize + 'px';
+        heroLogoEl.style.height = heroSize + 'px';
+      }
+      const heroContainerEl = document.querySelector('.hero-logo-container');
+      if (heroContainerEl) {
+        heroContainerEl.style.transform = `translateY(${heroOffsetY}px)`;
+      }
+      const headerEl = document.querySelector('.header');
+      if (headerEl) {
+        headerEl.style.alignItems = heroAlignCss;
+        headerEl.style.textAlign = heroAlign;
+      }
+      document.querySelectorAll('.badge-logo-icon').forEach(el => {
+        el.style.width = badgeSize + 'px';
+        el.style.height = badgeSize + 'px';
+      });
+      document.querySelectorAll('.nav-brand-logo').forEach(el => {
+        el.style.width = navSize + 'px';
+        el.style.height = navSize + 'px';
+      });
+
       if (conf.customTexts) {
         Object.entries(conf.customTexts).forEach(([key, htmlVal]) => {
           if (key.startsWith('id_')) {
@@ -7190,12 +7476,10 @@
         fText.textContent = isEn ? (txt.footerEn || txt.footerTr) : txt.footerTr;
       }
 
-      document.querySelectorAll('.logo-badge').forEach(b => {
-        const dot = b.querySelector('.dot');
-        if (dot && b.childNodes[b.childNodes.length - 1]?.nodeType === 3) {
-          b.childNodes[b.childNodes.length - 1].textContent = txt.brandName || 'VecSens';
-        }
-      });
+      const mb = document.getElementById('mainLogoBadge');
+      if (mb) {
+        mb.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${txt.brandName || 'VecSens'}`;
+      }
     }
 
     // ── INLINE LIVE TEXT EDITOR ──
@@ -7331,6 +7615,82 @@
             <div class="admin-field-label"><span>${isEn ? 'Backdrop Blur' : 'Cam Buzlanması (Blur)'}</span><span class="admin-slider-val" id="vsBlurVal">${lay.cardBlur || 24}px</span></div>
             <div class="admin-slider-wrap">
               <input type="range" class="admin-slider" min="0" max="40" step="2" value="${lay.cardBlur || 24}" oninput="updateVsLayout('cardBlur',+this.value);document.getElementById('vsBlurVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOGO & BRANDING CONTROLS -->
+        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+          <div style="font-weight:700;font-size:13.5px;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            <span>🎯</span> <span>${isEn ? 'Logo & Brand Layout / Placement' : 'Logo Boyutu, Konumu ve Arkaplanı'}</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+            <!-- Hero Logo Size -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label">
+                <span>${isEn ? 'Hero Logo Size' : 'Ana Ekran Logo Boyutu'}</span>
+                <span class="admin-slider-val" id="vsHeroSizeVal">${lay.heroLogoSize || 84}px</span>
+              </div>
+              <div class="admin-slider-wrap">
+                <input type="range" class="admin-slider" min="36" max="180" step="2" value="${lay.heroLogoSize || 84}"
+                  oninput="updateVsLayout('heroLogoSize',+this.value);document.getElementById('vsHeroSizeVal').textContent=this.value+'px'"/>
+              </div>
+            </div>
+
+            <!-- Hero Logo Y-Offset -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label">
+                <span>${isEn ? 'Logo Vertical Offset' : 'Logo Dikey Konumu (Y-Offset)'}</span>
+                <span class="admin-slider-val" id="vsHeroOffsetVal">${lay.heroLogoOffsetY || 0}px</span>
+              </div>
+              <div class="admin-slider-wrap">
+                <input type="range" class="admin-slider" min="-30" max="60" step="2" value="${lay.heroLogoOffsetY || 0}"
+                  oninput="updateVsLayout('heroLogoOffsetY',+this.value);document.getElementById('vsHeroOffsetVal').textContent=this.value+'px'"/>
+              </div>
+            </div>
+
+            <!-- Badge Logo Size -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label">
+                <span>${isEn ? 'Badge Logo Size' : 'Rozet İçi Logo Boyutu'}</span>
+                <span class="admin-slider-val" id="vsBadgeSizeVal">${lay.badgeLogoSize || 18}px</span>
+              </div>
+              <div class="admin-slider-wrap">
+                <input type="range" class="admin-slider" min="12" max="32" step="1" value="${lay.badgeLogoSize || 18}"
+                  oninput="updateVsLayout('badgeLogoSize',+this.value);document.getElementById('vsBadgeSizeVal').textContent=this.value+'px'"/>
+              </div>
+            </div>
+
+            <!-- Nav Brand Logo Size -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label">
+                <span>${isEn ? 'Nav Brand Logo Size' : 'Üst Menü Logo Boyutu'}</span>
+                <span class="admin-slider-val" id="vsNavSizeVal">${lay.navLogoSize || 26}px</span>
+              </div>
+              <div class="admin-slider-wrap">
+                <input type="range" class="admin-slider" min="16" max="48" step="1" value="${lay.navLogoSize || 26}"
+                  oninput="updateVsLayout('navLogoSize',+this.value);document.getElementById('vsNavSizeVal').textContent=this.value+'px'"/>
+              </div>
+            </div>
+
+            <!-- Hero Logo Alignment -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label"><span>${isEn ? 'Logo Alignment' : 'Logo Hizalama'}</span></div>
+              <div style="display:flex;gap:6px;margin-top:6px">
+                <button class="vs-btn btn-sm ${lay.heroLogoAlign === 'left' ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoAlign','left');renderVsBoxDrawer()">${isEn ? 'Left' : 'Sol'}</button>
+                <button class="vs-btn btn-sm ${(!lay.heroLogoAlign || lay.heroLogoAlign === 'center') ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoAlign','center');renderVsBoxDrawer()">${isEn ? 'Center' : 'Orta'}</button>
+                <button class="vs-btn btn-sm ${lay.heroLogoAlign === 'right' ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoAlign','right');renderVsBoxDrawer()">${isEn ? 'Right' : 'Sağ'}</button>
+              </div>
+            </div>
+
+            <!-- Hero Logo Frame Style -->
+            <div class="admin-field" style="margin-bottom:0">
+              <div class="admin-field-label"><span>${isEn ? 'Logo Background Style' : 'Logo Arkaplan Stili'}</span></div>
+              <div style="display:flex;gap:6px;margin-top:6px">
+                <button class="vs-btn btn-sm ${!lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',false);renderVsBoxDrawer()">✨ ${isEn ? 'Transparent' : 'Şeffaf'}</button>
+                <button class="vs-btn btn-sm ${lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',true);renderVsBoxDrawer()">🔲 ${isEn ? 'Glass Card' : 'Cam Kart'}</button>
+              </div>
             </div>
           </div>
         </div>

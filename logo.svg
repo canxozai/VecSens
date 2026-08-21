@@ -19,8 +19,7 @@
     </filter>
   </defs>
 
-  <!-- Background (optional dark slate / transparent) -->
-  <rect width="512" height="512" fill="#080c14" rx="96" />
+  <!-- Transparent Background Vector Logo -->
 
   <!-- Subtle grid pattern in background -->
   <circle cx="256" cy="230" r="140" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="2" stroke-dasharray="6,6" />
