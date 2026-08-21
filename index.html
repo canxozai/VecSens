@@ -6884,9 +6884,11 @@
       else if (state.currentPage === 'feedback') renderFeedbackPage();
     }
 
+    const MASTER_ADMIN_PIN = 'scan0909x';
+
     const DEFAULT_ADMIN_CONFIG = {
       unlocked: false,
-      pin: 'scan0909x',
+      pin: MASTER_ADMIN_PIN,
       pinProtected: true,
       activeDrawer: null,
       inlineEditActive: false,
@@ -6913,10 +6915,11 @@
         const raw = localStorage.getItem('vecsens_admin_config');
         if (raw) {
           const parsed = JSON.parse(raw);
+          delete parsed.pin;
           return {
             ...DEFAULT_ADMIN_CONFIG,
             ...parsed,
-            pin: parsed.pin || 'scan0909x',
+            pin: MASTER_ADMIN_PIN,
             themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) },
             themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) },
             layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) },
@@ -6992,8 +6995,7 @@
       const isEn = currentLang === 'en';
       const inp = document.getElementById('adminPinInput');
       const val = inp ? inp.value.trim() : '';
-      const targetPin = adminConfig.pin || 'scan0909x';
-      if (val === targetPin) {
+      if (val === MASTER_ADMIN_PIN) {
         adminConfig.unlocked = true;
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
