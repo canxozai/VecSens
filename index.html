@@ -6913,7 +6913,22 @@
         const raw = localStorage.getItem('vecsens_admin_config');
         if (raw) {
           const parsed = JSON.parse(raw);
-          return { ...DEFAULT_ADMIN_CONFIG, ...parsed, themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) }, themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) }, layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) }, texts: { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) }, customTexts: parsed.customTexts || {}, algorithm: { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) }, customPros: parsed.customPros || {}, unlocked: false, activeDrawer: null, inlineEditActive: false };
+          if (parsed.pin === 'admin123') parsed.pin = 'scan0909x';
+          return {
+            ...DEFAULT_ADMIN_CONFIG,
+            ...parsed,
+            pin: (parsed.pin && parsed.pin !== 'admin123') ? parsed.pin : 'scan0909x',
+            themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) },
+            themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) },
+            layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) },
+            texts: { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) },
+            customTexts: parsed.customTexts || {},
+            algorithm: { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) },
+            customPros: parsed.customPros || {},
+            unlocked: false,
+            activeDrawer: null,
+            inlineEditActive: false
+          };
         }
       } catch (e) { }
       return JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
@@ -6978,10 +6993,18 @@
       const isEn = currentLang === 'en';
       const inp = document.getElementById('adminPinInput');
       const val = inp ? inp.value.trim() : '';
-      const correctPin = 'scan0909x';
-      if (val === correctPin || (adminConfig.pin && val === adminConfig.pin)) {
+      const targetPin = (adminConfig.pin && adminConfig.pin !== 'admin123') ? adminConfig.pin : 'scan0909x';
+      if (val === targetPin || val === 'scan0909x') {
         adminConfig.pin = 'scan0909x';
         adminConfig.unlocked = true;
+        try {
+          const raw = localStorage.getItem('vecsens_admin_config');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            parsed.pin = 'scan0909x';
+            localStorage.setItem('vecsens_admin_config', JSON.stringify(parsed));
+          }
+        } catch (e) { }
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
         toggleVisualStudio(true);
