@@ -432,9 +432,9 @@
     <!-- CONVERTER PAGE -->
     <div id="page-converter" class="hidden">
       <div class="page-header">
-        <div class="logo-badge"><span class="dot"></span>Dönüştürücü & Optimizasyon</div>
-        <h2>Sensitivity & Scope Converter</h2>
-        <p>Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle</p>
+        <div class="logo-badge" id="convBadge"><span class="dot"></span>Dönüştürücü & Optimizasyon</div>
+        <h2 id="convTitle">Sensitivity & Scope Converter</h2>
+        <p id="convSub">Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle</p>
       </div>
       <div id="converterContent"></div>
     </div>
@@ -442,9 +442,9 @@
     <!-- AIM TEST LAB PAGE -->
     <div id="page-aimtest" class="hidden">
       <div class="page-header">
-        <div class="logo-badge"><span class="dot"></span>İnteraktif Laboratuvar</div>
-        <h2>Aim & Sensitivity Testi</h2>
-        <p>Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al</p>
+        <div class="logo-badge" id="aimBadge"><span class="dot"></span>İnteraktif Laboratuvar</div>
+        <h2 id="aimTitle">Aim & Sensitivity Testi</h2>
+        <p id="aimSub">Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al</p>
       </div>
       <div id="aimtestContent"></div>
     </div>
@@ -452,9 +452,9 @@
     <!-- PRO PLAYERS PAGE -->
     <div id="page-pros" class="hidden">
       <div class="page-header">
-        <div class="logo-badge"><span class="dot"></span>Profesyonel Veriler</div>
-        <h2>Pro Oyuncu Ayarları & Ekipmanları</h2>
-        <p>Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları</p>
+        <div class="logo-badge" id="prosBadge"><span class="dot"></span>Profesyonel Veriler</div>
+        <h2 id="prosTitle">Pro Oyuncu Ayarları & Ekipmanları</h2>
+        <p id="prosSub">Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları</p>
       </div>
       <div class="pro-search-bar">
         <input type="text" class="pro-search-input" id="proSearchInput" placeholder="Oyuncu, takım veya mouse modeli ara..." oninput="onProSearch(this.value)"/>
@@ -465,9 +465,9 @@
     <!-- FEEDBACK PAGE -->
     <div id="page-feedback" class="hidden">
       <div class="page-header">
-        <div class="logo-badge"><span class="dot"></span>Geri Bildirim</div>
-        <h2>Deneyimini Paylaş</h2>
-        <p>Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol</p>
+        <div class="logo-badge" id="fbBadge"><span class="dot"></span>Geri Bildirim</div>
+        <h2 id="fbTitle">Deneyimini Paylaş</h2>
+        <p id="fbSub">Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol</p>
       </div>
       <div id="feedbackContent"></div>
     </div>
@@ -476,7 +476,7 @@
     <div id="toast"></div>
     </div>
 
-    <div class="footer">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+    <div class="footer" id="footerText">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
   </div>
 </div>
 
@@ -613,35 +613,61 @@ const PRO_DATA = {
 
 const PRO_GAME_IDS = ['valorant','cs2','apex','r6','overwatch','fortnite','warzone','pubg','thefinals','battlefield'];
 
-const ROLES_BY_GAME = {
-  valorant:    ['Düellocu (Duelist)','Gözcü (Sentinel)','Kontrol Uzmanı (Controller)','Öncü (Initiator)'],
-  cs2:         ['Entry Fragger','Support','AWPer','Lurker','IGL (Lider)'],
-  r6:          ['Saldırgan (Attacker)','Savunmacı (Defender)','Roamer','Anchor'],
-  apex:        ['Saldırgan (Skirmisher)','Savunmacı (Defensive)','Destek (Support)','Keşifçi (Recon)'],
-  warzone:     ['Saldırgan','Sniper','Destek','Ekip Lideri'],
-  pubg:        ['Saldırgan','Sniper','Destek','Keşifçi'],
-  fortnite:    ['Saldırgan','Yapı Odaklı','Sniper','Destek'],
-  overwatch:   ['Tank','Hasar (DPS)','Destek (Support)'],
-  battlefield: ['Saldırgan (Assault)','Mühendis (Engineer)','Destek (Support)','Keşifçi (Recon)'],
-  thefinals:   ['Hafif (Light)','Orta (Medium)','Ağır (Heavy)'],
-  destiny:     ['Hunter','Warlock','Titan'],
-  other:       ['Saldırgan','Savunmacı','Sniper','Destek','Keşifçi'],
-};
+function getRolesByGame(gameId, isEn) {
+  const data = {
+    valorant: isEn ? ['Duelist', 'Sentinel', 'Controller', 'Initiator'] : ['Düellocu (Duelist)', 'Gözcü (Sentinel)', 'Kontrol Uzmanı (Controller)', 'Öncü (Initiator)'],
+    cs2: isEn ? ['Entry Fragger', 'Support', 'AWPer', 'Lurker', 'IGL (Leader)'] : ['Entry Fragger', 'Support', 'AWPer', 'Lurker', 'IGL (Lider)'],
+    r6: isEn ? ['Attacker', 'Defender', 'Roamer', 'Anchor'] : ['Saldırgan (Attacker)', 'Savunmacı (Defender)', 'Roamer', 'Anchor'],
+    apex: isEn ? ['Skirmisher (Assault)', 'Defensive (Control)', 'Support', 'Recon'] : ['Saldırgan (Skirmisher)', 'Savunmacı (Defensive)', 'Destek (Support)', 'Keşifçi (Recon)'],
+    warzone: isEn ? ['Aggressive Slayer', 'Sniper / Marksman', 'Support', 'Squad Leader (IGL)'] : ['Saldırgan', 'Sniper', 'Destek', 'Ekip Lideri'],
+    pubg: isEn ? ['Entry Fragger', 'Sniper / DMR', 'Support', 'Scout'] : ['Saldırgan', 'Sniper', 'Destek', 'Keşifçi'],
+    fortnite: isEn ? ['Fragger', 'Builder / IGL', 'Sniper', 'Support'] : ['Saldırgan', 'Yapı Odaklı', 'Sniper', 'Destek'],
+    overwatch: isEn ? ['Tank', 'Damage (DPS)', 'Support'] : ['Tank', 'Hasar (DPS)', 'Destek (Support)'],
+    battlefield: isEn ? ['Assault', 'Engineer', 'Support', 'Recon'] : ['Saldırgan (Assault)', 'Mühendis (Engineer)', 'Destek (Support)', 'Keşifçi (Recon)'],
+    thefinals: isEn ? ['Light', 'Medium', 'Heavy'] : ['Hafif (Light)', 'Orta (Medium)', 'Ağır (Heavy)'],
+    destiny: ['Hunter', 'Warlock', 'Titan'],
+    other: isEn ? ['Assault / Fragger', 'Defensive / Anchor', 'Sniper', 'Support', 'Scout'] : ['Saldırgan', 'Savunmacı', 'Sniper', 'Destek', 'Keşifçi'],
+  };
+  return data[gameId] || data.other;
+}
 
-const RANKS_BY_GAME = {
-  valorant:    ['Demir (Iron)','Bronz (Bronze)','Gümüş (Silver)','Altın (Gold)','Platin (Platinum)','Elmas (Diamond)','Yükselen (Ascendant)','Ölümsüz (Immortal)','Radiant','Rank yok / Unrated'],
-  cs2:         ['Silver 1-4','Gold Nova 1-4','MG 1-2','MGE','DMG','LE','LEM','Supreme','Global Elite','Rank yok'],
-  r6:          ['Copper','Bronze','Silver','Gold','Platinum','Diamond','Champion','Rank yok'],
-  apex:        ['Bronze','Silver','Gold','Platinum','Diamond','Master','Predator','Rank yok'],
-  warzone:     ['Bronze','Silver','Gold','Platinum','Diamond','Crimson','Iridescent','Rank yok'],
-  pubg:        ['Bronze','Silver','Gold','Platinum','Diamond','Master','Rank yok'],
-  fortnite:    ['Bronze','Silver','Gold','Platinum','Diamond','Elite','Champion','Unreal','Rank yok'],
-  overwatch:   ['Bronz','Gümüş','Altın','Platin','Elmas','Master','Grandmaster','Top 500','Rank yok'],
-  battlefield: ['Rank yok / Seviye bazlı'],
-  thefinals:   ['Bronze','Silver','Gold','Platinum','Diamond','Ruby','Rank yok'],
-  destiny:     ['Rank yok / Sezon bazlı'],
-  other:       ['Düşük','Orta','Yüksek','En yüksek','Rank yok'],
-};
+function getRanksByGame(gameId, isEn) {
+  const data = {
+    valorant: isEn 
+      ? ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ascendant', 'Immortal', 'Radiant', 'Unrated / No Rank']
+      : ['Demir (Iron)', 'Bronz (Bronze)', 'Gümüş (Silver)', 'Altın (Gold)', 'Platin (Platinum)', 'Elmas (Diamond)', 'Yükselen (Ascendant)', 'Ölümsüz (Immortal)', 'Radiant', 'Rank yok / Unrated'],
+    cs2: isEn 
+      ? ['Silver 1-4', 'Gold Nova 1-4', 'Master Guardian 1-2', 'MGE', 'DMG', 'LE', 'LEM', 'Supreme', 'Global Elite', 'Unranked']
+      : ['Silver 1-4', 'Gold Nova 1-4', 'MG 1-2', 'MGE', 'DMG', 'LE', 'LEM', 'Supreme', 'Global Elite', 'Rank yok'],
+    r6: isEn 
+      ? ['Copper', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Champion', 'Unranked']
+      : ['Copper', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Champion', 'Rank yok'],
+    apex: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Predator', 'Unranked']
+      : ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Predator', 'Rank yok'],
+    warzone: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Crimson', 'Iridescent', 'Unranked']
+      : ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Crimson', 'Iridescent', 'Rank yok'],
+    pubg: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Unranked']
+      : ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Rank yok'],
+    fortnite: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Elite', 'Champion', 'Unreal', 'Unranked']
+      : ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Elite', 'Champion', 'Unreal', 'Rank yok'],
+    overwatch: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Grandmaster', 'Top 500', 'Unranked']
+      : ['Bronz', 'Gümüş', 'Altın', 'Platin', 'Elmas', 'Master', 'Grandmaster', 'Top 500', 'Rank yok'],
+    battlefield: isEn ? ['No Rank / Level Progression'] : ['Rank yok / Seviye bazlı'],
+    thefinals: isEn 
+      ? ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ruby', 'Unranked']
+      : ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ruby', 'Rank yok'],
+    destiny: isEn ? ['No Rank / Seasonal Progression'] : ['Rank yok / Sezon bazlı'],
+    other: isEn 
+      ? ['Beginner / Low', 'Intermediate', 'Advanced', 'Elite / Top Tier', 'Unranked']
+      : ['Düşük', 'Orta', 'Yüksek', 'En yüksek', 'Rank yok'],
+  };
+  return data[gameId] || data.other;
+}
 
 // ════════════════════════════════════════════════════════════
 //  MOUSE DATABASE
@@ -743,26 +769,41 @@ function findMouse(input) {
 }
 
 function getMouseAnalysis(mouse, answers) {
+  const isEn = currentLang === 'en';
   const warnings = [], tips = [], info = [];
+
   // 1. Sensör tipi
   if (mouse.sensorType === 'laser') {
-    warnings.push('Lazer sensörlü mouse kullanıyorsun. Lazer sensörler yerleşik ivmeye sahiptir ve tutarsız aim\'e neden olabilir. <b>Optik sensörlü</b> bir mouse\'a geçiş önerilir.');
+    warnings.push(isEn 
+      ? 'You are using a mouse with a laser sensor. Laser sensors have built-in acceleration variance that can harm aim consistency. Switching to an <b>optical sensor</b> mouse is strongly recommended.' 
+      : 'Lazer sensörlü mouse kullanıyorsun. Lazer sensörler yerleşik ivmeye sahiptir ve tutarsız aim\'e neden olabilir. <b>Optik sensörlü</b> bir mouse\'a geçiş önerilir.');
   }
+
   // 2. Ağırlık
   const move = answers.q12;
   if (mouse.weight >= 90 && (move === 'arm' || move === 'both')) {
-    warnings.push(`Mouse\'un <b>${mouse.weight}g</b> — oldukça ağır. Kol hareketiyle düşük sensitivity kullanıyorsan uzun oturumlarda kol yorulması yaşayabilirsin. <b>70g altı</b> bir mouse düşünebilirsin.`);
+    warnings.push(isEn 
+      ? `Your mouse is <b>${mouse.weight}g</b> — fairly heavy. If you use arm movement with low sensitivity, you may experience arm fatigue in long sessions. Consider a mouse <b>under 70g</b>.` 
+      : `Mouse\'un <b>${mouse.weight}g</b> — oldukça ağır. Kol hareketiyle düşük sensitivity kullanıyorsan uzun oturumlarda kol yorulması yaşayabilirsin. <b>70g altı</b> bir mouse düşünebilirsin.`);
   } else if (mouse.weight >= 80 && move === 'arm') {
-    tips.push(`Mouse\'un <b>${mouse.weight}g</b>. Kol hareketi kullandığın için <b>65g altı</b> hafif bir mouse daha rahat olabilir.`);
+    tips.push(isEn 
+      ? `Your mouse is <b>${mouse.weight}g</b>. Since you use arm movement, a lightweight mouse <b>under 65g</b> can provide greater comfort.` 
+      : `Mouse\'un <b>${mouse.weight}g</b>. Kol hareketi kullandığın için <b>65g altı</b> hafif bir mouse daha rahat olabilir.`);
   }
   if (mouse.weight < 55) {
-    tips.push(`Mouse\'un çok hafif (<b>${mouse.weight}g</b>) — hızlı kontrol için avantaj ama mikro düzeltmelerde alışma süreci gerektirebilir.`);
+    tips.push(isEn 
+      ? `Your mouse is ultra-lightweight (<b>${mouse.weight}g</b>) — great for fast snaps, but might take an adaptation period for micro-corrections.` 
+      : `Mouse\'un çok hafif (<b>${mouse.weight}g</b>) — hızlı kontrol için avantaj ama mikro düzeltmelerde alışma süreci gerektirebilir.`);
   }
+
   // 3. Max DPI
   const userDPI = parseInt(answers.q3 === 'custom' ? answers.q3b : answers.q3) || 800;
   if (answers.q3 !== '__unsure__' && userDPI > mouse.maxDPI) {
-    warnings.push(`Seçtiğin DPI (<b>${userDPI}</b>), mouse\'unun native max DPI değerinden (<b>${mouse.maxDPI}</b>) yüksek. Mouse DPI\'yı interpolasyon ile üretiyor — hassasiyet kaybı ve titreme yaşanabilir. DPI\'ı <b>${mouse.maxDPI}</b> veya altına düşürmeyi dene.`);
+    warnings.push(isEn 
+      ? `Selected DPI (<b>${userDPI}</b>) is higher than mouse native max DPI (<b>${mouse.maxDPI}</b>). The mouse creates DPI via sensor interpolation — causing sensor smoothing and pixel jitter. Reduce DPI to <b>${mouse.maxDPI}</b> or below.` 
+      : `Seçtiğin DPI (<b>${userDPI}</b>), mouse\'unun native max DPI değerinden (<b>${mouse.maxDPI}</b>) yüksek. Mouse DPI\'yı interpolasyon ile üretiyor — hassasiyet kaybı ve titreme yaşanabilir. DPI\'ı <b>${mouse.maxDPI}</b> veya altına düşürmeyi dene.`);
   }
+
   // 4. Boyut / Tutuş uyumu
   const handData = typeof answers.q13 === 'object' ? answers.q13 : {};
   const handL = parseFloat(handData.length);
@@ -770,35 +811,61 @@ function getMouseAnalysis(mouse, answers) {
   const grip = answers.q11;
   if (handL && handW) {
     if (grip === 'palm') {
-      if (handL * 10 < mouse.length * 0.88) tips.push(`Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) küçük olabilir palm grip\'te. Daha küçük model veya claw grip düşünebilirsin.`);
-      if (handL * 10 > mouse.length * 1.18) tips.push(`Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) büyük. Palm grip\'te daha büyük bir mouse daha rahat olabilir.`);
+      if (handL * 10 < mouse.length * 0.88) {
+        tips.push(isEn 
+          ? `Your hand length (<b>${handL}cm</b>) may be small for this mouse (<b>${(mouse.length/10).toFixed(1)}cm</b>) with palm grip. Consider a smaller model or claw grip.` 
+          : `Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) küçük olabilir palm grip\'te. Daha küçük model veya claw grip düşünebilirsin.`);
+      }
+      if (handL * 10 > mouse.length * 1.18) {
+        tips.push(isEn 
+          ? `Your hand length (<b>${handL}cm</b>) is large for this mouse (<b>${(mouse.length/10).toFixed(1)}cm</b>). A larger mouse may be more comfortable for palm grip.` 
+          : `Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) büyük. Palm grip\'te daha büyük bir mouse daha rahat olabilir.`);
+      }
     }
     if (grip === 'finger') {
-      if (mouse.length > 125) tips.push(`Fingertip grip için mouse biraz büyük (<b>${(mouse.length/10).toFixed(1)}cm</b>). 12cm altı bir model daha uygun olabilir.`);
-      if (mouse.weight > 70) tips.push(`Fingertip grip + <b>${mouse.weight}g</b> zor bir kombinasyon. 60g altı bir mouse öneririz.`);
+      if (mouse.length > 125) {
+        tips.push(isEn 
+          ? `Mouse is slightly large for fingertip grip (<b>${(mouse.length/10).toFixed(1)}cm</b>). A model under 12cm would be ideal.` 
+          : `Fingertip grip için mouse biraz büyük (<b>${(mouse.length/10).toFixed(1)}cm</b>). 12cm altı bir model daha uygun olabilir.`);
+      }
+      if (mouse.weight > 70) {
+        tips.push(isEn 
+          ? `Fingertip grip + <b>${mouse.weight}g</b> is a heavy combination. We recommend a mouse under 60g.` 
+          : `Fingertip grip + <b>${mouse.weight}g</b> zor bir kombinasyon. 60g altı bir mouse öneririz.`);
+      }
     }
     if (grip === 'claw' && handW * 10 > mouse.width * 1.3) {
-      tips.push(`El genişliğin (<b>${handW}cm</b>) mouse genişliğine (<b>${(mouse.width/10).toFixed(1)}cm</b>) göre geniş. Daha geniş bir model daha ergonomik olabilir.`);
+      tips.push(isEn 
+        ? `Your hand width (<b>${handW}cm</b>) is wide relative to mouse width (<b>${(mouse.width/10).toFixed(1)}cm</b>). A wider shape may be more ergonomic.` 
+        : `El genişliğin (<b>${handW}cm</b>) mouse genişliğine (<b>${(mouse.width/10).toFixed(1)}cm</b>) göre geniş. Daha geniş bir model daha ergonomik olabilir.`);
     }
   }
+
   if (grip && !mouse.bestGrip.includes(grip)) {
-    const gripTR = {palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[grip];
-    const recTR = mouse.bestGrip.map(g=>({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(' / ');
-    warnings.push(`<b>${mouse.brand} ${mouse.model}</b> genellikle <b>${recTR}</b> tutuş için tasarlanmış. Sen <b>${gripTR}</b> kullanıyorsun — ergonomi uyumsuzluğu olabilir.`);
+    const gripDisplay = isEn ? ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip Grip'}[grip]||grip) : ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[grip]||grip);
+    const recDisplay = mouse.bestGrip.map(g => ({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(' / ');
+    warnings.push(isEn 
+      ? `<b>${mouse.brand} ${mouse.model}</b> is primarily designed for <b>${recDisplay}</b> grip. You use <b>${gripDisplay}</b> — there might be an ergonomic mismatch.` 
+      : `<b>${mouse.brand} ${mouse.model}</b> genellikle <b>${recDisplay}</b> tutuş için tasarlanmış. Sen <b>${gripDisplay}</b> kullanıyorsun — ergonomi uyumsuzluğu olabilir.`);
   }
+
   // 5. LOD
   if (mouse.lod >= 2.0 && (move === 'arm' || move === 'both')) {
-    tips.push(`Mouse\'unun lift-off mesafesi (LOD) <b>~${mouse.lod}mm</b> — kol hareketi kullanıp sık mouse kaldırıyorsan, kaldırma sırasında istenmeyen imleç hareketleri olabilir.`);
+    tips.push(isEn 
+      ? `Mouse lift-off distance (LOD) is <b>~${mouse.lod}mm</b> — if you use arm aiming and lift frequently, you may experience minor sensor drift on lift-off.` 
+      : `Mouse\'unun lift-off mesafesi (LOD) <b>~${mouse.lod}mm</b> — kol hareketi kullanıp sık mouse kaldırıyorsan, kaldırma sırasında istenmeyen imleç hareketleri olabilir.`);
   }
-  // Info
-  info.push({l:'Sensör',v:`${mouse.sensor} (${mouse.sensorType==='optical'?'Optik':'Lazer'})`});
-  info.push({l:'Ağırlık',v:`${mouse.weight}g`});
-  info.push({l:'Max DPI',v:mouse.maxDPI.toLocaleString()});
-  info.push({l:'Boyut (U×G×Y)',v:`${mouse.length}×${mouse.width}×${mouse.height} mm`});
-  info.push({l:'Bağlantı',v:mouse.wireless?'Kablosuz':'Kablolu'});
-  info.push({l:'LOD',v:`~${mouse.lod}mm`});
-  info.push({l:'Önerilen Tutuş',v:mouse.bestGrip.map(g=>({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(', ')});
-  info.push({l:'Şekil',v:mouse.shape==='ergo'?'Ergonomik':'Simetrik (Ambi)'});
+
+  // Info Specs
+  info.push({l: isEn ? 'Sensor' : 'Sensör', v: `${mouse.sensor} (${mouse.sensorType==='optical'?(isEn?'Optical':'Optik'):(isEn?'Laser':'Lazer')})`});
+  info.push({l: isEn ? 'Weight' : 'Ağırlık', v: `${mouse.weight}g`});
+  info.push({l: isEn ? 'Max DPI' : 'Max DPI', v: mouse.maxDPI.toLocaleString()});
+  info.push({l: isEn ? 'Dimensions (L×W×H)' : 'Boyut (U×G×Y)', v: `${mouse.length}×${mouse.width}×${mouse.height} mm`});
+  info.push({l: isEn ? 'Connectivity' : 'Bağlantı', v: mouse.wireless ? (isEn?'Wireless':'Kablosuz') : (isEn?'Wired':'Kablolu')});
+  info.push({l: isEn ? 'LOD' : 'LOD', v: `~${mouse.lod}mm`});
+  info.push({l: isEn ? 'Best Grip' : 'Önerilen Tutuş', v: mouse.bestGrip.map(g=>({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(', ')});
+  info.push({l: isEn ? 'Shape' : 'Şekil', v: mouse.shape==='ergo' ? (isEn?'Ergonomic':'Ergonomik') : (isEn?'Ambidextrous (Ambi)':'Simetrik (Ambi)')});
+
   return {warnings, tips, info, mouse};
 }
 
@@ -901,11 +968,11 @@ function switchPage(page) {
 //  QUESTIONS (BILINGUAL TR / EN)
 // ════════════════════════════════════════════════════════════
 function buildQuestions() {
+  const isEn = currentLang === 'en';
   const games = state.answers.q1 || [];
   const primaryGame = games[0] || 'other';
-  const roles = ROLES_BY_GAME[primaryGame] || ROLES_BY_GAME.other;
-  const ranks = RANKS_BY_GAME[primaryGame] || RANKS_BY_GAME.other;
-  const isEn = currentLang === 'en';
+  const roles = getRolesByGame(primaryGame, isEn);
+  const ranks = getRanksByGame(primaryGame, isEn);
 
   return [
     {
@@ -913,7 +980,7 @@ function buildQuestions() {
       title: isEn ? 'Which FPS games do you play?' : 'Hangi FPS oyunlarını oynuyorsun?',
       subtitle: isEn ? 'You can select multiple games.' : 'Birden fazla seçebilirsin.',
       type:'multi',
-      options: GAMES.map(g=>({value:g.id, label:g.label, icon:g.icon}))
+      options: GAMES.map(g=>({value:g.id, label: (g.id==='other'&&isEn)?'Other':g.label, icon:g.icon}))
     },
     {
       id:'q2', phase:2,
@@ -1115,7 +1182,7 @@ function buildQuestions() {
     {
       id:'q16', phase:2,
       title: isEn ? 'Is Mouse Acceleration enabled?' : 'Fare İvmesi (Mouse Acceleration) açık mı?',
-      subtitle: isEn ? 'Accelerates pointer speed when moving faster. Strongly recommended OFF for FPS.' : 'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri → "İşaretçi hassasiyetini artır" kutucuğu.',
+      subtitle: isEn ? 'Accelerates cursor disproportionately when moving faster. Strongly recommended OFF for FPS. 📍 Check: Windows Settings → Bluetooth & Devices → Mouse → Additional mouse settings → Pointer Options → uncheck "Enhance pointer precision".' : 'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri → "İşaretçi hassasiyetini artır" kutucuğu.',
       type:'single',
       allowUnsure: true,
       options:[
@@ -1126,7 +1193,7 @@ function buildQuestions() {
     {
       id:'q17', phase:2,
       title: isEn ? 'Is Raw Input enabled in-game?' : 'Ham Girdi (Raw Input) açık mı?',
-      subtitle: isEn ? 'Allows the game to read mouse hardware directly, bypassing OS scaling. Strongly recommended ON.' : 'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir. 📍 Kontrol: Oyun içi Ayarlar → Fare bölümü → "Raw Input" seçeneği.',
+      subtitle: isEn ? 'Allows the game to read mouse hardware directly, bypassing OS scaling. Strongly recommended ON. 📍 Check: In-game Settings → Mouse / Gameplay → "Raw Input" / "Raw Mouse Input".' : 'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir. 📍 Kontrol: Oyun içi Ayarlar → Fare bölümü → "Raw Input" seçeneği.',
       type:'single',
       allowUnsure: true,
       options:[
@@ -1137,7 +1204,7 @@ function buildQuestions() {
     {
       id:'q18', phase:2,
       title: isEn ? 'What is your Windows Pointer Speed notch?' : 'Windows işaretçi hızı kaçıncı kademede?',
-      subtitle: isEn ? 'Default and recommended notch is 6/11 for 1:1 hardware pixel ratio.' : 'Önerilen değer: 6/11. Bu değer dışında mouse hareketleri hızlandırılır veya yavaşlatılır. 📍 Kontrol: Windows Fare Ayarları → İşaretçi Seçenekleri → 6. kademe.',
+      subtitle: isEn ? 'Default and recommended notch is 6/11 for 1:1 hardware pixel ratio. 📍 Check: Windows Mouse Settings → Pointer Options → Notch 6.' : 'Önerilen değer: 6/11. Bu değer dışında mouse hareketleri hızlandırılır veya yavaşlatılır. 📍 Kontrol: Windows Fare Ayarları → İşaretçi Seçenekleri → 6. kademe.',
       type:'single',
       allowUnsure: true,
       options:[
@@ -1151,7 +1218,7 @@ function buildQuestions() {
     {
       id:'q19', phase:2,
       title: isEn ? 'Is "Enhance Pointer Precision" enabled in Windows?' : '"İşaretçi hassasiyetini artır" seçeneği açık mı?',
-      subtitle: isEn ? 'This setting introduces non-linear mouse acceleration. Must be OFF.' : 'Bu özellik mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir.',
+      subtitle: isEn ? 'This setting introduces non-linear mouse acceleration. Must be OFF for FPS accuracy.' : 'Bu özellik mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir.',
       type:'single',
       allowUnsure: true,
       options:[
@@ -1566,8 +1633,10 @@ function getRecommendedProfile(profiles) {
 }
 
 function getPrimaryGameName() {
-  const g=GAMES.find(x=>x.id===(state.answers.q1||[])[0]);
-  return g?g.label:'Oyun';
+  const isEn = currentLang === 'en';
+  const g = GAMES.find(x => x.id === (state.answers.q1 || [])[0]);
+  if (!g) return isEn ? 'Game' : 'Oyun';
+  return (g.id === 'other' && isEn) ? 'Other' : g.label;
 }
 function getPrimaryGameId() { return (state.answers.q1||['other'])[0]||'other'; }
 
@@ -3585,7 +3654,8 @@ function showAimResults() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  I18N LANGUAGE TOGGLE
+// ════════════════════════════════════════════════════════════
+//  I18N LANGUAGE TOGGLE & LIVE PAGE RE-RENDER
 // ════════════════════════════════════════════════════════════
 const I18N = {
   tr: {
@@ -3597,6 +3667,26 @@ const I18N = {
     tabAimtest: '🎯 Aim Testi',
     tabPros: 'Pro Oyuncular',
     tabFeedback: 'Geri Bildirim',
+
+    convBadge: '<span class="dot"></span>Dönüştürücü & Optimizasyon',
+    convTitle: 'Sensitivity & Scope Converter',
+    convSub: 'Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle',
+
+    aimBadge: '<span class="dot"></span>İnteraktif Laboratuvar',
+    aimTitle: 'Aim & Sensitivity Testi',
+    aimSub: 'Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al',
+
+    prosBadge: '<span class="dot"></span>Profesyonel Veriler',
+    prosTitle: 'Pro Oyuncu Ayarları & Ekipmanları',
+    prosSub: 'Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları',
+    proSearchPlaceholder: 'Oyuncu, takım veya mouse modeli ara...',
+
+    fbBadge: '<span class="dot"></span>Geri Bildirim',
+    fbTitle: 'Deneyimini Paylaş',
+    fbSub: 'Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol',
+
+    phases: ['① Profil', '② Ekipman', '③ Oyun Tarzı', '④ Mevcut Durum', '⑤ Analiz'],
+    footer: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez'
   },
   en: {
     btn: '🇹🇷 TR',
@@ -3607,6 +3697,26 @@ const I18N = {
     tabAimtest: '🎯 Aim Test Lab',
     tabPros: 'Pro Players',
     tabFeedback: 'Feedback',
+
+    convBadge: '<span class="dot"></span>Converter & Optimization',
+    convTitle: 'Sensitivity & Scope Converter',
+    convSub: 'Synchronize Hipfire and Scope/Zoom sensitivities across all FPS titles with 1:1 muscle memory.',
+
+    aimBadge: '<span class="dot"></span>Interactive Lab',
+    aimTitle: 'Aim & Sensitivity Lab',
+    aimSub: 'Test your sensitivity directly in your browser with real-time feedback & 3D 180° calibration.',
+
+    prosBadge: '<span class="dot"></span>Pro Database',
+    prosTitle: 'Pro Player Settings & Hardware',
+    prosSub: 'Verified mice, DPIs, and sensitivities used by champion esports athletes worldwide.',
+    proSearchPlaceholder: 'Search player, team or mouse model...',
+
+    fbBadge: '<span class="dot"></span>Feedback',
+    fbTitle: 'Share Your Experience',
+    fbSub: 'Help us improve VecSens with your thoughts and recommendations.',
+
+    phases: ['① Profile', '② Hardware', '③ Playstyle', '④ Status', '⑤ Analysis'],
+    footer: 'All calculations are performed locally in your browser · No data is sent to external servers'
   }
 };
 
@@ -3635,6 +3745,63 @@ function applyLanguage() {
   if (tPros) tPros.textContent = dict.tabPros;
   const tFb = document.getElementById('ntab-feedback');
   if (tFb) tFb.textContent = dict.tabFeedback;
+
+  // Subpage headers
+  const convBadge = document.getElementById('convBadge');
+  if (convBadge) convBadge.innerHTML = dict.convBadge;
+  const convTitle = document.getElementById('convTitle');
+  if (convTitle) convTitle.textContent = dict.convTitle;
+  const convSub = document.getElementById('convSub');
+  if (convSub) convSub.textContent = dict.convSub;
+
+  const aimBadge = document.getElementById('aimBadge');
+  if (aimBadge) aimBadge.innerHTML = dict.aimBadge;
+  const aimTitle = document.getElementById('aimTitle');
+  if (aimTitle) aimTitle.textContent = dict.aimTitle;
+  const aimSub = document.getElementById('aimSub');
+  if (aimSub) aimSub.textContent = dict.aimSub;
+
+  const prosBadge = document.getElementById('prosBadge');
+  if (prosBadge) prosBadge.innerHTML = dict.prosBadge;
+  const prosTitle = document.getElementById('prosTitle');
+  if (prosTitle) prosTitle.textContent = dict.prosTitle;
+  const prosSub = document.getElementById('prosSub');
+  if (prosSub) prosSub.textContent = dict.prosSub;
+  const pInput = document.getElementById('proSearchInput');
+  if (pInput) pInput.placeholder = dict.proSearchPlaceholder;
+
+  const fbBadge = document.getElementById('fbBadge');
+  if (fbBadge) fbBadge.innerHTML = dict.fbBadge;
+  const fbTitle = document.getElementById('fbTitle');
+  if (fbTitle) fbTitle.textContent = dict.fbTitle;
+  const fbSub = document.getElementById('fbSub');
+  if (fbSub) fbSub.textContent = dict.fbSub;
+
+  const foot = document.getElementById('footerText');
+  if (foot) foot.textContent = dict.footer;
+
+  // Phase indicator labels
+  [1,2,3,4,5].forEach((p, idx) => {
+    const el = document.getElementById(`phase${p}`);
+    if (el) el.textContent = dict.phases[idx];
+  });
+
+  // Re-render active views
+  if (state.currentPage === 'analysis') {
+    if (state.analysisComplete) {
+      showResults();
+    } else {
+      renderQuestion(state.currentQ);
+    }
+  } else if (state.currentPage === 'converter') {
+    renderConverter();
+  } else if (state.currentPage === 'aimtest') {
+    renderAimTest();
+  } else if (state.currentPage === 'pros') {
+    renderProPage();
+  } else if (state.currentPage === 'feedback') {
+    renderFeedbackPage();
+  }
 }
 
 // ════════════════════════════════════════════════════════════
