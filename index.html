@@ -2171,6 +2171,9 @@
     /* ══════════════════════════════════════
        LIGHT THEME (NAVY / LACİVERT MODE)
     ══════════════════════════════════════ */
+    /* ══════════════════════════════════════
+       LIGHT THEME (DYNAMIC THEME & PALETTE)
+    ══════════════════════════════════════ */
     html[data-theme="light"],
     body[data-theme="light"],
     [data-theme="light"] {
@@ -2183,9 +2186,7 @@
       --border-bright: rgba(30, 58, 138, 0.35);
       --bactive: rgba(30, 58, 138, 0.55);
       --cyan: #1e3a8a;
-      /* LACİVERT */
       --blue: #1e3a8a;
-      /* LACİVERT */
       --vct-red: #e11d48;
       --purple: #4338ca;
       --green: #059669;
@@ -2203,8 +2204,8 @@
 
     html[data-theme="light"] body,
     body[data-theme="light"] {
-      background-color: #f8fafc !important;
-      color: #0f172a !important;
+      background-color: var(--bg) !important;
+      color: var(--t1) !important;
     }
 
     html[data-theme="light"] body::before,
@@ -2222,56 +2223,55 @@
 
     html[data-theme="light"] .nav-tabs,
     body[data-theme="light"] .nav-tabs {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
       box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
     }
 
     html[data-theme="light"] .nav-tab,
     body[data-theme="light"] .nav-tab {
-      color: #64748b !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .nav-tab:hover,
     body[data-theme="light"] .nav-tab:hover {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
       background: #f1f5f9 !important;
     }
 
     html[data-theme="light"] .nav-tab.active,
     body[data-theme="light"] .nav-tab.active {
-      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+      background: var(--gbtn) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
     }
 
     html[data-theme="light"] .nav-badge,
     body[data-theme="light"] .nav-badge {
       background: rgba(30, 58, 138, 0.1) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .logo-badge,
     body[data-theme="light"] .logo-badge {
       background: rgba(30, 58, 138, 0.07) !important;
-      border-color: rgba(30, 58, 138, 0.25) !important;
-      color: #1e3a8a !important;
-      box-shadow: inset 0 0 12px rgba(30, 58, 138, 0.05) !important;
+      border-color: var(--border) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .logo-badge .dot,
     body[data-theme="light"] .logo-badge .dot {
-      background: #1e40af !important;
-      box-shadow: 0 0 8px rgba(30, 58, 138, 0.5) !important;
+      background: var(--cyan) !important;
+      box-shadow: 0 0 8px var(--cyan) !important;
     }
 
     html[data-theme="light"] .theme-btn,
     html[data-theme="light"] .lang-btn,
     body[data-theme="light"] .theme-btn,
     body[data-theme="light"] .lang-btn {
-      background: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
       box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
     }
 
@@ -2279,41 +2279,42 @@
     html[data-theme="light"] .lang-btn:hover,
     body[data-theme="light"] .theme-btn:hover,
     body[data-theme="light"] .lang-btn:hover {
-      background: #f8fafc !important;
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      background: var(--bg) !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .btn-primary,
     body[data-theme="light"] .btn-primary {
-      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+      background: var(--gbtn) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.28) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
     }
 
     html[data-theme="light"] .btn-primary:hover,
     body[data-theme="light"] .btn-primary:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
-      box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35) !important;
+      background: var(--gbtn) !important;
+      filter: brightness(1.1) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
     }
 
     html[data-theme="light"] .btn-secondary,
     body[data-theme="light"] .btn-secondary {
-      background: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .btn-secondary:hover,
     body[data-theme="light"] .btn-secondary:hover {
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
-      background: #f8fafc !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
+      background: var(--bg) !important;
     }
 
     html[data-theme="light"] .header h1,
     body[data-theme="light"] .header h1 {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%) !important;
+      background: linear-gradient(135deg, var(--t1) 0%, var(--t2) 50%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
       text-shadow: none !important;
@@ -2321,7 +2322,7 @@
 
     html[data-theme="light"] .header-sub-gradient,
     body[data-theme="light"] .header-sub-gradient {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%) !important;
+      background: linear-gradient(135deg, var(--t1) 0%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
     }
@@ -2330,7 +2331,7 @@
     html[data-theme="light"] .page-header h2,
     body[data-theme="light"] .results-header h2,
     body[data-theme="light"] .page-header h2 {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%) !important;
+      background: linear-gradient(135deg, var(--t1) 0%, var(--cyan) 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
     }
@@ -2345,57 +2346,57 @@
     body[data-theme="light"] .conv-card,
     body[data-theme="light"] .feedback-card,
     body[data-theme="light"] .aimtest-container {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04) !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: var(--shadow) !important;
     }
 
     html[data-theme="light"] .question-card::before,
     body[data-theme="light"] .question-card::before {
-      background: linear-gradient(90deg, transparent, rgba(30, 58, 138, 0.3) 50%, transparent) !important;
+      background: linear-gradient(90deg, transparent, var(--border), transparent) !important;
     }
 
     html[data-theme="light"] .question-number,
     body[data-theme="light"] .question-number {
       background: rgba(30, 58, 138, 0.08) !important;
-      border: 1px solid rgba(30, 58, 138, 0.22) !important;
-      color: #1e3a8a !important;
+      border: 1px solid var(--border) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .option-btn,
     body[data-theme="light"] .option-btn {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .option-btn:hover,
     body[data-theme="light"] .option-btn:hover {
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.03) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .option-btn.selected,
     body[data-theme="light"] .option-btn.selected {
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.08) !important;
-      color: #1e3a8a !important;
-      box-shadow: 0 0 0 1px #1e3a8a !important;
+      color: var(--cyan) !important;
+      box-shadow: 0 0 0 1px var(--cyan) !important;
       font-weight: 600 !important;
     }
 
     html[data-theme="light"] .option-btn.selected .option-check,
     body[data-theme="light"] .option-btn.selected .option-check {
-      background: #1e3a8a !important;
-      border-color: #1e3a8a !important;
+      background: var(--cyan) !important;
+      border-color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .option-btn.radio.selected .option-check,
     body[data-theme="light"] .option-btn.radio.selected .option-check {
-      background: #1e3a8a !important;
-      border-color: #1e3a8a !important;
-      box-shadow: inset 0 0 0 3px #ffffff !important;
+      background: var(--cyan) !important;
+      border-color: var(--cyan) !important;
+      box-shadow: inset 0 0 0 3px var(--card) !important;
     }
 
     html[data-theme="light"] .input-field,
@@ -2406,9 +2407,9 @@
     body[data-theme="light"] .conv-select,
     body[data-theme="light"] select,
     body[data-theme="light"] option {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border: 1px solid #cbd5e1 !important;
+      background-color: var(--card) !important;
+      color: var(--t1) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .input-field:focus,
@@ -2417,439 +2418,439 @@
     body[data-theme="light"] .input-field:focus,
     body[data-theme="light"] .conv-select:focus,
     body[data-theme="light"] select:focus {
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
       box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15) !important;
     }
 
     html[data-theme="light"] .phase-dot,
     body[data-theme="light"] .phase-dot {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #64748b !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .phase-dot.active,
     body[data-theme="light"] .phase-dot.active {
       background: rgba(30, 58, 138, 0.09) !important;
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
       box-shadow: 0 0 12px rgba(30, 58, 138, 0.12) !important;
     }
 
     html[data-theme="light"] .progress-count,
     body[data-theme="light"] .progress-count {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .progress-fill,
     body[data-theme="light"] .progress-fill {
-      background: linear-gradient(90deg, #1e40af, #3b82f6, #f43f5e) !important;
+      background: var(--gbtn) !important;
       box-shadow: 0 0 12px rgba(30, 58, 138, 0.25) !important;
     }
 
     html[data-theme="light"] .analysis-card h3,
     body[data-theme="light"] .analysis-card h3 {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .profile-card,
     body[data-theme="light"] .profile-card {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04) !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: var(--shadow) !important;
     }
 
     html[data-theme="light"] .profile-card.precision,
     body[data-theme="light"] .profile-card.precision {
       border-color: rgba(5, 150, 105, 0.3) !important;
-      background: linear-gradient(135deg, #f0fdf4, #ffffff) !important;
+      background: linear-gradient(135deg, #f0fdf4, var(--card)) !important;
     }
 
     html[data-theme="light"] .profile-card.balanced,
     body[data-theme="light"] .profile-card.balanced {
-      border-color: rgba(30, 58, 138, 0.35) !important;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), #ffffff) !important;
+      border-color: var(--border) !important;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), var(--card)) !important;
     }
 
     html[data-theme="light"] .profile-card.balanced .profile-icon,
     body[data-theme="light"] .profile-card.balanced .profile-icon {
       background: rgba(30, 58, 138, 0.1) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .profile-card.balanced .profile-why,
     body[data-theme="light"] .profile-card.balanced .profile-why {
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .profile-card.speed,
     body[data-theme="light"] .profile-card.speed {
       border-color: rgba(225, 29, 72, 0.3) !important;
-      background: linear-gradient(135deg, #fff1f2, #ffffff) !important;
+      background: linear-gradient(135deg, #fff1f2, var(--card)) !important;
     }
 
     html[data-theme="light"] .game-tab:hover,
     body[data-theme="light"] .game-tab:hover {
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .game-tab.active,
     body[data-theme="light"] .game-tab.active {
-      background: #1e3a8a !important;
-      border-color: #1e3a8a !important;
+      background: var(--cyan) !important;
+      border-color: var(--cyan) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
     }
 
     html[data-theme="light"] .pro-table-wrap,
     body[data-theme="light"] .pro-table-wrap {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04) !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: var(--shadow) !important;
     }
 
     html[data-theme="light"] .pro-table thead tr,
     body[data-theme="light"] .pro-table thead tr {
-      background: #f8fafc !important;
+      background: var(--bg) !important;
     }
 
     html[data-theme="light"] .pro-table th:hover,
     html[data-theme="light"] .pro-table th.sorted,
     body[data-theme="light"] .pro-table th:hover,
     body[data-theme="light"] .pro-table th.sorted {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .pro-table td,
     body[data-theme="light"] .pro-table td {
-      border-bottom: 1px solid #f1f5f9 !important;
-      color: #334155 !important;
+      border-bottom: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .pro-table tr:hover td,
     body[data-theme="light"] .pro-table tr:hover td {
-      background: #f1f5f9 !important;
+      background: rgba(0, 0, 0, 0.02) !important;
     }
 
     html[data-theme="light"] .pro-table tr.user-row td,
     body[data-theme="light"] .pro-table tr.user-row td {
       background: rgba(30, 58, 138, 0.08) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .highlight,
     html[data-theme="light"] .mono.highlight,
     body[data-theme="light"] .highlight,
     body[data-theme="light"] .mono.highlight {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
       font-weight: 700 !important;
     }
 
     html[data-theme="light"] .res-preset-btn.selected,
     body[data-theme="light"] .res-preset-btn.selected {
       background: rgba(30, 58, 138, 0.1) !important;
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .res-aspect-btn.active,
     body[data-theme="light"] .res-aspect-btn.active {
       background: rgba(30, 58, 138, 0.1) !important;
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .ftbtn.ao,
     body[data-theme="light"] .ftbtn.ao {
       background: rgba(30, 58, 138, 0.1) !important;
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .finetune-card,
     body[data-theme="light"] .finetune-card {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), #ffffff) !important;
-      border: 1px solid rgba(30, 58, 138, 0.2) !important;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), var(--card)) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .ftbtn,
     body[data-theme="light"] .ftbtn {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #64748b !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .ftbtn:hover,
     body[data-theme="light"] .ftbtn:hover {
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.03) !important;
     }
 
     html[data-theme="light"] .stat-box,
     body[data-theme="light"] .stat-box {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .stat-box .stat-label,
     body[data-theme="light"] .stat-box .stat-label {
-      color: #64748b !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .stat-box .stat-value,
     body[data-theme="light"] .stat-box .stat-value {
-      color: #0f172a !important;
+      color: var(--t1) !important;
     }
 
     html[data-theme="light"] .stat-box .stat-sub,
     body[data-theme="light"] .stat-box .stat-sub {
-      color: #64748b !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .user-highlight-box,
     body[data-theme="light"] .user-highlight-box {
       background: rgba(30, 58, 138, 0.06) !important;
-      border: 1px solid rgba(30, 58, 138, 0.25) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .user-highlight-box .uh-label,
     body[data-theme="light"] .user-highlight-box .uh-label {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .user-highlight-box .uh-val,
     body[data-theme="light"] .user-highlight-box .uh-val {
-      color: #0f172a !important;
+      color: var(--t1) !important;
     }
 
     html[data-theme="light"] .pro-stat,
     body[data-theme="light"] .pro-stat {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .pro-stat .ps-label,
     body[data-theme="light"] .pro-stat .ps-label {
-      color: #64748b !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .pro-stat .ps-value,
     body[data-theme="light"] .pro-stat .ps-value {
-      color: #0f172a !important;
+      color: var(--t1) !important;
     }
 
     html[data-theme="light"] .team-badge,
     body[data-theme="light"] .team-badge {
-      background: #f1f5f9 !important;
-      color: #475569 !important;
+      background: var(--bg) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .conv-arrow,
     body[data-theme="light"] .conv-arrow {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .conv-result-item,
     body[data-theme="light"] .conv-result-item {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03) !important;
     }
 
     html[data-theme="light"] .conv-result-item.highlight,
     body[data-theme="light"] .conv-result-item.highlight {
       background: rgba(30, 58, 138, 0.08) !important;
-      border: 1px solid #1e3a8a !important;
-      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.15) !important;
+      border: 1px solid var(--cyan) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
     }
 
     html[data-theme="light"] .conv-result-sens,
     body[data-theme="light"] .conv-result-sens {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .conv-all-item,
     body[data-theme="light"] .conv-all-item {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .conv-all-item.target,
     body[data-theme="light"] .conv-all-item.target {
       background: rgba(30, 58, 138, 0.08) !important;
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .conv-all-sens,
     body[data-theme="light"] .conv-all-sens {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .conv-analysis-alert,
     body[data-theme="light"] .conv-analysis-alert {
       background: rgba(30, 58, 138, 0.06) !important;
-      border: 1px solid rgba(30, 58, 138, 0.25) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .aimtest-mode-btn,
     body[data-theme="light"] .aimtest-mode-btn {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .aimtest-mode-btn:hover,
     body[data-theme="light"] .aimtest-mode-btn:hover {
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.03) !important;
     }
 
     html[data-theme="light"] .aimtest-mode-btn.active,
     body[data-theme="light"] .aimtest-mode-btn.active {
-      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+      background: var(--gbtn) !important;
       color: #ffffff !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
     }
 
     html[data-theme="light"] .aim-stat-card,
     body[data-theme="light"] .aim-stat-card {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .aim-stat-card .as-val,
     body[data-theme="light"] .aim-stat-card .as-val {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .hud-stat,
     body[data-theme="light"] .hud-stat {
       background: rgba(255, 255, 255, 0.92) !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #0f172a !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t1) !important;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
     }
 
     html[data-theme="light"] .hud-stat span,
     body[data-theme="light"] .hud-stat span {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .subtabs,
     body[data-theme="light"] .subtabs {
-      background: #f1f5f9 !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--bg) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .subtab-btn,
     body[data-theme="light"] .subtab-btn {
-      color: #64748b !important;
+      color: var(--t3) !important;
     }
 
     html[data-theme="light"] .subtab-btn.active,
     body[data-theme="light"] .subtab-btn.active {
-      background: #1e3a8a !important;
+      background: var(--cyan) !important;
       color: #ffffff !important;
-      box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
 
     html[data-theme="light"] .scope-table,
     body[data-theme="light"] .scope-table {
-      background: #ffffff !important;
+      background: var(--card) !important;
     }
 
     html[data-theme="light"] .scope-table th,
     body[data-theme="light"] .scope-table th {
-      background: #f8fafc !important;
-      color: #64748b !important;
-      border-bottom: 1px solid #e2e8f0 !important;
+      background: var(--bg) !important;
+      color: var(--t3) !important;
+      border-bottom: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .scope-table td,
     body[data-theme="light"] .scope-table td {
-      border-bottom: 1px solid #f1f5f9 !important;
-      color: #334155 !important;
+      border-bottom: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .pad-sim-box,
     body[data-theme="light"] .pad-sim-box {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .pad-visual,
     body[data-theme="light"] .pad-visual {
-      background: #f8fafc !important;
-      border: 2px solid rgba(30, 58, 138, 0.25) !important;
+      background: var(--bg) !important;
+      border: 2px solid var(--border) !important;
       box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
     }
 
     html[data-theme="light"] .pad-swipe-range,
     body[data-theme="light"] .pad-swipe-range {
       background: rgba(30, 58, 138, 0.1) !important;
-      border: 1px dashed #1e3a8a !important;
-      color: #1e3a8a !important;
+      border: 1px dashed var(--cyan) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .routine-step,
     body[data-theme="light"] .routine-step {
-      border-bottom: 1px solid #f1f5f9 !important;
+      border-bottom: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .routine-num,
     body[data-theme="light"] .routine-num {
       background: rgba(30, 58, 138, 0.1) !important;
-      border: 1px solid rgba(30, 58, 138, 0.3) !important;
-      color: #1e3a8a !important;
+      border: 1px solid var(--border) !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .routine-tag,
     body[data-theme="light"] .routine-tag {
       background: rgba(30, 58, 138, 0.1) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .feedback-card,
     body[data-theme="light"] .feedback-card {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
     }
 
     html[data-theme="light"] .feedback-card h3,
     body[data-theme="light"] .feedback-card h3 {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .fb-option,
     body[data-theme="light"] .fb-option {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] .fb-option:hover,
     body[data-theme="light"] .fb-option:hover {
-      border-color: #1e3a8a !important;
-      color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
+      color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.02) !important;
     }
 
     html[data-theme="light"] .fb-option.selected,
     body[data-theme="light"] .fb-option.selected {
-      border-color: #1e3a8a !important;
+      border-color: var(--cyan) !important;
       background: rgba(30, 58, 138, 0.08) !important;
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
       font-weight: 600 !important;
     }
 
     html[data-theme="light"] .fb-option.selected .fb-checkbox,
     body[data-theme="light"] .fb-option.selected .fb-checkbox {
-      background: #1e3a8a !important;
-      border-color: #1e3a8a !important;
+      background: var(--cyan) !important;
+      border-color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .fb-checkbox::after,
@@ -2859,14 +2860,14 @@
 
     html[data-theme="light"] .prev-fb-item,
     body[data-theme="light"] .prev-fb-item {
-      background: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      color: #334155 !important;
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--t2) !important;
     }
 
     html[data-theme="light"] a,
     body[data-theme="light"] a {
-      color: #1e3a8a !important;
+      color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .aim-canvas-wrap,
@@ -2877,7 +2878,7 @@
     html[data-theme="light"] #toast,
     body[data-theme="light"] #toast {
       background: #0f172a !important;
-      border: 1px solid #1e3a8a !important;
+      border: 1px solid var(--cyan) !important;
       color: #ffffff !important;
     }
 
@@ -7367,8 +7368,12 @@
       styleEl.innerHTML = `
         :root {
           --bg: ${d.bg} !important;
+          --bg2: ${d.card} !important;
           --card: ${d.card} !important;
+          --card-solid: ${d.card} !important;
           --border: ${d.border} !important;
+          --border-bright: ${d.cyan}40 !important;
+          --bactive: ${d.cyan}70 !important;
           --cyan: ${d.cyan} !important;
           --blue: ${d.blue} !important;
           --vct-red: ${d.vctRed} !important;
@@ -7388,15 +7393,27 @@
         .question-card, .analysis-card, .conv-card, .feedback-card, .aimtest-container, .profile-card, .pro-table-wrap, .admin-card {
           backdrop-filter: blur(${blur}px) !important;
         }
-        html[data-theme="light"], body[data-theme="light"], [data-theme="light"] {
+        html[data-theme="light"],
+        body[data-theme="light"],
+        [data-theme="light"] {
           --bg: ${l.bg} !important;
+          --bg2: ${l.card} !important;
           --card: ${l.card} !important;
+          --card-solid: ${l.card} !important;
           --border: ${l.border} !important;
+          --border-bright: ${l.cyan}35 !important;
+          --bactive: ${l.cyan}55 !important;
           --cyan: ${l.cyan} !important;
           --blue: ${l.blue} !important;
           --vct-red: ${l.vctRed || '#e11d48'} !important;
+          --purple: ${l.purple || '#4338ca'} !important;
+          --green: ${l.green || '#059669'} !important;
           --gbtn: linear-gradient(135deg, ${l.gbtnStart} 0%, ${l.gbtnEnd} 100%) !important;
-          --glow: 0 0 ${glow}px rgba(30, 58, 138, 0.15) !important;
+          --glow: 0 0 ${glow}px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] body,
+        body[data-theme="light"] {
+          background-color: ${l.bg} !important;
         }
       `;
 
@@ -7534,103 +7551,103 @@
             <h3><span>🌙 ${isEn ? 'Dark Mode Palette' : 'Karanlık Mod Renkleri'}</span></h3>
             
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Background Color' : 'Arka Plan Rengi'}</span><code>${d.bg}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Background Color' : 'Arka Plan Rengi'}</span><code id="code-dark-bg">${d.bg}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.bg}" oninput="updateAdminColor('dark','bg',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${d.bg}" onchange="updateAdminColor('dark','bg',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-bg" value="${d.bg}" oninput="updateAdminColor('dark','bg',this.value)"/>
+                <input type="text" class="input-field" id="text-dark-bg" style="margin-bottom:0" value="${d.bg}" oninput="updateAdminColor('dark','bg',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Card / Surface Background' : 'Kart & Yüzey Zemin Rengi'}</span><code>${d.card}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Card / Surface Background' : 'Kart & Yüzey Zemin Rengi'}</span><code id="code-dark-card">${d.card}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.card.startsWith('#') ? d.card : '#0f1624'}" oninput="updateAdminColor('dark','card',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${d.card}" onchange="updateAdminColor('dark','card',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-card" value="${d.card.startsWith('#') ? d.card : '#0f1624'}" oninput="updateAdminColor('dark','card',this.value)"/>
+                <input type="text" class="input-field" id="text-dark-card" style="margin-bottom:0" value="${d.card}" oninput="updateAdminColor('dark','card',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Primary Accent (Cyan / Sky)' : 'Birincil Vurgu Rengi (Cyan / Gök Mavisi)'}</span><code>${d.cyan}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Primary Accent (Cyan / Sky)' : 'Birincil Vurgu Rengi (Cyan / Gök Mavisi)'}</span><code id="code-dark-cyan">${d.cyan}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.cyan}" oninput="updateAdminColor('dark','cyan',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${d.cyan}" onchange="updateAdminColor('dark','cyan',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-cyan" value="${d.cyan}" oninput="updateAdminColor('dark','cyan',this.value)"/>
+                <input type="text" class="input-field" id="text-dark-cyan" style="margin-bottom:0" value="${d.cyan}" oninput="updateAdminColor('dark','cyan',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Secondary Accent Blue' : 'İkincil Mavi'}</span><code>${d.blue}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Secondary Accent Blue' : 'İkincil Mavi'}</span><code id="code-dark-blue">${d.blue}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.blue}" oninput="updateAdminColor('dark','blue',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${d.blue}" onchange="updateAdminColor('dark','blue',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-blue" value="${d.blue}" oninput="updateAdminColor('dark','blue',this.value)"/>
+                <input type="text" class="input-field" id="text-dark-blue" style="margin-bottom:0" value="${d.blue}" oninput="updateAdminColor('dark','blue',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Border Color' : 'Kenarlık Rengi'}</span><code>${d.border}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Border Color' : 'Kenarlık Rengi'}</span><code id="code-dark-border">${d.border}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.border.startsWith('#') ? d.border : '#232f46'}" oninput="updateAdminColor('dark','border',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${d.border}" onchange="updateAdminColor('dark','border',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-border" value="${d.border.startsWith('#') ? d.border : '#232f46'}" oninput="updateAdminColor('dark','border',this.value)"/>
+                <input type="text" class="input-field" id="text-dark-border" style="margin-bottom:0" value="${d.border}" oninput="updateAdminColor('dark','border',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
               <div class="admin-field-label"><span>${isEn ? 'Button Gradient' : 'Buton Gradyanı (Başlangıç / Bitiş)'}</span></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${d.gbtnStart}" oninput="updateAdminColor('dark','gbtnStart',this.value)"/>
-                <input type="color" class="admin-color-picker" value="${d.gbtnEnd}" oninput="updateAdminColor('dark','gbtnEnd',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-gbtnStart" value="${d.gbtnStart}" oninput="updateAdminColor('dark','gbtnStart',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-dark-gbtnEnd" value="${d.gbtnEnd}" oninput="updateAdminColor('dark','gbtnEnd',this.value)"/>
               </div>
             </div>
           </div>
 
           <!-- Light Mode Colors -->
           <div class="admin-card">
-            <h3><span>☀️ ${isEn ? 'Light Mode Palette (Navy / Lacivert)' : 'Açık Mod Renkleri (Lacivert Mod)'}</span></h3>
+            <h3><span>☀️ ${isEn ? 'Light Mode Palette (Customizable Colors)' : 'Açık Mod Renkleri (Özelleştirilebilir)'}</span></h3>
             
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Light Background' : 'Açık Arka Plan Rengi'}</span><code>${l.bg}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Light Background' : 'Açık Arka Plan Rengi'}</span><code id="code-light-bg">${l.bg}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.bg}" oninput="updateAdminColor('light','bg',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${l.bg}" onchange="updateAdminColor('light','bg',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-bg" value="${l.bg}" oninput="updateAdminColor('light','bg',this.value)"/>
+                <input type="text" class="input-field" id="text-light-bg" style="margin-bottom:0" value="${l.bg}" oninput="updateAdminColor('light','bg',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Light Card Surface' : 'Açık Kart Zemin Rengi'}</span><code>${l.card}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Light Card Surface' : 'Açık Kart Zemin Rengi'}</span><code id="code-light-card">${l.card}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.card}" oninput="updateAdminColor('light','card',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${l.card}" onchange="updateAdminColor('light','card',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-card" value="${l.card}" oninput="updateAdminColor('light','card',this.value)"/>
+                <input type="text" class="input-field" id="text-light-card" style="margin-bottom:0" value="${l.card}" oninput="updateAdminColor('light','card',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Primary Accent (Navy Blue / Lacivert)' : 'Birincil Vurgu Rengi (Lacivert)'}</span><code>${l.cyan}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Primary Accent (Navy / Cyan / Brand)' : 'Birincil Vurgu Rengi'}</span><code id="code-light-cyan">${l.cyan}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.cyan}" oninput="updateAdminColor('light','cyan',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${l.cyan}" onchange="updateAdminColor('light','cyan',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-cyan" value="${l.cyan}" oninput="updateAdminColor('light','cyan',this.value)"/>
+                <input type="text" class="input-field" id="text-light-cyan" style="margin-bottom:0" value="${l.cyan}" oninput="updateAdminColor('light','cyan',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Secondary Accent Blue' : 'İkincil Mavi'}</span><code>${l.blue}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Secondary Accent Blue' : 'İkincil Mavi'}</span><code id="code-light-blue">${l.blue}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.blue}" oninput="updateAdminColor('light','blue',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${l.blue}" onchange="updateAdminColor('light','blue',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-blue" value="${l.blue}" oninput="updateAdminColor('light','blue',this.value)"/>
+                <input type="text" class="input-field" id="text-light-blue" style="margin-bottom:0" value="${l.blue}" oninput="updateAdminColor('light','blue',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
-              <div class="admin-field-label"><span>${isEn ? 'Light Border Color' : 'Açık Kenarlık Rengi'}</span><code>${l.border}</code></div>
+              <div class="admin-field-label"><span>${isEn ? 'Light Border Color' : 'Açık Kenarlık Rengi'}</span><code id="code-light-border">${l.border}</code></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.border}" oninput="updateAdminColor('light','border',this.value)"/>
-                <input type="text" class="input-field" style="margin-bottom:0" value="${l.border}" onchange="updateAdminColor('light','border',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-border" value="${l.border}" oninput="updateAdminColor('light','border',this.value)"/>
+                <input type="text" class="input-field" id="text-light-border" style="margin-bottom:0" value="${l.border}" oninput="updateAdminColor('light','border',this.value)"/>
               </div>
             </div>
 
             <div class="admin-field">
               <div class="admin-field-label"><span>${isEn ? 'Light Button Gradient' : 'Açık Buton Gradyanı'}</span></div>
               <div class="admin-color-row">
-                <input type="color" class="admin-color-picker" value="${l.gbtnStart}" oninput="updateAdminColor('light','gbtnStart',this.value)"/>
-                <input type="color" class="admin-color-picker" value="${l.gbtnEnd}" oninput="updateAdminColor('light','gbtnEnd',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-gbtnStart" value="${l.gbtnStart}" oninput="updateAdminColor('light','gbtnStart',this.value)"/>
+                <input type="color" class="admin-color-picker" id="picker-light-gbtnEnd" value="${l.gbtnEnd}" oninput="updateAdminColor('light','gbtnEnd',this.value)"/>
               </div>
             </div>
           </div>
@@ -7678,6 +7695,14 @@
       if (mode === 'dark') adminConfig.themeDark[key] = val;
       else adminConfig.themeLight[key] = val;
       applyAdminConfig(adminConfig);
+
+      // Sync DOM elements if they exist
+      const p = document.getElementById(`picker-${mode}-${key}`);
+      const t = document.getElementById(`text-${mode}-${key}`);
+      const c = document.getElementById(`code-${mode}-${key}`);
+      if (p && p !== document.activeElement && val.startsWith('#') && (val.length === 4 || val.length === 7)) p.value = val;
+      if (t && t !== document.activeElement) t.value = val;
+      if (c) c.textContent = val;
     }
 
     // ── TAB 2: LAYOUT & TYPOGRAPHY ──
