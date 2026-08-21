@@ -237,10 +237,10 @@
 
     .hero-logo-glow {
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: calc(var(--hero-logo-size, 84px) * 1.45);
+      height: calc(var(--hero-logo-size, 84px) * 1.45);
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.12) 55%, transparent 75%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 50%, transparent) 0%, color-mix(in srgb, var(--cyan) 12%, transparent) 55%, transparent 75%);
       filter: blur(16px);
       z-index: 0;
       animation: heroGlowPulse 4s ease-in-out infinite alternate;
@@ -267,13 +267,13 @@
       object-fit: contain;
       background: transparent;
       padding: 0;
-      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.55));
+      filter: drop-shadow(0 0 16px var(--cyan));
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .hero-logo-container:hover .hero-main-logo {
       transform: translateY(-3px) scale(1.06);
-      filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.8));
+      filter: drop-shadow(0 0 24px var(--cyan));
     }
 
     .logo-badge {
@@ -302,7 +302,7 @@
       border: none !important;
       border-radius: 0;
       flex-shrink: 0;
-      filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
+      filter: drop-shadow(0 0 4px var(--cyan));
       vertical-align: middle;
     }
 
@@ -2395,21 +2395,21 @@
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
-      filter: drop-shadow(0 0 14px rgba(30, 58, 138, 0.45)) !important;
+      filter: drop-shadow(0 0 14px color-mix(in srgb, var(--cyan) 45%, transparent)) !important;
     }
 
     html[data-theme="light"] .hero-main-logo.glass-box,
     body[data-theme="light"] .hero-main-logo.glass-box {
       background: linear-gradient(145deg, #ffffff, #f8fafc) !important;
-      border: 1.5px solid rgba(30, 58, 138, 0.25) !important;
-      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.1), 0 0 16px rgba(30, 58, 138, 0.12) !important;
+      border: 1.5px solid color-mix(in srgb, var(--cyan) 25%, transparent) !important;
+      box-shadow: 0 12px 30px color-mix(in srgb, var(--cyan) 10%, transparent), 0 0 16px color-mix(in srgb, var(--cyan) 12%, transparent) !important;
       border-radius: 22px !important;
       padding: 12px !important;
     }
 
     html[data-theme="light"] .hero-logo-glow,
     body[data-theme="light"] .hero-logo-glow {
-      background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.04) 60%, transparent 80%) !important;
+      background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 20%, transparent) 0%, color-mix(in srgb, var(--cyan) 4%, transparent) 60%, transparent 80%) !important;
     }
 
     html[data-theme="light"] .logo-badge,
@@ -7319,7 +7319,7 @@
           --r2: ${Math.max(6, Math.round(rad * 0.65))}px !important;
           --r3: ${rad}px !important;
           --r4: ${Math.round(rad * 1.25)}px !important;
-          --glow: 0 0 ${glow}px rgba(56, 189, 248, 0.2) !important;
+          --glow: 0 0 ${glow}px color-mix(in srgb, ${d.cyan} 20%, transparent) !important;
           --sans: '${fontFam}', system-ui, sans-serif !important;
           --display: '${displayFont}', system-ui, sans-serif !important;
           --hud: '${hudFont}', monospace !important;
@@ -7342,12 +7342,13 @@
           width: var(--hero-logo-size) !important;
           height: var(--hero-logo-size) !important;
           ${heroGlass
-            ? 'background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(8,12,20,0.98)) !important; border: 1.5px solid rgba(56,189,248,0.35) !important; border-radius: 22px !important; padding: 12px !important; box-shadow: 0 14px 36px rgba(0,0,0,0.55), 0 0 28px rgba(56,189,248,0.35) !important;'
-            : 'background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.6)) !important;'}
+            ? `background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(8,12,20,0.98)) !important; border: 1.5px solid color-mix(in srgb, ${d.cyan} 35%, transparent) !important; border-radius: 22px !important; padding: 12px !important; box-shadow: 0 14px 36px rgba(0,0,0,0.55), 0 0 28px color-mix(in srgb, ${d.cyan} 35%, transparent) !important;`
+            : `background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; filter: drop-shadow(0 0 18px color-mix(in srgb, ${d.cyan} 60%, transparent)) !important;`}
         }
         .hero-logo-glow {
           width: calc(var(--hero-logo-size) * 1.45) !important;
           height: calc(var(--hero-logo-size) * 1.45) !important;
+          background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 45%, transparent) 0%, color-mix(in srgb, var(--cyan) 12%, transparent) 55%, transparent 75%) !important;
         }
         .logo-badge .badge-logo-icon {
           width: var(--badge-logo-size) !important;
