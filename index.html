@@ -3338,7 +3338,7 @@
         <div class="nav-tabs" style="margin:0 auto">
           <button class="nav-tab active" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
           <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Sens & Scope Converter</button>
-          <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">🎯 Aim Testi</button>
+          <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
           <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
         </div>
@@ -3352,7 +3352,7 @@
 
       <!-- HEADER -->
       <div class="header">
-        <div class="logo-badge" onclick="handleLogoTripleClick()" style="cursor:pointer" title="VecSens (Gizli Görsel Stüdyo için 3 kez tıklayın / Ctrl+Shift+A)">
+        <div class="logo-badge" onclick="openSecretVisualStudio()" style="cursor:pointer" title="VecSens (Stüdyo için tıklayın / F2 / `)">
           <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover"
             onerror="this.style.display='none'" />
           <span class="dot"></span>VecSens
@@ -3465,7 +3465,8 @@
       <div id="toast"></div>
     </div>
 
-    <div class="footer" id="footerText" ondblclick="openSecretVisualStudio()" style="cursor:pointer" title="VecSens (Görsel Stüdyo için çift tıklayın / Ctrl+Shift+A)">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+    <div class="footer" id="footerText" onclick="openSecretVisualStudio()" ondblclick="openSecretVisualStudio()" style="cursor:pointer" title="VecSens (Stüdyo için tıklayın / F2 / `)">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+    <button id="secretStudioTrigger" onclick="openSecretVisualStudio()" style="position:fixed;bottom:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(56,189,248,0.2);border:1px solid var(--border);cursor:pointer;opacity:0.4;transition:all 0.2s;z-index:99990;padding:0;outline:none;font-size:11px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.opacity='1';this.style.transform='scale(1.2)'" onmouseout="this.style.opacity='0.4';this.style.transform='scale(1)'" title="Visual Studio (F2 / ` / Logo)">⚙️</button>
   </div>
   </div>
 
@@ -4891,7 +4892,7 @@
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
         <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()">📸 ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
         <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()">🔗 ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">🎯 ${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
     ${alertHtml}
@@ -6036,9 +6037,9 @@
       const html = `
     <div class="aimtest-container">
       <div class="aimtest-modes">
-        <button class="aimtest-mode-btn ${mode === 'flick' ? 'active' : ''}" onclick="setAimMode('flick')">🎯 ${isEn ? 'Flick Accuracy (30s)' : 'Flick İsabet Testi (30s)'}</button>
-        <button class="aimtest-mode-btn ${mode === 'track' ? 'active' : ''}" onclick="setAimMode('track')">🔄 ${isEn ? 'Tracking Test (20s)' : 'Tracking Takip Testi (20s)'}</button>
-        <button class="aimtest-mode-btn ${mode === 'calibrate' ? 'active' : ''}" onclick="setAimMode('calibrate')">📐 ${isEn ? '3D 180° Calibration Lab (5 Rounds)' : '3D 180° Kalibrasyon Lab (5 Tur)'}</button>
+        <button class="aimtest-mode-btn ${mode === 'flick' ? 'active' : ''}" onclick="setAimMode('flick')">${isEn ? 'Flick Accuracy (30s)' : 'Flick İsabet Testi (30s)'}</button>
+        <button class="aimtest-mode-btn ${mode === 'track' ? 'active' : ''}" onclick="setAimMode('track')">${isEn ? 'Tracking Test (20s)' : 'Tracking Takip Testi (20s)'}</button>
+        <button class="aimtest-mode-btn ${mode === 'calibrate' ? 'active' : ''}" onclick="setAimMode('calibrate')">${isEn ? '3D 180° Calibration Lab (5 Rounds)' : '3D 180° Kalibrasyon Lab (5 Tur)'}</button>
       </div>
 
       ${calibControlsHtml}
@@ -6052,10 +6053,10 @@
         </div>
 
         <div class="aim-overlay" id="aimOverlay">
-          <h3 id="overlayTitle">${mode === 'calibrate' ? (isEn ? '📐 3D 180° Reflex Calibration' : '📐 3D 180° Refleks Kalibrasyonu') : (isEn ? '🎯 Start Aim Test' : '🎯 Aim Testine Başla')}</h3>
+          <h3 id="overlayTitle">${mode === 'calibrate' ? (isEn ? '3D 180° Reflex Calibration' : '3D 180° Refleks Kalibrasyonu') : (isEn ? 'Start Aim Test' : 'Aim Testine Başla')}</h3>
           <p id="overlayDesc">${modeDesc}</p>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-            <button class="btn btn-primary" onclick="startAimTest()">⚡ ${mode === 'calibrate' ? (isEn ? 'Start 180° Calibration (5 Rounds)' : '180° Kalibrasyonu Başlat (5 Tur)') : (isEn ? 'Start Test' : 'Testi Başlat')}</button>
+            <button class="btn btn-primary" onclick="startAimTest()">${mode === 'calibrate' ? (isEn ? 'Start 180° Calibration (5 Rounds)' : '180° Kalibrasyonu Başlat (5 Tur)') : (isEn ? 'Start Test' : 'Testi Başlat')}</button>
           </div>
         </div>
       </div>
@@ -6523,12 +6524,12 @@
 
         if (aimTestState.calibPhase === 'wait_start') {
           promptMsg = isEn
-            ? `🎯 ROUND ${aimTestState.calibRound}/5: Aim at the 0° Front Target and LEFT-CLICK`
-            : `🎯 TUR ${aimTestState.calibRound}/5: Karşındaki 0° MAVİ hedefe nişan al ve SOL TIKLA`;
+            ? `ROUND ${aimTestState.calibRound}/5: Aim at the 0° Front Target and LEFT-CLICK`
+            : `TUR ${aimTestState.calibRound}/5: Karşındaki 0° hedefe nişan al ve SOL TIKLA`;
         } else if (aimTestState.calibPhase === 'wait_180') {
           promptMsg = isEn
-            ? `🔥 ROUND ${aimTestState.calibRound}/5: SWIPE 180° BEHIND in ONE natural reflex & LEFT-CLICK!`
-            : `🔥 TUR ${aimTestState.calibRound}/5: Tek doğal refleks hareketiyle 180° ARKAYA DÖN ve TIKLA!`;
+            ? `ROUND ${aimTestState.calibRound}/5: SWIPE 180° BEHIND in ONE natural reflex & LEFT-CLICK!`
+            : `TUR ${aimTestState.calibRound}/5: Tek doğal refleks hareketiyle 180° ARKAYA DÖN ve TIKLA!`;
           promptBg = 'rgba(245, 158, 11, 0.2)';
           promptBorder = 'rgba(245, 158, 11, 0.5)';
         }
@@ -6719,224 +6720,114 @@
       const isUndershoot = avgError < -4;
       const isAccurate = !isOvershoot && !isUndershoot;
 
-      let feedbackTitle = isEn ? '🏆 180° Calibration Complete!' : '🏆 180° Kalibrasyon Tamamlandı!';
+      let feedbackTitle = isEn ? '180° Calibration Complete!' : '180° Kalibrasyon Tamamlandı!';
       let feedbackClass = isAccurate ? 'var(--green)' : isUndershoot ? 'var(--amber)' : 'var(--red)';
       let feedbackText = isEn
-        ? `Your average swipe reflex landed at <b>${avgAngle}°</b> (within ±4° of 180°). Your current sensitivity is in excellent harmony with your physical desk swipes!`
-        : `Masadaki ortalama refleks dönüşün <b>${avgAngle}°</b> olarak ölçüldü (±4° hata payıyla kusursuz). Mevcut sensitivity değerin kol hareketinle tam uyum içinde!`;
+        ? `Your average swipe reflex landed at <b>${avgAngle}°</b>. Your current sensitivity is in excellent harmony with your physical desk swipes!`
+        : `Masadaki ortalama refleks dönüşün <b>${avgAngle}°</b> olarak ölçüldü. Mevcut sensitivity değerin kol hareketinle tam uyum içinde!`;
 
       if (isUndershoot) {
         feedbackText = isEn
-          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> instead of 180° (<b>${Math.abs(avgError)}° short</b>). Your sensitivity is slightly slow. Adjusting sensitivity to <b>${suggestedSens}</b> will calibrate your natural swipe to an exact 180°.`
-          : `Masadaki tek refleks hareketin ortalama 180° yerine <b>${avgAngle}°</b> döndü (<b>${Math.abs(avgError)}° eksik kaldı</b>). Kolunu fazla zorlamadan tam 180° arkana dönmek için sensitivity değerini <b>${suggestedSens}</b> seviyesine yükseltmen önerilir.`;
+          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(errorDeg)}° short</b>). Your sensitivity is slightly slow. Adjusting sensitivity to <b>${suggestedSens}</b> will calibrate your natural swipe.`
+          : `Masadaki tek refleks hareketin ortalama 180° yerine <b>${avgAngle}°</b> döndü. Kolunu fazla zorlamadan tam 180° arkana dönmek için sensitivity değerini <b>${suggestedSens}</b> seviyesine yükseltmen önerilir.`;
       } else if (isOvershoot) {
         feedbackText = isEn
-          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(avgError)}° too far</b>). Your sensitivity is slightly too fast. Lowering sensitivity to <b>${suggestedSens}</b> will align your swipe with an exact 180°.`
-          : `Masadaki refleks hareketin 180° hedefini aşıp ortalama <b>${avgAngle}°</b> döndü (<b>${Math.abs(avgError)}° fazla</b>). Arkandan gelen rakipleri kaçırmamak için sensitivity değerini <b>${suggestedSens}</b> seviyesine düşürmen önerilir.`;
+          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(errorDeg)}° too far</b>). Your sensitivity is slightly too fast. Lowering sensitivity to <b>${suggestedSens}</b> will align your swipe.`
+          : `Masadaki refleks hareketin 180° hedefini aşıp ortalama <b>${avgAngle}°</b> döndü. Arkandan gelen rakipleri kaçırmamak için sensitivity değerini <b>${suggestedSens}</b> seviyesine düşürmen önerilir.`;
       }
 
-      // Generate 5-Round Scorecard Table
       const tableRows = turns.map(t => {
         const errStr = t.errorDeg > 0 ? `+${t.errorDeg}°` : `${t.errorDeg}°`;
-        const errColor = Math.abs(t.errorDeg) <= 5 ? 'var(--green)' : Math.abs(t.errorDeg) <= 15 ? 'var(--amber)' : 'var(--red)';
         return `
           <tr style="border-bottom:1px solid rgba(255,255,255,.05)">
-            <td style="padding:6px 10px;font-weight:600;color:var(--t1)">${isEn ? 'Round' : 'Tur'} ${t.round}</td>
-            <td style="padding:6px 10px;font-family:var(--mono);color:var(--blue)">${t.turnedAngle}°</td>
-            <td style="padding:6px 10px;font-family:var(--mono);color:${errColor}">${errStr}</td>
-            <td style="padding:6px 10px;font-family:var(--mono);color:var(--t2)">${t.turnMs} ms</td>
-            <td style="padding:6px 10px;font-family:var(--mono);font-weight:700;color:var(--green)">+${t.score}</td>
+            <td style="padding:6px 10px;font-weight:600">${isEn ? 'Round' : 'Tur'} ${t.round}</td>
+            <td style="padding:6px 10px">${t.turnedAngle}°</td>
+            <td style="padding:6px 10px">${errStr}</td>
+            <td style="padding:6px 10px">${t.turnMs} ms</td>
           </tr>
         `;
       }).join('');
 
       document.getElementById('overlayTitle').innerHTML = `<span style="color:${feedbackClass}">${feedbackTitle}</span>`;
       document.getElementById('overlayDesc').innerHTML = `
-        <div style="font-size:16px;color:var(--t1);margin-bottom:12px">
-          ${isEn ? 'Total Score:' : 'Kazanılan Toplam Skor:'} <b style="color:var(--green);font-size:18px;font-family:var(--mono)">${totalScore.toLocaleString()} PTS</b> &nbsp;|&nbsp; 
-          ${isEn ? 'Avg Angle:' : 'Ortalama Açı:'} <b style="color:var(--blue);font-family:var(--mono)">${avgAngle}°</b> &nbsp;|&nbsp; 
-          ${isEn ? 'Avg Speed:' : 'Ort. Hız:'} <b style="font-family:var(--mono)">${avgMs} ms</b>
-        </div>
-
-        <div style="background:rgba(15,23,42,0.85);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:14px;overflow-x:auto">
-          <table style="width:100%;font-size:12px;text-align:center;border-collapse:collapse">
-            <thead>
-              <tr style="color:var(--t3);border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase">
-                <th style="padding:4px 8px">${isEn ? 'Round' : 'Tur'}</th>
-                <th style="padding:4px 8px">${isEn ? 'Turned' : 'Dönülen'}</th>
-                <th style="padding:4px 8px">${isEn ? 'Error' : 'Hata'}</th>
-                <th style="padding:4px 8px">${isEn ? 'Speed' : 'Hız'}</th>
-                <th style="padding:4px 8px">${isEn ? 'Points' : 'Puan'}</th>
-              </tr>
-            </thead>
+        <div style="margin-bottom:12px">${isEn ? 'Total Score:' : 'Toplam Puan:'} <b>${totalScore}</b> | ${isEn ? 'Avg Angle:' : 'Ort. Açı:'} <b>${avgAngle}°</b></div>
+        <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:10px;margin-bottom:14px">
+          <table style="width:100%;font-size:12px;text-align:center">
+            <thead><tr style="color:var(--t3)"><th>${isEn ? 'Round' : 'Tur'}</th><th>${isEn ? 'Turned' : 'Açı'}</th><th>${isEn ? 'Err' : 'Hata'}</th><th>${isEn ? 'Time' : 'Süre'}</th></tr></thead>
             <tbody>${tableRows}</tbody>
           </table>
         </div>
-
-        <div style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--t2);margin-bottom:16px;text-align:left;line-height:1.5">
-          ${feedbackText}
-        </div>
-
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          ${!isAccurate ? `<button class="btn btn-primary" onclick="applyCalibSuggestedSens(${suggestedSens})">⚡ ${isEn ? `Apply Suggested Sens (${suggestedSens}) & Retest` : `Önerilen Sens'i Uygula (${suggestedSens}) & Tekrar Test Et`}</button>` : ''}
-          <button class="btn btn-secondary" onclick="startAimTest()">🔄 ${isEn ? 'Play 5 Rounds Again' : 'Tekrar 5 Tur Oyna'}</button>
-        </div>
+        <div style="padding:10px;font-size:13px">${feedbackText}</div>
+        <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()">🔄 ${isEn ? 'Retry' : 'Tekrar Oyna'}</button></div>
       `;
     }
 
-    function applyCalibSuggestedSens(newSens) {
-      aimTestState.calibSens = newSens;
-      renderAimTest();
-      startAimTest();
-      showToast(currentLang === 'en' ? `⚡ Sensitivity updated to ${newSens}!` : `⚡ Sensitivity ${newSens} olarak ayarlandı!`);
-    }
-
-    function showAimResults() {
-      const isEn = currentLang === 'en';
-      const overlay = document.getElementById('aimOverlay');
-      if (overlay) overlay.classList.remove('hidden');
-
-      if (aimTestState.mode === 'track') {
-        const trackPct = Math.min(100, Math.round((aimTestState.trackingTimeOnTarget / Math.max(1, aimTestState.trackingTotalTime)) * 100));
-        const timeSec = (aimTestState.trackingTimeOnTarget / 1000).toFixed(1);
-
-        let advice = isEn
-          ? 'Your tracking stability is balanced and smooth!'
-          : 'Nişan takip stabiliteniz son derece dengeli ve akıcı!';
-
-        if (trackPct < 55) {
-          advice = isEn
-            ? '⚠️ Target jitter detected. Your sensitivity might be slightly too fast or your mouse friction is too high. Consider lowering sens by 5-10%.'
-            : '⚠️ Takip sırasında titreme/kaçırma tespit edildi. Hassasiyetiniz biraz yüksek olabilir veya mousepad kontrolünüz yetersiz. Sens\'i %5-10 azaltmayı deneyin.';
-        } else if (trackPct >= 80) {
-          advice = isEn
-            ? '🔥 Phenomenal tracking! Your micro-adjustments and cursor control are tournament-grade.'
-            : '🔥 Kusursuz hedef takibi! Kas hafızanız ve takip hızınız profesyonel standartlarda.';
-        }
-
-        document.getElementById('overlayTitle').textContent = isEn ? '🏁 Tracking Test Complete!' : '🏁 Tracking Testi Tamamlandı!';
-        document.getElementById('overlayDesc').innerHTML = `
-          <b>${isEn ? 'Tracking Accuracy:' : 'Takip İsabeti:'}</b> %${trackPct} | <b>${isEn ? 'Time on Target:' : 'Hedefte Kalma:'}</b> ${timeSec}s | <b>${isEn ? 'Score:' : 'Skor:'}</b> ${aimTestState.score}<br>
-          <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
-          <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()">🔄 ${isEn ? 'Play Again' : 'Tekrar Oyna'}</button></div>
-        `;
-
-      } else if (aimTestState.mode === 'flick') {
-        const acc = aimTestState.totalClicks ? Math.round((aimTestState.hits / aimTestState.totalClicks) * 100) : 0;
-        const avgRt = aimTestState.reactionTimes.length ? Math.round(aimTestState.reactionTimes.reduce((a, b) => a + b, 0) / aimTestState.reactionTimes.length) : 0;
-
-        let advice = isEn ? 'Your flick aim and reaction stability are well balanced!' : 'Nişan stabiliteniz dengeli görünüyor!';
-        if (acc < 75 && aimTestState.overshootCount > 3) {
-          advice = isEn
-            ? '⚠️ High overshoot rate detected. We recommend decreasing sensitivity by 5% - 10% to prevent over-flicking.'
-            : '⚠️ Hedefleri sıklıkla kaçırıyorsunuz (Overshoot). Sensitivity değerinizi %5 - %10 oranında azaltmanızı öneririz.';
-        } else if (avgRt > 550) {
-          advice = isEn
-            ? '💡 Reaction latency is slightly high. Increasing sensitivity slightly can provide more agile snaps.'
-            : '💡 Tepki süreniz biraz yavaş kalıyor. Sensitivity değerinizi biraz artırarak daha çevik hamleler yapabilirsiniz.';
-        } else if (acc >= 90) {
-          advice = isEn
-            ? '🔥 Excellent flick precision! Your muscle memory and sensitivity are in great harmony.'
-            : '🔥 Mükemmel isabet oranı! Kas hafızanız ve mevcut hassasiyetiniz son derece uyumlu.';
-        }
-
-        document.getElementById('overlayTitle').textContent = isEn ? '🏁 Test Complete!' : '🏁 Test Tamamlandı!';
-        document.getElementById('overlayDesc').innerHTML = `
-          <b>${isEn ? 'Score:' : 'Skor:'}</b> ${aimTestState.score} | <b>${isEn ? 'Accuracy:' : 'İsabet:'}</b> %${acc} | <b>${isEn ? 'Avg Reaction:' : 'Ort. Tepki:'}</b> ${avgRt} ms<br>
-          <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
-          <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()">🔄 ${isEn ? 'Play Again' : 'Tekrar Oyna'}</button></div>
-        `;
-      }
-    }
-
-    // ════════════════════════════════════════════════════════════
-    //  I18N LANGUAGE TOGGLE & LIVE PAGE RE-RENDER
-    // ════════════════════════════════════════════════════════════
     const I18N = {
       tr: {
         docTitle: 'VecSens — Kişiselleştirilmiş Aim Analizi',
-        btn: '🌐 EN',
+        btn: 'EN',
         title: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>',
         sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
         tabAnalysis: 'Analiz',
         tabConverter: 'Sens & Scope Converter',
-        tabAimtest: '🎯 Aim Testi',
+        tabAimtest: 'Aim Testi',
         tabPros: 'Pro Oyuncular',
         tabFeedback: 'Geri Bildirim',
-
-        convBadge: '<span class="dot"></span>Dönüştürücü & Optimizasyon',
+        convBadge: 'Dönüştürücü & Optimizasyon',
         convTitle: 'Sensitivity & Scope Converter',
-        convSub: 'Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle',
-
-        aimBadge: '<span class="dot"></span>İnteraktif Laboratuvar',
+        convSub: 'Hipfire ve Dürbün hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle',
+        aimBadge: 'İnteraktif Laboratuvar',
         aimTitle: 'Aim & Sensitivity Testi',
-        aimSub: 'Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al',
-
-        prosBadge: '<span class="dot"></span>Profesyonel Veriler',
+        aimSub: 'Önerilen hassasiyetini tarayıcıdan çıkmadan canlı test et',
+        prosBadge: 'Profesyonel Veriler',
         prosTitle: 'Pro Oyuncular',
-        prosSub: 'Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları',
+        prosSub: 'Profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları',
         proSearchPlaceholder: 'Oyuncu, takım veya mouse modeli ara...',
-
-        fbBadge: '<span class="dot"></span>Geri Bildirim',
+        fbBadge: 'Geri Bildirim',
         fbTitle: 'Deneyimini Paylaş',
-        fbSub: 'Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol',
-
-        phases: ['① Profil', '② Ekipman', '③ Oyun Tarzı', '④ Mevcut Durum', '⑤ Analiz'],
+        fbSub: 'Geri bildiriminle uygulamayı daha iyi hale getirmemize yardımcı ol',
+        phases: ['Profil', 'Ekipman', 'Oyun Tarzı', 'Mevcut Durum', 'Analiz'],
         footer: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez'
       },
       en: {
         docTitle: 'VecSens — Personalized FPS Aim Optimizer',
-        btn: '🇹🇷 TR',
+        btn: 'TR',
         title: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>',
         sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
         tabAnalysis: 'Analysis',
         tabConverter: 'Sens & Scope Converter',
-        tabAimtest: '🎯 Aim Test Lab',
+        tabAimtest: 'Aim Test Lab',
         tabPros: 'Pro Players',
         tabFeedback: 'Feedback',
-
-        convBadge: '<span class="dot"></span>Converter & Optimization',
+        convBadge: 'Converter & Optimization',
         convTitle: 'Sensitivity & Scope Converter',
         convSub: 'Synchronize Hipfire and Scope/Zoom sensitivities across all FPS titles with 1:1 muscle memory.',
-
-        aimBadge: '<span class="dot"></span>Interactive Lab',
+        aimBadge: 'Interactive Lab',
         aimTitle: 'Aim & Sensitivity Lab',
-        aimSub: 'Test your sensitivity directly in your browser with real-time feedback & 3D 180° calibration.',
-
-        prosBadge: '<span class="dot"></span>Pro Database',
+        aimSub: 'Test your sensitivity directly in your browser with real-time feedback',
+        prosBadge: 'Pro Database',
         prosTitle: 'Pro Players',
         prosSub: 'Verified mice, DPIs, and sensitivities used by champion esports athletes worldwide.',
         proSearchPlaceholder: 'Search player, team or mouse model...',
-
-        fbBadge: '<span class="dot"></span>Feedback',
+        fbBadge: 'Feedback',
         fbTitle: 'Share Your Experience',
-        fbSub: 'Help us improve VecSens with your thoughts and recommendations.',
-
-        phases: ['① Profile', '② Hardware', '③ Playstyle', '④ Status', '⑤ Analysis'],
+        fbSub: 'Help us improve VecSens with your valuable feedback.',
+        phases: ['Profile', 'Hardware', 'Playstyle', 'Current State', 'Analysis'],
         footer: 'All calculations are performed locally in your browser · No data is sent to external servers'
       }
     };
 
     function toggleLanguage(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      if (typeof saveTextInputs === 'function') {
-        try { saveTextInputs(); } catch (err) { }
-      }
+      if (e) e.stopPropagation();
       currentLang = currentLang === 'tr' ? 'en' : 'tr';
-      localStorage.setItem('vecsens_lang', currentLang);
-      document.documentElement.lang = currentLang;
       applyLanguage();
-      showToast(currentLang === 'tr' ? '🇹🇷 Dil: Türkçe' : '🌐 Language: English');
     }
 
     function applyLanguage() {
-      const dict = I18N[currentLang] || I18N.tr;
-      document.title = dict.docTitle;
+      const isEn = currentLang === 'en';
+      const dict = I18N[currentLang];
       document.documentElement.lang = currentLang;
-
+      document.title = dict.docTitle;
       const lBtn = document.getElementById('langBtn');
       if (lBtn) lBtn.textContent = dict.btn;
       applyTheme();
@@ -6954,178 +6845,65 @@
       if (tPros) tPros.textContent = dict.tabPros;
       const tFb = document.getElementById('ntab-feedback');
       if (tFb) tFb.textContent = dict.tabFeedback;
-
       const convBadge = document.getElementById('convBadge');
-      if (convBadge) convBadge.innerHTML = dict.convBadge;
+      if (convBadge) convBadge.textContent = dict.convBadge;
       const convTitle = document.getElementById('convTitle');
       if (convTitle) convTitle.textContent = dict.convTitle;
       const convSub = document.getElementById('convSub');
       if (convSub) convSub.textContent = dict.convSub;
-
       const aimBadge = document.getElementById('aimBadge');
-      if (aimBadge) aimBadge.innerHTML = dict.aimBadge;
+      if (aimBadge) aimBadge.textContent = dict.aimBadge;
       const aimTitle = document.getElementById('aimTitle');
       if (aimTitle) aimTitle.textContent = dict.aimTitle;
       const aimSub = document.getElementById('aimSub');
       if (aimSub) aimSub.textContent = dict.aimSub;
-
       const prosBadge = document.getElementById('prosBadge');
-      if (prosBadge) prosBadge.innerHTML = dict.prosBadge;
+      if (prosBadge) prosBadge.textContent = dict.prosBadge;
       const prosTitle = document.getElementById('prosTitle');
       if (prosTitle) prosTitle.textContent = dict.prosTitle;
       const prosSub = document.getElementById('prosSub');
       if (prosSub) prosSub.textContent = dict.prosSub;
-
       const fbBadge = document.getElementById('fbBadge');
-      if (fbBadge) fbBadge.innerHTML = dict.fbBadge;
+      if (fbBadge) fbBadge.textContent = dict.fbBadge;
       const fbTitle = document.getElementById('fbTitle');
       if (fbTitle) fbTitle.textContent = dict.fbTitle;
       const fbSub = document.getElementById('fbSub');
       if (fbSub) fbSub.textContent = dict.fbSub;
-
       const foot = document.getElementById('footerText');
       if (foot && (!adminConfig.customTexts || !adminConfig.customTexts['id_footerText'])) foot.textContent = dict.footer;
-
       [1, 2, 3, 4, 5].forEach((p, idx) => {
         const el = document.getElementById(`phase${p}`);
         if (el) el.textContent = dict.phases[idx];
       });
-
-      if (state.currentPage === 'analysis') {
-        if (state.analysisComplete) {
-          showResults();
-        } else {
-          renderQuestion(state.currentQ);
-        }
-      } else if (state.currentPage === 'converter') {
-        renderConverter();
-      } else if (state.currentPage === 'aimtest') {
-        renderAimTest();
-      } else if (state.currentPage === 'pros') {
-        renderProPage();
-      } else if (state.currentPage === 'feedback') {
-        renderFeedbackPage();
-      }
+      if (state.currentPage === 'analysis') state.analysisComplete ? showResults() : renderQuestion(state.currentQ);
+      else if (state.currentPage === 'converter') renderConverter();
+      else if (state.currentPage === 'aimtest') renderAimTest();
+      else if (state.currentPage === 'pros') renderProPage();
+      else if (state.currentPage === 'feedback') renderFeedbackPage();
     }
 
-    // ════════════════════════════════════════════════════════════
-    //  VECSENS LIVE ON-SCREEN VISUAL STUDIO & INLINE EDITOR
-    // ════════════════════════════════════════════════════════════
     const DEFAULT_ADMIN_CONFIG = {
       unlocked: false,
       pin: 'admin123',
       pinProtected: true,
       activeDrawer: null,
       inlineEditActive: false,
-      
-      themeDark: {
-        bg: '#0a0e17',
-        card: '#0f1624',
-        border: '#232f46',
-        cyan: '#38bdf8',
-        blue: '#38bdf8',
-        vctRed: '#ff4655',
-        purple: '#a855f7',
-        green: '#10b981',
-        gbtnStart: '#38bdf8',
-        gbtnEnd: '#0284c7',
-      },
-
-      themeLight: {
-        bg: '#f8fafc',
-        card: '#ffffff',
-        border: '#e2e8f0',
-        cyan: '#1e3a8a',
-        blue: '#1e3a8a',
-        vctRed: '#e11d48',
-        purple: '#4338ca',
-        green: '#059669',
-        gbtnStart: '#1e40af',
-        gbtnEnd: '#1e3a8a',
-      },
-
-      layout: {
-        containerMaxWidth: 890,
-        cardPadding: 34,
-        borderRadius: 16,
-        boxGap: 20,
-        fontScale: 100,
-        cardBlur: 24,
-        glowIntensity: 30,
-        fontFamily: 'Plus Jakarta Sans',
-        displayFont: 'Space Grotesk',
-        hudFont: 'JetBrains Mono',
-      },
-
-      texts: {
-        brandName: 'VecSens',
-        headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>',
-        headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>',
-        headerSubTr: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
-        headerSubEn: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
-        footerTr: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez',
-        footerEn: 'All calculations are performed locally in your browser · No data is sent to external servers',
-      },
-
+      themeDark: { bg: '#0a0e17', card: '#0f1624', border: '#232f46', cyan: '#38bdf8', blue: '#38bdf8', vctRed: '#ff4655', purple: '#a855f7', green: '#10b981', gbtnStart: '#38bdf8', gbtnEnd: '#0284c7' },
+      themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#e2e8f0', cyan: '#1e3a8a', blue: '#1e3a8a', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' },
+      layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
+      texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez', footerEn: 'All calculations are performed locally in your browser · No data is sent to external servers' },
       customTexts: {},
-      algorithm: {
-        globalSensMultiplier: 1.0,
-        wristMultiplier: 1.0,
-        armMultiplier: 1.0,
-      },
-
+      algorithm: { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 },
       customPros: {}
     };
 
     const ADMIN_THEME_PRESETS = [
-      {
-        id: 'cyber_sky',
-        nameTr: '⚡ VecSens Orijinal (Sky & Midnight)',
-        nameEn: '⚡ VecSens Classic (Sky & Midnight)',
-        dark: { bg: '#0a0e17', card: '#0f1624', border: '#232f46', cyan: '#38bdf8', blue: '#38bdf8', vctRed: '#ff4655', gbtnStart: '#38bdf8', gbtnEnd: '#0284c7' },
-        light: { bg: '#f8fafc', card: '#ffffff', border: '#e2e8f0', cyan: '#1e3a8a', blue: '#1e3a8a', vctRed: '#e11d48', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' },
-        colors: ['#0a0e17', '#38bdf8', '#ff4655']
-      },
-      {
-        id: 'royal_navy',
-        nameTr: '⚓ Royal Navy & Diamond Blue',
-        nameEn: '⚓ Royal Navy & Diamond Blue',
-        dark: { bg: '#060d1d', card: '#0c1730', border: '#1e2f56', cyan: '#60a5fa', blue: '#3b82f6', vctRed: '#f43f5e', gbtnStart: '#3b82f6', gbtnEnd: '#1d4ed8' },
-        light: { bg: '#f0f4f8', card: '#ffffff', border: '#cbd5e1', cyan: '#1e3a8a', blue: '#1e40af', vctRed: '#e11d48', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' },
-        colors: ['#060d1d', '#3b82f6', '#1e3a8a']
-      },
-      {
-        id: 'radiant_crimson',
-        nameTr: '🔥 Radiant Crimson & Onyx',
-        nameEn: '🔥 Radiant Crimson & Onyx',
-        dark: { bg: '#0f0a0d', card: '#1a1015', border: '#381c25', cyan: '#fb7185', blue: '#f43f5e', vctRed: '#ff4655', gbtnStart: '#f43f5e', gbtnEnd: '#be123c' },
-        light: { bg: '#fff1f2', card: '#ffffff', border: '#fecdd3', cyan: '#be123c', blue: '#9f1239', vctRed: '#e11d48', gbtnStart: '#e11d48', gbtnEnd: '#9f1239' },
-        colors: ['#0f0a0d', '#f43f5e', '#be123c']
-      },
-      {
-        id: 'matrix_emerald',
-        nameTr: '🟢 Matrix Emerald Pro',
-        nameEn: '🟢 Matrix Emerald Pro',
-        dark: { bg: '#06130b', card: '#0a1e12', border: '#163b24', cyan: '#34d399', blue: '#10b981', vctRed: '#f87171', gbtnStart: '#10b981', gbtnEnd: '#047857' },
-        light: { bg: '#f0fdf4', card: '#ffffff', border: '#bbf7d0', cyan: '#065f46', blue: '#047857', vctRed: '#dc2626', gbtnStart: '#059669', gbtnEnd: '#065f46' },
-        colors: ['#06130b', '#10b981', '#065f46']
-      },
-      {
-        id: 'cyber_violet',
-        nameTr: '🟣 Cyberpunk Neon Violet',
-        nameEn: '🟣 Cyberpunk Neon Violet',
-        dark: { bg: '#0e0a18', card: '#181228', border: '#322350', cyan: '#c084fc', blue: '#a855f7', vctRed: '#fb7185', gbtnStart: '#a855f7', gbtnEnd: '#7e22ce' },
-        light: { bg: '#faf5ff', card: '#ffffff', border: '#e9d5ff', cyan: '#6b21a8', blue: '#7e22ce', vctRed: '#e11d48', gbtnStart: '#7e22ce', gbtnEnd: '#581c87' },
-        colors: ['#0e0a18', '#a855f7', '#fbbf24']
-      },
-      {
-        id: 'stealth_slate',
-        nameTr: '🌑 Stealth Slate Minimalist',
-        nameEn: '🌑 Stealth Slate Minimalist',
-        dark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', gbtnStart: '#475569', gbtnEnd: '#1e293b' },
-        light: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', gbtnStart: '#334155', gbtnEnd: '#0f172a' },
-        colors: ['#0b0f19', '#64748b', '#cbd5e1']
-      }
+      { id: 'cyber_sky', nameTr: 'VecSens Orijinal', nameEn: 'VecSens Classic', dark: { bg: '#0a0e17', card: '#0f1624', border: '#232f46', cyan: '#38bdf8', blue: '#38bdf8', vctRed: '#ff4655', gbtnStart: '#38bdf8', gbtnEnd: '#0284c7' }, light: { bg: '#f8fafc', card: '#ffffff', border: '#e2e8f0', cyan: '#1e3a8a', blue: '#1e3a8a', vctRed: '#e11d48', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' }, colors: ['#0a0e17', '#38bdf8', '#ff4655'] },
+      { id: 'royal_navy', nameTr: 'Royal Navy', nameEn: 'Royal Navy', dark: { bg: '#060d1d', card: '#0c1730', border: '#1e2f56', cyan: '#60a5fa', blue: '#3b82f6', vctRed: '#f43f5e', gbtnStart: '#3b82f6', gbtnEnd: '#1d4ed8' }, light: { bg: '#f0f4f8', card: '#ffffff', border: '#cbd5e1', cyan: '#1e3a8a', blue: '#1e40af', vctRed: '#e11d48', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' }, colors: ['#060d1d', '#3b82f6', '#1e3a8a'] },
+      { id: 'radiant_crimson', nameTr: 'Radiant Crimson', nameEn: 'Radiant Crimson', dark: { bg: '#0d0a0e', card: '#170f17', border: '#331b26', cyan: '#fb7185', blue: '#f43f5e', vctRed: '#e11d48', gbtnStart: '#f43f5e', gbtnEnd: '#be123c' }, light: { bg: '#fff5f6', card: '#ffffff', border: '#fecdd3', cyan: '#881337', blue: '#9f1239', vctRed: '#e11d48', gbtnStart: '#9f1239', gbtnEnd: '#881337' }, colors: ['#0d0a0e', '#f43f5e', '#fb7185'] },
+      { id: 'matrix_emerald', nameTr: 'Matrix Emerald', nameEn: 'Matrix Emerald', dark: { bg: '#050f0c', card: '#0b1c16', border: '#16382c', cyan: '#34d399', blue: '#10b981', vctRed: '#f43f5e', gbtnStart: '#10b981', gbtnEnd: '#047857' }, light: { bg: '#f0fdf4', card: '#ffffff', border: '#bbf7d0', cyan: '#064e3b', blue: '#065f46', vctRed: '#e11d48', gbtnStart: '#065f46', gbtnEnd: '#064e3b' }, colors: ['#050f0c', '#10b981', '#34d399'] },
+      { id: 'synthwave_violet', nameTr: 'Synthwave Violet', nameEn: 'Synthwave Violet', dark: { bg: '#0b0816', card: '#140f26', border: '#2b1e52', cyan: '#c084fc', blue: '#a855f7', vctRed: '#f43f5e', gbtnStart: '#a855f7', gbtnEnd: '#7e22ce' }, light: { bg: '#faf5ff', card: '#ffffff', border: '#e9d5ff', cyan: '#3b0764', blue: '#581c87', vctRed: '#e11d48', gbtnStart: '#581c87', gbtnEnd: '#3b0764' }, colors: ['#0b0816', '#a855f7', '#c084fc'] },
+      { id: 'stealth_slate', nameTr: 'Stealth Slate', nameEn: 'Stealth Slate', dark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', gbtnStart: '#475569', gbtnEnd: '#1e293b' }, light: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', gbtnStart: '#334155', gbtnEnd: '#0f172a' }, colors: ['#0b0f19', '#64748b', '#cbd5e1'] }
     ];
 
     let adminConfig = (function() {
@@ -7133,52 +6911,58 @@
         const raw = localStorage.getItem('vecsens_admin_config');
         if (raw) {
           const parsed = JSON.parse(raw);
-          return {
-            ...DEFAULT_ADMIN_CONFIG,
-            ...parsed,
-            themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) },
-            themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) },
-            layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) },
-            texts: { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) },
-            customTexts: parsed.customTexts || {},
-            algorithm: { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) },
-            customPros: parsed.customPros || {},
-            unlocked: false,
-            activeDrawer: null,
-            inlineEditActive: false
-          };
+          return { ...DEFAULT_ADMIN_CONFIG, ...parsed, themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) }, themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) }, layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) }, texts: { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) }, customTexts: parsed.customTexts || {}, algorithm: { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) }, customPros: parsed.customPros || {}, unlocked: false, activeDrawer: null, inlineEditActive: false };
         }
       } catch (e) { }
       return JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
     })();
 
-    // ── PIN MODAL ──
+    function openSecretVisualStudio() {
+      if (adminConfig.pinProtected && !adminConfig.unlocked) showAdminAuthModal();
+      else toggleVisualStudio(true);
+    }
+    window.openAdmin = openSecretVisualStudio;
+    window.admin = openSecretVisualStudio;
+
+    function toggleVisualStudio(forceOpen = null) {
+      const tb = document.getElementById('vecsensVisualStudio');
+      if (!tb) return;
+      const shouldOpen = forceOpen !== null ? forceOpen : tb.classList.contains('hidden');
+      if (shouldOpen) {
+        tb.classList.remove('hidden');
+        showToast(currentLang === 'en' ? 'Visual Studio Active!' : 'Görsel Stüdyo Açıldı!');
+      } else closeVsStudio();
+    }
+
+    function closeVsStudio() {
+      const tb = document.getElementById('vecsensVisualStudio');
+      if (tb) tb.classList.add('hidden');
+      closeAllVsDrawers();
+      if (adminConfig.inlineEditActive) toggleVsInlineEdit(false);
+    }
+
+    function closeAllVsDrawers() {
+      ['vsBoxDrawer', 'vsThemeDrawer', 'vsAdvancedModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      adminConfig.activeDrawer = null;
+      document.querySelectorAll('.vs-btn').forEach(b => b.classList.remove('active'));
+    }
+
     function showAdminAuthModal() {
       const isEn = currentLang === 'en';
       const modal = document.getElementById('adminAuthModal');
       if (!modal) return;
       modal.className = 'admin-auth-modal';
       modal.innerHTML = `
-        <div class="admin-auth-card">
-          <div style="font-size:36px;margin-bottom:10px">🔐</div>
+        <div class="admin-auth-card" style="position:relative;background:var(--card);border:1px solid var(--cyan);border-radius:18px;padding:28px 32px;text-align:center;max-width:380px;width:90%;box-shadow:0 12px 40px rgba(0,0,0,0.6)">
           <h3>${isEn ? 'Visual Studio Access' : 'Görsel Stüdyo Girişi'}</h3>
-          <p>${isEn ? 'Enter PIN to open the on-screen visual designer.' : 'Ekran üzeri canlı tasarım aracını açmak için PIN kodunu girin.'}</p>
-          <div class="admin-pin-box">
-            <input class="input-field" type="password" id="adminPinInput" maxlength="12" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')verifyAdminPin()"/>
-          </div>
-          <div style="font-size:11.5px;color:var(--t3);margin-bottom:18px">
-            ${isEn ? 'Default PIN: <b style="color:var(--cyan)">admin123</b>' : 'Varsayılan PIN: <b style="color:var(--cyan)">admin123</b>'}
-          </div>
-          <div style="display:flex;gap:10px;justify-content:center">
-            <button class="btn btn-secondary" onclick="document.getElementById('adminAuthModal').className='hidden'">${isEn ? 'Cancel' : 'İptal'}</button>
-            <button class="btn btn-primary" onclick="verifyAdminPin()">${isEn ? 'Unlock Studio ➔' : 'Stüdyoyu Aç ➔'}</button>
-          </div>
+          <p>${isEn ? 'Enter PIN to open the on-screen visual designer.' : 'Ekran üzeri canlı tasarım stüdyosunu açmak için PIN kodunu girin.'}</p>
+          <input class="input-field" type="password" id="adminPinInput" maxlength="16" placeholder="••••••••" style="text-align:center;font-size:18px;letter-spacing:4px" onkeydown="if(event.key==='Enter')verifyAdminPin()"/>
+          <button class="btn btn-primary" onclick="verifyAdminPin()">${isEn ? 'Unlock Studio ➔' : 'Stüdyoyu Aç ➔'}</button>
         </div>
       `;
-      setTimeout(() => {
-        const inp = document.getElementById('adminPinInput');
-        if (inp) inp.focus();
-      }, 100);
     }
 
     function verifyAdminPin() {
@@ -7190,7 +6974,7 @@
         adminConfig.unlocked = true;
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
-        toggleVisualStudio();
+        toggleVisualStudio(true);
       } else {
         if (inp) {
           inp.style.borderColor = 'var(--vct-red)';
@@ -7335,8 +7119,414 @@
       });
     }
 
+    // ── INLINE LIVE TEXT EDITOR ──
+    function toggleVsInlineEdit(forceState = null) {
+      const isEn = currentLang === 'en';
+      adminConfig.inlineEditActive = forceState !== null ? forceState : !adminConfig.inlineEditActive;
+      const btn = document.getElementById('btnVsInlineEdit');
+      const lbl = document.getElementById('lblVsInlineEdit');
 
-    // ════════════════════════════════════════════════════════════
+      if (adminConfig.inlineEditActive) {
+        document.body.classList.add('visual-edit-mode');
+        if (btn) btn.classList.add('active');
+        if (lbl) lbl.textContent = isEn ? 'Live Edit (Active)' : 'Yazı Düzenle (Aktif)';
+
+        // Target editable elements on current screen
+        const selectors = [
+          '#headerTitle', '#headerSub', '#convTitle', '#convSub',
+          '#aimTitle', '#aimSub', '#prosTitle', '#prosSub',
+          '#fbTitle', '#fbSub', '#footerText', '.question-title',
+          '.question-subtitle', '.btn', '.badge', '.nav-tab', '.phase-dot'
+        ];
+
+        document.querySelectorAll(selectors.join(',')).forEach(el => {
+          el.setAttribute('contenteditable', 'true');
+          el.setAttribute('spellcheck', 'false');
+          el.setAttribute('data-vs-editable', 'true');
+
+          el.onblur = function() {
+            const key = el.id ? `id_${el.id}` : `txt_${el.textContent.trim().slice(0, 20)}`;
+            adminConfig.customTexts = adminConfig.customTexts || {};
+            adminConfig.customTexts[key] = el.innerHTML;
+          };
+        });
+
+        showToast(isEn ? '✏️ Live Inline Edit ON! Click and edit any text directly on-screen.' : '✏️ Canlı Yazı Düzenleme Aktif! Düzenlemek istediğiniz yazıya tıklayıp doğrudan yazın.');
+      } else {
+        document.body.classList.remove('visual-edit-mode');
+        if (btn) btn.classList.remove('active');
+        if (lbl) lbl.textContent = isEn ? 'Live Edit Text' : 'Canlı Yazı Düzenle';
+
+        document.querySelectorAll('[data-vs-editable="true"]').forEach(el => {
+          el.removeAttribute('contenteditable');
+          el.onblur = null;
+        });
+
+        showToast(isEn ? '✏️ Inline Edit closed.' : '✏️ Canlı Yazı Düzenleme kapatıldı.');
+      }
+    }
+
+    // ── DRAWERS (BOX RESIZER & THEMES) ──
+    function toggleVsDrawer(name) {
+      const boxDrawer = document.getElementById('vsBoxDrawer');
+      const themeDrawer = document.getElementById('vsThemeDrawer');
+      const btnBoxes = document.getElementById('btnVsBoxes');
+      const btnThemes = document.getElementById('btnVsThemes');
+
+      if (adminConfig.activeDrawer === name) {
+        closeAllVsDrawers();
+        return;
+      }
+
+      closeAllVsDrawers();
+      adminConfig.activeDrawer = name;
+
+      if (name === 'boxes') {
+        if (btnBoxes) btnBoxes.classList.add('active');
+        renderVsBoxDrawer();
+        if (boxDrawer) boxDrawer.classList.remove('hidden');
+      } else if (name === 'themes') {
+        if (btnThemes) btnThemes.classList.add('active');
+        renderVsThemeDrawer();
+        if (themeDrawer) themeDrawer.classList.remove('hidden');
+      }
+    }
+
+    function renderVsBoxDrawer() {
+      const isEn = currentLang === 'en';
+      const drawer = document.getElementById('vsBoxDrawer');
+      if (!drawer) return;
+      const lay = adminConfig.layout || DEFAULT_ADMIN_CONFIG.layout;
+
+      drawer.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
+          <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
+            <span>📐</span> <span>${isEn ? 'Live Box & Layout Resizer' : 'Canlı Kutu & Boyutlandırma Stüdyosu'}</span>
+          </div>
+          <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('boxes')">✕</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+          <!-- Max Width -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Site & Box Max-Width' : 'Kutu / Site Genişliği'}</span><span class="admin-slider-val" id="vsMwVal">${lay.containerMaxWidth || 890}px</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="600" max="1400" step="10" value="${lay.containerMaxWidth || 890}" oninput="updateVsLayout('containerMaxWidth',+this.value);document.getElementById('vsMwVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+
+          <!-- Card Padding -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Card Internal Padding' : 'Kutu İçi Boşluk (Padding)'}</span><span class="admin-slider-val" id="vsPadVal">${lay.cardPadding || 34}px</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="14" max="60" step="2" value="${lay.cardPadding || 34}" oninput="updateVsLayout('cardPadding',+this.value);document.getElementById('vsPadVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+
+          <!-- Corner Radius -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Corner Radius' : 'Köşe Yuvarlaklığı'}</span><span class="admin-slider-val" id="vsRadVal">${lay.borderRadius || 16}px</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="0" max="36" step="2" value="${lay.borderRadius || 16}" oninput="updateVsLayout('borderRadius',+this.value);document.getElementById('vsRadVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+
+          <!-- Font Scale -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Font Size Scale' : 'Yazı Boyutu Ölçeği'}</span><span class="admin-slider-val" id="vsScaleVal">${lay.fontScale || 100}%</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="80" max="130" step="2" value="${lay.fontScale || 100}" oninput="updateVsLayout('fontScale',+this.value);document.getElementById('vsScaleVal').textContent=this.value+'%'"/>
+            </div>
+          </div>
+
+          <!-- Box Gap -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Box Spacing (Gap)' : 'Kutular Arası Mesafe'}</span><span class="admin-slider-val" id="vsGapVal">${lay.boxGap || 20}px</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="8" max="40" step="2" value="${lay.boxGap || 20}" oninput="updateVsLayout('boxGap',+this.value);document.getElementById('vsGapVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+
+          <!-- Blur & Glow -->
+          <div class="admin-field" style="margin-bottom:0">
+            <div class="admin-field-label"><span>${isEn ? 'Backdrop Blur' : 'Cam Buzlanması (Blur)'}</span><span class="admin-slider-val" id="vsBlurVal">${lay.cardBlur || 24}px</span></div>
+            <div class="admin-slider-wrap">
+              <input type="range" class="admin-slider" min="0" max="40" step="2" value="${lay.cardBlur || 24}" oninput="updateVsLayout('cardBlur',+this.value);document.getElementById('vsBlurVal').textContent=this.value+'px'"/>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateVsLayout(key, val) {
+      adminConfig.layout = adminConfig.layout || {};
+      adminConfig.layout[key] = val;
+      applyAdminConfig(adminConfig);
+    }
+
+    function renderVsThemeDrawer() {
+      const isEn = currentLang === 'en';
+      const drawer = document.getElementById('vsThemeDrawer');
+      if (!drawer) return;
+      const d = adminConfig.themeDark || DEFAULT_ADMIN_CONFIG.themeDark;
+      const l = adminConfig.themeLight || DEFAULT_ADMIN_CONFIG.themeLight;
+
+      const presetsHtml = ADMIN_THEME_PRESETS.map(p => `
+        <div class="admin-preset-card" onclick="applyAdminThemePreset('${p.id}')">
+          <div style="font-weight:600;font-size:12.5px;color:var(--t1);margin-bottom:6px">${isEn ? p.nameEn : p.nameTr}</div>
+          <div class="admin-preset-preview">
+            <div class="admin-preset-swatch" style="background:${p.colors[0]}"></div>
+            <div class="admin-preset-swatch" style="background:${p.colors[1]}"></div>
+            <div class="admin-preset-swatch" style="background:${p.colors[2]}"></div>
+          </div>
+        </div>
+      `).join('');
+
+      drawer.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
+          <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
+            <span>🎨</span> <span>${isEn ? 'Live Theme & Color Palette Studio' : 'Canlı Renk & Tema Stüdyosu'}</span>
+          </div>
+          <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('themes')">✕</button>
+        </div>
+
+        <div style="font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;margin-bottom:8px">${isEn ? 'Ready-Made Palettes' : 'Hazır Renk Paletleri'}</div>
+        <div class="admin-preset-grid" style="margin-bottom:18px">${presetsHtml}</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- Dark Mode Colors -->
+          <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:12px">
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px">🌙 ${isEn ? 'Dark Mode Colors' : 'Koyu Mod Renkleri'}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${d.bg}" onchange="updateAdminColor('themeDark','bg',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Arka Plan</div><div class="admin-color-val">${d.bg}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${d.card}" onchange="updateAdminColor('themeDark','card',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Kart / Kutu</div><div class="admin-color-val">${d.card}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${d.cyan}" onchange="updateAdminColor('themeDark','cyan',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Vurgu / Cyan</div><div class="admin-color-val">${d.cyan}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${d.blue}" onchange="updateAdminColor('themeDark','blue',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Ana Mavi</div><div class="admin-color-val">${d.blue}</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Light Mode Colors -->
+          <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:12px">
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px">☀️ ${isEn ? 'Light Mode Colors' : 'Açık Mod Renkleri'}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${l.bg}" onchange="updateAdminColor('themeLight','bg',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Arka Plan</div><div class="admin-color-val">${l.bg}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${l.card}" onchange="updateAdminColor('themeLight','card',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Kart / Kutu</div><div class="admin-color-val">${l.card}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${l.cyan}" onchange="updateAdminColor('themeLight','cyan',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Lacivert Vurgu</div><div class="admin-color-val">${l.cyan}</div></div>
+              </div>
+              <div class="admin-color-picker-wrap">
+                <input type="color" class="admin-color-picker" value="${l.blue}" onchange="updateAdminColor('themeLight','blue',this.value)"/>
+                <div class="admin-color-info"><div class="admin-color-name">Lacivert Yazı</div><div class="admin-color-val">${l.blue}</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateAdminColor(mode, key, val) {
+      adminConfig[mode] = adminConfig[mode] || {};
+      adminConfig[mode][key] = val;
+      applyAdminConfig(adminConfig);
+    }
+
+    function applyAdminThemePreset(presetId) {
+      const preset = ADMIN_THEME_PRESETS.find(p => p.id === presetId);
+      if (!preset) return;
+      adminConfig.themeDark = { ...adminConfig.themeDark, ...preset.dark };
+      adminConfig.themeLight = { ...adminConfig.themeLight, ...preset.light };
+      applyAdminConfig(adminConfig);
+      renderVsThemeDrawer();
+      showToast(currentLang === 'en' ? `🎨 Theme ${preset.nameEn} applied!` : `🎨 ${preset.nameTr} teması uygulandı!`);
+    }
+
+    // ── ADVANCED MODAL (PRO DB, FEEDBACKS, BACKUP & PIN) ──
+    function openVsAdvancedModal(activeTab = 'pros') {
+      const isEn = currentLang === 'en';
+      const modal = document.getElementById('vsAdvancedModal');
+      if (!modal) return;
+      modal.className = 'admin-form-modal';
+
+      modal.innerHTML = `
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:850px;width:95%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 16px 50px rgba(0,0,0,0.8)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px">
+            <div style="font-weight:700;font-size:18px;color:var(--t1);display:flex;align-items:center;gap:10px">
+              <span>⚙️</span> <span>${isEn ? 'Advanced Settings & Database' : 'Gelişmiş Yönetim & Veritabanı'}</span>
+            </div>
+            <button class="vs-btn danger btn-sm" onclick="document.getElementById('vsAdvancedModal').className='admin-form-modal hidden'">✕</button>
+          </div>
+
+          <div class="nav-tabs" style="margin-bottom:16px;justify-content:flex-start">
+            <button class="nav-tab ${activeTab === 'pros' ? 'active' : ''}" onclick="openVsAdvancedModal('pros')">🏆 ${isEn ? 'Pro DB' : 'Pro Veritabanı'}</button>
+            <button class="nav-tab ${activeTab === 'feedbacks' ? 'active' : ''}" onclick="openVsAdvancedModal('feedbacks')">💬 ${isEn ? 'Feedbacks' : 'Geri Bildirimler'}</button>
+            <button class="nav-tab ${activeTab === 'algo' ? 'active' : ''}" onclick="openVsAdvancedModal('algo')">🧠 ${isEn ? 'Algorithm' : 'Algoritma'}</button>
+            <button class="nav-tab ${activeTab === 'backup' ? 'active' : ''}" onclick="openVsAdvancedModal('backup')">💾 ${isEn ? 'Backup & PIN' : 'Yedek & PIN'}</button>
+          </div>
+
+          <div style="flex:1;overflow-y:auto;padding-right:6px" id="vsAdvModalBody">
+            ${renderVsAdvTabInner(activeTab)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderVsAdvTabInner(tab) {
+      const isEn = currentLang === 'en';
+
+      if (tab === 'pros') {
+        const customCount = Object.keys(adminConfig.customPros || {}).length;
+        const totalPros = Object.values(PRO_DATA).reduce((a, b) => a + b.length, 0) + customCount;
+        return `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div>
+                <b style="color:var(--t1);font-size:14px">${isEn ? 'Pro Player Database' : 'Esporcu & Pro Veritabanı'}</b>
+                <span style="font-size:12px;color:var(--t3);margin-left:8px">(${totalPros} ${isEn ? 'players' : 'oyuncu kayıtlı'})</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openNewPlayerModal()">➕ ${isEn ? 'Add Player' : 'Yeni Oyuncu Ekle'}</button>
+            </div>
+            <p style="font-size:12.5px;color:var(--t2);margin-bottom:16px">${isEn ? 'Manage or expand the pro player rosters across Valorant, CS2, Apex, and Overwatch:' : 'Valorant, CS2, Apex Legends ve Overwatch pro oyuncu listelerini düzenle veya yeni oyuncular ekle:'}</p>
+          </div>
+        `;
+      } else if (tab === 'feedbacks') {
+        const fbs = JSON.parse(localStorage.getItem('vecsens_feedbacks') || '[]');
+        return `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <b style="color:var(--t1);font-size:14px">${isEn ? 'User Feedbacks' : 'Kullanıcı Geri Bildirimleri'} (${fbs.length})</b>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-secondary btn-sm" onclick="exportFeedbacksCSV()">📥 CSV İndir</button>
+                <button class="btn btn-secondary btn-sm" onclick="localStorage.removeItem('vecsens_feedbacks');openVsAdvancedModal('feedbacks');showToast('Temizlendi!')">🗑️ Tümünü Sil</button>
+              </div>
+            </div>
+            ${fbs.length === 0 ? `<p style="font-size:13px;color:var(--t3);text-align:center;padding:30px">${isEn ? 'No feedbacks recorded yet.' : 'Henüz geri bildirim kaydı yok.'}</p>` : `
+              <div style="display:flex;flex-direction:column;gap:8px">
+                ${fbs.slice().reverse().map(f => `
+                  <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="color:var(--cyan)">Puan: ${f.rating}/5</b><span style="color:var(--t3)">${f.date||''}</span></div>
+                    <div style="color:var(--t1)">${f.text || 'Görüş belirtilmedi'}</div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        `;
+      } else if (tab === 'algo') {
+        const a = adminConfig.algorithm || { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 };
+        return `
+          <div>
+            <b style="color:var(--t1);font-size:14px;display:block;margin-bottom:12px">${isEn ? 'Sensitivity Algorithm Multipliers' : 'Öneri Algoritması Ağırlık & Çarpanları'}</b>
+            <div class="admin-field">
+              <div class="admin-field-label"><span>${isEn ? 'Global Sens Multiplier' : 'Genel Sens Çarpanı'}</span><span class="admin-slider-val" id="gsmVal">${a.globalSensMultiplier || 1.0}x</span></div>
+              <input type="range" class="admin-slider" min="0.8" max="1.25" step="0.01" value="${a.globalSensMultiplier || 1.0}" oninput="adminConfig.algorithm.globalSensMultiplier=+this.value;document.getElementById('gsmVal').textContent=this.value+'x'"/>
+            </div>
+          </div>
+        `;
+      } else if (tab === 'backup') {
+        return `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px">💾 ${isEn ? 'JSON Backup & Sync' : 'JSON Yedekleme'}</b>
+              <p style="font-size:12px;color:var(--t2);margin-bottom:12px">${isEn ? 'Download complete custom config to a JSON file or restore.' : 'Yaptığın tüm özelleştirmeleri tek JSON dosyası olarak indir:'}</p>
+              <button class="btn btn-primary btn-sm" onclick="exportAdminConfigJSON()">📥 vecsens-config.json İndir</button>
+            </div>
+            <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px">🔒 ${isEn ? 'PIN Management' : 'Admin PIN Kodu'}</b>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <input class="input-field" type="password" id="newAdminPin" placeholder="Yeni PIN (min 4 hane)" style="margin-bottom:0;font-size:12px"/>
+                <button class="btn btn-secondary btn-sm" onclick="const p=document.getElementById('newAdminPin').value.trim();if(p.length>=4){adminConfig.pin=p;saveVsConfig();showToast('PIN güncellendi!');}else{alert('En az 4 hane olmalı!');}">Güncelle</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      return '';
+    }
+
+    function exportFeedbacksCSV() {
+      const fbs = JSON.parse(localStorage.getItem('vecsens_feedbacks') || '[]');
+      if (!fbs.length) { alert('Dışa aktarılacak geri bildirim yok!'); return; }
+      let csv = 'ID,Rating,Text,Date\n';
+      fbs.forEach(f => { csv += `"${f.id}","${f.rating}","${(f.text||'').replace(/"/g,'""')}","${f.date}"\n`; });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `vecsens-feedbacks-${Date.now()}.csv`; a.click();
+    }
+
+    function exportAdminConfigJSON() {
+      const toExport = { ...adminConfig, unlocked: false };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(toExport, null, 2));
+      const a = document.createElement('a'); a.setAttribute("href", dataStr); a.setAttribute("download", `vecsens-config-${Date.now()}.json`);
+      document.body.appendChild(a); a.click(); a.remove();
+      showToast('📥 Yapılandırma JSON indirildi!');
+    }
+
+    function resetVsConfig() {
+      const isEn = currentLang === 'en';
+      if (confirm(isEn ? 'Reset all colors, dimensions, and custom text to factory defaults?' : 'Tüm renk, kutu boyutları ve metin değişikliklerini fabrika ayarlarına sıfırlamak istiyor musunuz?')) {
+        adminConfig = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
+        adminConfig.unlocked = true;
+        localStorage.removeItem('vecsens_admin_config');
+        applyAdminConfig(adminConfig);
+        closeAllVsDrawers();
+        applyLanguage();
+        showToast(isEn ? '🔄 Settings reset to factory defaults.' : '🔄 Tüm ayarlar varsayılana sıfırlandı.');
+      }
+    }
+
+    // ── SECRET KEYBOARD & SHORTCUT LISTENERS ──
+    let keyBuffer = '';
+    let keyBufferTimer = null;
+
+    document.addEventListener('keydown', e => {
+      // Direct Single-Key Triggers: F2 or ` (Backtick)
+      if (e.code === 'F2' || e.code === 'Backquote') {
+        const tag = document.activeElement?.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          e.preventDefault();
+          openSecretVisualStudio();
+          return;
+        }
+      }
+
+      // Shortcut Combinations: Ctrl+Shift+A, Alt+A, Ctrl+Alt+A
+      if (e.code === 'KeyA' && (e.altKey || (e.shiftKey && (e.ctrlKey || e.metaKey)))) {
+        e.preventDefault();
+        openSecretVisualStudio();
+        return;
+      }
+
+      // Sequential word typing: user typing "admin" anywhere
+      if (e.key && e.key.length === 1) {
+        keyBuffer += e.key.toLowerCase();
+        if (keyBufferTimer) clearTimeout(keyBufferTimer);
+        keyBufferTimer = setTimeout(() => { keyBuffer = ''; }, 2000);
+
+        if (keyBuffer.endsWith('admin') || keyBuffer.endsWith('sens')) {
+          keyBuffer = '';
+          openSecretVisualStudio();
+        }
+      }
+    });
     //  EMOJI STRIP
     // ════════════════════════════════════════════════════════════
     const EMOJI_RE = /(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}|[\u2600-\u27BF]|[\uFE00-\uFE0F]|\uFE0F|\u20E3|[\u2300-\u23FF]|\u200D)/gu;
