@@ -724,7 +724,7 @@
     .conv-select{
       width:100%;
       padding:12px 14px;
-      background:rgba(255, 255, 255, 0.04);
+      background:var(--card-solid);
       border:1px solid var(--border);
       border-radius:var(--r2);
       color:var(--t1);
@@ -891,6 +891,120 @@
     }
     .lang-btn:hover{color:var(--t1);border-color:var(--cyan);background:rgba(0, 242, 254, 0.08)}
 
+    /* ── SELECT & DROPDOWNS FIX FOR DARK & LIGHT MODES ── */
+    select, option, optgroup {
+      background-color: var(--card-solid) !important;
+      color: var(--t1) !important;
+      border-color: var(--border);
+    }
+    select:focus, select:active {
+      outline: none;
+      border-color: var(--cyan);
+    }
+
+    /* ── LIGHT THEME (ESPORTS DAYLIGHT MODE) ── */
+    [data-theme="light"] {
+      --bg:           #f4f6fb;
+      --bg2:          #ffffff;
+      --card:         rgba(255, 255, 255, 0.94);
+      --card-solid:   #ffffff;
+      --glass:        rgba(0, 0, 0, 0.025);
+      --border:       rgba(15, 23, 42, 0.1);
+      --border-bright:rgba(2, 132, 199, 0.45);
+      --bactive:      rgba(2, 132, 199, 0.6);
+      --cyan:         #0284c7;
+      --blue:         #0284c7;
+      --vct-red:      #e11d48;
+      --purple:       #6366f1;
+      --green:        #059669;
+      --red:          #e11d48;
+      --amber:        #d97706;
+      --gbtn:         linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      --gbtn-vct:     linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+      --t1:           #0f172a;
+      --t2:           #334155;
+      --t3:           #64748b;
+      --shadow:       0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+      --glow:         0 0 30px rgba(2, 132, 199, 0.15);
+      --glow-vct:     0 0 30px rgba(225, 29, 72, 0.15);
+    }
+    [data-theme="light"] body::before {
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -5%, rgba(2, 132, 199, 0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 45% at 90% 95%, rgba(225, 29, 72, 0.05) 0%, transparent 60%);
+    }
+    [data-theme="light"] .grid-bg {
+      background-image:
+        linear-gradient(rgba(2, 132, 199, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(2, 132, 199, 0.04) 1px, transparent 1px);
+    }
+    [data-theme="light"] .nav-tabs {
+      background: rgba(255, 255, 255, 0.88);
+    }
+    [data-theme="light"] .btn-primary {
+      color: #ffffff;
+    }
+    [data-theme="light"] .nav-tab.active {
+      color: #ffffff;
+    }
+    [data-theme="light"] .header h1 {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] .results-header h2,
+    [data-theme="light"] .page-header h2 {
+      background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] .input-field {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .option-btn {
+      background: rgba(255, 255, 255, 0.6);
+    }
+    [data-theme="light"] .option-btn.selected {
+      background: rgba(2, 132, 199, 0.08);
+    }
+    [data-theme="light"] .profile-card.precision {
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.08), rgba(255, 255, 255, 0.95));
+    }
+    [data-theme="light"] .profile-card.balanced {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(255, 255, 255, 0.95));
+    }
+    [data-theme="light"] .profile-card.speed {
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.08), rgba(255, 255, 255, 0.95));
+    }
+    [data-theme="light"] .aim-canvas-wrap {
+      background: #0f172a;
+    }
+    [data-theme="light"] #toast {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .theme-btn {
+      padding: 6px 13px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--t2);
+      transition: var(--ease);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-btn:hover {
+      color: var(--t1);
+      border-color: var(--cyan);
+      background: rgba(0, 242, 254, 0.08);
+    }
+
     /* ══════════════════════════════════════
        TOAST NOTIFICATION
     ══════════════════════════════════════ */
@@ -945,6 +1059,7 @@
         <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">Geri Bildirim</button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Temayı Değiştir / Toggle Theme">☀️</button>
         <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language">🌐 EN</button>
       </div>
     </div>
@@ -1499,6 +1614,25 @@ const aimTestState = {
 };
 
 let currentLang = localStorage.getItem('vecsens_lang') || 'tr';
+let currentTheme = localStorage.getItem('vecsens_theme') || 'dark';
+
+function toggleTheme() {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('vecsens_theme', currentTheme);
+  applyTheme();
+  showToast(currentTheme === 'light' ? (currentLang==='en'?'☀️ Light Mode Activated':'☀️ Açık Tema Aktif') : (currentLang==='en'?'🌙 Dark Mode Activated':'🌙 Koyu Tema Aktif'));
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const btn = document.getElementById('themeBtn');
+  if (btn) {
+    btn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+    btn.title = currentTheme === 'light' 
+      ? (currentLang === 'en' ? 'Switch to Dark Mode' : 'Karanlık Moda Geç') 
+      : (currentLang === 'en' ? 'Switch to Light Mode' : 'Aydınlık Moda Geç');
+  }
+}
 
 function switchPage(page) {
   state.currentPage = page;
@@ -3029,8 +3163,8 @@ function renderConverter() {
   const allGamesHtml = GAMES.filter(g=>g.id!=='other').map(g => {
     const s = calcSens(cm360, convState.toDpi, g.id);
     const isTarget = g.id === convState.toGame;
-    return `<div class="conv-all-item" ${isTarget?'style="border-color:var(--blue);background:rgba(99,179,237,.08)"':''}>
-      <span class="conv-all-game">${g.label}</span>
+    return `<div class="conv-all-item" ${isTarget?'style="border-color:var(--cyan);background:rgba(0,242,254,.08)"':''}>
+      <span class="conv-all-game">${(g.id==='other'&&isEn)?'Other':g.label}</span>
       <span class="conv-all-sens">${s}</span>
     </div>`;
   }).join('');
@@ -3038,7 +3172,7 @@ function renderConverter() {
   const html = `
     ${subtabsHtml}
     ${hasAnalysis ? `
-      <div style="background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:var(--r3);padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div style="background:rgba(0,242,254,.08);border:1px solid rgba(0,242,254,.25);border-radius:var(--r3);padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
         <div style="font-size:13px;color:var(--t1)">
           🎯 <b>${isEn?'Analysis Available:':'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
         </div>
@@ -3051,17 +3185,17 @@ function renderConverter() {
       <div class="conv-row">
         <div>
           <div class="conv-label">${isEn?'Source Game':'Kaynak Oyun'}</div>
-          <select class="conv-select" id="convFromGame" onchange="onConvChange('fromGame', this.value)">
+          <select class="conv-select" id="convFromGame" onchange="onConvGameChange('fromGame', this.value)">
             ${gameOptions(convState.fromGame)}
           </select>
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">${isEn?'Sensitivity':'Hassasiyet'}</div>
-              <input class="input-field" type="number" step="0.001" min="0.001" max="1000" id="convSens" value="${convState.sens}" oninput="onConvChange('sens', parseFloat(this.value)||0)"/>
+              <input class="input-field" type="number" step="any" min="0.0001" max="1000" id="convSens" value="${convState.sens}" oninput="onConvSensInput(this.value)"/>
             </div>
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">DPI</div>
-              <input class="input-field" type="number" step="50" min="100" max="64000" id="convFromDpi" value="${convState.fromDpi}" oninput="onConvChange('fromDpi', parseInt(this.value)||800)"/>
+              <input class="input-field" type="number" step="50" min="100" max="64000" id="convFromDpi" value="${convState.fromDpi}" oninput="onConvFromDpiInput(this.value)"/>
             </div>
           </div>
         </div>
@@ -3073,13 +3207,13 @@ function renderConverter() {
 
         <div>
           <div class="conv-label">${isEn?'Target Game':'Hedef Oyun'}</div>
-          <select class="conv-select" id="convToGame" onchange="onConvChange('toGame', this.value)">
+          <select class="conv-select" id="convToGame" onchange="onConvGameChange('toGame', this.value)">
             ${gameOptions(convState.toGame)}
           </select>
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">${isEn?'Target DPI':'Hedef DPI'}</div>
-              <input class="input-field" type="number" step="50" min="100" max="64000" id="convToDpi" value="${convState.toDpi}" oninput="onConvChange('toDpi', parseInt(this.value)||800)"/>
+              <input class="input-field" type="number" step="50" min="100" max="64000" id="convToDpi" value="${convState.toDpi}" oninput="onConvToDpiInput(this.value)"/>
             </div>
           </div>
         </div>
@@ -3087,27 +3221,27 @@ function renderConverter() {
 
       <div class="conv-result-grid">
         <div class="conv-result-item highlight">
-          <div class="conv-result-game">${toGame.label} ${isEn?'Sensitivity':'Hassasiyeti'}</div>
-          <div class="conv-result-sens">${targetSens}</div>
-          <div class="conv-result-sub">${convState.toDpi} DPI</div>
+          <div class="conv-result-game" id="convTargetTitle">${toGame.label} ${isEn?'Sensitivity':'Hassasiyeti'}</div>
+          <div class="conv-result-sens" id="convResSens">${targetSens}</div>
+          <div class="conv-result-sub" id="convResDpiSub">${convState.toDpi} DPI</div>
         </div>
         <div class="conv-result-item">
           <div class="conv-result-game">cm / 360°</div>
-          <div class="conv-result-sens" style="font-size:20px;color:var(--t1)">${cm360} cm</div>
-          <div class="conv-result-sub">~${in360} ${isEn?'in / 360°':'inç / 360°'}</div>
+          <div class="conv-result-sens" id="convResCm" style="font-size:20px;color:var(--t1)">${cm360} cm</div>
+          <div class="conv-result-sub" id="convResIn">~${in360} ${isEn?'in / 360°':'inç / 360°'}</div>
         </div>
         <div class="conv-result-item">
           <div class="conv-result-game">eDPI</div>
-          <div class="conv-result-sens" style="font-size:20px;color:var(--t1)">${toEdpi}</div>
-          <div class="conv-result-sub">${convState.toDpi} × ${targetSens}</div>
+          <div class="conv-result-sens" id="convResEdpi" style="font-size:20px;color:var(--t1)">${toEdpi}</div>
+          <div class="conv-result-sub" id="convResEdpiSub">${convState.toDpi} × ${targetSens}</div>
         </div>
       </div>
     </div>
 
     <div class="conv-card">
-      <h3>🌐 ${isEn?`Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)`:`Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
+      <h3 id="convAllTitle">🌐 ${isEn?`Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)`:`Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn?'Maintain exact 1:1 muscle memory and physical swipe distance across any FPS:':'Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:'}</p>
-      <div class="conv-all-grid">
+      <div class="conv-all-grid" id="convAllGrid">
         ${allGamesHtml}
       </div>
     </div>
@@ -3120,9 +3254,71 @@ function setConvTab(t) {
   renderConverter();
 }
 
-function onConvChange(field, value) {
-  convState[field] = value;
+function onConvSensInput(val) {
+  convState.sens = val;
+  updateConverterLive();
+}
+
+function onConvFromDpiInput(val) {
+  convState.fromDpi = val;
+  updateConverterLive();
+}
+
+function onConvToDpiInput(val) {
+  convState.toDpi = val;
+  updateConverterLive();
+}
+
+function onConvGameChange(field, val) {
+  convState[field] = val;
   renderConverter();
+}
+
+function updateConverterLive() {
+  const isEn = currentLang === 'en';
+  const sensNum = parseFloat(convState.sens) || 0;
+  const fromDpiNum = parseInt(convState.fromDpi) || 800;
+  const toDpiNum = parseInt(convState.toDpi) || 800;
+
+  const toGame = GAMES.find(g=>g.id===convState.toGame) || GAMES[1];
+  const cm360 = calcCm360(fromDpiNum, sensNum, convState.fromGame);
+  const targetSens = calcSens(cm360, toDpiNum, convState.toGame);
+  const toEdpi = Math.round(toDpiNum * targetSens * 10) / 10;
+  const in360 = Math.round((cm360 / 2.54) * 10) / 10;
+
+  const targetTitle = document.getElementById('convTargetTitle');
+  if (targetTitle) targetTitle.textContent = `${toGame.label} ${isEn?'Sensitivity':'Hassasiyeti'}`;
+  const resSens = document.getElementById('convResSens');
+  if (resSens) resSens.textContent = targetSens;
+  const resCm = document.getElementById('convResCm');
+  if (resCm) resCm.textContent = `${cm360} cm`;
+  const resIn = document.getElementById('convResIn');
+  if (resIn) resIn.textContent = `~${in360} ${isEn?'in / 360°':'inç / 360°'}`;
+  const resEdpi = document.getElementById('convResEdpi');
+  if (resEdpi) resEdpi.textContent = toEdpi;
+  const resEdpiSub = document.getElementById('convResEdpiSub');
+  if (resEdpiSub) resEdpiSub.textContent = `${toDpiNum} × ${targetSens}`;
+  const resDpiSub = document.getElementById('convResDpiSub');
+  if (resDpiSub) resDpiSub.textContent = `${toDpiNum} DPI`;
+
+  const allGrid = document.getElementById('convAllGrid');
+  if (allGrid) {
+    allGrid.innerHTML = GAMES.filter(g=>g.id!=='other').map(g => {
+      const s = calcSens(cm360, toDpiNum, g.id);
+      const isTarget = g.id === convState.toGame;
+      return `<div class="conv-all-item" ${isTarget?'style="border-color:var(--cyan);background:rgba(0,242,254,.08)"':''}>
+        <span class="conv-all-game">${(g.id==='other'&&isEn)?'Other':g.label}</span>
+        <span class="conv-all-sens">${s}</span>
+      </div>`;
+    }).join('');
+  }
+
+  const allTitle = document.getElementById('convAllTitle');
+  if (allTitle) {
+    allTitle.textContent = isEn 
+      ? `Equivalent Sensitivities Across All Games (${toDpiNum} DPI, ${cm360} cm/360)` 
+      : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${toDpiNum} DPI, ${cm360} cm/360)`;
+  }
 }
 
 function swapConvGames() {
@@ -4294,6 +4490,13 @@ function applyLanguage() {
 
   const lBtn = document.getElementById('langBtn');
   if (lBtn) lBtn.textContent = dict.btn;
+  const tBtn = document.getElementById('themeBtn');
+  if (tBtn) {
+    tBtn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+    tBtn.title = currentTheme === 'light' 
+      ? (currentLang === 'en' ? 'Switch to Dark Mode' : 'Karanlık Moda Geç') 
+      : (currentLang === 'en' ? 'Switch to Light Mode' : 'Aydınlık Moda Geç');
+  }
   const hTitle = document.getElementById('headerTitle');
   if (hTitle) hTitle.innerHTML = dict.title;
   const hSub = document.getElementById('headerSub');
@@ -4392,6 +4595,7 @@ function stripAll() {
 // ════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
   renderQuestion(0);
+  applyTheme();
   applyLanguage();
 
   // Check URL Hash for shared profile
