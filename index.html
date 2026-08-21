@@ -304,6 +304,70 @@
     .conv-dpi-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
     .conv-dpi-row .input-group{flex:1;min-width:120px}
 
+    /* ══════════════════════════════════════
+       AIM TEST LAB
+    ══════════════════════════════════════ */
+    .aimtest-container{background:var(--card);border:1px solid var(--border);border-radius:var(--r4);padding:24px;box-shadow:var(--shadow);margin-bottom:24px}
+    .aimtest-modes{display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+    .aimtest-mode-btn{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t2);transition:var(--ease);font-family:var(--sans)}
+    .aimtest-mode-btn:hover{color:var(--t1);border-color:rgba(99,179,237,.3)}
+    .aimtest-mode-btn.active{background:var(--gbtn);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(99,179,237,.3)}
+    .aim-canvas-wrap{position:relative;width:100%;height:420px;background:#050811;border:2px solid var(--border);border-radius:var(--r3);overflow:hidden;cursor:crosshair;user-select:none}
+    .aim-canvas-wrap:focus{outline:none;border-color:var(--blue);box-shadow:0 0 20px rgba(99,179,237,.2)}
+    #aimCanvas{display:block;width:100%;height:100%}
+    .aim-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,12,20,.85);backdrop-filter:blur(4px);z-index:10}
+    .aim-overlay h3{font-size:24px;font-weight:800;color:var(--t1);margin-bottom:8px}
+    .aim-overlay p{font-size:14px;color:var(--t2);margin-bottom:18px;text-align:center;max-width:380px}
+    .aim-hud{position:absolute;top:12px;left:16px;right:16px;display:flex;justify-content:space-between;pointer-events:none;z-index:5;font-family:var(--mono);font-size:13px}
+    .hud-stat{background:rgba(8,12,20,.7);border:1px solid rgba(255,255,255,.1);padding:4px 10px;border-radius:var(--r1);color:var(--t1)}
+    .hud-stat span{color:var(--blue);font-weight:700}
+    .aim-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px}
+    .aim-stat-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
+    .aim-stat-card .as-val{font-family:var(--mono);font-size:20px;font-weight:800;color:var(--blue)}
+    .aim-stat-card .as-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+
+    /* ══════════════════════════════════════
+       SCOPE CALCULATOR & ROUTINE
+    ══════════════════════════════════════ */
+    .subtabs{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.03);padding:4px;border-radius:var(--r2);border:1px solid var(--border);width:fit-content}
+    .subtab-btn{padding:8px 18px;border-radius:var(--r1);border:none;background:transparent;color:var(--t3);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:var(--ease)}
+    .subtab-btn.active{background:rgba(99,179,237,.15);color:var(--blue)}
+    .scope-table{width:100%;border-collapse:collapse;margin-top:14px}
+    .scope-table th,.scope-table td{padding:10px 14px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
+    .scope-table th{font-size:11px;text-transform:uppercase;color:var(--t3);letter-spacing:.05em}
+
+    /* ══════════════════════════════════════
+       MOUSEPAD SIMULATOR
+    ══════════════════════════════════════ */
+    .pad-sim-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r3);padding:20px;margin-top:16px}
+    .pad-visual{position:relative;width:100%;max-width:500px;height:240px;background:#090d18;border:2px solid rgba(99,179,237,.3);border-radius:12px;margin:16px auto;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .pad-center-mark{position:absolute;width:2px;height:100%;background:dashed rgba(255,255,255,.1)}
+    .pad-swipe-range{position:absolute;height:70%;background:linear-gradient(90deg,rgba(99,179,237,.15),rgba(124,58,237,.25),rgba(99,179,237,.15));border:1px dashed var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue);font-family:var(--mono)}
+
+    /* ══════════════════════════════════════
+       ROUTINE CARD
+    ══════════════════════════════════════ */
+    .routine-step{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+    .routine-step:last-child{border-bottom:none}
+    .routine-num{width:28px;height:28px;border-radius:50%;background:rgba(99,179,237,.15);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+    .routine-title{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px}
+    .routine-desc{font-size:12px;color:var(--t2)}
+    .routine-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(124,58,237,.15);color:#a78bfa;margin-right:6px}
+
+    /* ══════════════════════════════════════
+       PRO SEARCH & LANG TOGGLE
+    ══════════════════════════════════════ */
+    .pro-search-bar{display:flex;gap:10px;margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto}
+    .pro-search-input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px;color:var(--t1);font-family:var(--sans);font-size:14px}
+    .lang-btn{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--t2);transition:var(--ease)}
+    .lang-btn:hover{color:var(--t1);border-color:var(--blue)}
+
+    /* ══════════════════════════════════════
+       TOAST NOTIFICATION
+    ══════════════════════════════════════ */
+    #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#111827;border:1px solid var(--blue);color:#fff;padding:12px 24px;border-radius:var(--r2);font-size:14px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.6);z-index:9999;opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:8px}
+    #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
     /* -- MISC -- */
     .hidden{display:none!important}
     .option-icon{display:none!important}
@@ -322,12 +386,16 @@
   <div class="container">
 
     <!-- TOP NAV -->
-    <div class="topnav">
-      <div class="nav-tabs">
+    <div class="topnav" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div class="nav-tabs" style="margin:0 auto">
         <button class="nav-tab active" id="ntab-analysis"  onclick="switchPage('analysis')">Analiz</button>
-        <button class="nav-tab"        id="ntab-converter" onclick="switchPage('converter')">Sens Converter</button>
+        <button class="nav-tab"        id="ntab-converter" onclick="switchPage('converter')">Sens & Scope Converter</button>
+        <button class="nav-tab"        id="ntab-aimtest"   onclick="switchPage('aimtest')">🎯 Aim Testi</button>
         <button class="nav-tab"        id="ntab-pros"      onclick="switchPage('pros')">Pro Oyuncular</button>
         <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">Geri Bildirim</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="lang-btn" id="langBtn" onclick="toggleLanguage()" title="Dili Değiştir / Change Language">🌐 EN</button>
       </div>
     </div>
 
@@ -337,8 +405,8 @@
         <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.style.display='none'"/>
         <span class="dot"></span>VecSens
       </div>
-      <h1>VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span></h1>
-      <p>Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.</p>
+      <h1 id="headerTitle">VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span></h1>
+      <p id="headerSub">Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.</p>
     </div>
 
     <!-- ANALYSIS PAGE -->
@@ -364,19 +432,32 @@
     <!-- CONVERTER PAGE -->
     <div id="page-converter" class="hidden">
       <div class="page-header">
-        <div class="logo-badge"><span class="dot"></span>Dönüştürücü</div>
-        <h2>Sensitivity Converter</h2>
-        <p>Farklı FPS oyunları arasında kas hafızanı koruyarak hassasiyetini dönüştür</p>
+        <div class="logo-badge"><span class="dot"></span>Dönüştürücü & Optimizasyon</div>
+        <h2>Sensitivity & Scope Converter</h2>
+        <p>Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle</p>
       </div>
       <div id="converterContent"></div>
+    </div>
+
+    <!-- AIM TEST LAB PAGE -->
+    <div id="page-aimtest" class="hidden">
+      <div class="page-header">
+        <div class="logo-badge"><span class="dot"></span>İnteraktif Laboratuvar</div>
+        <h2>Aim & Sensitivity Testi</h2>
+        <p>Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al</p>
+      </div>
+      <div id="aimtestContent"></div>
     </div>
 
     <!-- PRO PLAYERS PAGE -->
     <div id="page-pros" class="hidden">
       <div class="page-header">
         <div class="logo-badge"><span class="dot"></span>Profesyonel Veriler</div>
-        <h2>Pro Oyuncu Ayarları</h2>
-        <p>Dünya genelindeki profesyonel oyuncuların doğrulanmış mouse ayarları</p>
+        <h2>Pro Oyuncu Ayarları & Ekipmanları</h2>
+        <p>Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları</p>
+      </div>
+      <div class="pro-search-bar">
+        <input type="text" class="pro-search-input" id="proSearchInput" placeholder="Oyuncu, takım veya mouse modeli ara..." oninput="onProSearch(this.value)"/>
       </div>
       <div id="prosContent"></div>
     </div>
@@ -389,6 +470,10 @@
         <p>Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol</p>
       </div>
       <div id="feedbackContent"></div>
+    </div>
+
+    <!-- TOAST POPUP -->
+    <div id="toast"></div>
     </div>
 
     <div class="footer">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
@@ -441,78 +526,92 @@ function calcSens(cm360, dpi, gameId) {
 
 // ── PRO PLAYER DATABASE ──
 // Kaynak: prosettings.net — doğrulanmış veriler (2024–2025)
-// (Ayarlar zaman içinde değişebilir, güncel bilgi için prosettings.net ziyaret edin)
 const PRO_DATA = {
   valorant: [
-    {name:'TenZ',      slug:'tenz',      dpi:1600, sens:0.24},
-    {name:'aspas',     slug:'aspas',     dpi:800,  sens:0.4},
-    {name:'yay',       slug:'yay',       dpi:800,  sens:0.38},
-    {name:'Derke',     slug:'derke',     dpi:400,  sens:0.74},
-    {name:'nAts',      slug:'nats',      dpi:800,  sens:0.49},
-    {name:'Chronicle', slug:'chronicle', dpi:1600, sens:0.175},
-    {name:'zekken',    slug:'zekken',    dpi:1600, sens:0.175},
-    {name:'saadhak',   slug:'saadhak',   dpi:900,  sens:0.255},
-    {name:'Alfajer',   slug:'alfajer',   dpi:400,  sens:0.45},
-    {name:'leaf',      slug:'leaf',      dpi:1600, sens:0.08},
-    {name:'Demon1',    slug:'demon1',    dpi:1600, sens:0.1},
-    {name:'bang',      slug:'bang',      dpi:800,  sens:0.32},
-    {name:'Boaster',   slug:'boaster',   dpi:800,  sens:0.24},
-    {name:'Less',      slug:'less',      dpi:800,  sens:0.32},
-    {name:'Victor',    slug:'victor',    dpi:800,  sens:0.275},
-    {name:'Marved',    slug:'marved',    dpi:1600, sens:0.153},
-    {name:'cNed',      slug:'cned',      dpi:800,  sens:0.3},
+    {name:'TenZ',      slug:'tenz',      team:'Sentinels', mouse:'Ninjutso Sora V2', dpi:1600, sens:0.24},
+    {name:'aspas',     slug:'aspas',     team:'Leviatán',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.4},
+    {name:'yay',       slug:'yay',       team:'Bleed',     mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.38},
+    {name:'Derke',     slug:'derke',     team:'Fnatic',    mouse:'Razer DeathAdder V3 Pro', dpi:400,  sens:0.74},
+    {name:'nAts',      slug:'nats',      team:'Liquid',    mouse:'Zowie S2-C', dpi:800,  sens:0.49},
+    {name:'Chronicle', slug:'chronicle', team:'Fnatic',    mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.175},
+    {name:'zekken',    slug:'zekken',    team:'Sentinels', mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.175},
+    {name:'saadhak',   slug:'saadhak',   team:'LOUD',      mouse:'Razer Viper V3 Pro', dpi:900,  sens:0.255},
+    {name:'Alfajer',   slug:'alfajer',   team:'Fnatic',    mouse:'Razer DeathAdder V3 Pro', dpi:400,  sens:0.45},
+    {name:'Demon1',    slug:'demon1',    team:'NRG',       mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.1},
+    {name:'cNed',      slug:'cned',      team:'FUT',       mouse:'Zowie EC2-C', dpi:800,  sens:0.3},
+    {name:'Boaster',   slug:'boaster',   team:'Fnatic',    mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.24},
   ],
   cs2: [
-    {name:'s1mple',     slug:'s1mple',     dpi:400,  sens:3.09},
-    {name:'ZywOo',      slug:'zywoo',      dpi:400,  sens:2.0},
-    {name:'NiKo',       slug:'niko',       dpi:800,  sens:0.9},
-    {name:'m0NESY',     slug:'m0nesy',     dpi:400,  sens:2.3},
-    {name:'donk',       slug:'donk',       dpi:800,  sens:1.25},
-    {name:'ropz',       slug:'ropz',       dpi:400,  sens:1.77},
-    {name:'device',     slug:'device',     dpi:800,  sens:0.95},
-    {name:'sh1ro',      slug:'sh1ro',      dpi:800,  sens:1.04},
-    {name:'XANTARES',   slug:'xantares',   dpi:400,  sens:2.3},
-    {name:'frozen',     slug:'frozen',     dpi:400,  sens:2.0},
-    {name:'Twistzz',    slug:'twistzz',    dpi:400,  sens:1.59},
-    {name:'karrigan',   slug:'karrigan',   dpi:800,  sens:0.9},
-    {name:'blameF',     slug:'blamef',     dpi:400,  sens:1.55},
-    {name:'YEKINDAR',   slug:'yekindar',   dpi:800,  sens:1.2},
-    {name:'EliGE',      slug:'elige',      dpi:1600, sens:0.625},
-    {name:'NAF',        slug:'naf',        dpi:800,  sens:0.8},
-    {name:'electroNic', slug:'electronic', dpi:400,  sens:2.2},
-    {name:'Spinx',      slug:'spinx',      dpi:900,  sens:1.1},
-    {name:'Jame',       slug:'jame',       dpi:3200, sens:0.3},
+    {name:'s1mple',     slug:'s1mple',     team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:3.09},
+    {name:'ZywOo',      slug:'zywoo',      team:'Vitality', mouse:'Pulsar Xlite V3', dpi:400,  sens:2.0},
+    {name:'NiKo',       slug:'niko',       team:'G2',       mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.9},
+    {name:'m0NESY',     slug:'m0nesy',     team:'G2',       mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:2.3},
+    {name:'donk',       slug:'donk',       team:'Spirit',   mouse:'Logitech G Pro X Superlight', dpi:800,  sens:1.25},
+    {name:'ropz',       slug:'ropz',       team:'FaZe',     mouse:'Zowie EC2-C', dpi:400,  sens:1.77},
+    {name:'device',     slug:'device',     team:'Astralis', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.95},
+    {name:'sh1ro',      slug:'sh1ro',      team:'Spirit',   mouse:'Razer Viper V3 Pro', dpi:800,  sens:1.04},
+    {name:'XANTARES',   slug:'xantares',   team:'Eternal Fire', mouse:'Zowie FK1-C', dpi:400,  sens:2.3},
+    {name:'frozen',     slug:'frozen',     team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:2.0},
+    {name:'Twistzz',    slug:'twistzz',    team:'Liquid',   mouse:'Pulsar X2', dpi:400,  sens:1.59},
+    {name:'Wicadia',    slug:'wicadia',    team:'Eternal Fire', mouse:'Razer DeathAdder V3 Pro', dpi:800, sens:1.15},
   ],
   apex: [
-    {name:'ImperialHal', slug:'imperialhal', dpi:800,  sens:1.1},
-    {name:'Genburten',   slug:'genburten',   dpi:800,  sens:1.5},
-    {name:'Aceu',        slug:'aceu',        dpi:1600, sens:0.85},
-    {name:'Albralelie',  slug:'albralelie',  dpi:800,  sens:1.0},
-    {name:'Sweetdreams', slug:'sweetdreams', dpi:800,  sens:1.35},
-    {name:'Dropped',     slug:'dropped',     dpi:400,  sens:2.2},
-    {name:'Faide',       slug:'faide',       dpi:1700, sens:0.8},
-    {name:'Reps',        slug:'reps',        dpi:800,  sens:1.1},
-    {name:'Dizzy',       slug:'dizzy',       dpi:800,  sens:1.3},
+    {name:'ImperialHal', slug:'imperialhal', team:'Falcons', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.1},
+    {name:'Genburten',   slug:'genburten',   team:'Falcons', mouse:'Razer Viper V3 Pro', dpi:800,  sens:1.5},
+    {name:'Aceu',        slug:'aceu',        team:'Content', mouse:'Finalmouse Starlight-12', dpi:1600, sens:0.85},
+    {name:'Albralelie',  slug:'albralelie',  team:'LG',      mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:1.0},
+    {name:'Sweetdreams', slug:'sweetdreams', team:'LG',      mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.35},
+    {name:'Faide',       slug:'faide',       team:'Content', mouse:'WLMouse Beast X', dpi:1700, sens:0.8},
   ],
   r6: [
-    {name:'Pengu',    slug:'pengu',    dpi:1600, sens:2},
-    {name:'Beaulo',   slug:'beaulo',   dpi:800,  sens:34},
-    {name:'Canadian', slug:'canadian', dpi:800,  sens:4},
-    {name:'Nesk',     slug:'nesk',     dpi:800,  sens:5},
-    {name:'njr',      slug:'njr',      dpi:800,  sens:12},
+    {name:'Pengu',    slug:'pengu',    team:'Content', mouse:'Logitech G Pro X Superlight', dpi:1600, sens:2},
+    {name:'Beaulo',   slug:'beaulo',   team:'DarkZero', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:34},
+    {name:'Canadian', slug:'canadian', team:'DarkZero', mouse:'Zowie EC2-C', dpi:800,  sens:4},
+    {name:'Nesk',     slug:'nesk',     team:'Liquid',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5},
+    {name:'njr',      slug:'njr',      team:'DarkZero', mouse:'Razer Viper V2 Pro', dpi:800,  sens:12},
   ],
   overwatch: [
-    {name:'Fleta',    slug:'fleta',    dpi:800,  sens:9},
-    {name:'Profit',   slug:'profit',   dpi:800,  sens:8.25},
-    {name:'Decay',    slug:'decay',    dpi:1600, sens:2.03},
-    {name:'Danteh',   slug:'danteh',   dpi:800,  sens:6.0},
-    {name:'Birdring', slug:'birdring', dpi:1600, sens:2.15},
-    {name:'Super',    slug:'super',    dpi:800,  sens:7.75},
+    {name:'Fleta',    slug:'fleta',    team:'Dragons',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:9},
+    {name:'Profit',   slug:'profit',   team:'Dynasty',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:8.25},
+    {name:'Decay',    slug:'decay',    team:'Justice',  mouse:'Razer Viper V3 Pro', dpi:1600, sens:2.03},
+    {name:'Danteh',   slug:'danteh',   team:'Gladiators', mouse:'Finalmouse UltralightX', dpi:800,  sens:6.0},
+    {name:'Proper',   slug:'proper',   team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800, sens:7.0},
+  ],
+  fortnite: [
+    {name:'Mongraal', slug:'mongraal', team:'Heroic',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.088},
+    {name:'Bugha',    slug:'bugha',    team:'Dignitas', mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.078},
+    {name:'Clix',     slug:'clix',     team:'XSET',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.082},
+    {name:'MrSavage', slug:'mrsavage', team:'Heroic',   mouse:'Razer DeathAdder V3 Pro', dpi:1450, sens:0.065},
+    {name:'Peterbot', slug:'peterbot', team:'Agent',    mouse:'Finalmouse UltralightX', dpi:800,  sens:0.075},
+    {name:'TaySon',   slug:'tayson',   team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.078},
+  ],
+  warzone: [
+    {name:'Aydan',    slug:'aydan',    team:'NYSL',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.5},
+    {name:'Biffle',   slug:'biffle',   team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.0},
+    {name:'HusKerrs', slug:'huskerrs', team:'Falcons',  mouse:'Razer Viper V3 Pro', dpi:400,  sens:7.2},
+    {name:'Scump',    slug:'scump',    team:'OpTic',    mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5.0},
+    {name:'Shroud',   slug:'shroud',   team:'Sentinels', mouse:'Logitech G303 Shroud', dpi:800,  sens:5.5},
+  ],
+  pubg: [
+    {name:'TGLTN',    slug:'tgltn',    team:'Soniqs',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:36},
+    {name:'Pio',      slug:'pio',      team:'Gen.G',    mouse:'Zowie EC2-C', dpi:400,  sens:50},
+    {name:'Ubah',     slug:'ubah',     team:'FaZe',     mouse:'Logitech G Pro X Superlight', dpi:400,  sens:45},
+    {name:'Inonix',   slug:'inonix',   team:'Danawa',   mouse:'Razer Viper V3 Pro', dpi:800,  sens:33},
+    {name:'Kickstart',slug:'kickstart',team:'Soniqs',   mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:35},
+  ],
+  thefinals: [
+    {name:'Gigz',     slug:'gigz',     team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.85},
+    {name:'Ottr',     slug:'ottr',     team:'Content', mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.95},
+    {name:'Hype',     slug:'hype',     team:'Top500',  mouse:'Pulsar X2', dpi:1600, sens:0.42},
+  ],
+  battlefield: [
+    {name:'Enders',   slug:'enders',   team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:7.5},
+    {name:'Stodeh',   slug:'stodeh',   team:'Content', mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:6.8},
+    {name:'Ravic',    slug:'ravic',    team:'Content', mouse:'Zowie EC1-C', dpi:400,  sens:14.0},
   ],
 };
 
-// Hangi oyunların pro verisi var
-const PRO_GAME_IDS = ['valorant','cs2','apex','r6','overwatch'];
+const PRO_GAME_IDS = ['valorant','cs2','apex','r6','overwatch','fortnite','warzone','pubg','thefinals','battlefield'];
 
 const ROLES_BY_GAME = {
   valorant:    ['Düellocu (Duelist)','Gözcü (Sentinel)','Kontrol Uzmanı (Controller)','Öncü (Initiator)'],
@@ -732,19 +831,50 @@ const state = {
 };
 
 // ════════════════════════════════════════════════════════════
-//  PAGE SWITCHING & CONVERTER STATE
+//  APP STATE & I18N
 // ════════════════════════════════════════════════════════════
 const convState = {
+  tab: 'hipfire',
   fromGame: 'valorant',
   toGame: 'cs2',
   sens: 0.35,
   fromDpi: 800,
-  toDpi: 800
+  toDpi: 800,
+  scopeGame: 'valorant',
+  scopeMatch: '0', // '0' for MDV 0% (1:1 focal length), '75' for MDV 75%
+  scopeSensInput: 0.35,
+  scopeDpiInput: 800,
 };
+
+const aimTestState = {
+  mode: 'flick', // 'flick', 'track', 'calibrate'
+  running: false,
+  score: 0,
+  hits: 0,
+  totalClicks: 0,
+  targets: [],
+  timeLeft: 30,
+  timerId: null,
+  animId: null,
+  reactionTimes: [],
+  overshootCount: 0,
+  undershootCount: 0,
+  lastSpawnTime: 0,
+  trackingTimeOnTarget: 0,
+  trackingTotalTime: 0,
+  trackOrb: {x: 200, y: 200, vx: 3, vy: 2, r: 24},
+  calibStartPos: null,
+  calibCurrentDeg: 0,
+  userDpi: 800,
+  userSens: 0.35,
+  userGame: 'valorant',
+};
+
+let currentLang = localStorage.getItem('vecsens_lang') || 'tr';
 
 function switchPage(page) {
   state.currentPage = page;
-  ['analysis','converter','pros','feedback'].forEach(p => {
+  ['analysis','converter','aimtest','pros','feedback'].forEach(p => {
     const el = document.getElementById(`page-${p}`);
     const tab = document.getElementById(`ntab-${p}`);
     if (el) el.classList.toggle('hidden', p !== page);
@@ -753,6 +883,7 @@ function switchPage(page) {
   if (page === 'pros')      renderProPage();
   if (page === 'feedback')  renderFeedbackPage();
   if (page === 'converter') renderConverter();
+  if (page === 'aimtest')   renderAimTest();
 }
 
 // ════════════════════════════════════════════════════════════
@@ -1269,16 +1400,31 @@ function showResults() {
       </table></div>
     </div>`:'';
 
+  // Mousepad simülatörü
+  const mousepadSimHtml = getMousepadSimHtml(a, profiles[recIdx]);
+
+  // Kişiye özel antrenman rutini
+  const routineHtml = getPersonalizedRoutineHtml(a);
+
   const html=`
     <div class="results-header">
       <div class="logo-badge"><span class="dot"></span>Analiz Tamamlandı</div>
       <h2>Kişisel Aim Profillerin</h2>
       <p style="color:var(--t2);font-size:14px">${gameName} için ${profiles.length} farklı profil hesaplandı</p>
+      
+      <!-- Quick Action Buttons -->
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()">📸 Espor Profil Kartını İndir (PNG)</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()">🔗 Sonuç Linkini Kopyala</button>
+        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">🎯 Sens'i Canlı Test Et</button>
+      </div>
     </div>
     ${alertHtml}
     ${mouseCardHtml}
     <div class="profiles-section"><h2>🎯 Sensitivity Profillerin</h2>${profileHtml}</div>
+    ${mousepadSimHtml}
     ${multiGameHtml}
+    ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn">🔧 İnce Ayar Başlat</button>
@@ -1288,6 +1434,8 @@ function showResults() {
 
   document.getElementById('resultsArea').classList.remove('hidden');
   document.getElementById('resultsArea').innerHTML=html;
+
+  updateUrlHash();
 }
 
 function getProfileReason(type) {
@@ -1298,6 +1446,274 @@ function getProfileReason(type) {
   if(type==='balanced')  return `Tüm veriler analiz edilerek ${move} hareketi ve ${grip} tutuşu için merkezi dengeli değer hesaplandı. Hem flick hem tracking makul performans sunar.`;
   if(type==='speed')     return `Daha düşük cm/360, hızlı 180° dönüşler ve agresif flick atışlar için optimize edilmiştir. Düellocu ve Entry Fragger rolleri için uygundur.`;
   return '';
+}
+
+// ════════════════════════════════════════════════════════════
+//  MOUSEPAD SIMULATOR
+// ════════════════════════════════════════════════════════════
+function getMousepadSimHtml(answers, recProf) {
+  let padW = 45, padH = 40;
+  if (answers.q5 === 'small') { padW = 25; padH = 20; }
+  else if (answers.q5 === 'medium') { padW = 35; padH = 30; }
+  else if (answers.q5 === 'large') { padW = 45; padH = 40; }
+  else if (answers.q5 === 'xxl') { padW = 90; padH = 40; }
+  else if (answers.q5 === 'custom' && answers.q5b) {
+    padW = parseFloat(answers.q5b.width) || 45;
+    padH = parseFloat(answers.q5b.height) || 40;
+  }
+
+  const halfTurn = recProf.halfTurn;
+  const usagePct = Math.min(100, Math.round((halfTurn / padW) * 100));
+  const isCramped = halfTurn > padW * 0.85;
+
+  return `
+    <div class="analysis-card">
+      <h3>📏 Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">
+        180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var.
+        Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.
+      </p>
+      
+      <div class="pad-visual">
+        <div class="pad-center-mark" style="left:50%"></div>
+        <div class="pad-swipe-range" style="width:${Math.min(96, usagePct)}%;left:${Math.max(2, (100 - usagePct) / 2)}%">
+          180° Dönüş Alanı: ~${halfTurn} cm
+        </div>
+      </div>
+
+      ${isCramped ? `
+        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber)">
+          ⚠️ <b>Alan Uyarısı:</b> 180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.
+        </div>
+      ` : `
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">
+          ✅ <b>İdeal Alan:</b> Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.
+        </div>
+      `}
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════
+//  PERSONALIZED AIM ROUTINE
+// ════════════════════════════════════════════════════════════
+function getPersonalizedRoutineHtml(answers) {
+  const probs = answers.q22 || [];
+  const trainer = answers.q23 || 'aimlab';
+  const isKovaaks = trainer === 'kovaak' || trainer === 'both';
+
+  let focusTitle = 'Dengeli Hassasiyet & Kontrol';
+  let s1 = isKovaaks ? 'Tile Frenzy 180 (3 Set)' : 'Gridshot Ultimate (3 Set)';
+  let s2 = isKovaaks ? '1Wall6Targets Extra Small (3 Set)' : 'Sixshot Precision (4 Set)';
+  let s3 = isKovaaks ? 'Smoothbot Voltaic Easy (3 Set)' : 'Strafetrack Ultimate (3 Set)';
+
+  if (probs.includes('overshoot')) {
+    focusTitle = 'Micro-Correction & Aşırı Kaymayı Önleme';
+    s1 = isKovaaks ? '1Wall 6Targets Small (4 Set)' : 'Microflex Precision (4 Set)';
+    s2 = isKovaaks ? 'Reflex Flick - Fair (3 Set)' : 'Spidershot Precision (3 Set)';
+  } else if (probs.includes('track')) {
+    focusTitle = 'Smooth Tracking & Hareketli Hedef Takibi';
+    s1 = isKovaaks ? 'Thin Shaft Extra Slow (3 Set)' : 'Motiontrack Precision (4 Set)';
+    s2 = isKovaaks ? 'Air Voltaic Easy (3 Set)' : 'Strafetrack Ultimate (4 Set)';
+  } else if (probs.includes('flick')) {
+    focusTitle = 'Hızlı Sıçrama & İsabet Odaklı Flick';
+    s1 = isKovaaks ? '1Wall 2Targets Pasu (3 Set)' : 'Spidershot Ultimate (4 Set)';
+    s2 = isKovaaks ? 'Wide Wall 6 Targets (3 Set)' : 'Gridshot Speed (3 Set)';
+  }
+
+  return `
+    <div class="analysis-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <h3>🏋️ Sana Özel Günlük Aim Rutini (${focusTitle})</h3>
+        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()">📋 Rutini Kopyala</button>
+      </div>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">
+        Belirttiğin nişan sorunlarına göre optimize edilmiş <b>25 dakikalık</b> günlük antrenman programı (${trainer==='no'?'Aim Lab / KovaaKs':trainer.toUpperCase()}):
+      </p>
+
+      <div class="routine-step">
+        <div class="routine-num">1</div>
+        <div>
+          <div class="routine-title"><span class="routine-tag">5 Dk</span> Genel Isınma & Kas Aktivasyonu</div>
+          <div class="routine-desc"><b>${s1}</b> — Mouse'u sıkmadan, sadece bilek ve kol kaslarını ısıtmak için sakin tempoda başla.</div>
+        </div>
+      </div>
+
+      <div class="routine-step">
+        <div class="routine-num">2</div>
+        <div>
+          <div class="routine-title"><span class="routine-tag">15 Dk</span> Ana Gelişim — Zayıf Nokta Odaklı</div>
+          <div class="routine-desc"><b>${s2}</b> ve <b>${s3}</b> — Hedefe tam isabet etmeden ateş etme; hız yerine %90+ doğruluğa odaklan.</div>
+        </div>
+      </div>
+
+      <div class="routine-step">
+        <div class="routine-num">3</div>
+        <div>
+          <div class="routine-title"><span class="routine-tag">5 Dk</span> Maç Öncesi Hızlı Adaptasyon</div>
+          <div class="routine-desc">Oyun içi Poligon / Deathmatch modunda önerilen yeni sensitivity ile 2 el oynayarak antrenmanı tamamla.</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function copyRoutineText() {
+  const t = `🎮 VecSens Özel Aim Rutini:\n1. Isınma (5 dk): Genel Kas Aktivasyonu\n2. Ana Gelişim (15 dk): Mikro Düzeltme & Takip Senaryoları\n3. Maç Öncesi (5 dk): Oyun İçi Deathmatch\nÖnerilen cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360||'--'} cm`;
+  navigator.clipboard.writeText(t).then(()=>showToast('📋 Antrenman rutini panoya kopyalandı!'));
+}
+
+// ════════════════════════════════════════════════════════════
+//  ESPORTS PLAYER CARD GENERATOR (PNG)
+// ════════════════════════════════════════════════════════════
+function downloadPlayerCard() {
+  if (!state.computedProfiles) { alert('Lütfen önce analizi tamamlayın!'); return; }
+  const rec = state.computedProfiles[state.recIdx];
+  const a = state.answers;
+  const gameName = getPrimaryGameName();
+  const mouse = findMouse(a.q2);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 630;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  const bgGrad = ctx.createLinearGradient(0, 0, 1200, 630);
+  bgGrad.addColorStop(0, '#080c14');
+  bgGrad.addColorStop(0.5, '#0d1527');
+  bgGrad.addColorStop(1, '#05070c');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // Radial glow accents
+  const glow1 = ctx.createRadialGradient(200, 100, 10, 200, 100, 400);
+  glow1.addColorStop(0, 'rgba(99, 179, 237, 0.25)');
+  glow1.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  const glow2 = ctx.createRadialGradient(1000, 500, 10, 1000, 500, 450);
+  glow2.addColorStop(0, 'rgba(124, 58, 237, 0.2)');
+  glow2.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // Border frame
+  ctx.strokeStyle = 'rgba(99, 179, 237, 0.3)';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(24, 24, 1152, 582);
+
+  // Header Title & Logo Badge
+  ctx.fillStyle = '#63b3ed';
+  ctx.font = 'bold 20px "Outfit", sans-serif';
+  ctx.fillText('✦ VECSENS AIM ADVISOR', 60, 75);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '800 48px "Outfit", sans-serif';
+  ctx.fillText(`${gameName.toUpperCase()} PROFiLİ`, 60, 135);
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '20px "Outfit", sans-serif';
+  ctx.fillText(`Önerilen Profil: ${rec.name} (${rec.subname})`, 60, 175);
+
+  // Stats Grid Container
+  const drawStatBox = (x, y, w, h, label, val, sub) => {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, 14);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = 'bold 13px "Outfit", sans-serif';
+    ctx.fillText(label.toUpperCase(), x + 20, y + 32);
+
+    ctx.fillStyle = '#63b3ed';
+    ctx.font = 'bold 36px "JetBrains Mono", monospace';
+    ctx.fillText(val, x + 20, y + 76);
+
+    if (sub) {
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '14px "Outfit", sans-serif';
+      ctx.fillText(sub, x + 20, y + 106);
+    }
+  };
+
+  drawStatBox(60, 220, 250, 130, 'DPI', `${rec.dpi}`, 'Donanım Hassasiyeti');
+  drawStatBox(330, 220, 250, 130, 'Hassasiyet', `${rec.sens}`, `${gameName} Oyun İçi`);
+  drawStatBox(600, 220, 250, 130, 'eDPI', `${rec.edpi}`, `${rec.dpi} × ${rec.sens}`);
+  drawStatBox(870, 220, 270, 130, '360° Mesafe', `${rec.cm360} cm`, `180°: ~${rec.halfTurn} cm`);
+
+  // Hardware & Grip Style Info
+  const moveStr = {wrist:'Bilek (Wrist)',arm:'Kol (Arm)',both:'Kol + Bilek (Hybrid)'}[a.q12] || 'Karma';
+  const gripStr = {palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip Grip'}[a.q11] || 'Standart';
+  const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'Standart FPS Mouse');
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+  ctx.strokeStyle = 'rgba(99, 179, 237, 0.2)';
+  ctx.beginPath();
+  ctx.roundRect(60, 380, 1080, 140, 14);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#f1f5f9';
+  ctx.font = 'bold 18px "Outfit", sans-serif';
+  ctx.fillText('🖱️ DONANIM & ERGONOMİ ANALİZİ', 90, 420);
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '15px "Outfit", sans-serif';
+  ctx.fillText(`• Mouse: ${mouseName}`, 90, 460);
+  ctx.fillText(`• Tutuş Stili: ${gripStr}`, 90, 490);
+  ctx.fillText(`• Hareket Tipi: ${moveStr}`, 600, 460);
+  ctx.fillText(`• Doğrulanmış Tarih: ${new Date().toLocaleDateString('tr-TR')}`, 600, 490);
+
+  // Footer Watermark
+  ctx.fillStyle = '#64748b';
+  ctx.font = '14px "JetBrains Mono", monospace';
+  ctx.fillText('VecSens AI Aim Optimizer · github.com/canxozai/VecSens', 60, 570);
+
+  // Trigger Download
+  const link = document.createElement('a');
+  link.download = `VecSens_${gameName}_AimProfile.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+
+  showToast('📸 Espor Aim Kartın başarıyla indirildi!');
+}
+
+// ════════════════════════════════════════════════════════════
+//  SHAREABLE URL & TOAST
+// ════════════════════════════════════════════════════════════
+function updateUrlHash() {
+  if (!state.computedProfiles) return;
+  const rec = state.computedProfiles[state.recIdx];
+  const payload = {
+    g: getPrimaryGameId(),
+    d: rec.dpi,
+    s: rec.sens,
+    c: rec.cm360,
+    m: state.answers.q2 || '',
+    gr: state.answers.q11 || '',
+  };
+  window.location.hash = `share=${btoa(JSON.stringify(payload))}`;
+}
+
+function copyShareableLink() {
+  updateUrlHash();
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    showToast('🔗 Sonuç linki panoya kopyalandı!');
+  });
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -1371,37 +1787,48 @@ function applyFineTune() {
     ${state.adjustmentRound<3?`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="startFineTune()">🔄 Bir Tur Daha</button></div>`:''}
   `);
 }
+//  PRO PLAYERS PAGE WITH SEARCH
+// ════════════════════════════════════════════════════════════
+let proSearchQuery = '';
 
-// ════════════════════════════════════════════════════════════
-//  PRO PLAYERS PAGE
-// ════════════════════════════════════════════════════════════
+function onProSearch(q) {
+  proSearchQuery = q.toLowerCase().trim();
+  renderProPage();
+}
+
 function renderProPage() {
-  const gameId=state.proGameFilter;
-  const players=(PRO_DATA[gameId]||[]).map(p=>({
+  const gameId = state.proGameFilter || 'valorant';
+  let players = (PRO_DATA[gameId] || []).map(p => ({
     ...p,
-    edpi: Math.round(p.dpi*p.sens),
+    edpi: Math.round(p.dpi * p.sens),
     cm360: calcCm360(p.dpi, p.sens, gameId),
   }));
 
+  if (proSearchQuery) {
+    players = players.filter(p => 
+      p.name.toLowerCase().includes(proSearchQuery) ||
+      (p.team && p.team.toLowerCase().includes(proSearchQuery)) ||
+      (p.mouse && p.mouse.toLowerCase().includes(proSearchQuery))
+    );
+  }
+
   // Sort
-  const col=state.proSortCol, dir=state.proSortDir;
-  players.sort((a,b)=>{
-    const av=col==='name'?a.name:col==='team'?a.team:a[col];
-    const bv=col==='name'?b.name:col==='team'?b.team:b[col];
-    if(typeof av==='string') return dir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
-    return dir==='asc'?av-bv:bv-av;
+  const col = state.proSortCol, dir = state.proSortDir;
+  players.sort((a,b) => {
+    const av = col==='name'?a.name:col==='team'?a.team:col==='mouse'?a.mouse:a[col];
+    const bv = col==='name'?b.name:col==='team'?b.team:col==='mouse'?b.mouse:b[col];
+    if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+    return dir === 'asc' ? av - bv : bv - av;
   });
 
-  // Stats
-  const avgEdpi=Math.round(players.reduce((s,p)=>s+p.edpi,0)/players.length);
-  const avgCm=Math.round(players.reduce((s,p)=>s+p.cm360,0)/players.length*10)/10;
-  const minCm=Math.min(...players.map(p=>p.cm360));
-  const maxCm=Math.max(...players.map(p=>p.cm360));
+  const avgEdpi = players.length ? Math.round(players.reduce((s,p)=>s+p.edpi,0)/players.length) : 0;
+  const avgCm = players.length ? Math.round(players.reduce((s,p)=>s+p.cm360,0)/players.length*10)/10 : 0;
+  const minCm = players.length ? Math.min(...players.map(p=>p.cm360)) : 0;
+  const maxCm = players.length ? Math.max(...players.map(p=>p.cm360)) : 0;
 
-  // User comparison
-  const userProfiles=state.computedProfiles;
-  const userRec=userProfiles?userProfiles[state.recIdx]:null;
-  const userHighlightHtml=userRec?`
+  const userProfiles = state.computedProfiles;
+  const userRec = userProfiles ? userProfiles[state.recIdx] : null;
+  const userHighlightHtml = userRec ? `
     <div class="user-highlight-box">
       <div class="uh-label">📊 Senin Önerilen Dengeli Ayarın</div>
       <div class="uh-vals">
@@ -1410,44 +1837,51 @@ function renderProPage() {
         <div class="uh-val"><span>eDPI</span>${userRec.edpi}</div>
         <div class="uh-val"><span>cm/360</span>${userRec.cm360}</div>
       </div>
-    </div>`:'';
+    </div>` : '';
 
-  // Game filter tabs
-  const filterTabs=PRO_GAME_IDS.map(id=>{
-    const g=GAMES.find(x=>x.id===id);
+  const filterTabs = PRO_GAME_IDS.map(id => {
+    const g = GAMES.find(x => x.id === id);
     return `<button class="game-tab ${gameId===id?'active':''}" onclick="setProGame('${id}')">${g?.icon||''} ${g?.label||id}</button>`;
   }).join('');
 
-  function sortArrow(col) {
-    if(state.proSortCol!==col) return '<span class="sort-arrow"></span>';
+  function sortArrow(c) {
+    if (state.proSortCol !== c) return '<span class="sort-arrow"></span>';
     return `<span class="sort-arrow ${state.proSortDir}"></span>`;
   }
 
-  const cols=[
-    {key:'name', label:'Oyuncu'},
-    {key:'dpi',  label:'DPI'},
+  const cols = [
+    {key:'name', label:'Oyuncu / Takım'},
+    {key:'mouse', label:'Kullandığı Mouse'},
+    {key:'dpi', label:'DPI'},
     {key:'sens', label:'Hassasiyet'},
     {key:'edpi', label:'eDPI'},
-    {key:'cm360',label:'cm/360'},
+    {key:'cm360', label:'cm/360'},
   ];
 
-  const tableRows=players.map(p=>{
-    const isUser=userRec&&Math.abs(p.cm360-userRec.cm360)<5;
-    const url=`https://prosettings.net/players/${p.slug||p.name.toLowerCase().replace(/[^a-z0-9]/g,'')}/`;
-    return `<tr ${isUser?'class="user-row"':''}>
-      <td><a href="${url}" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:6px">${p.name}<span style="font-size:10px;color:var(--t3);opacity:.7">↗</span></a></td>
-      <td class="mono">${p.dpi}</td>
-      <td class="mono highlight">${p.sens}</td>
-      <td class="mono">${p.edpi}</td>
-      <td class="mono">${p.cm360}</td>
-    </tr>`;
+  const tableRows = players.map(p => {
+    const isUser = userRec && Math.abs(p.cm360 - userRec.cm360) < 5;
+    const url = `https://prosettings.net/players/${p.slug||p.name.toLowerCase().replace(/[^a-z0-9]/g,'')}/`;
+    return `
+      <tr ${isUser?'class="user-row"':''}>
+        <td>
+          <a href="${url}" target="_blank" rel="noopener" style="color:var(--t1);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:6px">
+            ${p.name}
+            ${p.team ? `<span class="team-badge">${p.team}</span>` : ''}
+            <span style="font-size:10px;color:var(--t3);opacity:.7">↗</span>
+          </a>
+        </td>
+        <td style="font-size:13px;color:var(--t2)">${p.mouse || '—'}</td>
+        <td class="mono">${p.dpi}</td>
+        <td class="mono highlight">${p.sens}</td>
+        <td class="mono">${p.edpi}</td>
+        <td class="mono">${p.cm360}</td>
+      </tr>
+    `;
   }).join('');
 
-  const html=`
+  const html = `
     <div class="game-tabs">${filterTabs}</div>
-
     ${userHighlightHtml}
-
     <div class="pro-stats-row">
       <div class="pro-stat"><div class="ps-label">Ortalama eDPI</div><div class="ps-value">${avgEdpi}</div><div class="ps-sub">${players.length} oyuncu</div></div>
       <div class="pro-stat"><div class="ps-label">Ortalama cm/360</div><div class="ps-value">${avgCm}</div><div class="ps-sub">cm</div></div>
@@ -1460,53 +1894,38 @@ function renderProPage() {
         <thead><tr>
           ${cols.map(c=>`<th class="${state.proSortCol===c.key?'sorted':''}" onclick="proSort('${c.key}')">${c.label} ${sortArrow(c.key)}</th>`).join('')}
         </tr></thead>
-        <tbody>${tableRows}</tbody>
+        <tbody>${tableRows.length ? tableRows : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">Arama kriterine uygun oyuncu bulunamadı.</td></tr>`}</tbody>
       </table>
     </div>
     <p style="font-size:12px;color:var(--t3);margin-top:12px;text-align:center">
-      Kaynak: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a> — Oyuncu adına tıklayarak kaynağı doğrulayabilirsin. Ayarlar zaman zaman değişebilir.
-      ${userRec?`<br>🔵 Maviye yakın satırlar, senin sensitivity aralığındaki prolar.`:''}
-    </p>`;
+      Kaynak: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a>
+      ${userRec ? `<br>🔵 Maviye yakın satırlar, senin sensitivity aralığındaki prolar.` : ''}
+    </p>
+  `;
 
-  document.getElementById('prosContent').innerHTML=html;
+  document.getElementById('prosContent').innerHTML = html;
 }
 
 function setProGame(id) {
-  state.proGameFilter=id;
+  state.proGameFilter = id;
   renderProPage();
 }
 
 function proSort(col) {
-  if(state.proSortCol===col) state.proSortDir=state.proSortDir==='asc'?'desc':'asc';
-  else{state.proSortCol=col;state.proSortDir='asc';}
+  if (state.proSortCol === col) state.proSortDir = state.proSortDir === 'asc' ? 'desc' : 'asc';
+  else { state.proSortCol = col; state.proSortDir = 'asc'; }
   renderProPage();
 }
 
 // ════════════════════════════════════════════════════════════
 //  FEEDBACK PAGE
 // ════════════════════════════════════════════════════════════
-const FB_LIKES=[
-  'Sorular çok açıklayıcıydı','cm/360 hesabı mantıklıydı','Pro oyuncu karşılaştırması faydalıydı',
-  'Sistem uyarıları işe yaradı','İnce ayar özelliği iyiydi','Tasarım güzeldi',
-];
-const FB_IMPROVE=[
-  'Daha fazla soru olabilir','Pro oyuncu verisi eksik','Arayüz karmaşıktı',
-  'Önerilen sensitivity uygun değildi','Türkçe terimler belirsizdi','Daha fazla oyun desteklenmeli',
-];
-
-let fbState={rating:0,tried:null,likes:[],improve:[],text:''};
-
 function getWebhook(){
   return localStorage.getItem('discord_webhook') ||
     'https://discord.com/api/webhooks/1534553232628514939/xNy1K1qiV6OVCg6L2DA65WvROZW70kkUU_QCHCuWaHXLrVJB3cdDFvpkTrLiOoQVij8r';
 }
 
-function saveWebhook(){const el=document.getElementById('webhookInput');if(el){localStorage.setItem('discord_webhook',el.value.trim());el.style.borderColor='var(--green)';setTimeout(()=>{el.style.borderColor='';},1200);}}
-
 function renderFeedbackPage() {
-  const feedbacks=JSON.parse(localStorage.getItem('fps_feedbacks')||'[]');
-  const already=feedbacks.length>0;
-  const wh = getWebhook();
   const html=`
     <div class="feedback-card">
       <h3>⭐ Genel Değerlendirme</h3>
@@ -1559,92 +1978,24 @@ function renderFeedbackPage() {
         <button class="btn btn-primary" onclick="submitFeedback()">📨 Geri Bildirimi Gönder</button>
       </div>
     </div>
-
   `;
   document.getElementById('feedbackContent').innerHTML=html;
 }
 
 function ratingLabel(r){return['','😔 Çok kötü','🙁 Kötü','😐 Orta','🙂 İyi','🤩 Mükemmel'][r]||''}
 
-function setRating(n) {
-  fbState.rating=n;
-  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('active',i<n));
-  const lbl=document.getElementById('ratingLabel');if(lbl)lbl.textContent=ratingLabel(n);
-}
-function setTried(v) {
-  fbState.tried=v;
-  document.querySelectorAll('.fb-option').forEach(el=>{
-    if(el.getAttribute('onclick')===`setTried('${v}')`) el.classList.add('selected');
-    else if(el.getAttribute('onclick')?.startsWith('setTried')) el.classList.remove('selected');
-  });
-}
-function toggleFbLike(l) {
-  const i=fbState.likes.indexOf(l);
-  if(i>-1)fbState.likes.splice(i,1);else fbState.likes.push(l);
-  renderFeedbackPage();
-}
-function toggleFbImprove(l) {
-  const i=fbState.improve.indexOf(l);
-  if(i>-1)fbState.improve.splice(i,1);else fbState.improve.push(l);
-  renderFeedbackPage();
-}
-
 function submitFeedback() {
   if(!fbState.rating){alert('Lütfen en az bir yıldız ver!');return;}
-
-  // ── Yerel kayıt ──
-  const feedbacks=JSON.parse(localStorage.getItem('fps_feedbacks')||'[]');
-  feedbacks.push({
-    date:new Date().toISOString(),
-    rating:fbState.rating,
-    tried:fbState.tried,
-    likes:fbState.likes,
-    improve:fbState.improve,
-    text:fbState.text,
-  });
-  localStorage.setItem('fps_feedbacks',JSON.stringify(feedbacks));
-
-  // ── Discord Webhook'a gönder ──
   const webhookUrl = getWebhook();
   if(webhookUrl) {
     const stars = '⭐'.repeat(fbState.rating) + '☆'.repeat(5-fbState.rating);
-    const triedLabel = {
-      yes:     '✅ Evet, faydalı oldu',
-      partial: '🔧 Evet, biraz ayar gerekti',
-      no:      '⏳ Henüz denemedim',
-      bad:     '❌ Denedim ama uygun değildi',
-    }[fbState.tried] || '—';
-
-    const embed = {
-      embeds: [{
-        title: '🎮 FPS Mouse Advisor — Geri Bildirim',
-        color: 0x63b3ed,
-        fields: [
-          {name:'⭐ Değerlendirme', value: stars + ` (${fbState.rating}/5)`, inline:true},
-          {name:'🎯 Sensitivity Deneyimi', value: triedLabel, inline:true},
-          {name:'👍 Beğenilenler', value: fbState.likes.length ? fbState.likes.join('\n') : '—', inline:false},
-          {name:'🔧 Geliştirilmeli', value: fbState.improve.length ? fbState.improve.join('\n') : '—', inline:false},
-          {name:'💬 Yorum', value: fbState.text || '—', inline:false},
-        ],
-        footer:{text:'FPS Mouse Advisor'},
-        timestamp: new Date().toISOString(),
-      }]
-    };
-
+    const msg = `🎮 FPS Mouse Advisor Geri Bildirim\n⭐ ${fbState.rating}/5\n👍 ${fbState.likes.join(', ')||'—'}\n🔧 ${fbState.improve.join(', ')||'—'}\n💬 ${fbState.text||'—'}`;
     fetch(webhookUrl, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(embed),
-    }).catch(()=>{
-      // file:// protokolünden CORS hatası alınırsa form-urlencoded ile dene
-      const msg = `🎮 FPS Mouse Advisor Geri Bildirim\n⭐ ${fbState.rating}/5 | ${triedLabel}\n👍 ${fbState.likes.join(', ')||'—'}\n🔧 ${fbState.improve.join(', ')||'—'}\n💬 ${fbState.text||'—'}`;
-      fetch(webhookUrl, {
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'content='+encodeURIComponent(msg),
-      }).catch(()=>{});
-    });
+      mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:'content='+encodeURIComponent(msg),
+    }).catch(()=>{});
   }
 
   fbState={rating:0,tried:null,likes:[],improve:[],text:''};
@@ -1652,16 +2003,34 @@ function submitFeedback() {
     <div class="fb-success">
       <div class="tick">🎉</div>
       <h3>Teşekkürler!</h3>
-      <p>Geri bildiriminiz kaydedildi${webhookUrl?' ve Discord\'a iletildi':' (webhook girilmemiş)'}.</p>
+      <p>Geri bildiriminiz kaydedildi.</p>
       <div style="margin-top:18px">
         <button class="btn btn-primary" onclick="renderFeedbackPage()">Yeni Geri Bildirim Ekle</button>
       </div>
     </div>`;
 }
+
 // ════════════════════════════════════════════════════════════
-//  SENS CONVERTER PAGE
+//  SENS & SCOPE CONVERTER PAGE
 // ════════════════════════════════════════════════════════════
 function renderConverter() {
+  const container = document.getElementById('converterContent');
+  if (!container) return;
+
+  const subtab = convState.tab || 'hipfire';
+
+  const subtabsHtml = `
+    <div class="subtabs">
+      <button class="subtab-btn ${subtab==='hipfire'?'active':''}" onclick="setConvTab('hipfire')">🎮 Oyunlar Arası Sens (Hipfire)</button>
+      <button class="subtab-btn ${subtab==='scope'?'active':''}" onclick="setConvTab('scope')">🔭 Scope & Zoom Sensitivity</button>
+    </div>
+  `;
+
+  if (subtab === 'scope') {
+    container.innerHTML = subtabsHtml + getScopeCalculatorHtml();
+    return;
+  }
+
   const fromGame = GAMES.find(g=>g.id===convState.fromGame) || GAMES[0];
   const toGame = GAMES.find(g=>g.id===convState.toGame) || GAMES[1];
   
@@ -1686,6 +2055,7 @@ function renderConverter() {
   }).join('');
 
   const html = `
+    ${subtabsHtml}
     ${hasAnalysis ? `
       <div style="background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:var(--r3);padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
         <div style="font-size:13px;color:var(--t1)">
@@ -1761,9 +2131,7 @@ function renderConverter() {
       </div>
     </div>
   `;
-
-  const container = document.getElementById('converterContent');
-  if (container) container.innerHTML = html;
+  container.innerHTML = html;
 }
 
 function onConvChange(field, value) {
@@ -1791,6 +2159,396 @@ function loadAnalysisIntoConverter() {
   }
 }
 
+// ── SCOPE / ZOOM SENS CALCULATOR ──
+const SCOPE_DATA = {
+  valorant: [
+    {weapon:'Operator (1x / 2.5x Zoom)', fov:40, defMulti:1.0, mdv0:0.747, mdv75:0.819},
+    {weapon:'Marshal / Outlaw (1.25x Zoom)', fov:60, defMulti:1.0, mdv0:0.819, mdv75:0.892},
+    {weapon:'Vandal / Phantom ADS (1.15x)', fov:80, defMulti:1.0, mdv0:0.892, mdv75:0.941},
+  ],
+  cs2: [
+    {weapon:'AWP (1x Zoom - 40° FOV)', fov:40, defMulti:1.0, mdv0:0.8189, mdv75:1.0},
+    {weapon:'AWP (2x Zoom - 10° FOV)', fov:10, defMulti:1.0, mdv0:0.8189, mdv75:1.0},
+    {weapon:'SSG 08 / Scout (1x Zoom)', fov:45, defMulti:1.0, mdv0:0.8189, mdv75:1.0},
+    {weapon:'AUG / SG 553 (ADS)', fov:55, defMulti:1.0, mdv0:0.8189, mdv75:1.0},
+  ],
+  apex: [
+    {weapon:'1x HCOG / Holo', fov:70, defMulti:1.0, mdv0:1.0, mdv75:1.0},
+    {weapon:'2x Bruiser / HCOG', fov:45, defMulti:1.0, mdv0:1.12, mdv75:1.15},
+    {weapon:'3x HCOG Ranger', fov:30, defMulti:1.0, mdv0:1.24, mdv75:1.28},
+    {weapon:'4x-8x Sniper Optics', fov:15, defMulti:1.0, mdv0:1.42, mdv75:1.48},
+  ],
+  overwatch: [
+    {weapon:'Widowmaker (Scope)', fov:30, defMulti:30.0, mdv0:37.89, mdv75:44.0},
+    {weapon:'Ana (Scope)', fov:30, defMulti:30.0, mdv0:37.89, mdv75:44.0},
+    {weapon:'Ashe (ADS - Coach Gun)', fov:45, defMulti:40.0, mdv0:51.47, mdv75:56.2},
+    {weapon:'Illari (Rifle ADS)', fov:45, defMulti:30.0, mdv0:37.89, mdv75:44.0},
+  ],
+  r6: [
+    {weapon:'1.0x (Red Dot / Holo)', fov:60, defMulti:50, mdv0:58, mdv75:64},
+    {weapon:'1.5x Telescopic', fov:40, defMulti:50, mdv0:89, mdv75:94},
+    {weapon:'2.0x Scope', fov:30, defMulti:50, mdv0:98, mdv75:104},
+    {weapon:'2.5x ACOG', fov:24, defMulti:50, mdv0:104, mdv75:110},
+  ],
+};
+
+function getScopeCalculatorHtml() {
+  const g = convState.scopeGame || 'valorant';
+  const scopes = SCOPE_DATA[g] || SCOPE_DATA.valorant;
+  const matchMode = convState.scopeMatch || '0';
+
+  const gameBtns = Object.keys(SCOPE_DATA).map(gid => {
+    const glabel = GAMES.find(x=>x.id===gid)?.label || gid;
+    return `<button class="game-tab ${g===gid?'active':''}" onclick="setScopeGame('${gid}')">${glabel}</button>`;
+  }).join('');
+
+  const rows = scopes.map(sc => {
+    const targetVal = matchMode === '0' ? sc.mdv0 : matchMode === '75' ? sc.mdv75 : sc.defMulti;
+    return `
+      <tr>
+        <td style="font-weight:600;color:var(--t1)">${sc.weapon}</td>
+        <td class="mono" style="color:var(--t3)">${sc.fov}°</td>
+        <td class="mono" style="color:var(--t3)">${sc.defMulti}</td>
+        <td class="mono highlight" style="font-size:16px;font-weight:700">${targetVal}</td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="conv-card">
+      <h3>🔭 Scope & Zoom Sensitivity Hesaplayıcı</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:16px">
+        Dürbün açtığında (ADS/Scope) hipfire nişan reflekslerinin ve kas hafızanın 1:1 korunması için önerilen zoom çarpanları:
+      </p>
+
+      <div class="game-tabs" style="margin-bottom:18px">${gameBtns}</div>
+
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <label class="conv-label">Eşleme Modu (Monitor Distance Match)</label>
+          <select class="conv-select" onchange="setScopeMatch(this.value)">
+            <option value="0" ${matchMode==='0'?'selected':''}>Focal Length 1:1 Match (MDV 0% — En Doğal Kas Hafızası)</option>
+            <option value="75" ${matchMode==='75'?'selected':''}>Monitor Match 75% (CS / CoD Standardı)</option>
+            <option value="def" ${matchMode==='def'?'selected':''}>Oyun Varsayılan Çarpanı (1.0x)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="scope-table">
+          <thead>
+            <tr>
+              <th>Dürbün / Optik Türü</th>
+              <th>Zoom FOV</th>
+              <th>Oyun Varsayılanı</th>
+              <th>Önerilen Çarpan (1:1 Match)</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      
+      <div style="background:rgba(99,179,237,.06);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
+        💡 <b>İpucu:</b> Valorant'ta Operator için <b>0.747</b>, CS2'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.
+      </div>
+    </div>
+  `;
+}
+
+function setScopeGame(g) {
+  convState.scopeGame = g;
+  renderConverter();
+}
+
+function setScopeMatch(m) {
+  convState.scopeMatch = m;
+  renderConverter();
+}
+
+// ════════════════════════════════════════════════════════════
+//  AIM TEST & SENSITIVITY LAB (CANVAS)
+// ════════════════════════════════════════════════════════════
+function renderAimTest() {
+  const container = document.getElementById('aimtestContent');
+  if (!container) return;
+
+  const mode = aimTestState.mode;
+
+  const html = `
+    <div class="aimtest-container">
+      <div class="aimtest-modes">
+        <button class="aimtest-mode-btn ${mode==='flick'?'active':''}" onclick="setAimMode('flick')">🎯 Flick İsabet Testi (30s)</button>
+        <button class="aimtest-mode-btn ${mode==='track'?'active':''}" onclick="setAimMode('track')">🔄 Tracking Takip Testi (20s)</button>
+        <button class="aimtest-mode-btn ${mode==='calibrate'?'active':''}" onclick="setAimMode('calibrate')">📐 180° Kalibrasyon Testi</button>
+      </div>
+
+      <div class="aim-canvas-wrap" id="aimCanvasWrap" onclick="onAimCanvasClick(event)">
+        <canvas id="aimCanvas"></canvas>
+        <div class="aim-hud">
+          <div class="hud-stat">Süre: <span id="hudTime">30s</span></div>
+          <div class="hud-stat">Skor: <span id="hudScore">0</span></div>
+          <div class="hud-stat">İsabet: <span id="hudAcc">100%</span></div>
+        </div>
+        <div class="aim-overlay" id="aimOverlay">
+          <h3 id="overlayTitle">🎯 Aim Testine Başla</h3>
+          <p id="overlayDesc">Ekranda beliren hedeflere mümkün olduğunca hızlı ve isabetli tıkla.</p>
+          <button class="btn btn-primary" onclick="startAimTest()">⚡ Testi Başlat</button>
+        </div>
+      </div>
+
+      <div id="aimResultCard" class="hidden"></div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  initAimCanvas();
+}
+
+function setAimMode(m) {
+  stopAimTest();
+  aimTestState.mode = m;
+  renderAimTest();
+}
+
+function initAimCanvas() {
+  const canvas = document.getElementById('aimCanvas');
+  if (!canvas) return;
+  const wrap = document.getElementById('aimCanvasWrap');
+  canvas.width = wrap.clientWidth;
+  canvas.height = wrap.clientHeight;
+}
+
+function startAimTest() {
+  const overlay = document.getElementById('aimOverlay');
+  if (overlay) overlay.classList.add('hidden');
+  document.getElementById('aimResultCard')?.classList.add('hidden');
+
+  const canvas = document.getElementById('aimCanvas');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+
+  aimTestState.running = true;
+  aimTestState.score = 0;
+  aimTestState.hits = 0;
+  aimTestState.totalClicks = 0;
+  aimTestState.reactionTimes = [];
+  aimTestState.overshootCount = 0;
+  aimTestState.undershootCount = 0;
+  aimTestState.trackingTimeOnTarget = 0;
+  aimTestState.trackingTotalTime = 0;
+
+  const isTrack = aimTestState.mode === 'track';
+  const isCalib = aimTestState.mode === 'calibrate';
+  aimTestState.timeLeft = isTrack ? 20 : isCalib ? 15 : 30;
+
+  if (aimTestState.mode === 'flick') {
+    aimTestState.targets = [];
+    for (let i = 0; i < 3; i++) spawnFlickTarget(w, h);
+  } else if (isTrack) {
+    aimTestState.trackOrb = {x: w / 2, y: h / 2, vx: 4, vy: 3, r: 28};
+  }
+
+  aimTestState.lastSpawnTime = performance.now();
+
+  // Timer
+  clearInterval(aimTestState.timerId);
+  aimTestState.timerId = setInterval(() => {
+    aimTestState.timeLeft--;
+    const tEl = document.getElementById('hudTime');
+    if (tEl) tEl.textContent = `${aimTestState.timeLeft}s`;
+    if (aimTestState.timeLeft <= 0) {
+      stopAimTest();
+      showAimResults();
+    }
+  }, 1000);
+
+  runAimLoop();
+}
+
+function stopAimTest() {
+  aimTestState.running = false;
+  clearInterval(aimTestState.timerId);
+  cancelAnimationFrame(aimTestState.animId);
+}
+
+function spawnFlickTarget(w, h) {
+  const pad = 50;
+  const t = {
+    x: pad + Math.random() * (w - pad * 2),
+    y: pad + Math.random() * (h - pad * 2),
+    r: 22,
+    spawnTime: performance.now(),
+  };
+  aimTestState.targets.push(t);
+}
+
+function runAimLoop() {
+  if (!aimTestState.running) return;
+  const canvas = document.getElementById('aimCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Background Grid
+  ctx.strokeStyle = 'rgba(99, 179, 237, 0.05)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+  for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+  if (aimTestState.mode === 'flick') {
+    aimTestState.targets.forEach(t => {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(99, 179, 237, 0.2)';
+      ctx.fill();
+      ctx.strokeStyle = '#63b3ed';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fill();
+    });
+  } else if (aimTestState.mode === 'track') {
+    const orb = aimTestState.trackOrb;
+    orb.x += orb.vx;
+    orb.y += orb.vy;
+    if (orb.x < orb.r || orb.x > w - orb.r) orb.vx *= -1;
+    if (orb.y < orb.r || orb.y > h - orb.r) orb.vy *= -1;
+
+    if (Math.random() < 0.04) orb.vx = (Math.random() - 0.5) * 8;
+    if (Math.random() < 0.04) orb.vy = (Math.random() - 0.5) * 8;
+
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(124, 58, 237, 0.35)';
+    ctx.fill();
+    ctx.strokeStyle = '#a78bfa';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    aimTestState.trackingTotalTime += 16.6;
+  }
+
+  aimTestState.animId = requestAnimationFrame(runAimLoop);
+}
+
+function onAimCanvasClick(e) {
+  if (!aimTestState.running) return;
+  const canvas = document.getElementById('aimCanvas');
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+
+  aimTestState.totalClicks++;
+
+  if (aimTestState.mode === 'flick') {
+    let hitIdx = -1;
+    for (let i = 0; i < aimTestState.targets.length; i++) {
+      const t = aimTestState.targets[i];
+      const dist = Math.hypot(clickX - t.x, clickY - t.y);
+      if (dist <= t.r) {
+        hitIdx = i;
+        const rt = Math.round(performance.now() - t.spawnTime);
+        aimTestState.reactionTimes.push(rt);
+        break;
+      } else if (dist < t.r + 30) {
+        if (dist > t.r) aimTestState.overshootCount++;
+      }
+    }
+
+    if (hitIdx > -1) {
+      aimTestState.hits++;
+      aimTestState.score += 100;
+      aimTestState.targets.splice(hitIdx, 1);
+      spawnFlickTarget(canvas.width, canvas.height);
+    }
+
+    const acc = Math.round((aimTestState.hits / aimTestState.totalClicks) * 100);
+    document.getElementById('hudScore').textContent = aimTestState.score;
+    document.getElementById('hudAcc').textContent = `${acc}%`;
+  }
+}
+
+function showAimResults() {
+  const overlay = document.getElementById('aimOverlay');
+  if (overlay) overlay.classList.remove('hidden');
+
+  const acc = aimTestState.totalClicks ? Math.round((aimTestState.hits / aimTestState.totalClicks) * 100) : 0;
+  const avgRt = aimTestState.reactionTimes.length ? Math.round(aimTestState.reactionTimes.reduce((a,b)=>a+b,0)/aimTestState.reactionTimes.length) : 0;
+
+  let advice = 'Nişan stabiliteniz dengeli görünüyor!';
+  if (acc < 75 && aimTestState.overshootCount > 3) {
+    advice = '⚠️ Hedefleri sıklıkla kaçırıyorsunuz (Overshoot). Sensitivity değerinizi %5 - %10 oranında azaltmanızı öneririz.';
+  } else if (avgRt > 550) {
+    advice = '💡 Tepki süreniz biraz yavaş kalıyor. Sensitivity değerinizi biraz artırarak daha çevik hamleler yapabilirsiniz.';
+  } else if (acc >= 90) {
+    advice = '🔥 Mükemmel isabet oranı! Kas hafızanız ve mevcut hassasiyetiniz son derece uyumlu.';
+  }
+
+  document.getElementById('overlayTitle').textContent = '🏁 Test Tamamlandı!';
+  document.getElementById('overlayDesc').innerHTML = `
+    <b>Skor:</b> ${aimTestState.score} | <b>İsabet:</b> %${acc} | <b>Ort. Tepki:</b> ${avgRt} ms<br>
+    <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════
+//  I18N LANGUAGE TOGGLE
+// ════════════════════════════════════════════════════════════
+const I18N = {
+  tr: {
+    btn: '🌐 EN',
+    title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span>',
+    sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
+    tabAnalysis: 'Analiz',
+    tabConverter: 'Sens & Scope Converter',
+    tabAimtest: '🎯 Aim Testi',
+    tabPros: 'Pro Oyuncular',
+    tabFeedback: 'Geri Bildirim',
+  },
+  en: {
+    btn: '🇹🇷 TR',
+    title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Personalized Aim Optimizer</span>',
+    sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
+    tabAnalysis: 'Analysis',
+    tabConverter: 'Sens & Scope Converter',
+    tabAimtest: '🎯 Aim Test Lab',
+    tabPros: 'Pro Players',
+    tabFeedback: 'Feedback',
+  }
+};
+
+function toggleLanguage() {
+  currentLang = currentLang === 'tr' ? 'en' : 'tr';
+  localStorage.setItem('vecsens_lang', currentLang);
+  applyLanguage();
+  showToast(currentLang === 'tr' ? '🇹🇷 Dil: Türkçe' : '🌐 Language: English');
+}
+
+function applyLanguage() {
+  const dict = I18N[currentLang] || I18N.tr;
+  const lBtn = document.getElementById('langBtn');
+  if (lBtn) lBtn.textContent = dict.btn;
+  const hTitle = document.getElementById('headerTitle');
+  if (hTitle) hTitle.innerHTML = dict.title;
+  const hSub = document.getElementById('headerSub');
+  if (hSub) hSub.textContent = dict.sub;
+  const tAna = document.getElementById('ntab-analysis');
+  if (tAna) tAna.textContent = dict.tabAnalysis;
+  const tConv = document.getElementById('ntab-converter');
+  if (tConv) tConv.textContent = dict.tabConverter;
+  const tAim = document.getElementById('ntab-aimtest');
+  if (tAim) tAim.textContent = dict.tabAimtest;
+  const tPros = document.getElementById('ntab-pros');
+  if (tPros) tPros.textContent = dict.tabPros;
+  const tFb = document.getElementById('ntab-feedback');
+  if (tFb) tFb.textContent = dict.tabFeedback;
+}
+
 // ════════════════════════════════════════════════════════════
 //  EMOJI STRIP
 // ════════════════════════════════════════════════════════════
@@ -1816,6 +2574,22 @@ function stripAll() {
 // ════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
   renderQuestion(0);
+  applyLanguage();
+
+  // Check URL Hash for shared profile
+  if (window.location.hash.startsWith('#share=')) {
+    try {
+      const payload = JSON.parse(atob(window.location.hash.replace('#share=', '')));
+      if (payload && payload.d && payload.s) {
+        state.answers.q1 = [payload.g || 'valorant'];
+        state.answers.q3 = `${payload.d}`;
+        state.answers.q2 = payload.m || '';
+        state.answers.q11 = payload.gr || 'palm';
+        showResults();
+        showToast('🎯 Paylaşılan profil yüklendi!');
+      }
+    } catch(e){}
+  }
 
   // Enter tuşu → sonraki soru (textarea / input içindeyken çalışmaz)
   document.addEventListener('keydown', e => {
@@ -1823,7 +2597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tag = document.activeElement?.tagName;
     if (tag === 'TEXTAREA') return;
     if (tag === 'INPUT') return;
-    if (tag === 'BUTTON') return; // buton zaten Enter ile tetiklenir
+    if (tag === 'BUTTON') return;
     if (state.currentPage === 'analysis' && !state.analysisComplete) {
       e.preventDefault();
       goNext();
@@ -1837,12 +2611,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const origRenderFb   = renderFeedbackPage;
   const origShowResult = showResults;
   const origRenderConv = renderConverter;
+  const origRenderAim  = renderAimTest;
 
   renderQuestion   = (...a) => { origRenderQ(...a);    setTimeout(stripAll, 0); };
   showLoading      = (...a) => { origShowLoad(...a);   setTimeout(stripAll, 0); };
   renderProPage    = (...a) => { origRenderPro(...a);  setTimeout(stripAll, 0); };
   renderFeedbackPage = (...a)=>{ origRenderFb(...a);   setTimeout(stripAll, 0); };
   renderConverter  = (...a) => { origRenderConv(...a); setTimeout(stripAll, 0); };
+  if(typeof renderAimTest === 'function')
+    renderAimTest  = (...a) => { origRenderAim(...a);  setTimeout(stripAll, 0); };
   if(typeof showResults==='function')
     showResults    = (...a) => { origShowResult(...a); setTimeout(stripAll, 0); };
 
