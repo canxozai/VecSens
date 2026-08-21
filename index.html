@@ -902,14 +902,18 @@
       border-color: var(--cyan);
     }
 
-    /* ── LIGHT THEME (ESPORTS DAYLIGHT MODE) ── */
+    /* ══════════════════════════════════════
+       LIGHT THEME (ESPORTS DAYLIGHT MODE)
+    ══════════════════════════════════════ */
+    html[data-theme="light"],
+    body[data-theme="light"],
     [data-theme="light"] {
-      --bg:           #f4f6fb;
+      --bg:           #f4f6fa;
       --bg2:          #ffffff;
-      --card:         rgba(255, 255, 255, 0.94);
+      --card:         #ffffff;
       --card-solid:   #ffffff;
-      --glass:        rgba(0, 0, 0, 0.025);
-      --border:       rgba(15, 23, 42, 0.1);
+      --glass:        rgba(0, 0, 0, 0.02);
+      --border:       #e2e8f0;
       --border-bright:rgba(2, 132, 199, 0.45);
       --bactive:      rgba(2, 132, 199, 0.6);
       --cyan:         #0284c7;
@@ -924,85 +928,242 @@
       --t1:           #0f172a;
       --t2:           #334155;
       --t3:           #64748b;
-      --shadow:       0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow:       0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
       --glow:         0 0 30px rgba(2, 132, 199, 0.15);
       --glow-vct:     0 0 30px rgba(225, 29, 72, 0.15);
     }
-    [data-theme="light"] body::before {
+    html[data-theme="light"] body,
+    body[data-theme="light"] {
+      background-color: #f4f6fa !important;
+      color: #0f172a !important;
+    }
+    html[data-theme="light"] body::before,
+    body[data-theme="light"]::before {
       background:
         radial-gradient(ellipse 90% 55% at 50% -5%, rgba(2, 132, 199, 0.08) 0%, transparent 65%),
-        radial-gradient(ellipse 65% 45% at 90% 95%, rgba(225, 29, 72, 0.05) 0%, transparent 60%);
+        radial-gradient(ellipse 65% 45% at 90% 95%, rgba(225, 29, 72, 0.05) 0%, transparent 60%) !important;
     }
-    [data-theme="light"] .grid-bg {
+    html[data-theme="light"] .grid-bg,
+    body[data-theme="light"] .grid-bg {
       background-image:
-        linear-gradient(rgba(2, 132, 199, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(2, 132, 199, 0.04) 1px, transparent 1px);
+        linear-gradient(rgba(2, 132, 199, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(2, 132, 199, 0.05) 1px, transparent 1px) !important;
     }
-    [data-theme="light"] .nav-tabs {
-      background: rgba(255, 255, 255, 0.88);
+    html[data-theme="light"] .nav-tabs,
+    body[data-theme="light"] .nav-tabs {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
     }
-    [data-theme="light"] .btn-primary {
-      color: #ffffff;
+    html[data-theme="light"] .nav-tab,
+    body[data-theme="light"] .nav-tab {
+      color: #64748b !important;
     }
-    [data-theme="light"] .nav-tab.active {
-      color: #ffffff;
+    html[data-theme="light"] .nav-tab:hover,
+    body[data-theme="light"] .nav-tab:hover {
+      color: #0f172a !important;
+      background: #f1f5f9 !important;
     }
-    [data-theme="light"] .header h1 {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%);
+    html[data-theme="light"] .nav-tab.active,
+    body[data-theme="light"] .nav-tab.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.25) !important;
+    }
+    html[data-theme="light"] .theme-btn,
+    html[data-theme="light"] .lang-btn,
+    body[data-theme="light"] .theme-btn,
+    body[data-theme="light"] .lang-btn {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #334155 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-theme="light"] .theme-btn:hover,
+    html[data-theme="light"] .lang-btn:hover,
+    body[data-theme="light"] .theme-btn:hover,
+    body[data-theme="light"] .lang-btn:hover {
+      background: #f8fafc !important;
+      border-color: #0284c7 !important;
+      color: #0284c7 !important;
+    }
+    html[data-theme="light"] .btn-primary,
+    body[data-theme="light"] .btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.3) !important;
+    }
+    html[data-theme="light"] .btn-secondary,
+    body[data-theme="light"] .btn-secondary {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #334155 !important;
+    }
+    html[data-theme="light"] .btn-secondary:hover,
+    body[data-theme="light"] .btn-secondary:hover {
+      border-color: #0284c7 !important;
+      color: #0284c7 !important;
+      background: #f8fafc !important;
+    }
+    html[data-theme="light"] .header h1,
+    body[data-theme="light"] .header h1 {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      text-shadow: none !important;
+    }
+    .header-sub-gradient {
+      font-size: clamp(16px, 3vw, 26px);
+      font-weight: 600;
+      background: linear-gradient(135deg, #f8fafc 0%, #00f2fe 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    [data-theme="light"] .results-header h2,
-    [data-theme="light"] .page-header h2 {
-      background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    html[data-theme="light"] .header-sub-gradient,
+    body[data-theme="light"] .header-sub-gradient {
+      background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
     }
-    [data-theme="light"] .input-field {
-      background: rgba(255, 255, 255, 0.9);
+    html[data-theme="light"] .question-card,
+    html[data-theme="light"] .analysis-card,
+    html[data-theme="light"] .conv-card,
+    html[data-theme="light"] .feedback-card,
+    html[data-theme="light"] .aimtest-container,
+    body[data-theme="light"] .question-card,
+    body[data-theme="light"] .analysis-card,
+    body[data-theme="light"] .conv-card,
+    body[data-theme="light"] .feedback-card,
+    body[data-theme="light"] .aimtest-container {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
     }
-    [data-theme="light"] .option-btn {
-      background: rgba(255, 255, 255, 0.6);
+    html[data-theme="light"] .option-btn,
+    body[data-theme="light"] .option-btn {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      color: #334155 !important;
     }
-    [data-theme="light"] .option-btn.selected {
-      background: rgba(2, 132, 199, 0.08);
+    html[data-theme="light"] .option-btn:hover,
+    body[data-theme="light"] .option-btn:hover {
+      border-color: #0284c7 !important;
+      background: #f0f9ff !important;
+      color: #0f172a !important;
     }
-    [data-theme="light"] .profile-card.precision {
-      background: linear-gradient(135deg, rgba(5, 150, 105, 0.08), rgba(255, 255, 255, 0.95));
+    html[data-theme="light"] .option-btn.selected,
+    body[data-theme="light"] .option-btn.selected {
+      border-color: #0284c7 !important;
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+      box-shadow: 0 0 0 1px #0284c7 !important;
     }
-    [data-theme="light"] .profile-card.balanced {
-      background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(255, 255, 255, 0.95));
+    html[data-theme="light"] .input-field,
+    html[data-theme="light"] .conv-select,
+    html[data-theme="light"] .pro-search-input,
+    html[data-theme="light"] select,
+    html[data-theme="light"] option,
+    body[data-theme="light"] .input-field,
+    body[data-theme="light"] .conv-select,
+    body[data-theme="light"] .pro-search-input,
+    body[data-theme="light"] select,
+    body[data-theme="light"] option {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
     }
-    [data-theme="light"] .profile-card.speed {
-      background: linear-gradient(135deg, rgba(225, 29, 72, 0.08), rgba(255, 255, 255, 0.95));
+    html[data-theme="light"] .phase-dot,
+    body[data-theme="light"] .phase-dot {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      color: #64748b !important;
     }
-    [data-theme="light"] .aim-canvas-wrap {
-      background: #0f172a;
+    html[data-theme="light"] .phase-dot.active,
+    body[data-theme="light"] .phase-dot.active {
+      background: #e0f2fe !important;
+      border-color: #0284c7 !important;
+      color: #0284c7 !important;
     }
-    [data-theme="light"] #toast {
-      background: #ffffff;
-      color: #0f172a;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    html[data-theme="light"] .profile-card,
+    body[data-theme="light"] .profile-card {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05) !important;
+    }
+    html[data-theme="light"] .profile-card.precision,
+    body[data-theme="light"] .profile-card.precision {
+      border-color: rgba(5, 150, 105, 0.3) !important;
+      background: linear-gradient(135deg, #f0fdf4, #ffffff) !important;
+    }
+    html[data-theme="light"] .profile-card.balanced,
+    body[data-theme="light"] .profile-card.balanced {
+      border-color: rgba(2, 132, 199, 0.3) !important;
+      background: linear-gradient(135deg, #f0f9ff, #ffffff) !important;
+    }
+    html[data-theme="light"] .profile-card.speed,
+    body[data-theme="light"] .profile-card.speed {
+      border-color: rgba(225, 29, 72, 0.3) !important;
+      background: linear-gradient(135deg, #fff1f2, #ffffff) !important;
+    }
+    html[data-theme="light"] .pro-table-wrap,
+    body[data-theme="light"] .pro-table-wrap {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05) !important;
+    }
+    html[data-theme="light"] .pro-table thead tr,
+    body[data-theme="light"] .pro-table thead tr {
+      background: #f8fafc !important;
+    }
+    html[data-theme="light"] .pro-table td,
+    body[data-theme="light"] .pro-table td {
+      border-bottom: 1px solid #f1f5f9 !important;
+      color: #334155 !important;
+    }
+    html[data-theme="light"] .pro-table tr:hover td,
+    body[data-theme="light"] .pro-table tr:hover td {
+      background: #f0f9ff !important;
+    }
+    html[data-theme="light"] .pro-table tr.user-row td,
+    body[data-theme="light"] .pro-table tr.user-row td {
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+    }
+    html[data-theme="light"] .aim-canvas-wrap,
+    body[data-theme="light"] .aim-canvas-wrap {
+      background: #0f172a !important;
+    }
+    html[data-theme="light"] #toast,
+    body[data-theme="light"] #toast {
+      background: #0f172a !important;
+      border: 1px solid #0284c7 !important;
+      color: #ffffff !important;
     }
 
     .theme-btn {
-      padding: 6px 13px;
+      padding: 7px 15px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.05);
       color: var(--t2);
       transition: var(--ease);
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 5px;
     }
     .theme-btn:hover {
       color: var(--t1);
       border-color: var(--cyan);
-      background: rgba(0, 242, 254, 0.08);
+      background: rgba(0, 242, 254, 0.1);
+    }
+    .top-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
 
     /* ══════════════════════════════════════
@@ -1058,8 +1219,8 @@
         <button class="nav-tab"        id="ntab-pros"      onclick="switchPage('pros')">Pro Oyuncular</button>
         <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">Geri Bildirim</button>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Temayı Değiştir / Toggle Theme">☀️</button>
+      <div class="top-controls">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme">☀️ Açık Mod</button>
         <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language">🌐 EN</button>
       </div>
     </div>
@@ -1070,7 +1231,7 @@
         <img src="logo.png" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.style.display='none'"/>
         <span class="dot"></span>VecSens
       </div>
-      <h1 id="headerTitle">VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:600;background:linear-gradient(135deg,#f8fafc 0%,#00f2fe 100%);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span></h1>
+      <h1 id="headerTitle">VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span></h1>
       <p id="headerSub">Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.</p>
     </div>
 
@@ -1616,7 +1777,11 @@ const aimTestState = {
 let currentLang = localStorage.getItem('vecsens_lang') || 'tr';
 let currentTheme = localStorage.getItem('vecsens_theme') || 'dark';
 
-function toggleTheme() {
+function toggleTheme(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
   localStorage.setItem('vecsens_theme', currentTheme);
   applyTheme();
@@ -1625,12 +1790,17 @@ function toggleTheme() {
 
 function applyTheme() {
   document.documentElement.setAttribute('data-theme', currentTheme);
+  document.body.setAttribute('data-theme', currentTheme);
   const btn = document.getElementById('themeBtn');
   if (btn) {
-    btn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
-    btn.title = currentTheme === 'light' 
-      ? (currentLang === 'en' ? 'Switch to Dark Mode' : 'Karanlık Moda Geç') 
-      : (currentLang === 'en' ? 'Switch to Light Mode' : 'Aydınlık Moda Geç');
+    const isEn = currentLang === 'en';
+    if (currentTheme === 'light') {
+      btn.innerHTML = isEn ? '🌙 Dark' : '🌙 Koyu Mod';
+      btn.title = isEn ? 'Switch to Dark Mode' : 'Karanlık Moda Geç';
+    } else {
+      btn.innerHTML = isEn ? '☀️ Light' : '☀️ Açık Mod';
+      btn.title = isEn ? 'Switch to Light Mode' : 'Aydınlık Moda Geç';
+    }
   }
 }
 
@@ -4418,7 +4588,7 @@ const I18N = {
   tr: {
     docTitle: 'VecSens — Kişiselleştirilmiş Aim Analizi',
     btn: '🌐 EN',
-    title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:600;background:linear-gradient(135deg,#f8fafc 0%,#00f2fe 100%);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span>',
+    title: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>',
     sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
     tabAnalysis: 'Analiz',
     tabConverter: 'Sens & Scope Converter',
@@ -4449,7 +4619,7 @@ const I18N = {
   en: {
     docTitle: 'VecSens — Personalized FPS Aim Optimizer',
     btn: '🇹🇷 TR',
-    title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:600;background:linear-gradient(135deg,#f8fafc 0%,#00f2fe 100%);-webkit-background-clip:text;background-clip:text">Personalized Aim Optimizer</span>',
+    title: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>',
     sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
     tabAnalysis: 'Analysis',
     tabConverter: 'Sens & Scope Converter',
@@ -4501,13 +4671,7 @@ function applyLanguage() {
 
   const lBtn = document.getElementById('langBtn');
   if (lBtn) lBtn.textContent = dict.btn;
-  const tBtn = document.getElementById('themeBtn');
-  if (tBtn) {
-    tBtn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
-    tBtn.title = currentTheme === 'light' 
-      ? (currentLang === 'en' ? 'Switch to Dark Mode' : 'Karanlık Moda Geç') 
-      : (currentLang === 'en' ? 'Switch to Light Mode' : 'Aydınlık Moda Geç');
-  }
+  applyTheme();
   const hTitle = document.getElementById('headerTitle');
   if (hTitle) hTitle.innerHTML = dict.title;
   const hSub = document.getElementById('headerSub');
