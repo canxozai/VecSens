@@ -282,7 +282,29 @@
     .prev-fb-item .pfb-date{font-size:11px;color:var(--t3);margin-bottom:6px}
     .prev-fb-item .pfb-stars{color:var(--amber);font-size:16px;margin-bottom:4px}
 
-    /* ── MISC ── */
+    /* -- CONVERTER -- */
+    .conv-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r4);padding:28px;margin-bottom:20px;box-shadow:var(--shadow)}
+    .conv-card h3{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:18px}
+    .conv-row{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:end;margin-bottom:20px}
+    @media(max-width:600px){.conv-row{grid-template-columns:1fr;text-align:center}}
+    .conv-arrow{font-size:24px;color:var(--blue);padding-bottom:12px;text-align:center}
+    .conv-label{font-size:12px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .conv-select{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--r2);color:var(--t1);font-family:var(--sans);font-size:14px;cursor:pointer;transition:var(--ease)}
+    .conv-select:focus{outline:none;border-color:rgba(99,179,237,.5)}
+    .conv-result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+    .conv-result-item{background:rgba(99,179,237,.07);border:1px solid rgba(99,179,237,.15);border-radius:var(--r3);padding:16px;text-align:center}
+    .conv-result-item.highlight{background:rgba(99,179,237,.15);border-color:rgba(99,179,237,.4)}
+    .conv-result-game{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .conv-result-sens{font-size:22px;font-weight:800;font-family:var(--mono);color:var(--blue)}
+    .conv-result-sub{font-size:11px;color:var(--t3);margin-top:4px}
+    .conv-all-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:4px}
+    .conv-all-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+    .conv-all-game{font-size:13px;color:var(--t2);font-weight:500}
+    .conv-all-sens{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--t1)}
+    .conv-dpi-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    .conv-dpi-row .input-group{flex:1;min-width:120px}
+
+    /* -- MISC -- */
     .hidden{display:none!important}
     .option-icon{display:none!important}
     .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:22px 0}
@@ -302,9 +324,10 @@
     <!-- TOP NAV -->
     <div class="topnav">
       <div class="nav-tabs">
-        <button class="nav-tab active" id="ntab-analysis"  onclick="switchPage('analysis')">🎯 Analiz</button>
-        <button class="nav-tab"        id="ntab-pros"      onclick="switchPage('pros')">🏆 Pro Oyuncular</button>
-        <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">💬 Geri Bildirim</button>
+        <button class="nav-tab active" id="ntab-analysis"  onclick="switchPage('analysis')">Analiz</button>
+        <button class="nav-tab"        id="ntab-converter" onclick="switchPage('converter')">Sens Converter</button>
+        <button class="nav-tab"        id="ntab-pros"      onclick="switchPage('pros')">Pro Oyuncular</button>
+        <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">Geri Bildirim</button>
       </div>
     </div>
 
@@ -336,6 +359,16 @@
       </div>
       <div id="questionArea"></div>
       <div id="resultsArea" class="hidden"></div>
+    </div>
+
+    <!-- CONVERTER PAGE -->
+    <div id="page-converter" class="hidden">
+      <div class="page-header">
+        <div class="logo-badge"><span class="dot"></span>Dönüştürücü</div>
+        <h2>Sensitivity Converter</h2>
+        <p>Farklı FPS oyunları arasında kas hafızanı koruyarak hassasiyetini dönüştür</p>
+      </div>
+      <div id="converterContent"></div>
     </div>
 
     <!-- PRO PLAYERS PAGE -->
@@ -512,6 +545,165 @@ const RANKS_BY_GAME = {
 };
 
 // ════════════════════════════════════════════════════════════
+//  MOUSE DATABASE
+// ════════════════════════════════════════════════════════════
+const MOUSE_DB = [
+  // ── Logitech ──
+  {brand:'Logitech',model:'G Pro X Superlight',sensor:'HERO 25K',sensorType:'optical',weight:63,maxDPI:25600,length:125,width:63.5,height:40,shape:'ambi',lod:1.0,wireless:true,bestGrip:['palm','claw']},
+  {brand:'Logitech',model:'G Pro X Superlight 2',sensor:'HERO 2',sensorType:'optical',weight:60,maxDPI:32000,length:125.8,width:63.5,height:40,shape:'ambi',lod:0.8,wireless:true,bestGrip:['palm','claw']},
+  {brand:'Logitech',model:'G502 X',sensor:'HERO 25K',sensorType:'optical',weight:89,maxDPI:25600,length:131,width:79,height:41,shape:'ergo',lod:1.0,wireless:false,bestGrip:['palm']},
+  {brand:'Logitech',model:'G502 X Lightspeed',sensor:'HERO 25K',sensorType:'optical',weight:102,maxDPI:25600,length:131,width:79,height:41,shape:'ergo',lod:1.0,wireless:true,bestGrip:['palm']},
+  {brand:'Logitech',model:'G305',sensor:'HERO',sensorType:'optical',weight:99,maxDPI:12000,length:116.8,width:62.2,height:38.2,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Logitech',model:'G703',sensor:'HERO 25K',sensorType:'optical',weight:95,maxDPI:25600,length:124,width:68,height:43,shape:'ergo',lod:1.0,wireless:true,bestGrip:['palm']},
+  {brand:'Logitech',model:'G203',sensor:'Mercury',sensorType:'optical',weight:85,maxDPI:8000,length:116.6,width:62.2,height:38.2,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Logitech',model:'G303 Shroud Edition',sensor:'HERO 25K',sensorType:'optical',weight:75,maxDPI:25600,length:117.2,width:64.6,height:39.4,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── Razer ──
+  {brand:'Razer',model:'DeathAdder V3',sensor:'Focus Pro 30K',sensorType:'optical',weight:59,maxDPI:30000,length:128.3,width:67.8,height:43.7,shape:'ergo',lod:0.8,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Razer',model:'DeathAdder V3 Pro',sensor:'Focus Pro 30K',sensorType:'optical',weight:63,maxDPI:30000,length:128.3,width:67.8,height:44.7,shape:'ergo',lod:0.8,wireless:true,bestGrip:['palm','claw']},
+  {brand:'Razer',model:'Viper V3 Pro',sensor:'Focus Pro 36K',sensorType:'optical',weight:54,maxDPI:36000,length:127.1,width:63.7,height:39.4,shape:'ambi',lod:0.6,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Razer',model:'Viper V3 HyperSpeed',sensor:'Focus Pro 30K',sensorType:'optical',weight:82,maxDPI:30000,length:127.1,width:63.7,height:39.4,shape:'ambi',lod:0.8,wireless:true,bestGrip:['claw','palm']},
+  {brand:'Razer',model:'Viper V2 Pro',sensor:'Focus Pro 30K',sensorType:'optical',weight:58,maxDPI:30000,length:126.7,width:63.6,height:37.8,shape:'ambi',lod:0.8,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Razer',model:'Viper Mini',sensor:'PMW3359',sensorType:'optical',weight:61,maxDPI:8500,length:118.3,width:53.5,height:38.3,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Razer',model:'Basilisk V3',sensor:'Focus Pro 26K',sensorType:'optical',weight:101,maxDPI:26000,length:130,width:75,height:42.5,shape:'ergo',lod:1.0,wireless:false,bestGrip:['palm']},
+  {brand:'Razer',model:'Orochi V2',sensor:'5G Advanced',sensorType:'optical',weight:60,maxDPI:18000,length:108,width:60,height:38,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── Zowie ──
+  {brand:'Zowie',model:'EC1-C',sensor:'3360',sensorType:'optical',weight:74,maxDPI:3200,length:128,width:65,height:43,shape:'ergo',lod:2.0,wireless:false,bestGrip:['palm']},
+  {brand:'Zowie',model:'EC2-C',sensor:'3360',sensorType:'optical',weight:73,maxDPI:3200,length:120,width:61,height:40,shape:'ergo',lod:2.0,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Zowie',model:'EC3-C',sensor:'3360',sensorType:'optical',weight:70,maxDPI:3200,length:115,width:58,height:38,shape:'ergo',lod:2.0,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Zowie',model:'FK1-C',sensor:'3360',sensorType:'optical',weight:72,maxDPI:3200,length:128,width:64,height:36,shape:'ambi',lod:2.0,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Zowie',model:'FK2-C',sensor:'3360',sensorType:'optical',weight:70,maxDPI:3200,length:124,width:60,height:34,shape:'ambi',lod:2.0,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Zowie',model:'S1-C',sensor:'3360',sensorType:'optical',weight:74,maxDPI:3200,length:126,width:66,height:39,shape:'ambi',lod:2.0,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Zowie',model:'S2-C',sensor:'3360',sensorType:'optical',weight:72,maxDPI:3200,length:122,width:64,height:38,shape:'ambi',lod:2.0,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Zowie',model:'ZA11-C',sensor:'3360',sensorType:'optical',weight:76,maxDPI:3200,length:128,width:66,height:40,shape:'ambi',lod:2.0,wireless:false,bestGrip:['palm']},
+  {brand:'Zowie',model:'ZA13-C',sensor:'3360',sensorType:'optical',weight:68,maxDPI:3200,length:120,width:60,height:37,shape:'ambi',lod:2.0,wireless:false,bestGrip:['claw','finger']},
+  // ── Pulsar ──
+  {brand:'Pulsar',model:'X2',sensor:'PAW3395',sensorType:'optical',weight:56,maxDPI:26000,length:120,width:63,height:38,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Pulsar',model:'X2 Mini',sensor:'PAW3395',sensorType:'optical',weight:52,maxDPI:26000,length:116,width:60,height:36,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Pulsar',model:'X2H',sensor:'PAW3395',sensorType:'optical',weight:57,maxDPI:26000,length:122,width:65,height:40,shape:'ambi',lod:1.0,wireless:true,bestGrip:['palm','claw']},
+  {brand:'Pulsar',model:'Xlite V3',sensor:'PAW3395',sensorType:'optical',weight:55,maxDPI:26000,length:122,width:67,height:42,shape:'ergo',lod:1.0,wireless:true,bestGrip:['palm','claw']},
+  // ── Finalmouse ──
+  {brand:'Finalmouse',model:'UltralightX Large',sensor:'Focus Pro',sensorType:'optical',weight:42,maxDPI:30000,length:126,width:62,height:38,shape:'ambi',lod:0.8,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Finalmouse',model:'UltralightX Medium',sensor:'Focus Pro',sensorType:'optical',weight:38,maxDPI:30000,length:118,width:58,height:36,shape:'ambi',lod:0.8,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Finalmouse',model:'Starlight-12 Medium',sensor:'Finalsensor',sensorType:'optical',weight:47,maxDPI:20000,length:121,width:59,height:37,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── SteelSeries ──
+  {brand:'SteelSeries',model:'Aerox 3',sensor:'TrueMove Air',sensorType:'optical',weight:59,maxDPI:18000,length:120.6,width:67.4,height:37.9,shape:'ambi',lod:1.0,wireless:false,bestGrip:['claw','finger']},
+  {brand:'SteelSeries',model:'Prime',sensor:'TrueMove Pro',sensorType:'optical',weight:69,maxDPI:18000,length:125.3,width:59.4,height:40.4,shape:'ambi',lod:1.0,wireless:false,bestGrip:['claw']},
+  {brand:'SteelSeries',model:'Rival 3',sensor:'TrueMove Core',sensorType:'optical',weight:77,maxDPI:8500,length:120.6,width:67,height:37.9,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw','palm']},
+  // ── Endgame Gear ──
+  {brand:'Endgame Gear',model:'OP1we',sensor:'PAW3395',sensorType:'optical',weight:59,maxDPI:26000,length:123,width:59,height:38,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw']},
+  {brand:'Endgame Gear',model:'XM1r',sensor:'PAW3370',sensorType:'optical',weight:70,maxDPI:19000,length:122.1,width:65.8,height:38.3,shape:'ambi',lod:1.0,wireless:false,bestGrip:['claw']},
+  {brand:'Endgame Gear',model:'XM2w',sensor:'PAW3395',sensorType:'optical',weight:63,maxDPI:26000,length:122,width:66,height:38,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw']},
+  // ── Lamzu ──
+  {brand:'Lamzu',model:'Atlantis',sensor:'PAW3395',sensorType:'optical',weight:55,maxDPI:26000,length:122,width:63,height:39,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Lamzu',model:'Atlantis Mini',sensor:'PAW3395',sensorType:'optical',weight:49,maxDPI:26000,length:117,width:60,height:37,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  {brand:'Lamzu',model:'Thorn',sensor:'PAW3395',sensorType:'optical',weight:52,maxDPI:26000,length:118,width:58,height:39,shape:'ergo',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── Glorious ──
+  {brand:'Glorious',model:'Model O',sensor:'BAMF',sensorType:'optical',weight:67,maxDPI:19000,length:128,width:66,height:37.5,shape:'ambi',lod:1.2,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Glorious',model:'Model O-',sensor:'BAMF',sensorType:'optical',weight:58,maxDPI:19000,length:120,width:63,height:36,shape:'ambi',lod:1.2,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Glorious',model:'Model D',sensor:'BAMF 2.0',sensorType:'optical',weight:68,maxDPI:26000,length:128,width:67,height:40,shape:'ergo',lod:1.0,wireless:false,bestGrip:['palm','claw']},
+  {brand:'Glorious',model:'Model D-',sensor:'BAMF 2.0',sensorType:'optical',weight:61,maxDPI:26000,length:120,width:61,height:37,shape:'ergo',lod:1.0,wireless:false,bestGrip:['claw','finger']},
+  // ── HyperX ──
+  {brand:'HyperX',model:'Pulsefire Haste',sensor:'TTC Golden',sensorType:'optical',weight:59,maxDPI:16000,length:124.2,width:66.8,height:38.2,shape:'ambi',lod:1.2,wireless:false,bestGrip:['claw','finger']},
+  {brand:'HyperX',model:'Pulsefire Haste 2',sensor:'PAW3395',sensorType:'optical',weight:53,maxDPI:26000,length:122,width:63.5,height:38.5,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── Corsair ──
+  {brand:'Corsair',model:'M75 Air',sensor:'Marksman',sensorType:'optical',weight:60,maxDPI:26000,length:128.8,width:63.3,height:40.1,shape:'ambi',lod:1.0,wireless:true,bestGrip:['palm','claw']},
+  {brand:'Corsair',model:'Sabre RGB Pro',sensor:'Marksman',sensorType:'optical',weight:74,maxDPI:18000,length:129,width:70,height:43,shape:'ergo',lod:1.0,wireless:false,bestGrip:['palm']},
+  // ── Cooler Master ──
+  {brand:'Cooler Master',model:'MM710',sensor:'PMW3389',sensorType:'optical',weight:53,maxDPI:16000,length:116.6,width:62.6,height:38.3,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Cooler Master',model:'MM712',sensor:'PAW3370',sensorType:'optical',weight:59,maxDPI:19000,length:116.5,width:62.4,height:38.3,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── Vaxee ──
+  {brand:'Vaxee',model:'NP-01',sensor:'PMW3389',sensorType:'optical',weight:80,maxDPI:16000,length:125,width:64,height:40,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw']},
+  {brand:'Vaxee',model:'NP-01S',sensor:'PMW3389',sensorType:'optical',weight:76,maxDPI:16000,length:120,width:62,height:38,shape:'ambi',lod:1.5,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Vaxee',model:'Outset AX',sensor:'PMW3389',sensorType:'optical',weight:82,maxDPI:16000,length:124,width:66,height:43,shape:'ergo',lod:1.5,wireless:false,bestGrip:['palm','claw']},
+  // ── Xtrfy ──
+  {brand:'Xtrfy',model:'M42',sensor:'PMW3389',sensorType:'optical',weight:59,maxDPI:16000,length:118,width:56,height:38,shape:'ambi',lod:1.2,wireless:false,bestGrip:['claw','finger']},
+  {brand:'Xtrfy',model:'MZ1',sensor:'PMW3389',sensorType:'optical',weight:56,maxDPI:16000,length:124,width:55.8,height:38.4,shape:'ambi',lod:1.2,wireless:false,bestGrip:['finger']},
+  // ── Ninjutso ──
+  {brand:'Ninjutso',model:'Sora V2',sensor:'PAW3395',sensorType:'optical',weight:48,maxDPI:26000,length:121,width:64,height:39,shape:'ambi',lod:1.0,wireless:true,bestGrip:['claw','finger']},
+  // ── WLMouse ──
+  {brand:'WLMouse',model:'Beast X',sensor:'PAW3950',sensorType:'optical',weight:48,maxDPI:30000,length:127,width:64,height:40,shape:'ambi',lod:0.6,wireless:true,bestGrip:['claw','palm']},
+];
+
+function findMouse(input) {
+  if (!input || input === '__unsure__') return null;
+  const q = input.toLowerCase().trim();
+  if (!q) return null;
+  for (const m of MOUSE_DB) {
+    if (`${m.brand} ${m.model}`.toLowerCase() === q) return m;
+  }
+  let best = null, bestScore = 0;
+  for (const m of MOUSE_DB) {
+    const full = `${m.brand} ${m.model}`.toLowerCase();
+    const words = q.split(/\s+/).filter(w => w.length > 1);
+    let score = 0;
+    for (const w of words) { if (full.includes(w)) score += w.length; }
+    const coverage = score / q.replace(/\s/g, '').length;
+    if (coverage > 0.5 && score > bestScore) { bestScore = score; best = m; }
+  }
+  return best;
+}
+
+function getMouseAnalysis(mouse, answers) {
+  const warnings = [], tips = [], info = [];
+  // 1. Sensör tipi
+  if (mouse.sensorType === 'laser') {
+    warnings.push('Lazer sensörlü mouse kullanıyorsun. Lazer sensörler yerleşik ivmeye sahiptir ve tutarsız aim\'e neden olabilir. <b>Optik sensörlü</b> bir mouse\'a geçiş önerilir.');
+  }
+  // 2. Ağırlık
+  const move = answers.q12;
+  if (mouse.weight >= 90 && (move === 'arm' || move === 'both')) {
+    warnings.push(`Mouse\'un <b>${mouse.weight}g</b> — oldukça ağır. Kol hareketiyle düşük sensitivity kullanıyorsan uzun oturumlarda kol yorulması yaşayabilirsin. <b>70g altı</b> bir mouse düşünebilirsin.`);
+  } else if (mouse.weight >= 80 && move === 'arm') {
+    tips.push(`Mouse\'un <b>${mouse.weight}g</b>. Kol hareketi kullandığın için <b>65g altı</b> hafif bir mouse daha rahat olabilir.`);
+  }
+  if (mouse.weight < 55) {
+    tips.push(`Mouse\'un çok hafif (<b>${mouse.weight}g</b>) — hızlı kontrol için avantaj ama mikro düzeltmelerde alışma süreci gerektirebilir.`);
+  }
+  // 3. Max DPI
+  const userDPI = parseInt(answers.q3 === 'custom' ? answers.q3b : answers.q3) || 800;
+  if (answers.q3 !== '__unsure__' && userDPI > mouse.maxDPI) {
+    warnings.push(`Seçtiğin DPI (<b>${userDPI}</b>), mouse\'unun native max DPI değerinden (<b>${mouse.maxDPI}</b>) yüksek. Mouse DPI\'yı interpolasyon ile üretiyor — hassasiyet kaybı ve titreme yaşanabilir. DPI\'ı <b>${mouse.maxDPI}</b> veya altına düşürmeyi dene.`);
+  }
+  // 4. Boyut / Tutuş uyumu
+  const handData = typeof answers.q13 === 'object' ? answers.q13 : {};
+  const handL = parseFloat(handData.length);
+  const handW = parseFloat(handData.width);
+  const grip = answers.q11;
+  if (handL && handW) {
+    if (grip === 'palm') {
+      if (handL * 10 < mouse.length * 0.88) tips.push(`Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) küçük olabilir palm grip\'te. Daha küçük model veya claw grip düşünebilirsin.`);
+      if (handL * 10 > mouse.length * 1.18) tips.push(`Elin (<b>${handL}cm</b>) bu mouse için (<b>${(mouse.length/10).toFixed(1)}cm</b>) büyük. Palm grip\'te daha büyük bir mouse daha rahat olabilir.`);
+    }
+    if (grip === 'finger') {
+      if (mouse.length > 125) tips.push(`Fingertip grip için mouse biraz büyük (<b>${(mouse.length/10).toFixed(1)}cm</b>). 12cm altı bir model daha uygun olabilir.`);
+      if (mouse.weight > 70) tips.push(`Fingertip grip + <b>${mouse.weight}g</b> zor bir kombinasyon. 60g altı bir mouse öneririz.`);
+    }
+    if (grip === 'claw' && handW * 10 > mouse.width * 1.3) {
+      tips.push(`El genişliğin (<b>${handW}cm</b>) mouse genişliğine (<b>${(mouse.width/10).toFixed(1)}cm</b>) göre geniş. Daha geniş bir model daha ergonomik olabilir.`);
+    }
+  }
+  if (grip && !mouse.bestGrip.includes(grip)) {
+    const gripTR = {palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[grip];
+    const recTR = mouse.bestGrip.map(g=>({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(' / ');
+    warnings.push(`<b>${mouse.brand} ${mouse.model}</b> genellikle <b>${recTR}</b> tutuş için tasarlanmış. Sen <b>${gripTR}</b> kullanıyorsun — ergonomi uyumsuzluğu olabilir.`);
+  }
+  // 5. LOD
+  if (mouse.lod >= 2.0 && (move === 'arm' || move === 'both')) {
+    tips.push(`Mouse\'unun lift-off mesafesi (LOD) <b>~${mouse.lod}mm</b> — kol hareketi kullanıp sık mouse kaldırıyorsan, kaldırma sırasında istenmeyen imleç hareketleri olabilir.`);
+  }
+  // Info
+  info.push({l:'Sensör',v:`${mouse.sensor} (${mouse.sensorType==='optical'?'Optik':'Lazer'})`});
+  info.push({l:'Ağırlık',v:`${mouse.weight}g`});
+  info.push({l:'Max DPI',v:mouse.maxDPI.toLocaleString()});
+  info.push({l:'Boyut (U×G×Y)',v:`${mouse.length}×${mouse.width}×${mouse.height} mm`});
+  info.push({l:'Bağlantı',v:mouse.wireless?'Kablosuz':'Kablolu'});
+  info.push({l:'LOD',v:`~${mouse.lod}mm`});
+  info.push({l:'Önerilen Tutuş',v:mouse.bestGrip.map(g=>({palm:'Palm',claw:'Claw',finger:'Fingertip'}[g])).join(', ')});
+  info.push({l:'Şekil',v:mouse.shape==='ergo'?'Ergonomik':'Simetrik (Ambi)'});
+  return {warnings, tips, info, mouse};
+}
+
+// ════════════════════════════════════════════════════════════
 //  RESOLUTION PRESETS
 // ════════════════════════════════════════════════════════════
 const RES_PRESETS = {
@@ -540,16 +732,27 @@ const state = {
 };
 
 // ════════════════════════════════════════════════════════════
-//  PAGE SWITCHING
+//  PAGE SWITCHING & CONVERTER STATE
 // ════════════════════════════════════════════════════════════
+const convState = {
+  fromGame: 'valorant',
+  toGame: 'cs2',
+  sens: 0.35,
+  fromDpi: 800,
+  toDpi: 800
+};
+
 function switchPage(page) {
   state.currentPage = page;
-  ['analysis','pros','feedback'].forEach(p => {
-    document.getElementById(`page-${p}`).classList.toggle('hidden', p !== page);
-    document.getElementById(`ntab-${p}`).classList.toggle('active', p === page);
+  ['analysis','converter','pros','feedback'].forEach(p => {
+    const el = document.getElementById(`page-${p}`);
+    const tab = document.getElementById(`ntab-${p}`);
+    if (el) el.classList.toggle('hidden', p !== page);
+    if (tab) tab.classList.toggle('active', p === page);
   });
-  if (page === 'pros')     renderProPage();
-  if (page === 'feedback') renderFeedbackPage();
+  if (page === 'pros')      renderProPage();
+  if (page === 'feedback')  renderFeedbackPage();
+  if (page === 'converter') renderConverter();
 }
 
 // ════════════════════════════════════════════════════════════
@@ -565,7 +768,7 @@ function buildQuestions() {
     {id:'q1',phase:1,title:'Hangi FPS oyunlarını oynuyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
       options:GAMES.map(g=>({value:g.id,label:g.label,icon:g.icon}))},
 
-    {id:'q2',phase:2,title:'Mouse marka ve modelini yazar mısın?',subtitle:'Örn: Logitech G Pro X Superlight 2, Razer DeathAdder V3...',type:'text',placeholder:'Mouse marka ve modeli',allowUnsure:true},
+    {id:'q2',phase:2,title:'Mouse marka ve modelini yazar mısın?',subtitle:'Sensör, ağırlık, boyut ve tutuş uyumluluğu analizi için kullanılır. Listeden seç veya elle yaz.',type:'text',placeholder:'Örn: Logitech G Pro X Superlight 2',allowUnsure:true,datalistId:'mouseList'},
 
     {id:'q3',phase:2,title:'Şu an kullandığın DPI kaç?',subtitle:'Mouse\'un hassasiyet değeri. Mouse yazılımından veya üzerindeki düğmeden öğrenebilirsin.',type:'single',allowUnsure:true,
       options:[
@@ -626,16 +829,16 @@ function buildQuestions() {
     {id:'q15',phase:2,title:'Oyunda ortalama kaç FPS alıyorsun?',subtitle:'Daha yüksek FPS, daha akıcı ve tutarlı bir aim deneyimi sağlar.',type:'single',
       options:[{value:'low',label:'60\'ın altı',icon:'🐢'},{value:'mid',label:'60 – 120',icon:'👍'},{value:'good',label:'120 – 180',icon:'⚡'},{value:'high',label:'180 – 240',icon:'🚀'},{value:'ultra',label:'240 ve üzeri',icon:'🔥'}]},
 
-    {id:'q16',phase:2,title:'Fare İvmesi (Mouse Acceleration) açık mı?',subtitle:'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir.',type:'single',allowUnsure:true,
+    {id:'q16',phase:2,title:'Fare İvmesi (Mouse Acceleration) açık mı?',subtitle:'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri → "İşaretçi hassasiyetini artır" kutucuğu. Ayrıca mouse yazılımında (Logitech G HUB, Razer Synapse vb.) ve oyun içi ayarlarda da kontrol et.',type:'single',allowUnsure:true,
       options:[{value:'on',label:'Açık',icon:'⚡'},{value:'off',label:'Kapalı',icon:'✅'}]},
 
-    {id:'q17',phase:2,title:'Ham Girdi (Raw Input) açık mı?',subtitle:'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir.',type:'single',allowUnsure:true,
+    {id:'q17',phase:2,title:'Ham Girdi (Raw Input) açık mı?',subtitle:'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir. 📍 Kontrol: Oyun içi Ayarlar → Fare / Mouse bölümü → "Raw Input" veya "Ham Girdi" seçeneği. Valorant: Ayarlar → Genel → Fare → Ham Girdi Arabelleği. CS2: Ayarlar → Fare → Ham Girdi.',type:'single',allowUnsure:true,
       options:[{value:'on',label:'Açık',icon:'✅'},{value:'off',label:'Kapalı',icon:'⚠️'}]},
 
-    {id:'q18',phase:2,title:'Windows işaretçi hızı kaçıncı kademede?',subtitle:'Denetim Masası → Fare → İşaretçi Seçenekleri → Hız. Önerilen değer: 6/11.',type:'single',allowUnsure:true,
+    {id:'q18',phase:2,title:'Windows işaretçi hızı kaçıncı kademede?',subtitle:'Önerilen değer: 6/11. Bu değer dışında mouse hareketleri hızlandırılır veya yavaşlatılır. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri sekmesi → "Bir işaretçi hızı seçin" kaydırıcısı. Soldan 6. kademe varsayılan ve önerilen değerdir.',type:'single',allowUnsure:true,
       options:[{value:'1',label:'1/11'},{value:'2',label:'2/11'},{value:'3',label:'3/11'},{value:'4',label:'4/11'},{value:'5',label:'5/11'},{value:'6',label:'6/11 — Önerilen'},{value:'7',label:'7/11'},{value:'8',label:'8/11'},{value:'9',label:'9/11'},{value:'10',label:'10/11'},{value:'11',label:'11/11'}]},
 
-    {id:'q19',phase:2,title:'"İşaretçi hassasiyetini artır" seçeneği açık mı?',subtitle:'Bu özellik (Enhance Pointer Precision) mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir.',type:'single',allowUnsure:true,
+    {id:'q19',phase:2,title:'"İşaretçi hassasiyetini artır" seçeneği açık mı?',subtitle:'Bu özellik (Enhance Pointer Precision) mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri sekmesi → "İşaretçi hassasiyetini artır" kutucuğunun işaretini kaldır.',type:'single',allowUnsure:true,
       options:[{value:'on',label:'Açık',icon:'⚠️'},{value:'off',label:'Kapalı',icon:'✅'}]},
 
     {id:'q20',phase:4,title:'Şu anda kullandığın sensitivity değeri nedir?',subtitle:'DPI ve oyun içi hassasiyet değerini birlikte yaz.',type:'inputs',allowUnsure:true,
@@ -721,7 +924,9 @@ function renderQuestion(idx) {
     h+=`</div>`;
   } else if (q.type==='text') {
     const v=state.answers[q.id]||'';
-    h+=`<div class="input-group"><input class="input-field" id="ti_${q.id}" type="text" placeholder="${q.placeholder||''}" value="${typeof v==='string'&&v!=='__unsure__'?v:''}"/></div>`;
+    const dlAttr=q.datalistId?` list="${q.datalistId}" autocomplete="off"`:'';
+    h+=`<div class="input-group"><input class="input-field" id="ti_${q.id}" type="text" placeholder="${q.placeholder||''}" value="${typeof v==='string'&&v!=='__unsure__'?v:''}"${dlAttr}/></div>`;
+    if(q.datalistId){h+=`<datalist id="${q.datalistId}">${MOUSE_DB.map(m=>`<option value="${m.brand} ${m.model}">`).join('')}</datalist>`;}
     if (q.allowUnsure) {
       const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
       h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
@@ -908,6 +1113,13 @@ function computeRecommendedCm360() {
   if(a.q26==='precision') base*=1.10;
   if(a.q26==='speed') base*=0.88;
 
+  // Mouse ağırlık etkisi
+  const mouseInfo = findMouse(a.q2);
+  if (mouseInfo) {
+    if (mouseInfo.weight >= 90) base *= 0.96;
+    else if (mouseInfo.weight < 55) base *= 1.03;
+  }
+
   // Clamp to human-playable range
   return Math.round(Math.max(15, Math.min(120, base))*10)/10;
 }
@@ -986,6 +1198,22 @@ function showResults() {
     ${alerts.map(al=>`<div style="background:rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.07);border:1px solid rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
   </div>`:'';
 
+  // Mouse analizi kartı
+  const detectedMouse = findMouse(a.q2);
+  let mouseCardHtml = '';
+  if (detectedMouse) {
+    const ma = getMouseAnalysis(detectedMouse, a);
+    mouseCardHtml = `<div class="analysis-card">
+      <h3>🖱️ Mouse Analizi — ${detectedMouse.brand} ${detectedMouse.model}</h3>
+      <div class="analysis-grid" style="margin-bottom:14px">
+        ${ma.info.map(i=>`<div class="analysis-item"><div class="label">${i.l}</div><div class="value">${i.v}</div></div>`).join('')}
+      </div>
+      ${ma.warnings.map(w=>`<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">⚠️ ${w}</div>`).join('')}
+      ${ma.tips.map(t=>`<div style="background:rgba(99,179,237,.07);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">💡 ${t}</div>`).join('')}
+      ${!ma.warnings.length&&!ma.tips.length?'<div style="font-size:13px;color:var(--green)">Mouse\'un mevcut ayarlarınla uyumlu görünüyor.</div>':''}
+    </div>`;
+  }
+
   const prosText={
     precision:['Yüksek isabet oranı','Recoil kontrolü kolay','Uzun menzil avantajı'],
     balanced: ['Hem flick hem tracking rahat','Çoğu role uygun','Esnek oyun tarzı'],
@@ -1048,6 +1276,7 @@ function showResults() {
       <p style="color:var(--t2);font-size:14px">${gameName} için ${profiles.length} farklı profil hesaplandı</p>
     </div>
     ${alertHtml}
+    ${mouseCardHtml}
     <div class="profiles-section"><h2>🎯 Sensitivity Profillerin</h2>${profileHtml}</div>
     ${multiGameHtml}
     <div id="fineTuneSection"></div>
@@ -1430,6 +1659,139 @@ function submitFeedback() {
     </div>`;
 }
 // ════════════════════════════════════════════════════════════
+//  SENS CONVERTER PAGE
+// ════════════════════════════════════════════════════════════
+function renderConverter() {
+  const fromGame = GAMES.find(g=>g.id===convState.fromGame) || GAMES[0];
+  const toGame = GAMES.find(g=>g.id===convState.toGame) || GAMES[1];
+  
+  const cm360 = calcCm360(convState.fromDpi, convState.sens, convState.fromGame);
+  const targetSens = calcSens(cm360, convState.toDpi, convState.toGame);
+  const fromEdpi = Math.round(convState.fromDpi * convState.sens * 10) / 10;
+  const toEdpi = Math.round(convState.toDpi * targetSens * 10) / 10;
+  const in360 = Math.round((cm360 / 2.54) * 10) / 10;
+
+  const hasAnalysis = state.computedProfiles && state.computedProfiles.length > 0;
+  const recProf = hasAnalysis ? state.computedProfiles[state.recIdx] : null;
+
+  const gameOptions = (selId) => GAMES.map(g => `<option value="${g.id}" ${g.id===selId?'selected':''}>${g.label}</option>`).join('');
+
+  const allGamesHtml = GAMES.filter(g=>g.id!=='other').map(g => {
+    const s = calcSens(cm360, convState.toDpi, g.id);
+    const isTarget = g.id === convState.toGame;
+    return `<div class="conv-all-item" ${isTarget?'style="border-color:var(--blue);background:rgba(99,179,237,.08)"':''}>
+      <span class="conv-all-game">${g.label}</span>
+      <span class="conv-all-sens">${s}</span>
+    </div>`;
+  }).join('');
+
+  const html = `
+    ${hasAnalysis ? `
+      <div style="background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:var(--r3);padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div style="font-size:13px;color:var(--t1)">
+          🎯 <b>Analiz Sonucun Mevcut:</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()">Değerlerimi Doldur ⚡</button>
+      </div>
+    ` : ''}
+
+    <div class="conv-card">
+      <h3>🎮 Hızlı Dönüştürücü</h3>
+      <div class="conv-row">
+        <div>
+          <div class="conv-label">Kaynak Oyun</div>
+          <select class="conv-select" id="convFromGame" onchange="onConvChange('fromGame', this.value)">
+            ${gameOptions(convState.fromGame)}
+          </select>
+          <div class="inputs-row" style="margin-top:12px">
+            <div class="input-group" style="margin-bottom:0">
+              <div class="conv-label">Hassasiyet</div>
+              <input class="input-field" type="number" step="0.001" min="0.001" max="1000" id="convSens" value="${convState.sens}" oninput="onConvChange('sens', parseFloat(this.value)||0)"/>
+            </div>
+            <div class="input-group" style="margin-bottom:0">
+              <div class="conv-label">DPI</div>
+              <input class="input-field" type="number" step="50" min="100" max="64000" id="convFromDpi" value="${convState.fromDpi}" oninput="onConvChange('fromDpi', parseInt(this.value)||800)"/>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <button class="btn btn-secondary btn-sm" onclick="swapConvGames()" title="Oyunları Değiştir" style="padding:8px 12px;border-radius:50%">⇄</button>
+          <div class="conv-arrow">➔</div>
+        </div>
+
+        <div>
+          <div class="conv-label">Hedef Oyun</div>
+          <select class="conv-select" id="convToGame" onchange="onConvChange('toGame', this.value)">
+            ${gameOptions(convState.toGame)}
+          </select>
+          <div class="inputs-row" style="margin-top:12px">
+            <div class="input-group" style="margin-bottom:0">
+              <div class="conv-label">Hedef DPI</div>
+              <input class="input-field" type="number" step="50" min="100" max="64000" id="convToDpi" value="${convState.toDpi}" oninput="onConvChange('toDpi', parseInt(this.value)||800)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conv-result-grid">
+        <div class="conv-result-item highlight">
+          <div class="conv-result-game">${toGame.label} Hassasiyeti</div>
+          <div class="conv-result-sens">${targetSens}</div>
+          <div class="conv-result-sub">${convState.toDpi} DPI</div>
+        </div>
+        <div class="conv-result-item">
+          <div class="conv-result-game">cm / 360°</div>
+          <div class="conv-result-sens" style="font-size:20px;color:var(--t1)">${cm360} cm</div>
+          <div class="conv-result-sub">~${in360} inç / 360°</div>
+        </div>
+        <div class="conv-result-item">
+          <div class="conv-result-game">eDPI</div>
+          <div class="conv-result-sens" style="font-size:20px;color:var(--t1)">${toEdpi}</div>
+          <div class="conv-result-sub">${convState.toDpi} × ${targetSens}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="conv-card">
+      <h3>🌐 Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:</p>
+      <div class="conv-all-grid">
+        ${allGamesHtml}
+      </div>
+    </div>
+  `;
+
+  const container = document.getElementById('converterContent');
+  if (container) container.innerHTML = html;
+}
+
+function onConvChange(field, value) {
+  convState[field] = value;
+  renderConverter();
+}
+
+function swapConvGames() {
+  const tmpG = convState.fromGame;
+  convState.fromGame = convState.toGame;
+  convState.toGame = tmpG;
+  const cm360 = calcCm360(convState.fromDpi, convState.sens, tmpG);
+  convState.sens = calcSens(cm360, convState.fromDpi, convState.fromGame);
+  renderConverter();
+}
+
+function loadAnalysisIntoConverter() {
+  if (state.computedProfiles && state.computedProfiles.length > 0) {
+    const rec = state.computedProfiles[state.recIdx];
+    convState.fromGame = getPrimaryGameId();
+    convState.sens = rec.sens;
+    convState.fromDpi = rec.dpi;
+    convState.toDpi = rec.dpi;
+    renderConverter();
+  }
+}
+
+// ════════════════════════════════════════════════════════════
 //  EMOJI STRIP
 // ════════════════════════════════════════════════════════════
 const EMOJI_RE = /(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}|[\u2600-\u27BF]|[\uFE00-\uFE0F]|\uFE0F|\u20E3|[\u2300-\u23FF]|\u200D)/gu;
@@ -1474,11 +1836,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const origRenderPro  = renderProPage;
   const origRenderFb   = renderFeedbackPage;
   const origShowResult = showResults;
+  const origRenderConv = renderConverter;
 
   renderQuestion   = (...a) => { origRenderQ(...a);    setTimeout(stripAll, 0); };
   showLoading      = (...a) => { origShowLoad(...a);   setTimeout(stripAll, 0); };
   renderProPage    = (...a) => { origRenderPro(...a);  setTimeout(stripAll, 0); };
   renderFeedbackPage = (...a)=>{ origRenderFb(...a);   setTimeout(stripAll, 0); };
+  renderConverter  = (...a) => { origRenderConv(...a); setTimeout(stripAll, 0); };
   if(typeof showResults==='function')
     showResults    = (...a) => { origShowResult(...a); setTimeout(stripAll, 0); };
 
