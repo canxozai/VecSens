@@ -6913,11 +6913,10 @@
         const raw = localStorage.getItem('vecsens_admin_config');
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (parsed.pin === 'admin123') parsed.pin = 'scan0909x';
           return {
             ...DEFAULT_ADMIN_CONFIG,
             ...parsed,
-            pin: (parsed.pin && parsed.pin !== 'admin123') ? parsed.pin : 'scan0909x',
+            pin: parsed.pin || 'scan0909x',
             themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) },
             themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) },
             layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) },
@@ -6993,18 +6992,9 @@
       const isEn = currentLang === 'en';
       const inp = document.getElementById('adminPinInput');
       const val = inp ? inp.value.trim() : '';
-      const targetPin = (adminConfig.pin && adminConfig.pin !== 'admin123') ? adminConfig.pin : 'scan0909x';
-      if (val === targetPin || val === 'scan0909x') {
-        adminConfig.pin = 'scan0909x';
+      const targetPin = adminConfig.pin || 'scan0909x';
+      if (val === targetPin) {
         adminConfig.unlocked = true;
-        try {
-          const raw = localStorage.getItem('vecsens_admin_config');
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            parsed.pin = 'scan0909x';
-            localStorage.setItem('vecsens_admin_config', JSON.stringify(parsed));
-          }
-        } catch (e) { }
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
         toggleVisualStudio(true);
