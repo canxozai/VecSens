@@ -3444,6 +3444,9 @@
         <button class="vs-btn success" onclick="saveVsConfig()">
           <span>💾</span> <span>Kaydet</span>
         </button>
+        <button class="vs-btn" onclick="exportFullUpdatedHtml()" title="GitHub için güncel index.html dosyasını indir">
+          <span>📥</span> <span>HTML İndir</span>
+        </button>
         <button class="vs-btn" onclick="resetVsConfig()">
           <span>🔄</span> <span>Sıfırla</span>
         </button>
@@ -7478,6 +7481,41 @@
       const a = document.createElement('a'); a.setAttribute("href", dataStr); a.setAttribute("download", `vecsens-config-${Date.now()}.json`);
       document.body.appendChild(a); a.click(); a.remove();
       showToast('📥 Yapılandırma JSON indirildi!');
+    }
+
+    function exportFullUpdatedHtml() {
+      const isEn = currentLang === 'en';
+      const clone = document.documentElement.cloneNode(true);
+
+      // Clean up temporary edit states in cloned DOM
+      clone.classList.remove('visual-edit-mode');
+      const clonedBody = clone.querySelector('body');
+      if (clonedBody) clonedBody.classList.remove('visual-edit-mode');
+
+      const vs = clone.querySelector('#vecsensVisualStudio');
+      if (vs) vs.classList.add('hidden');
+      const vsB = clone.querySelector('#vsBoxDrawer');
+      if (vsB) { vsB.classList.add('hidden'); vsB.innerHTML = ''; }
+      const vsT = clone.querySelector('#vsThemeDrawer');
+      if (vsT) { vsT.classList.add('hidden'); vsT.innerHTML = ''; }
+      const vsA = clone.querySelector('#vsAdvancedModal');
+      if (vsA) { vsA.classList.add('hidden'); vsA.innerHTML = ''; }
+      const auth = clone.querySelector('#adminAuthModal');
+      if (auth) { auth.className = 'hidden'; auth.innerHTML = ''; }
+
+      clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      clone.querySelectorAll('[data-vs-editable]').forEach(el => el.removeAttribute('data-vs-editable'));
+
+      const fullHtml = '<!DOCTYPE html>\n' + clone.outerHTML;
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast(isEn ? '📥 Updated index.html downloaded! You can push it to your GitHub repo.' : '📥 Güncel index.html indirildi! Doğrudan GitHub reponuza atabilirsiniz.');
     }
 
     function resetVsConfig() {
