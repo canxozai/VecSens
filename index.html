@@ -2442,8 +2442,6 @@ function renderConverter() {
         </div>
 
         <div>
-          <div class="conv-label">${isEn?'Target Game':'Hedef Oyun'}</div>
-          <select class="conv-select" id="convToGame" onchange="onConvChange('toGame', this.value)">
             ${gameOptions(convState.toGame)}
           </select>
           <div class="inputs-row" style="margin-top:12px">
@@ -2623,7 +2621,7 @@ function setScopeMatch(m) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  AIM TEST & SENSITIVITY LAB (CANVAS - FULL TRACKING & 180° CALIBRATION)
+//  AIM TEST & SENSITIVITY LAB (CANVAS - 3D 180° FPS CALIBRATION ENGINE)
 // ════════════════════════════════════════════════════════════
 function renderAimTest() {
   const container = document.getElementById('aimtestContent');
@@ -2631,44 +2629,110 @@ function renderAimTest() {
   const isEn = currentLang === 'en';
   const mode = aimTestState.mode;
 
-  let modeDesc = isEn ? 'Click targets as quickly and accurately as possible.' : 'Ekranda beliren hedeflere mümkün olduğunca hızlı ve isabetli tıkla.';
-  if (mode === 'track') {
-    modeDesc = isEn ? 'Keep your mouse cursor hovering continuously over the moving target orb.' : 'Farenin imlecini hareket eden hedef kürenin üzerinde tutarak takip et.';
-  } else if (mode === 'calibrate') {
-    modeDesc = isEn ? 'Perform wide 180° sweeps between edge targets to calibrate your swipe distance & muscle memory.' : 'Kenarlarda beliren hedeflere seri 180° dönüşler yaparak masa dönüş mesafeni kalibre et.';
+  // Sync state sens with analysis if available
+  if (state.computedProfiles && !aimTestState.userSensSet) {
+    const rec = state.computedProfiles[state.recIdx];
+    aimTestState.calibSens = rec.sens;
+    aimTestState.calibDpi = rec.dpi;
+    aimTestState.calibGame = getPrimaryGameId();
+    aimTestState.userSensSet = true;
   }
+
+  let modeDesc = isEn 
+    ? 'Click targets as quickly and accurately as possible.' 
+    : 'Ekranda beliren hedeflere mümkün olduğunca hızlı ve isabetli tıkla.';
+  
+  if (mode === 'track') {
+    modeDesc = isEn 
+      ? 'Keep your mouse cursor hovering continuously over the moving target orb.' 
+      : 'Farenin imlecini hareket eden hedef kürenin üzerinde tutarak takip et.';
+  } else if (mode === 'calibrate') {
+    modeDesc = isEn 
+      ? '3D FPS Panoramic Simulator: Perform a natural reflexive swipe on your mousepad to turn 180° and measure your exact angle deviation & ideal sens multiplier.' 
+      : '3D FPS Panoramik Simülatör: Masandaki tek bir doğal refleks kaydırma (swipe) hareketiyle 180° arkana dön; hata payını ve ideal sens düzeltmeni anında hesaplayalım.';
+  }
+
+  const gameOptions = Object.keys(YAW).map(gid => {
+    const glabel = GAMES.find(x => x.id === gid)?.label || gid;
+    return `<option value="${gid}" ${gid===aimTestState.calibGame?'selected':''}>${glabel}</option>`;
+  }).join('');
+
+  const calibControlsHtml = mode === 'calibrate' ? `
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div>
+          <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">${isEn?'Game':'Oyun'}</label>
+          <select class="conv-select" style="padding:6px 10px;font-size:13px;width:auto" onchange="setCalibGame(this.value)">${gameOptions}</select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">${isEn?'Sens':'Hassasiyet'}</label>
+          <input type="number" step="0.01" class="input-field" style="width:90px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibSens}" oninput="setCalibSens(parseFloat(this.value)||0.1)"/>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">DPI</label>
+          <input type="number" step="50" class="input-field" style="width:80px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibDpi}" oninput="setCalibDpi(parseInt(this.value)||800)"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()">${isEn?'Load Analysis Sens ⚡':'Analiz Ayarımı Yükle ⚡'}</button>
+      </div>
+    </div>
+  ` : '';
 
   const html = `
     <div class="aimtest-container">
       <div class="aimtest-modes">
-        <button class="aimtest-mode-btn ${mode==='flick'?'active':''}" onclick="setAimMode('flick')">🎯 ${isEn?'Flick Accuracy Test (30s)':'Flick İsabet Testi (30s)'}</button>
+        <button class="aimtest-mode-btn ${mode==='flick'?'active':''}" onclick="setAimMode('flick')">🎯 ${isEn?'Flick Accuracy (30s)':'Flick İsabet Testi (30s)'}</button>
         <button class="aimtest-mode-btn ${mode==='track'?'active':''}" onclick="setAimMode('track')">🔄 ${isEn?'Tracking Test (20s)':'Tracking Takip Testi (20s)'}</button>
-        <button class="aimtest-mode-btn ${mode==='calibrate'?'active':''}" onclick="setAimMode('calibrate')">📐 ${isEn?'180° Calibration Test':'180° Kalibrasyon Testi'}</button>
+        <button class="aimtest-mode-btn ${mode==='calibrate'?'active':''}" onclick="setAimMode('calibrate')">📐 ${isEn?'3D 180° Calibration Lab':'3D 180° Kalibrasyon Laboratuvarı'}</button>
       </div>
 
-      <div class="aim-canvas-wrap" id="aimCanvasWrap">
+      ${calibControlsHtml}
+
+      <div class="aim-canvas-wrap" id="aimCanvasWrap" tabindex="0">
         <canvas id="aimCanvas"></canvas>
-        <div class="aim-hud">
+        <div class="aim-hud" id="aimHud">
           <div class="hud-stat">${isEn?'Time:':'Süre:'} <span id="hudTime">30s</span></div>
           <div class="hud-stat">${isEn?'Score:':'Skor:'} <span id="hudScore">0</span></div>
           <div class="hud-stat">${isEn?'Accuracy / Track:':'İsabet / Takip:'} <span id="hudAcc">100%</span></div>
         </div>
+
         <div class="aim-overlay" id="aimOverlay">
-          <h3 id="overlayTitle">🎯 ${isEn?'Start Aim Test':'Aim Testine Başla'}</h3>
+          <h3 id="overlayTitle">${mode==='calibrate'?'📐 3D 180° Kalibrasyon Laboratuvarı':'🎯 Aim Testine Başla'}</h3>
           <p id="overlayDesc">${modeDesc}</p>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-            <button class="btn btn-primary" onclick="startAimTest()">⚡ ${isEn?'Start Test':'Testi Başlat'}</button>
-            ${mode==='calibrate'?`<button class="btn btn-secondary" onclick="togglePointerLockCalib()">🔒 ${isEn?'Pointer Lock Compass Mode':'Pointer Lock Açı Kalibrasyonu'}</button>`:''}
+            <button class="btn btn-primary" onclick="startAimTest()">⚡ ${mode==='calibrate'?(isEn?'Start 180° Calibration':'180° Kalibrasyonu Başlat'):(isEn?'Start Test':'Testi Başlat')}</button>
           </div>
         </div>
       </div>
 
-      <div id="aimResultCard" class="hidden"></div>
+      <div id="aimResultCard" style="margin-top:16px"></div>
     </div>
   `;
 
   container.innerHTML = html;
   initAimCanvas();
+}
+
+function setCalibGame(g) {
+  aimTestState.calibGame = g;
+  renderAimTest();
+}
+function setCalibSens(s) {
+  aimTestState.calibSens = s;
+}
+function setCalibDpi(d) {
+  aimTestState.calibDpi = d;
+}
+function loadAnalysisIntoCalib() {
+  if (state.computedProfiles && state.computedProfiles.length > 0) {
+    const rec = state.computedProfiles[state.recIdx];
+    aimTestState.calibSens = rec.sens;
+    aimTestState.calibDpi = rec.dpi;
+    aimTestState.calibGame = getPrimaryGameId();
+    renderAimTest();
+    showToast(currentLang==='en'?'🎯 Analysis settings loaded!':'🎯 Analiz ayarların yüklendi!');
+  }
 }
 
 function setAimMode(m) {
@@ -2684,22 +2748,54 @@ function initAimCanvas() {
   canvas.width = wrap.clientWidth;
   canvas.height = wrap.clientHeight;
 
-  // Track mouse coordinates
-  const updatePos = (e) => {
+  // Track mouse coordinates & raw delta movement
+  const onMouseMove = (e) => {
     const rect = canvas.getBoundingClientRect();
     aimTestState.mouseX = e.clientX - rect.left;
     aimTestState.mouseY = e.clientY - rect.top;
 
-    if (aimTestState.isPointerLocked && aimTestState.mode === 'calibrate') {
-      const gid = getPrimaryGameId();
-      const sens = state.computedProfiles?.[state.recIdx]?.sens || 0.35;
+    if (aimTestState.mode === 'calibrate') {
+      const gid = aimTestState.calibGame || 'valorant';
+      const sens = aimTestState.calibSens || 0.35;
       const yaw = YAW[gid] || 0.07;
-      aimTestState.calibCurrentDeg = (aimTestState.calibCurrentDeg + (e.movementX || 0) * yaw * sens) % 360;
-      if (aimTestState.calibCurrentDeg < 0) aimTestState.calibCurrentDeg += 360;
+      
+      let deltaX = 0;
+      if (aimTestState.isPointerLocked) {
+        deltaX = e.movementX || 0;
+      } else if (aimTestState.isDragging) {
+        deltaX = e.clientX - aimTestState.dragLastX;
+        aimTestState.dragLastX = e.clientX;
+      }
+
+      if (deltaX !== 0) {
+        const deltaDeg = deltaX * yaw * sens;
+        aimTestState.calibPlayerYaw = (aimTestState.calibPlayerYaw + deltaDeg + 360) % 360;
+        
+        if (aimTestState.calibPhase === 'wait_180') {
+          aimTestState.calibCumulativeDelta += Math.abs(deltaDeg);
+        }
+      }
     }
   };
 
-  canvas.onmousemove = updatePos;
+  const onMouseDown = (e) => {
+    if (aimTestState.mode === 'calibrate') {
+      aimTestState.isDragging = true;
+      aimTestState.dragLastX = e.clientX;
+      // Try pointer lock if running
+      if (aimTestState.running && !aimTestState.isPointerLocked) {
+        try { canvas.requestPointerLock(); } catch(err){}
+      }
+    }
+  };
+
+  const onMouseUp = () => {
+    aimTestState.isDragging = false;
+  };
+
+  canvas.onmousemove = onMouseMove;
+  canvas.onmousedown = onMouseDown;
+  window.onmouseup = onMouseUp;
   canvas.onclick = onAimCanvasClick;
 
   document.addEventListener('pointerlockchange', () => {
@@ -2707,19 +2803,10 @@ function initAimCanvas() {
   });
 }
 
-function togglePointerLockCalib() {
-  const canvas = document.getElementById('aimCanvas');
-  if (!canvas) return;
-  try {
-    canvas.requestPointerLock();
-  } catch(e){}
-  startAimTest();
-}
-
 function startAimTest() {
   const overlay = document.getElementById('aimOverlay');
   if (overlay) overlay.classList.add('hidden');
-  document.getElementById('aimResultCard')?.classList.add('hidden');
+  document.getElementById('aimResultCard').innerHTML = '';
 
   const canvas = document.getElementById('aimCanvas');
   if (!canvas) return;
@@ -2734,13 +2821,17 @@ function startAimTest() {
   aimTestState.undershootCount = 0;
   aimTestState.trackingTimeOnTarget = 0;
   aimTestState.trackingTotalTime = 0;
-  aimTestState.calibSwipes = [];
-  aimTestState.calibTargetSide = 'left';
-  aimTestState.calibCurrentDeg = 0;
+  
+  // 180 Calibration resets
+  aimTestState.calibPhase = 'wait_start'; // 1. Adım: 0° hedefine tıkla
+  aimTestState.calibPlayerYaw = 0; // Front target
+  aimTestState.calibCumulativeDelta = 0;
+  aimTestState.calibStartTime = 0;
+  aimTestState.calibStartAngle = 0;
 
   const isTrack = aimTestState.mode === 'track';
   const isCalib = aimTestState.mode === 'calibrate';
-  aimTestState.timeLeft = isTrack ? 20 : isCalib ? 25 : 30;
+  aimTestState.timeLeft = isTrack ? 20 : isCalib ? 60 : 30;
 
   if (aimTestState.mode === 'flick') {
     aimTestState.targets = [];
@@ -2754,7 +2845,8 @@ function startAimTest() {
       r: 28
     };
   } else if (isCalib) {
-    spawn180CalibTarget(w, h);
+    // Request pointer lock for true FPS feel
+    try { canvas.requestPointerLock(); } catch(e){}
   }
 
   aimTestState.lastSpawnTime = performance.now();
@@ -2885,45 +2977,239 @@ function runAimLoop() {
     document.getElementById('hudAcc').textContent = `${trackAcc}%`;
 
   } else if (aimTestState.mode === 'calibrate') {
-    // Draw 180 Edge target
-    aimTestState.targets.forEach(t => {
-      ctx.beginPath();
-      ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
-      ctx.fill();
-      ctx.strokeStyle = '#ef4444';
-      ctx.lineWidth = 3;
-      ctx.stroke();
+    // ════════════════════════════════════════════════════════
+    // 3D FIRST-PERSON PANORAMIC CYLINDRICAL ARENA RENDERING
+    // ════════════════════════════════════════════════════════
+    const playerYaw = aimTestState.calibPlayerYaw || 0;
+    const fovH = 95; // Horizontal Field of view in degrees
+    const cx = w / 2, cy = h / 2;
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 12px "Outfit", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(isEn ? '180° SNAP' : '180° DÖNÜŞ', t.x, t.y + 4);
+    // 1. Horizon & 3D Gradient Sky/Floor
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, cy);
+    skyGrad.addColorStop(0, '#040711');
+    skyGrad.addColorStop(1, '#0b1329');
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, w, cy);
+
+    const floorGrad = ctx.createLinearGradient(0, cy, 0, h);
+    floorGrad.addColorStop(0, '#0b1329');
+    floorGrad.addColorStop(1, '#05070f');
+    ctx.fillStyle = floorGrad;
+    ctx.fillRect(0, cy, w, h - cy);
+
+    // Horizon line
+    ctx.strokeStyle = 'rgba(99, 179, 237, 0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+
+    // 2. Perspective Floor Grid Lines converging to distance
+    ctx.strokeStyle = 'rgba(99, 179, 237, 0.07)';
+    ctx.lineWidth = 1;
+    for (let deg = 0; deg < 360; deg += 15) {
+      const diff = (((deg - playerYaw + 540) % 360) - 180);
+      if (Math.abs(diff) < fovH / 2 + 10) {
+        const xPos = cx + Math.tan(diff * Math.PI / 180) * (cx / Math.tan((fovH / 2) * Math.PI / 180));
+        ctx.beginPath();
+        ctx.moveTo(xPos, cy);
+        ctx.lineTo(cx + (xPos - cx) * 2.8, h);
+        ctx.stroke();
+      }
+    }
+
+    // Concentric Floor Depth Arcs
+    for (let depth = 1; depth <= 5; depth++) {
+      const yArc = cy + (h - cy) * (depth / 5) * (depth / 5);
+      ctx.beginPath();
+      ctx.moveTo(0, yArc);
+      ctx.lineTo(w, yArc);
+      ctx.stroke();
+    }
+
+    // 3. 3D Wall Pillars & Angle Markers (Every 45°)
+    const pillars = [
+      {deg: 0,   label: '0° FRONT',   color: '#63b3ed', isMain: true},
+      {deg: 45,  label: '45° NE',     color: '#64748b', isMain: false},
+      {deg: 90,  label: '90° RIGHT',  color: '#a78bfa', isMain: true},
+      {deg: 135, label: '135° SE',    color: '#64748b', isMain: false},
+      {deg: 180, label: '180° REAR',   color: '#f59e0b', isMain: true},
+      {deg: 225, label: '225° SW',    color: '#64748b', isMain: false},
+      {deg: 270, label: '270° LEFT',   color: '#a78bfa', isMain: true},
+      {deg: 315, label: '315° NW',    color: '#64748b', isMain: false},
+    ];
+
+    pillars.forEach(p => {
+      const diff = (((p.deg - playerYaw + 540) % 360) - 180);
+      if (Math.abs(diff) < fovH / 2 + 15) {
+        const xPos = cx + Math.tan(diff * Math.PI / 180) * (cx / Math.tan((fovH / 2) * Math.PI / 180));
+        
+        // Vertical Pillar Line
+        ctx.strokeStyle = p.isMain ? p.color : 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = p.isMain ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(xPos, cy - 120);
+        ctx.lineTo(xPos, cy + 120);
+        ctx.stroke();
+
+        // Pillar Badge
+        ctx.fillStyle = p.isMain ? p.color : 'rgba(148, 163, 184, 0.5)';
+        ctx.font = 'bold 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(p.label, xPos, cy - 130);
+      }
     });
 
-    // Draw Live Compass Radar at Top
-    const cx = w / 2, cy = 65, cr = 45;
-    ctx.beginPath();
-    ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-    ctx.fill();
+    // 4. Interactive 3D Targets (0° Front and 180° Rear)
+    const targets3D = [
+      {
+        deg: 0,
+        r: 32,
+        color: '#63b3ed',
+        accent: '#38bdf8',
+        tag: isEn ? '0° START TARGET' : '0° BAŞLANGIÇ HEDEFİ',
+        active: aimTestState.calibPhase === 'wait_start'
+      },
+      {
+        deg: 180,
+        r: 36,
+        color: '#f59e0b',
+        accent: '#fbbf24',
+        tag: isEn ? '180° REAR TARGET' : '180° DÖNÜŞ HEDEFİ',
+        active: aimTestState.calibPhase === 'wait_180'
+      }
+    ];
+
+    let crosshairOnTarget = false;
+
+    targets3D.forEach(t => {
+      const diff = (((t.deg - playerYaw + 540) % 360) - 180);
+      if (Math.abs(diff) < fovH / 2 + 15) {
+        const xPos = cx + Math.tan(diff * Math.PI / 180) * (cx / Math.tan((fovH / 2) * Math.PI / 180));
+        const yPos = cy;
+        const scale = Math.cos(diff * Math.PI / 180);
+        const radius = Math.max(12, t.r * scale);
+
+        // Check if crosshair aligns with this target
+        if (Math.abs(diff) < 4.5 && t.active) {
+          crosshairOnTarget = true;
+        }
+
+        // Target Outer Ring
+        ctx.beginPath();
+        ctx.arc(xPos, yPos, radius, 0, Math.PI * 2);
+        ctx.fillStyle = t.active ? `rgba(99, 179, 237, 0.25)` : `rgba(255, 255, 255, 0.05)`;
+        ctx.fill();
+        ctx.strokeStyle = t.active ? (t.deg===180?'#f59e0b':'#63b3ed') : 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = t.active ? 3.5 : 1.5;
+        ctx.stroke();
+
+        // Target Center Core
+        ctx.beginPath();
+        ctx.arc(xPos, yPos, Math.max(4, radius * 0.35), 0, Math.PI * 2);
+        ctx.fillStyle = t.active ? (t.deg===180?'#fbbf24':'#ffffff') : 'rgba(255, 255, 255, 0.4)';
+        ctx.fill();
+
+        // Pulsing Rings for Active target
+        if (t.active) {
+          const pulseR = radius + (Math.sin(performance.now() * 0.008) + 1) * 6;
+          ctx.beginPath();
+          ctx.arc(xPos, yPos, pulseR, 0, Math.PI * 2);
+          ctx.strokeStyle = t.deg===180?'rgba(245, 158, 11, 0.4)':'rgba(99, 179, 237, 0.4)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        // Tag label above target
+        ctx.fillStyle = t.active ? '#ffffff' : 'rgba(148, 163, 184, 0.6)';
+        ctx.font = 'bold 12px "Outfit", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(t.tag, xPos, yPos - radius - 12);
+      }
+    });
+
+    // 5. Tactical Sliding Top Compass Tape
+    const compassH = 34;
+    ctx.fillStyle = 'rgba(8, 12, 20, 0.9)';
+    ctx.fillRect(cx - 220, 10, 440, compassH);
     ctx.strokeStyle = 'rgba(99, 179, 237, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cx - 220, 10, 440, compassH);
 
-    const deg = Math.round(aimTestState.calibCurrentDeg);
-    const rad = ((deg - 90) * Math.PI) / 180;
+    for (let ang = 0; ang < 360; ang += 10) {
+      const diff = (((ang - playerYaw + 540) % 360) - 180);
+      if (Math.abs(diff) < 55) {
+        const tickX = cx + (diff / 55) * 200;
+        const isMajor = ang % 30 === 0;
+        ctx.strokeStyle = isMajor ? '#63b3ed' : 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = isMajor ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(tickX, 10 + compassH);
+        ctx.lineTo(tickX, 10 + compassH - (isMajor ? 10 : 5));
+        ctx.stroke();
+
+        if (isMajor) {
+          ctx.fillStyle = (ang===0||ang===180) ? '#f59e0b' : '#94a3b8';
+          ctx.font = 'bold 9px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(`${ang}°`, tickX, 22);
+        }
+      }
+    }
+
+    // Compass Center Arrow Mark
+    ctx.fillStyle = '#63b3ed';
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(rad) * (cr - 6), cy + Math.sin(rad) * (cr - 6));
-    ctx.strokeStyle = Math.abs(deg - 180) < 10 ? '#10b981' : '#63b3ed';
-    ctx.lineWidth = 3;
-    ctx.stroke();
+    ctx.moveTo(cx, 10 + compassH);
+    ctx.lineTo(cx - 5, 10 + compassH + 6);
+    ctx.lineTo(cx + 5, 10 + compassH + 6);
+    ctx.fill();
 
-    ctx.fillStyle = '#f1f5f9';
-    ctx.font = 'bold 13px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText(`${deg}°`, cx, cy + 30);
+    // 6. Center FPS Crosshair
+    const chColor = crosshairOnTarget ? '#10b981' : 'rgba(241, 245, 249, 0.85)';
+    ctx.strokeStyle = chColor;
+    ctx.lineWidth = 2;
+    // Left / Right
+    ctx.beginPath(); ctx.moveTo(cx - 14, cy); ctx.lineTo(cx - 4, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + 4, cy); ctx.lineTo(cx + 14, cy); ctx.stroke();
+    // Top / Bottom
+    ctx.beginPath(); ctx.moveTo(cx, cy - 14); ctx.lineTo(cx, cy - 4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy + 4); ctx.lineTo(cx, cy + 14); ctx.stroke();
+    // Center Dot
+    ctx.beginPath(); ctx.arc(cx, cy, 1.5, 0, Math.PI * 2); ctx.fillStyle = chColor; ctx.fill();
+
+    // 7. Interactive Step Action Banner at Bottom
+    const curDegFormatted = playerYaw.toFixed(1);
+    let promptMsg = '';
+    let promptBg = 'rgba(99, 179, 237, 0.15)';
+    let promptBorder = 'rgba(99, 179, 237, 0.4)';
+
+    if (aimTestState.calibPhase === 'wait_start') {
+      promptMsg = isEn 
+        ? '🎯 STEP 1: Aim at the 0° Front Target and LEFT-CLICK (Mouse Locks)' 
+        : '🎯 1. ADIM: Karşındaki 0° MAVİ hedefe nişan al ve SOL TIKLA';
+    } else if (aimTestState.calibPhase === 'wait_180') {
+      promptMsg = isEn 
+        ? '🔥 STEP 2: In one single natural reflexive swipe, turn 180° BEHIND and LEFT-CLICK!' 
+        : '🔥 2. ADIM: Masandaki tek doğal refleks kaydırma (swipe) hareketiyle 180° ARKAYA DÖN ve TIKLA!';
+      promptBg = 'rgba(245, 158, 11, 0.2)';
+      promptBorder = 'rgba(245, 158, 11, 0.5)';
+    }
+
+    if (promptMsg) {
+      ctx.fillStyle = promptBg;
+      ctx.fillRect(cx - 280, h - 56, 560, 36);
+      ctx.strokeStyle = promptBorder;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(cx - 280, h - 56, 560, 36);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(promptMsg, cx, h - 33);
+    }
+
+    // Live HUD Angle readout
+    document.getElementById('hudScore').textContent = `${curDegFormatted}°`;
+    document.getElementById('hudAcc').textContent = aimTestState.calibPhase === 'wait_180' ? 'SWIPE NOW' : 'LOCKED';
   }
 
   aimTestState.animId = requestAnimationFrame(runAimLoop);
@@ -2932,13 +3218,14 @@ function runAimLoop() {
 function onAimCanvasClick(e) {
   if (!aimTestState.running) return;
   const canvas = document.getElementById('aimCanvas');
-  const rect = canvas.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const clickY = e.clientY - rect.top;
-
-  aimTestState.totalClicks++;
+  const isEn = currentLang === 'en';
 
   if (aimTestState.mode === 'flick') {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+    aimTestState.totalClicks++;
+
     let hitIdx = -1;
     for (let i = 0; i < aimTestState.targets.length; i++) {
       const t = aimTestState.targets[i];
@@ -2963,30 +3250,169 @@ function onAimCanvasClick(e) {
     const acc = Math.round((aimTestState.hits / aimTestState.totalClicks) * 100);
     document.getElementById('hudScore').textContent = aimTestState.score;
     document.getElementById('hudAcc').textContent = `${acc}%`;
+
+  } else if (aimTestState.mode === 'calibrate') {
+    const playerYaw = aimTestState.calibPlayerYaw || 0;
+
+    if (aimTestState.calibPhase === 'wait_start') {
+      // Check if player is facing 0° (tolerance within 15°)
+      const diff0 = Math.abs((((0 - playerYaw + 540) % 360) - 180));
+      if (diff0 <= 15) {
+        aimTestState.calibPhase = 'wait_180';
+        aimTestState.calibStartTime = performance.now();
+        aimTestState.calibStartAngle = playerYaw;
+        aimTestState.calibCumulativeDelta = 0;
+        showToast(isEn ? '🔥 Now turn 180° behind you in ONE reflexive swipe!' : '🔥 Şimdi tek refleks hamlenle 180° arkana dön ve tıkla!');
+      } else {
+        // Automatically snap to 0° to help align
+        aimTestState.calibPlayerYaw = 0;
+        aimTestState.calibPhase = 'wait_180';
+        aimTestState.calibStartTime = performance.now();
+        aimTestState.calibStartAngle = 0;
+        showToast(isEn ? '0° Locked! Now swipe 180° behind you and click!' : '0° Kilitlendi! Şimdi tek hamlede 180° arkaya dön ve tıkla!');
+      }
+
+    } else if (aimTestState.calibPhase === 'wait_180') {
+      // Calculate final turned angle from 0°
+      const turnMs = Math.round(performance.now() - aimTestState.calibStartTime);
+      const turnedAngle = playerYaw; // angle turned starting from 0°
+      const errorDeg = Math.round((turnedAngle - 180) * 10) / 10;
+      
+      const curSens = aimTestState.calibSens || 0.35;
+      const gameId = aimTestState.calibGame || 'valorant';
+      const dpi = aimTestState.calibDpi || 800;
+
+      // Mathematical sensitivity adjustment formula for perfect 180°
+      let suggestedSens = curSens;
+      if (turnedAngle > 30 && turnedAngle < 330) {
+        suggestedSens = Math.round((curSens * (180 / turnedAngle)) * 1000) / 1000;
+      }
+
+      const result = {
+        turnedAngle: Math.round(turnedAngle * 10) / 10,
+        errorDeg,
+        turnMs,
+        curSens,
+        suggestedSens,
+        gameId,
+        dpi,
+      };
+
+      stopAimTest();
+      show180CalibrationResult(result);
+    }
   }
 }
 
-function showAimResults() {
+function show180CalibrationResult(res) {
+  const isEn = currentLang === 'en';
   const overlay = document.getElementById('aimOverlay');
   if (overlay) overlay.classList.remove('hidden');
 
-  const acc = aimTestState.totalClicks ? Math.round((aimTestState.hits / aimTestState.totalClicks) * 100) : 0;
-  const avgRt = aimTestState.reactionTimes.length ? Math.round(aimTestState.reactionTimes.reduce((a,b)=>a+b,0)/aimTestState.reactionTimes.length) : 0;
+  const gname = GAMES.find(x => x.id === res.gameId)?.label || res.gameId;
+  const isOvershoot = res.errorDeg > 5;
+  const isUndershoot = res.errorDeg < -5;
+  const isAccurate = !isOvershoot && !isUndershoot;
 
-  let advice = 'Nişan stabiliteniz dengeli görünüyor!';
-  if (acc < 75 && aimTestState.overshootCount > 3) {
-    advice = '⚠️ Hedefleri sıklıkla kaçırıyorsunuz (Overshoot). Sensitivity değerinizi %5 - %10 oranında azaltmanızı öneririz.';
-  } else if (avgRt > 550) {
-    advice = '💡 Tepki süreniz biraz yavaş kalıyor. Sensitivity değerinizi biraz artırarak daha çevik hamleler yapabilirsiniz.';
-  } else if (acc >= 90) {
-    advice = '🔥 Mükemmel isabet oranı! Kas hafızanız ve mevcut hassasiyetiniz son derece uyumlu.';
+  let feedbackTitle = isEn ? '🎯 Perfect 180° Reflex!' : '🎯 Kusursuz 180° Refleksi!';
+  let feedbackClass = 'var(--green)';
+  let feedbackText = isEn 
+    ? 'Your natural mousepad swipe landed within 5° of a true 180° turnaround! Your current sensitivity is in excellent harmony with your muscle memory.' 
+    : 'Masadaki tek refleks kaydırman tam 180° hedefine (±5° hata payıyla) kusursuz oturdu! Mevcut sensitivity değerin kas hafızanla tam uyumlu.';
+
+  if (isUndershoot) {
+    feedbackTitle = isEn ? '⚠️ Undershoot Detected (Short of 180°)' : '⚠️ Arkaya Yetişemedin (Undershoot)';
+    feedbackClass = 'var(--amber)';
+    feedbackText = isEn 
+      ? `You turned <b>${res.turnedAngle}°</b> instead of 180° (${Math.abs(res.errorDeg)}° short). Your sensitivity is slightly slow for your natural swipe. Increasing sensitivity to <b>${res.suggestedSens}</b> will turn your natural arm travel into a perfect 180°.` 
+      : `Masadaki tek refleks hareketin 180° yerine <b>${res.turnedAngle}°</b> döndü (${Math.abs(res.errorDeg)}° eksik kaldı). Doğal kol hareketinle tam 180° arkana dönebilmek için sensitivity değerini <b>${res.suggestedSens}</b> seviyesine yükseltmen önerilir.`;
+  } else if (isOvershoot) {
+    feedbackTitle = isEn ? '⚠️ Overshoot Detected (Over-Turned)' : '⚠️ Arkandan Fazla Döndün (Overshoot)';
+    feedbackClass = 'var(--red)';
+    feedbackText = isEn 
+      ? `You turned <b>${res.turnedAngle}°</b> (${Math.abs(res.errorDeg)}° too far). Your sensitivity is slightly too fast for your natural swipe. Lowering sensitivity to <b>${res.suggestedSens}</b> will calibrate your reflexive swipe to an exact 180°.` 
+      : `Masadaki refleks hareketin 180° hedefini aşıp <b>${res.turnedAngle}°</b> döndü (${Math.abs(res.errorDeg)}° fazla). Doğal refleksinle hedefi kaçırmamak için sensitivity değerini <b>${res.suggestedSens}</b> seviyesine düşürmen önerilir.`;
   }
 
-  document.getElementById('overlayTitle').textContent = '🏁 Test Tamamlandı!';
+  document.getElementById('overlayTitle').innerHTML = `<span style="color:${feedbackClass}">${feedbackTitle}</span>`;
   document.getElementById('overlayDesc').innerHTML = `
-    <b>Skor:</b> ${aimTestState.score} | <b>İsabet:</b> %${acc} | <b>Ort. Tepki:</b> ${avgRt} ms<br>
-    <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
+    <div style="font-size:15px;color:var(--t1);margin-bottom:12px">
+      ${isEn?'Actual Angle Turned:':'Dönülen Açı:'} <b style="color:var(--blue);font-family:var(--mono)">${res.turnedAngle}°</b> / 180.0° &nbsp;|&nbsp; 
+      ${isEn?'Swipe Time:':'Dönüş Süresi:'} <b style="font-family:var(--mono)">${res.turnMs} ms</b>
+    </div>
+    <div style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--t2);margin-bottom:16px;text-align:left;line-height:1.5">
+      ${feedbackText}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      ${!isAccurate ? `<button class="btn btn-primary" onclick="applyCalibSuggestedSens(${res.suggestedSens})">⚡ ${isEn?`Apply Suggested Sens (${res.suggestedSens}) & Retry`:`Önerilen Sens'i Uygula (${res.suggestedSens}) & Tekrar Dene`}</button>` : ''}
+      <button class="btn btn-secondary" onclick="startAimTest()">🔄 ${isEn?'Try Again':'Tekrar Dene'}</button>
+    </div>
   `;
+}
+
+function applyCalibSuggestedSens(newSens) {
+  aimTestState.calibSens = newSens;
+  renderAimTest();
+  startAimTest();
+  showToast(currentLang==='en'?`⚡ Sensitivity updated to ${newSens}!`:`⚡ Sensitivity ${newSens} olarak ayarlandı!`);
+}
+
+function showAimResults() {
+  const isEn = currentLang === 'en';
+  const overlay = document.getElementById('aimOverlay');
+  if (overlay) overlay.classList.remove('hidden');
+
+  if (aimTestState.mode === 'track') {
+    const trackPct = Math.min(100, Math.round((aimTestState.trackingTimeOnTarget / Math.max(1, aimTestState.trackingTotalTime)) * 100));
+    const timeSec = (aimTestState.trackingTimeOnTarget / 1000).toFixed(1);
+
+    let advice = isEn 
+      ? 'Your tracking stability is balanced and smooth!' 
+      : 'Nişan takip stabiliteniz son derece dengeli ve akıcı!';
+    
+    if (trackPct < 55) {
+      advice = isEn 
+        ? '⚠️ Target jitter detected. Your sensitivity might be slightly too fast or your mouse friction is too high. Consider lowering sens by 5-10%.' 
+        : '⚠️ Takip sırasında titreme/kaçırma tespit edildi. Hassasiyetiniz biraz yüksek olabilir veya mousepad kontrolünüz yetersiz. Sens\'i %5-10 azaltmayı deneyin.';
+    } else if (trackPct >= 80) {
+      advice = isEn 
+        ? '🔥 Phenomenal tracking! Your micro-adjustments and cursor control are tournament-grade.' 
+        : '🔥 Kusursuz hedef takibi! Kas hafızanız ve takip hızınız profesyonel standartlarda.';
+    }
+
+    document.getElementById('overlayTitle').textContent = isEn ? '🏁 Tracking Test Complete!' : '🏁 Tracking Testi Tamamlandı!';
+    document.getElementById('overlayDesc').innerHTML = `
+      <b>${isEn?'Tracking Accuracy:':'Takip İsabeti:'}</b> %${trackPct} | <b>${isEn?'Time on Target:':'Hedefte Kalma:'}</b> ${timeSec}s | <b>${isEn?'Score:':'Skor:'}</b> ${aimTestState.score}<br>
+      <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
+      <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()">🔄 ${isEn?'Play Again':'Tekrar Oyna'}</button></div>
+    `;
+
+  } else if (aimTestState.mode === 'flick') {
+    const acc = aimTestState.totalClicks ? Math.round((aimTestState.hits / aimTestState.totalClicks) * 100) : 0;
+    const avgRt = aimTestState.reactionTimes.length ? Math.round(aimTestState.reactionTimes.reduce((a,b)=>a+b,0)/aimTestState.reactionTimes.length) : 0;
+
+    let advice = isEn ? 'Your flick aim and reaction stability are well balanced!' : 'Nişan stabiliteniz dengeli görünüyor!';
+    if (acc < 75 && aimTestState.overshootCount > 3) {
+      advice = isEn 
+        ? '⚠️ High overshoot rate detected. We recommend decreasing sensitivity by 5% - 10% to prevent over-flicking.' 
+        : '⚠️ Hedefleri sıklıkla kaçırıyorsunuz (Overshoot). Sensitivity değerinizi %5 - %10 oranında azaltmanızı öneririz.';
+    } else if (avgRt > 550) {
+      advice = isEn 
+        ? '💡 Reaction latency is slightly high. Increasing sensitivity slightly can provide more agile snaps.' 
+        : '💡 Tepki süreniz biraz yavaş kalıyor. Sensitivity değerinizi biraz artırarak daha çevik hamleler yapabilirsiniz.';
+    } else if (acc >= 90) {
+      advice = isEn 
+        ? '🔥 Excellent flick precision! Your muscle memory and sensitivity are in great harmony.' 
+        : '🔥 Mükemmel isabet oranı! Kas hafızanız ve mevcut hassasiyetiniz son derece uyumlu.';
+    }
+
+    document.getElementById('overlayTitle').textContent = isEn ? '🏁 Test Complete!' : '🏁 Test Tamamlandı!';
+    document.getElementById('overlayDesc').innerHTML = `
+      <b>${isEn?'Score:':'Skor:'}</b> ${aimTestState.score} | <b>${isEn?'Accuracy:':'İsabet:'}</b> %${acc} | <b>${isEn?'Avg Reaction:':'Ort. Tepki:'}</b> ${avgRt} ms<br>
+      <span style="font-size:12px;color:var(--blue);margin-top:6px;display:inline-block">${advice}</span>
+      <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()">🔄 ${isEn?'Play Again':'Tekrar Oyna'}</button></div>
+    `;
+  }
 }
 
 // ════════════════════════════════════════════════════════════
