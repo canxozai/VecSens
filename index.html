@@ -1282,9 +1282,6 @@
         <h2 id="prosTitle">Pro Oyuncu Ayarları & Ekipmanları</h2>
         <p id="prosSub">Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları</p>
       </div>
-      <div class="pro-search-bar">
-        <input type="text" class="pro-search-input" id="proSearchInput" placeholder="Oyuncu, takım veya mouse modeli ara..." oninput="onProSearch(this.value)"/>
-      </div>
       <div id="prosContent"></div>
     </div>
 
@@ -1366,6 +1363,26 @@ const PRO_DATA = {
     {name:'Demon1',    slug:'demon1',    team:'NRG',       mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.1},
     {name:'cNed',      slug:'cned',      team:'FUT',       mouse:'Zowie EC2-C', dpi:800,  sens:0.3},
     {name:'Boaster',   slug:'boaster',   team:'Fnatic',    mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.24},
+    {name:'f0rsakeN',  slug:'f0rsaken',  team:'Paper Rex', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.569},
+    {name:'Jinggg',    slug:'jinggg',    team:'Paper Rex', mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.245},
+    {name:'something', slug:'something', team:'Paper Rex', mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.7},
+    {name:'Cryocells', slug:'cryocells', team:'100 Thieves', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.3},
+    {name:'Less',      slug:'less',      team:'LOUD',      mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.314},
+    {name:'cauanzin',  slug:'cauanzin',  team:'LOUD',      mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.38},
+    {name:'Wo0t',      slug:'wo0t',      team:'HERETICS',  mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:0.32},
+    {name:'RieNs',     slug:'riens',     team:'HERETICS',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.35},
+    {name:'Benjyfishy',slug:'benjyfishy',team:'HERETICS',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.34},
+    {name:'MiniBoo',   slug:'miniboo',   team:'HERETICS',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.42},
+    {name:'qRaxs',     slug:'qraxs',     team:'FUT',       mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.32},
+    {name:'MrFaliN',   slug:'mrfalin',   team:'FUT',       mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:0.35},
+    {name:'yetujey',   slug:'yetujey',   team:'FUT',       mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.38},
+    {name:'BuZz',      slug:'buzz',      team:'DRX',       mouse:'Zowie EC2-CW', dpi:400,  sens:0.62},
+    {name:'stax',      slug:'stax',      team:'T1',        mouse:'Logitech G Pro X Superlight', dpi:400,  sens:0.56},
+    {name:'Karon',     slug:'karon',     team:'Gen.G',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.25},
+    {name:'t3xture',   slug:'t3xture',   team:'Gen.G',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.35},
+    {name:'Meteor',    slug:'meteor',    team:'Gen.G',     mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.34},
+    {name:'ScreaM',    slug:'scream',    team:'Karmine Corp', mouse:'Finalmouse Starlight-12', dpi:400, sens:0.785},
+    {name:'Jamppi',    slug:'jamppi',    team:'Liquid',    mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.375},
   ],
   cs2: [
     {name:'s1mple',     slug:'s1mple',     team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:3.09},
@@ -1380,28 +1397,81 @@ const PRO_DATA = {
     {name:'frozen',     slug:'frozen',     team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:2.0},
     {name:'Twistzz',    slug:'twistzz',    team:'Liquid',   mouse:'Pulsar X2', dpi:400,  sens:1.59},
     {name:'Wicadia',    slug:'wicadia',    team:'Eternal Fire', mouse:'Razer DeathAdder V3 Pro', dpi:800, sens:1.15},
+    {name:'b1t',        slug:'b1t',        team:'NAVI',     mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:1.42},
+    {name:'jL',         slug:'jl',         team:'NAVI',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.0},
+    {name:'iM',         slug:'im',         team:'NAVI',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.1},
+    {name:'w0nderful',  slug:'w0nderful',  team:'NAVI',     mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:3.09},
+    {name:'Aleksib',    slug:'aleksib',    team:'NAVI',     mouse:'Zowie EC2-CW', dpi:800,  sens:0.95},
+    {name:'broky',      slug:'broky',      team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:1.9},
+    {name:'rain',       slug:'rain',       team:'FaZe',     mouse:'Zowie EC2-C', dpi:400,  sens:1.65},
+    {name:'karrigan',   slug:'karrigan',   team:'FaZe',     mouse:'Razer DeathAdder V3 Pro', dpi:400,  sens:1.5},
+    {name:'Spinx',      slug:'spinx',      team:'Vitality', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.85},
+    {name:'flameZ',     slug:'flamez',     team:'Vitality', mouse:'Razer Viper V3 Pro', dpi:400,  sens:2.0},
+    {name:'apEX',       slug:'apex-cs',    team:'Vitality', mouse:'Zowie EC2-C', dpi:400,  sens:1.7},
+    {name:'blameF',     slug:'blamef',     team:'Fnatic',   mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:1.55},
+    {name:'EliGE',      slug:'elige',      team:'Complexity', mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.74},
+    {name:'huNter-',    slug:'hunter',     team:'G2',       mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:2.2},
+    {name:'Calyx',      slug:'calyx',      team:'Eternal Fire', mouse:'Zowie EC2-C', dpi:400,  sens:1.9},
+    {name:'MAJ3R',      slug:'maj3r',      team:'Eternal Fire', mouse:'Zowie EC2-C', dpi:800,  sens:1.05},
+    {name:'jottAAA',    slug:'jottaaa',    team:'Eternal Fire', mouse:'Logitech G Pro X Superlight 2', dpi:800, sens:1.1},
+    {name:'FalleN',     slug:'fallen',     team:'FURIA',    mouse:'Zowie EC1-C', dpi:400,  sens:2.2},
+    {name:'KSCERATO',   slug:'kscerato',   team:'FURIA',    mouse:'Logitech G Pro X Superlight', dpi:400,  sens:2.3},
+    {name:'yuurih',     slug:'yuurih',     team:'FURIA',    mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:2.0},
+    {name:'stavn',      slug:'stavn',      team:'Astralis', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.0},
+    {name:'jabbi',      slug:'jabbi',      team:'Astralis', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.15},
   ],
   apex: [
     {name:'ImperialHal', slug:'imperialhal', team:'Falcons', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.1},
     {name:'Genburten',   slug:'genburten',   team:'Falcons', mouse:'Razer Viper V3 Pro', dpi:800,  sens:1.5},
+    {name:'Zer0',        slug:'zer0',        team:'Falcons', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.2},
     {name:'Aceu',        slug:'aceu',        team:'Content', mouse:'Finalmouse Starlight-12', dpi:1600, sens:0.85},
     {name:'Albralelie',  slug:'albralelie',  team:'LG',      mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:1.0},
     {name:'Sweetdreams', slug:'sweetdreams', team:'LG',      mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.35},
     {name:'Faide',       slug:'faide',       team:'Content', mouse:'WLMouse Beast X', dpi:1700, sens:0.8},
+    {name:'Verhulst',    slug:'verhulst',    team:'TSM',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.3},
+    {name:'Reps',        slug:'reps',        team:'TSM',     mouse:'Logitech G Pro X Superlight', dpi:800,  sens:1.2},
+    {name:'Effect',      slug:'effect',      team:'Alliance', mouse:'Logitech G Pro X Superlight 2', dpi:800, sens:1.4},
+    {name:'Hakis',       slug:'hakis',       team:'Alliance', mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:1.3},
+    {name:'Mande',       slug:'mande',       team:'Alliance', mouse:'Logitech G Pro X Superlight', dpi:800,  sens:1.6},
+    {name:'ShivFPS',     slug:'shivfps',     team:'Content', mouse:'Logitech G Pro Wireless', dpi:800,  sens:1.8},
+    {name:'iiTzTimmy',   slug:'iitztimmy',   team:'Disguised', mouse:'Logitech G Pro X Superlight 2', dpi:1600, sens:0.75},
+    {name:'Hardecki',    slug:'hardecki',    team:'Aurora',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:1.25},
+    {name:'Wxltzy',      slug:'wxltzy',      team:'Moist',   mouse:'Razer Viper V3 Pro', dpi:800,  sens:1.45},
+    {name:'Dropped',     slug:'dropped',     team:'OpTic',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.2},
+    {name:'Gild',        slug:'gild',        team:'Moist',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:1.3},
   ],
   r6: [
-    {name:'Pengu',    slug:'pengu',    team:'Content', mouse:'Logitech G Pro X Superlight', dpi:1600, sens:2},
     {name:'Beaulo',   slug:'beaulo',   team:'DarkZero', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:34},
+    {name:'Pengu',    slug:'pengu',    team:'Content',  mouse:'Logitech G Pro X Superlight', dpi:1600, sens:2},
+    {name:'Shaiiko',  slug:'shaiiko',  team:'BDS',      mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:12},
+    {name:'LikeFac',  slug:'likefac',  team:'BDS',      mouse:'Razer DeathAdder V3 Pro', dpi:400,  sens:11},
+    {name:'Spoit',    slug:'spoit',    team:'M80',      mouse:'Razer Viper V3 Pro', dpi:800,  sens:7},
     {name:'Canadian', slug:'canadian', team:'DarkZero', mouse:'Zowie EC2-C', dpi:800,  sens:4},
     {name:'Nesk',     slug:'nesk',     team:'Liquid',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5},
+    {name:'Paluh',    slug:'paluh',    team:'Liquid',   mouse:'Logitech G Pro X Superlight', dpi:800,  sens:6},
     {name:'njr',      slug:'njr',      team:'DarkZero', mouse:'Razer Viper V2 Pro', dpi:800,  sens:12},
+    {name:'CTZN',     slug:'ctzn',     team:'Soniqs',   mouse:'Logitech G Pro X Superlight 2', dpi:400,  sens:10},
+    {name:'Alem4o',   slug:'alem4o',   team:'G2',       mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:6},
+    {name:'Doki',     slug:'doki',     team:'G2',       mouse:'Logitech G Pro X Superlight', dpi:400,  sens:12},
+    {name:'Virtue',   slug:'virtue',   team:'G2',       mouse:'Zowie EC2-C', dpi:400,  sens:10},
+    {name:'HerdsZ',   slug:'herdsz',   team:'w7m',      mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:8},
+    {name:'Jv92',     slug:'jv92',     team:'w7m',      mouse:'Razer Viper V3 Pro', dpi:800,  sens:9},
   ],
   overwatch: [
-    {name:'Fleta',    slug:'fleta',    team:'Dragons',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:9},
+    {name:'Proper',   slug:'proper',   team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:7.0},
+    {name:'Lip',      slug:'lip',      team:'Dragons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.5},
+    {name:'Fleta',    slug:'fleta',    team:'Dragons',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:9.0},
     {name:'Profit',   slug:'profit',   team:'Dynasty',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:8.25},
     {name:'Decay',    slug:'decay',    team:'Justice',  mouse:'Razer Viper V3 Pro', dpi:1600, sens:2.03},
     {name:'Danteh',   slug:'danteh',   team:'Gladiators', mouse:'Finalmouse UltralightX', dpi:800,  sens:6.0},
-    {name:'Proper',   slug:'proper',   team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800, sens:7.0},
+    {name:'Shu',      slug:'shu',      team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5.0},
+    {name:'Viol2t',   slug:'viol2t',   team:'Toronto',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:6.5},
+    {name:'Kevster',  slug:'kevster',  team:'Gladiators', mouse:'Logitech G Pro X Superlight', dpi:800,  sens:7.5},
+    {name:'Pelican',  slug:'pelican',  team:'Mayhem',   mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:6.0},
+    {name:'SparkR',   slug:'sparkr',   team:'Spitfire', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.25},
+    {name:'Kai',      slug:'kai',      team:'Gladiators', mouse:'Zowie EC2-CW', dpi:800,  sens:4.0},
+    {name:'Fielder',  slug:'fielder',  team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.8},
+    {name:'Chiyo',    slug:'chiyo',    team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5.5},
   ],
   fortnite: [
     {name:'Mongraal', slug:'mongraal', team:'Heroic',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.088},
@@ -1410,6 +1480,16 @@ const PRO_DATA = {
     {name:'MrSavage', slug:'mrsavage', team:'Heroic',   mouse:'Razer DeathAdder V3 Pro', dpi:1450, sens:0.065},
     {name:'Peterbot', slug:'peterbot', team:'Agent',    mouse:'Finalmouse UltralightX', dpi:800,  sens:0.075},
     {name:'TaySon',   slug:'tayson',   team:'Falcons',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.078},
+    {name:'Veno',     slug:'veno',     team:'Karmine',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.085},
+    {name:'Merstach', slug:'merstach', team:'Twisted',  mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.072},
+    {name:'Malibuca', slug:'malibuca', team:'Twisted',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.068},
+    {name:'Queasy',   slug:'queasy',   team:'Heroic',   mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.076},
+    {name:'Th0masHD', slug:'th0mashd', team:'Heroic',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.080},
+    {name:'Setty',    slug:'setty',    team:'Become',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.070},
+    {name:'Kami',     slug:'kami',     team:'Become',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.074},
+    {name:'EpikWhale',slug:'epikwhale',team:'Falcons',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:0.082},
+    {name:'Mero',     slug:'mero',     team:'Dignitas', mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:0.078},
+    {name:'Cooper',   slug:'cooper',   team:'Dignitas', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.080},
   ],
   warzone: [
     {name:'Aydan',    slug:'aydan',    team:'NYSL',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.5},
@@ -1417,6 +1497,13 @@ const PRO_DATA = {
     {name:'HusKerrs', slug:'huskerrs', team:'Falcons',  mouse:'Razer Viper V3 Pro', dpi:400,  sens:7.2},
     {name:'Scump',    slug:'scump',    team:'OpTic',    mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5.0},
     {name:'Shroud',   slug:'shroud',   team:'Sentinels', mouse:'Logitech G303 Shroud', dpi:800,  sens:5.5},
+    {name:'JoeWo',    slug:'joewo',    team:'Content',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.8},
+    {name:'Tommey',   slug:'tommey',   team:'100 Thieves', mouse:'Razer Viper V3 Pro', dpi:800, sens:4.2},
+    {name:'Almond',   slug:'almond',   team:'Content',  mouse:'Logitech G Pro X Superlight', dpi:800,  sens:4.0},
+    {name:'Skullface',slug:'skullface',team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.3},
+    {name:'Fifakill', slug:'fifakill', team:'Content',  mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:4.5},
+    {name:'Swagg',    slug:'swagg',    team:'FaZe',     mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:5.0},
+    {name:'TeeP',     slug:'teep',     team:'OpTic',    mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:4.8},
   ],
   pubg: [
     {name:'TGLTN',    slug:'tgltn',    team:'Soniqs',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:36},
@@ -1424,16 +1511,30 @@ const PRO_DATA = {
     {name:'Ubah',     slug:'ubah',     team:'FaZe',     mouse:'Logitech G Pro X Superlight', dpi:400,  sens:45},
     {name:'Inonix',   slug:'inonix',   team:'Danawa',   mouse:'Razer Viper V3 Pro', dpi:800,  sens:33},
     {name:'Kickstart',slug:'kickstart',team:'Soniqs',   mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:35},
+    {name:'xmpl',     slug:'xmpl',     team:'Twisted',  mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:38},
+    {name:'Aixleft',  slug:'aixleft',  team:'PeRo',     mouse:'Zowie FK1-C', dpi:400,  sens:48},
+    {name:'Shen',     slug:'shen',     team:'17 Gaming',mouse:'Logitech G Pro X Superlight', dpi:800,  sens:34},
+    {name:'Salute',   slug:'salute',   team:'Danawa',   mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:32},
+    {name:'Seoul',    slug:'seoul',    team:'Danawa',   mouse:'Razer Viper V3 Pro', dpi:800,  sens:35},
+    {name:'Batulins', slug:'batulins', team:'Twisted',  mouse:'Zowie EC2-CW', dpi:400,  sens:44},
+    {name:'Fexx',     slug:'fexx',     team:'FaZe',     mouse:'Logitech G Pro X Superlight', dpi:400,  sens:46},
+    {name:'Gustav',   slug:'gustav',   team:'FaZe',     mouse:'Zowie EC1-C', dpi:400,  sens:42},
   ],
   thefinals: [
     {name:'Gigz',     slug:'gigz',     team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.85},
     {name:'Ottr',     slug:'ottr',     team:'Content', mouse:'Razer Viper V3 Pro', dpi:800,  sens:0.95},
     {name:'Hype',     slug:'hype',     team:'Top500',  mouse:'Pulsar X2', dpi:1600, sens:0.42},
+    {name:'Appoh',    slug:'appoh',    team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:0.90},
+    {name:'Lysium',   slug:'lysium',   team:'Top500',  mouse:'Finalmouse UltralightX', dpi:800,  sens:0.82},
+    {name:'Emsity',   slug:'emsity',   team:'Top500',  mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:0.88},
   ],
   battlefield: [
     {name:'Enders',   slug:'enders',   team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:7.5},
     {name:'Stodeh',   slug:'stodeh',   team:'Content', mouse:'Razer DeathAdder V3 Pro', dpi:800,  sens:6.8},
     {name:'Ravic',    slug:'ravic',    team:'Content', mouse:'Zowie EC1-C', dpi:400,  sens:14.0},
+    {name:'JackFrags',slug:'jackfrags',team:'Content', mouse:'Logitech G Pro X Superlight 2', dpi:800,  sens:7.0},
+    {name:'Focus',    slug:'focus',    team:'Content', mouse:'Razer Viper V3 Pro', dpi:800,  sens:6.5},
+    {name:'Silk',     slug:'silk',     team:'Content', mouse:'WLMouse Beast X', dpi:1600, sens:3.4},
   ],
 };
 
@@ -3014,15 +3115,8 @@ function applyFineTune() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  PRO PLAYERS PAGE WITH SEARCH & I18N
+//  PRO PLAYERS PAGE WITH I18N & SORTING
 // ════════════════════════════════════════════════════════════
-let proSearchQuery = '';
-
-function onProSearch(q) {
-  proSearchQuery = q.toLowerCase().trim();
-  renderProPage();
-}
-
 function renderProPage() {
   const isEn = currentLang === 'en';
   const gameId = state.proGameFilter || 'valorant';
@@ -3031,14 +3125,6 @@ function renderProPage() {
     edpi: Math.round(p.dpi * p.sens),
     cm360: calcCm360(p.dpi, p.sens, gameId),
   }));
-
-  if (proSearchQuery) {
-    players = players.filter(p => 
-      p.name.toLowerCase().includes(proSearchQuery) ||
-      (p.team && p.team.toLowerCase().includes(proSearchQuery)) ||
-      (p.mouse && p.mouse.toLowerCase().includes(proSearchQuery))
-    );
-  }
 
   // Sort
   const col = state.proSortCol, dir = state.proSortDir;
@@ -3107,9 +3193,6 @@ function renderProPage() {
     `;
   }).join('');
 
-  const searchInput = document.getElementById('proSearchInput');
-  if (searchInput) searchInput.placeholder = isEn ? 'Search player, team or mouse model...' : 'Oyuncu, takım veya mouse modeli ara...';
-
   const html = `
     <div class="game-tabs">${filterTabs}</div>
     ${userHighlightHtml}
@@ -3125,7 +3208,7 @@ function renderProPage() {
         <thead><tr>
           ${cols.map(c=>`<th class="${state.proSortCol===c.key?'sorted':''}" onclick="proSort('${c.key}')">${c.label} ${sortArrow(c.key)}</th>`).join('')}
         </tr></thead>
-        <tbody>${tableRows.length ? tableRows : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">${isEn?'No pro players matched your search.':'Arama kriterine uygun oyuncu bulunamadı.'}</td></tr>`}</tbody>
+        <tbody>${tableRows}</tbody>
       </table>
     </div>
     <p style="font-size:12px;color:var(--t3);margin-top:12px;text-align:center">
@@ -4708,8 +4791,6 @@ function applyLanguage() {
   if (prosTitle) prosTitle.textContent = dict.prosTitle;
   const prosSub = document.getElementById('prosSub');
   if (prosSub) prosSub.textContent = dict.prosSub;
-  const pInput = document.getElementById('proSearchInput');
-  if (pInput) pInput.placeholder = dict.proSearchPlaceholder;
 
   const fbBadge = document.getElementById('fbBadge');
   if (fbBadge) fbBadge.innerHTML = dict.fbBadge;
