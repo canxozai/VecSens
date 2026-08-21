@@ -3191,11 +3191,11 @@ function renderConverter() {
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">${isEn?'Sensitivity':'Hassasiyet'}</div>
-              <input class="input-field" type="number" step="any" min="0.0001" max="1000" id="convSens" value="${convState.sens}" oninput="onConvSensInput(this.value)"/>
+              <input class="input-field" type="text" inputmode="decimal" id="convSens" value="${convState.sens}" oninput="onConvSensInput(this.value)" autocomplete="off" spellcheck="false" placeholder="0.35"/>
             </div>
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">DPI</div>
-              <input class="input-field" type="number" step="50" min="100" max="64000" id="convFromDpi" value="${convState.fromDpi}" oninput="onConvFromDpiInput(this.value)"/>
+              <input class="input-field" type="text" inputmode="numeric" id="convFromDpi" value="${convState.fromDpi}" oninput="onConvFromDpiInput(this.value)" autocomplete="off" spellcheck="false" placeholder="800"/>
             </div>
           </div>
         </div>
@@ -3213,7 +3213,7 @@ function renderConverter() {
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
               <div class="conv-label">${isEn?'Target DPI':'Hedef DPI'}</div>
-              <input class="input-field" type="number" step="50" min="100" max="64000" id="convToDpi" value="${convState.toDpi}" oninput="onConvToDpiInput(this.value)"/>
+              <input class="input-field" type="text" inputmode="numeric" id="convToDpi" value="${convState.toDpi}" oninput="onConvToDpiInput(this.value)" autocomplete="off" spellcheck="false" placeholder="800"/>
             </div>
           </div>
         </div>
@@ -3276,35 +3276,44 @@ function onConvGameChange(field, val) {
 
 function updateConverterLive() {
   const isEn = currentLang === 'en';
-  const sensNum = parseFloat(convState.sens) || 0;
-  const fromDpiNum = parseInt(convState.fromDpi) || 800;
-  const toDpiNum = parseInt(convState.toDpi) || 800;
+  const rawSens = String(convState.sens || '').replace(',', '.').trim();
+  const sensNum = parseFloat(rawSens);
+  const fromDpiNum = parseInt(convState.fromDpi, 10);
+  const toDpiNum = parseInt(convState.toDpi, 10);
+
+  const validSens = (!isNaN(sensNum) && sensNum > 0) ? sensNum : 0;
+  const validFromDpi = (!isNaN(fromDpiNum) && fromDpiNum > 0) ? fromDpiNum : 800;
+  const validToDpi = (!isNaN(toDpiNum) && toDpiNum > 0) ? toDpiNum : 800;
 
   const toGame = GAMES.find(g=>g.id===convState.toGame) || GAMES[1];
-  const cm360 = calcCm360(fromDpiNum, sensNum, convState.fromGame);
-  const targetSens = calcSens(cm360, toDpiNum, convState.toGame);
-  const toEdpi = Math.round(toDpiNum * targetSens * 10) / 10;
-  const in360 = Math.round((cm360 / 2.54) * 10) / 10;
+  let targetSens = 0, cm360 = 0, toEdpi = 0, in360 = 0;
+
+  if (validSens > 0) {
+    cm360 = calcCm360(validFromDpi, validSens, convState.fromGame);
+    targetSens = calcSens(cm360, validToDpi, convState.toGame);
+    toEdpi = Math.round(validToDpi * targetSens * 10) / 10;
+    in360 = Math.round((cm360 / 2.54) * 10) / 10;
+  }
 
   const targetTitle = document.getElementById('convTargetTitle');
   if (targetTitle) targetTitle.textContent = `${toGame.label} ${isEn?'Sensitivity':'Hassasiyeti'}`;
   const resSens = document.getElementById('convResSens');
-  if (resSens) resSens.textContent = targetSens;
+  if (resSens) resSens.textContent = validSens > 0 ? targetSens : '—';
   const resCm = document.getElementById('convResCm');
-  if (resCm) resCm.textContent = `${cm360} cm`;
+  if (resCm) resCm.textContent = validSens > 0 ? `${cm360} cm` : '—';
   const resIn = document.getElementById('convResIn');
-  if (resIn) resIn.textContent = `~${in360} ${isEn?'in / 360°':'inç / 360°'}`;
+  if (resIn) resIn.textContent = validSens > 0 ? `~${in360} ${isEn?'in / 360°':'inç / 360°'}` : '—';
   const resEdpi = document.getElementById('convResEdpi');
-  if (resEdpi) resEdpi.textContent = toEdpi;
+  if (resEdpi) resEdpi.textContent = validSens > 0 ? toEdpi : '—';
   const resEdpiSub = document.getElementById('convResEdpiSub');
-  if (resEdpiSub) resEdpiSub.textContent = `${toDpiNum} × ${targetSens}`;
+  if (resEdpiSub) resEdpiSub.textContent = validSens > 0 ? `${validToDpi} × ${targetSens}` : '—';
   const resDpiSub = document.getElementById('convResDpiSub');
-  if (resDpiSub) resDpiSub.textContent = `${toDpiNum} DPI`;
+  if (resDpiSub) resDpiSub.textContent = `${validToDpi} DPI`;
 
   const allGrid = document.getElementById('convAllGrid');
   if (allGrid) {
     allGrid.innerHTML = GAMES.filter(g=>g.id!=='other').map(g => {
-      const s = calcSens(cm360, toDpiNum, g.id);
+      const s = validSens > 0 ? calcSens(cm360, validToDpi, g.id) : '—';
       const isTarget = g.id === convState.toGame;
       return `<div class="conv-all-item" ${isTarget?'style="border-color:var(--cyan);background:rgba(0,242,254,.08)"':''}>
         <span class="conv-all-game">${(g.id==='other'&&isEn)?'Other':g.label}</span>
@@ -3316,8 +3325,8 @@ function updateConverterLive() {
   const allTitle = document.getElementById('convAllTitle');
   if (allTitle) {
     allTitle.textContent = isEn 
-      ? `Equivalent Sensitivities Across All Games (${toDpiNum} DPI, ${cm360} cm/360)` 
-      : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${toDpiNum} DPI, ${cm360} cm/360)`;
+      ? `Equivalent Sensitivities Across All Games (${validToDpi} DPI, ${validSens > 0 ? cm360 : 0} cm/360)` 
+      : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${validToDpi} DPI, ${validSens > 0 ? cm360 : 0} cm/360)`;
   }
 }
 
@@ -3325,8 +3334,10 @@ function swapConvGames() {
   const tmpG = convState.fromGame;
   convState.fromGame = convState.toGame;
   convState.toGame = tmpG;
-  const cm360 = calcCm360(convState.fromDpi, convState.sens, tmpG);
-  convState.sens = calcSens(cm360, convState.fromDpi, convState.fromGame);
+  const sensNum = parseFloat(String(convState.sens).replace(',', '.')) || 0.35;
+  const fromDpiNum = parseInt(convState.fromDpi, 10) || 800;
+  const cm360 = calcCm360(fromDpiNum, sensNum, tmpG);
+  convState.sens = calcSens(cm360, fromDpiNum, convState.fromGame);
   renderConverter();
 }
 
