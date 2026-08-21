@@ -395,7 +395,7 @@
         <button class="nav-tab"        id="ntab-feedback"  onclick="switchPage('feedback')">Geri Bildirim</button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="lang-btn" id="langBtn" onclick="toggleLanguage()" title="Dili Değiştir / Change Language">🌐 EN</button>
+        <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language">🌐 EN</button>
       </div>
     </div>
 
@@ -3659,6 +3659,7 @@ function showAimResults() {
 // ════════════════════════════════════════════════════════════
 const I18N = {
   tr: {
+    docTitle: 'VecSens — Kişiselleştirilmiş Aim Analizi',
     btn: '🌐 EN',
     title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Kişiselleştirilmiş Aim Analizi</span>',
     sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
@@ -3689,6 +3690,7 @@ const I18N = {
     footer: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez'
   },
   en: {
+    docTitle: 'VecSens — Personalized FPS Aim Optimizer',
     btn: '🇹🇷 TR',
     title: 'VecSens<br/><span style="font-size:clamp(16px,3vw,26px);font-weight:500;background:linear-gradient(135deg,#94a3b8,#63b3ed);-webkit-background-clip:text;background-clip:text">Personalized Aim Optimizer</span>',
     sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
@@ -3720,15 +3722,26 @@ const I18N = {
   }
 };
 
-function toggleLanguage() {
+function toggleLanguage(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  if (typeof saveTextInputs === 'function') {
+    try { saveTextInputs(); } catch(err) {}
+  }
   currentLang = currentLang === 'tr' ? 'en' : 'tr';
   localStorage.setItem('vecsens_lang', currentLang);
+  document.documentElement.lang = currentLang;
   applyLanguage();
   showToast(currentLang === 'tr' ? '🇹🇷 Dil: Türkçe' : '🌐 Language: English');
 }
 
 function applyLanguage() {
   const dict = I18N[currentLang] || I18N.tr;
+  document.title = dict.docTitle;
+  document.documentElement.lang = currentLang;
+
   const lBtn = document.getElementById('langBtn');
   if (lBtn) lBtn.textContent = dict.btn;
   const hTitle = document.getElementById('headerTitle');
