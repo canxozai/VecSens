@@ -4739,9 +4739,9 @@
       const gid = games[0] || 'other';
 
       return [
-        { type: 'precision', name: '🎯 Hassasiyet Odaklı', subname: 'Precision', tagline: 'Her atış sayılır — maksimum kontrol', icon: '🎯', cm360: baseCm * 1.18, dpi },
-        { type: 'balanced', name: '⚖️ Dengeli', subname: 'Balanced', tagline: 'Hız ve hassasiyet dengesi', icon: '⚖️', cm360: baseCm, dpi },
-        { type: 'speed', name: '⚡ Hız Odaklı', subname: 'Speed', tagline: 'Hızlı tepki, agresif oyun', icon: '⚡', cm360: baseCm * 0.80, dpi },
+        { type: 'precision', name: 'Hassasiyet Odaklı', subname: 'Precision', tagline: 'Her atış sayılır — maksimum kontrol', icon: '🎯', cm360: baseCm * 1.18, dpi },
+        { type: 'balanced', name: 'Dengeli', subname: 'Balanced', tagline: 'Hız ve hassasiyet dengesi', icon: '⚖️', cm360: baseCm, dpi },
+        { type: 'speed', name: 'Hız Odaklı', subname: 'Speed', tagline: 'Hızlı tepki, agresif oyun', icon: '⚡', cm360: baseCm * 0.80, dpi },
       ].map(p => {
         const cm = Math.round(p.cm360 * 10) / 10;
         const sens = calcSens(cm, p.dpi, gid);
@@ -4831,7 +4831,7 @@
 
       const profileHtml = profiles.map((p, i) => {
         const isRec = i === recIdx;
-        const profTitle = isEn ? (p.type === 'precision' ? '🎯 Precision' : p.type === 'speed' ? '⚡ Speed' : '⚖️ Balanced') : p.name;
+        const profTitle = isEn ? (p.type === 'precision' ? 'Precision' : p.type === 'speed' ? 'Speed' : 'Balanced') : p.name;
         const profTag = isEn ? (p.type === 'precision' ? 'Every shot counts — maximum control' : p.type === 'speed' ? 'Rapid reactions, aggressive play' : 'Perfect balance of speed & precision') : p.tagline;
 
         return `<div class="profile-card ${p.type}${isRec ? ' recommended' : ''}">
@@ -4900,7 +4900,7 @@
     </div>
     ${alertHtml}
     ${mouseCardHtml}
-    <div class="profiles-section"><h2>🎯 ${isEn ? 'Sensitivity Profiles' : 'Sensitivity Profillerin'}</h2>${profileHtml}</div>
+    <div class="profiles-section"><h2>${isEn ? 'Sensitivity Profiles' : 'Sensitivity Profillerin'}</h2>${profileHtml}</div>
     ${mousepadSimHtml}
     ${multiGameHtml}
     ${routineHtml}
@@ -5450,7 +5450,7 @@
     </div>
 
     <div class="feedback-card">
-      <h3>🎯 ${isEn ? 'Recommendation Experience' : 'Öneri Deneyimi'}</h3>
+      <h3>${isEn ? 'Recommendation Experience' : 'Öneri Deneyimi'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn ? 'Did you test the recommended sensitivity in-game?' : 'Önerilen sensitivity değerini denedin mi?'}</p>
       <div class="fb-options">
         ${[
@@ -5618,7 +5618,7 @@
     ${hasAnalysis ? `
       <div class="conv-analysis-alert">
         <div style="font-size:13px;color:var(--t1)">
-          🎯 <b>${isEn ? 'Analysis Available:' : 'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
+          <b>${isEn ? 'Analysis Available:' : 'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
         </div>
         <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()">${isEn ? 'Fill My Values ⚡' : 'Değerlerimi Doldur ⚡'}</button>
       </div>
@@ -6089,7 +6089,7 @@
         aimTestState.calibDpi = rec.dpi;
         aimTestState.calibGame = getPrimaryGameId();
         renderAimTest();
-        showToast(currentLang === 'en' ? '🎯 Analysis settings loaded!' : '🎯 Analiz ayarların yüklendi!');
+        showToast(currentLang === 'en' ? 'Analysis settings loaded!' : 'Analiz ayarların yüklendi!');
       }
     }
 
@@ -7603,7 +7603,7 @@
             state.answers.q2 = payload.m || '';
             state.answers.q11 = payload.gr || 'palm';
             showResults();
-            showToast('🎯 Paylaşılan profil yüklendi!');
+            showToast(currentLang === 'en' ? 'Shared profile loaded!' : 'Paylaşılan profil yüklendi!');
           }
         } catch (e) { }
       }
