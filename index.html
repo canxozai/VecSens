@@ -887,21 +887,38 @@ function switchPage(page) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  QUESTIONS
+//  QUESTIONS (BILINGUAL TR / EN)
 // ════════════════════════════════════════════════════════════
 function buildQuestions() {
   const games = state.answers.q1 || [];
   const primaryGame = games[0] || 'other';
   const roles = ROLES_BY_GAME[primaryGame] || ROLES_BY_GAME.other;
   const ranks = RANKS_BY_GAME[primaryGame] || RANKS_BY_GAME.other;
+  const isEn = currentLang === 'en';
 
   return [
-    {id:'q1',phase:1,title:'Hangi FPS oyunlarını oynuyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
-      options:GAMES.map(g=>({value:g.id,label:g.label,icon:g.icon}))},
-
-    {id:'q2',phase:2,title:'Mouse marka ve modelini yazar mısın?',subtitle:'Sensör, ağırlık, boyut ve tutuş uyumluluğu analizi için kullanılır. Listeden seç veya elle yaz.',type:'text',placeholder:'Örn: Logitech G Pro X Superlight 2',allowUnsure:true,datalistId:'mouseList'},
-
-    {id:'q3',phase:2,title:'Şu an kullandığın DPI kaç?',subtitle:'Mouse\'un hassasiyet değeri. Mouse yazılımından veya üzerindeki düğmeden öğrenebilirsin.',type:'single',allowUnsure:true,
+    {
+      id:'q1', phase:1,
+      title: isEn ? 'Which FPS games do you play?' : 'Hangi FPS oyunlarını oynuyorsun?',
+      subtitle: isEn ? 'You can select multiple games.' : 'Birden fazla seçebilirsin.',
+      type:'multi',
+      options: GAMES.map(g=>({value:g.id, label:g.label, icon:g.icon}))
+    },
+    {
+      id:'q2', phase:2,
+      title: isEn ? 'What is your mouse make and model?' : 'Mouse marka ve modelini yazar mısın?',
+      subtitle: isEn ? 'Used for sensor, weight, size, and grip compatibility analysis. Select or type.' : 'Sensör, ağırlık, boyut ve tutuş uyumluluğu analizi için kullanılır. Listeden seç veya elle yaz.',
+      type:'text',
+      placeholder: isEn ? 'e.g. Logitech G Pro X Superlight 2' : 'Örn: Logitech G Pro X Superlight 2',
+      allowUnsure: true,
+      datalistId: 'mouseList'
+    },
+    {
+      id:'q3', phase:2,
+      title: isEn ? 'What DPI do you currently use?' : 'Şu an kullandığın DPI kaç?',
+      subtitle: isEn ? 'Hardware sensitivity value of your mouse.' : 'Mouse\'un hassasiyet değeri. Mouse yazılımından veya üzerindeki düğmeden öğrenebilirsin.',
+      type:'single',
+      allowUnsure: true,
       options:[
         {value:'200',  label:'200 DPI', icon:'🐌'},
         {value:'400',  label:'400 DPI', icon:'🐢'},
@@ -914,87 +931,313 @@ function buildQuestions() {
         {value:'3200', label:'3200 DPI',icon:'🚀'},
         {value:'4000', label:'4000 DPI',icon:'🔥'},
         {value:'6400', label:'6400 DPI',icon:'🔥'},
-        {value:'custom',label:'Diğer — Kendim yazacağım',icon:'✏️'},
-      ]},
-
-    {id:'q3b',phase:2,title:'DPI değerini gir:',subtitle:'Mouse yazılımından öğrenebilirsin.',type:'text',placeholder:'Örn: 1800',
-      condition:()=>state.answers.q3==='custom',skipIfHidden:true},
-
-    {id:'q4',phase:2,title:'Mouse Polling Rate (Yoklama Hızı) nedir?',subtitle:'Mouse\'un bilgisayara saniyede kaç kez konum verisi gönderdiğidir. Daha yüksek = daha az gecikme.',type:'single',allowUnsure:true,
-      options:[{value:'125',label:'125 Hz'},{value:'250',label:'250 Hz'},{value:'500',label:'500 Hz'},{value:'1000',label:'1000 Hz',icon:'⚡'},{value:'2000',label:'2000 Hz',icon:'🚀'},{value:'4000',label:'4000 Hz',icon:'🚀'},{value:'8000',label:'8000 Hz',icon:'🔥'}]},
-
-    {id:'q5',phase:2,title:'Mousepad\'in ne kadar büyük?',subtitle:'Mousepad boyutu hareket alanını doğrudan etkiler.',type:'single',allowUnsure:true,
-      options:[{value:'small',label:'Küçük (~20×25 cm)',icon:'📦'},{value:'medium',label:'Orta (~30×35 cm)',icon:'📋'},{value:'large',label:'Büyük (~40×45 cm)',icon:'🗂️'},{value:'xxl',label:'XXL (45 cm+)',icon:'📐'},{value:'custom',label:'Ölçüsünü biliyorum',icon:'📏'}]},
-
-    {id:'q5b',phase:2,title:'Mousepad ölçülerini gir (cm):',subtitle:'',type:'inputs',
-      fields:[{key:'width',label:'Genişlik (cm)',placeholder:'Örn: 45'},{key:'height',label:'Yükseklik (cm)',placeholder:'Örn: 40'}],
-      condition:()=>state.answers.q5==='custom',skipIfHidden:true},
-
-    {id:'q6',phase:2,title:'Monitörünün özellikleri neler?',subtitle:'Birden fazla alanı doldur.',type:'inputs',allowUnsure:true,
-      fields:[{key:'size',label:'Boyut (inç)',placeholder:'Örn: 24, 27...'},{key:'res',label:'Çözünürlük',type:'resselect'},{key:'hz',label:'Yenileme Hızı (Hz)',placeholder:'Örn: 144, 240...'}]},
-
-    {id:'q7',phase:2,title:'Oyundaki Görüş Alanı (FOV) değerin kaç?',subtitle:'FOV, ekranda ne kadar geniş bir alan gördüğünü belirler. Genellikle 90–110 arasında olur.',type:'single',allowUnsure:true,
-      options:[{value:'80',label:'80'},{value:'90',label:'90'},{value:'100',label:'100'},{value:'103',label:'103 (Valorant varsayılanı)'},{value:'110',label:'110'},{value:'120',label:'120'}]},
-
-    {id:'q8',phase:3,title:'Oyunda en çok hangi rolü oynuyorsun?',subtitle:`Ana oyunun için (${(GAMES.find(g=>g.id===primaryGame)||GAMES[0]).label}) rol seç.`,type:'single',
-      options:roles.map(r=>({value:r,label:r}))},
-
-    {id:'q9',phase:3,title:'En çok hangi silah türlerini kullanıyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
-      options:[{value:'sniper',label:'Keskin Nişancı (Sniper)',icon:'🔭'},{value:'rifle',label:'Tüfek (Rifle)',icon:'🔫'},{value:'lmg',label:'Hafif Makineli (LMG)',icon:'💥'},{value:'shotgun',label:'Av Tüfeği (Shotgun)',icon:'🪖'},{value:'dmr',label:'Yarı Otomatik (DMR)',icon:'🎯'},{value:'pistol',label:'Tabanca (Pistol)',icon:'🔑'}]},
-
-    {id:'q10',phase:3,title:'Nişan alma stilin hangisine daha yakın?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
-      options:[{value:'flick',label:'Ani sıçrama (Flick) — İmleci hızlıca hedefe götürürüm',icon:'⚡'},{value:'track',label:'Takip (Tracking) — Sürekli hedefi nişanda tutarım',icon:'🎯'},{value:'switch',label:'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım',icon:'🔄'},{value:'micro',label:'Mikro düzeltme — Küçük hassas hareketler yaparım',icon:'🔬'},{value:'mixed',label:'Hepsini benzer oranda kullanıyorum',icon:'⚖️'}]},
-
-    {id:'q11',phase:3,title:'Fareyi nasıl tutuyorsun?',subtitle:'Tutuş tarzı, önerilen sensitivity değerini etkiler.',type:'single',allowUnsure:true,
-      options:[{value:'palm',label:'Avuç içi tutuşu — Elin tamamı mouse\'u kaplar',icon:'🖐️'},{value:'claw',label:'Pençe tutuşu — Parmaklar kıvrık, avuç değmez',icon:'🦀'},{value:'finger',label:'Parmak ucu tutuşu — Sadece parmak uçları temas eder',icon:'👆'}]},
-
-    {id:'q12',phase:3,title:'Fareyi hareket ettirirken ne kullanıyorsun?',subtitle:'Bu bilgi, önerilen cm/360 değerini doğrudan etkiler.',type:'single',allowUnsure:true,
-      options:[{value:'wrist',label:'Sadece bileğim',icon:'🤏'},{value:'arm',label:'Sadece kolum',icon:'💪'},{value:'both',label:'Hem kolum hem bileğim',icon:'🙌'}]},
-
-    {id:'q13',phase:3,title:'El ölçülerin neler? (İsteğe bağlı)',subtitle:'Mouse modelini ve tutuş tavsiyesini daha iyi eşleştirmeye yardımcı olur.',type:'inputs',allowUnsure:true,
-      fields:[{key:'length',label:'Avuç Uzunluğu (cm)',placeholder:'Örn: 18'},{key:'width',label:'Avuç Genişliği (cm)',placeholder:'Örn: 9'}]},
-
-    {id:'q14',phase:3,title:'Mouse\'u hareket ettirecek yeterli masa alanın var mı?',subtitle:'Mousepad\'ini rahatça kullanabiliyor musun?',type:'single',
-      options:[{value:'yes',label:'Evet, yeterli alan var',icon:'✅'},{value:'no',label:'Hayır, alanım kısıtlı',icon:'❌'}]},
-
-    {id:'q15',phase:2,title:'Oyunda ortalama kaç FPS alıyorsun?',subtitle:'Daha yüksek FPS, daha akıcı ve tutarlı bir aim deneyimi sağlar.',type:'single',
-      options:[{value:'low',label:'60\'ın altı',icon:'🐢'},{value:'mid',label:'60 – 120',icon:'👍'},{value:'good',label:'120 – 180',icon:'⚡'},{value:'high',label:'180 – 240',icon:'🚀'},{value:'ultra',label:'240 ve üzeri',icon:'🔥'}]},
-
-    {id:'q16',phase:2,title:'Fare İvmesi (Mouse Acceleration) açık mı?',subtitle:'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri → "İşaretçi hassasiyetini artır" kutucuğu. Ayrıca mouse yazılımında (Logitech G HUB, Razer Synapse vb.) ve oyun içi ayarlarda da kontrol et.',type:'single',allowUnsure:true,
-      options:[{value:'on',label:'Açık',icon:'⚡'},{value:'off',label:'Kapalı',icon:'✅'}]},
-
-    {id:'q17',phase:2,title:'Ham Girdi (Raw Input) açık mı?',subtitle:'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir. 📍 Kontrol: Oyun içi Ayarlar → Fare / Mouse bölümü → "Raw Input" veya "Ham Girdi" seçeneği. Valorant: Ayarlar → Genel → Fare → Ham Girdi Arabelleği. CS2: Ayarlar → Fare → Ham Girdi.',type:'single',allowUnsure:true,
-      options:[{value:'on',label:'Açık',icon:'✅'},{value:'off',label:'Kapalı',icon:'⚠️'}]},
-
-    {id:'q18',phase:2,title:'Windows işaretçi hızı kaçıncı kademede?',subtitle:'Önerilen değer: 6/11. Bu değer dışında mouse hareketleri hızlandırılır veya yavaşlatılır. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri sekmesi → "Bir işaretçi hızı seçin" kaydırıcısı. Soldan 6. kademe varsayılan ve önerilen değerdir.',type:'single',allowUnsure:true,
-      options:[{value:'1',label:'1/11'},{value:'2',label:'2/11'},{value:'3',label:'3/11'},{value:'4',label:'4/11'},{value:'5',label:'5/11'},{value:'6',label:'6/11 — Önerilen'},{value:'7',label:'7/11'},{value:'8',label:'8/11'},{value:'9',label:'9/11'},{value:'10',label:'10/11'},{value:'11',label:'11/11'}]},
-
-    {id:'q19',phase:2,title:'"İşaretçi hassasiyetini artır" seçeneği açık mı?',subtitle:'Bu özellik (Enhance Pointer Precision) mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri sekmesi → "İşaretçi hassasiyetini artır" kutucuğunun işaretini kaldır.',type:'single',allowUnsure:true,
-      options:[{value:'on',label:'Açık',icon:'⚠️'},{value:'off',label:'Kapalı',icon:'✅'}]},
-
-    {id:'q20',phase:4,title:'Şu anda kullandığın sensitivity değeri nedir?',subtitle:'DPI ve oyun içi hassasiyet değerini birlikte yaz.',type:'inputs',allowUnsure:true,
-      fields:[{key:'dpi',label:'DPI',placeholder:'Örn: 800'},{key:'sens',label:'Oyun İçi Hassasiyet',placeholder:'Örn: 0.35'}]},
-
-    {id:'q21',phase:4,title:'Mevcut hassasiyetin hakkında ne düşünüyorsun?',subtitle:'',type:'single',
-      options:[{value:'way_fast',label:'Çok hızlı — Nişan her yere kaçıyor',icon:'🚀'},{value:'bit_fast',label:'Biraz hızlı — Zaman zaman hedefi geçiyorum',icon:'⚡'},{value:'perfect',label:'Tam ideal — Çok memnunum',icon:'✅'},{value:'bit_slow',label:'Biraz yavaş — Zaman zaman yetişemiyorum',icon:'🐢'},{value:'way_slow',label:'Çok yavaş — Hedefe hiç yetişemiyorum',icon:'🐌'}]},
-
-    {id:'q22',phase:4,title:'Nişan alırken en çok hangi sorunu yaşıyorsun?',subtitle:'Birden fazla seçebilirsin.',type:'multi',
-      options:[{value:'overshoot',label:'Nişanım hedefi geçiyor (Overshoot)',icon:'➡️'},{value:'undershoot',label:'Nişanım hedefe ulaşamıyor (Undershoot)',icon:'⬅️'},{value:'track',label:'Hareket eden hedefleri takip etmek zor',icon:'🔄'},{value:'flick',label:'Ani sıçrama (Flick) atışlarda zorlanıyorum',icon:'⚡'},{value:'micro',label:'Küçük nişan düzeltmeleri yapmak zor',icon:'🔬'},{value:'turn180',label:'180 derece dönemiyorum',icon:'↩️'},{value:'recoil',label:'Geri tepme (Recoil) kontrolü zor',icon:'💥'},{value:'none',label:'Belirgin bir sorunum yok',icon:'✅'}]},
-
-    {id:'q23',phase:4,title:'Nişan geliştirici (Aim Trainer) kullanıyor musun?',subtitle:'Aim trainer, nişan becerilerini geliştirmeye yönelik özel uygulamalardır.',type:'single',
-      options:[{value:'aimlab',label:'Aim Lab',icon:'🎯'},{value:'kovaak',label:'KovaaK\'s',icon:'🏆'},{value:'both',label:'İkisi de',icon:'🎯🏆'},{value:'no',label:'Hayır, kullanmıyorum',icon:'❌'}]},
-
-    {id:'q24',phase:4,title:'FPS oyunlarında deneyimin ne seviyede?',subtitle:'',type:'single',
-      options:[{value:'beginner',label:'Yeni başladım (6 aydan az)',icon:'🌱'},{value:'intermediate',label:'Orta seviye (6 ay – 2 yıl)',icon:'📈'},{value:'advanced',label:'İleri seviye (2+ yıl)',icon:'⭐'},{value:'competitive',label:'Rekabetçi oyuncu / Profesyonel sahne',icon:'🏆'}]},
-
-    {id:'q25',phase:4,title:'Ana oyundaki rankın nedir?',subtitle:'',type:'single',
-      options:ranks.map(r=>({value:r,label:r}))},
-
-    {id:'q26',phase:4,title:'Senin için hangisi daha öncelikli?',subtitle:'Bu öncelik, hangi profili birincil öneri olarak sunacağımızı belirler.',type:'single',
-      options:[{value:'precision',label:'Maksimum İsabet — Her atışı isabet ettirmek istiyorum',icon:'🎯'},{value:'speed',label:'Maksimum Hız — Çok hızlı tepki vermek istiyorum',icon:'⚡'},{value:'balanced',label:'Dengeli — İkisini birden istiyorum',icon:'⚖️'},{value:'auto',label:'Sen karar ver — Verilerimi analiz et',icon:'🤖'}]},
-
-    {id:'q27',phase:3,title:'Birden fazla FPS oyunu oynuyor musun?',subtitle:'Evet ise, tüm oyunlara uygun evrensel bir sensitivity de hesaplayabiliriz.',type:'single',
-      options:[{value:'evet',label:'Evet, birden fazla oyun oynuyorum',icon:'🎮'},{value:'hayir',label:'Hayır, sadece tek oyun oynuyorum',icon:'🎯'}]},
+        {value:'custom',label: isEn ? 'Other — I will enter value' : 'Diğer — Kendim yazacağım', icon:'✏️'},
+      ]
+    },
+    {
+      id:'q3b', phase:2,
+      title: isEn ? 'Enter your DPI value:' : 'DPI değerini gir:',
+      subtitle: isEn ? 'Check your mouse software.' : 'Mouse yazılımından öğrenebilirsin.',
+      type:'text',
+      placeholder: isEn ? 'e.g. 1800' : 'Örn: 1800',
+      condition:()=>state.answers.q3==='custom', skipIfHidden:true
+    },
+    {
+      id:'q4', phase:2,
+      title: isEn ? 'What is your Mouse Polling Rate?' : 'Mouse Polling Rate (Yoklama Hızı) nedir?',
+      subtitle: isEn ? 'How many times per second the mouse sends position data. Higher = less input lag.' : 'Mouse\'un bilgisayara saniyede kaç kez konum verisi gönderdiğidir. Daha yüksek = daha az gecikme.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'125',label:'125 Hz'},
+        {value:'250',label:'250 Hz'},
+        {value:'500',label:'500 Hz'},
+        {value:'1000',label:'1000 Hz',icon:'⚡'},
+        {value:'2000',label:'2000 Hz',icon:'🚀'},
+        {value:'4000',label:'4000 Hz',icon:'🚀'},
+        {value:'8000',label:'8000 Hz',icon:'🔥'}
+      ]
+    },
+    {
+      id:'q5', phase:2,
+      title: isEn ? 'How large is your mousepad?' : 'Mousepad\'in ne kadar büyük?',
+      subtitle: isEn ? 'Mousepad dimensions directly determine your physical swipe area.' : 'Mousepad boyutu hareket alanını doğrudan etkiler.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'small',label: isEn ? 'Small (~20×25 cm)' : 'Küçük (~20×25 cm)', icon:'📦'},
+        {value:'medium',label: isEn ? 'Medium (~30×35 cm)' : 'Orta (~30×35 cm)', icon:'📋'},
+        {value:'large',label: isEn ? 'Large (~40×45 cm)' : 'Büyük (~40×45 cm)', icon:'🗂️'},
+        {value:'xxl',label: isEn ? 'XXL Desk Mat (45 cm+)' : 'XXL (45 cm+)', icon:'📐'},
+        {value:'custom',label: isEn ? 'Custom dimensions' : 'Ölçüsünü biliyorum', icon:'📏'}
+      ]
+    },
+    {
+      id:'q5b', phase:2,
+      title: isEn ? 'Enter mousepad dimensions (cm):' : 'Mousepad ölçülerini gir (cm):',
+      subtitle:'', type:'inputs',
+      fields:[
+        {key:'width',label: isEn ? 'Width (cm)' : 'Genişlik (cm)', placeholder: isEn ? 'e.g. 45' : 'Örn: 45'},
+        {key:'height',label: isEn ? 'Height (cm)' : 'Yükseklik (cm)', placeholder: isEn ? 'e.g. 40' : 'Örn: 40'}
+      ],
+      condition:()=>state.answers.q5==='custom', skipIfHidden:true
+    },
+    {
+      id:'q6', phase:2,
+      title: isEn ? 'What are your monitor specifications?' : 'Monitörünün özellikleri neler?',
+      subtitle: isEn ? 'Fill in monitor specifications.' : 'Birden fazla alanı doldur.',
+      type:'inputs',
+      allowUnsure: true,
+      fields:[
+        {key:'size',label: isEn ? 'Size (inches)' : 'Boyut (inç)', placeholder: isEn ? 'e.g. 24, 27...' : 'Örn: 24, 27...'},
+        {key:'res',label: isEn ? 'Resolution' : 'Çözünürlük', type:'resselect'},
+        {key:'hz',label: isEn ? 'Refresh Rate (Hz)' : 'Yenileme Hızı (Hz)', placeholder: isEn ? 'e.g. 144, 240...' : 'Örn: 144, 240...'}
+      ]
+    },
+    {
+      id:'q7', phase:2,
+      title: isEn ? 'What is your in-game Field of View (FOV)?' : 'Oyundaki Görüş Alanı (FOV) değerin kaç?',
+      subtitle: isEn ? 'FOV determines visual angle on screen. Usually 90–110.' : 'FOV, ekranda ne kadar geniş bir alan gördüğünü belirler. Genellikle 90–110 arasında olur.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'80',label:'80'},
+        {value:'90',label:'90'},
+        {value:'100',label:'100'},
+        {value:'103',label: isEn ? '103 (Valorant Default)' : '103 (Valorant varsayılanı)'},
+        {value:'110',label:'110'},
+        {value:'120',label:'120'}
+      ]
+    },
+    {
+      id:'q8', phase:3,
+      title: isEn ? 'Which role do you main in-game?' : 'Oyunda en çok hangi rolü oynuyorsun?',
+      subtitle: isEn ? `Select your primary role in ${(GAMES.find(g=>g.id===primaryGame)||GAMES[0]).label}.` : `Ana oyunun için (${(GAMES.find(g=>g.id===primaryGame)||GAMES[0]).label}) rol seç.`,
+      type:'single',
+      options: roles.map(r=>({value:r,label:r}))
+    },
+    {
+      id:'q9', phase:3,
+      title: isEn ? 'Which weapon types do you use most?' : 'En çok hangi silah türlerini kullanıyorsun?',
+      subtitle: isEn ? 'You can select multiple weapons.' : 'Birden fazla seçebilirsin.',
+      type:'multi',
+      options:[
+        {value:'sniper',label: isEn ? 'Sniper Rifle' : 'Keskin Nişancı (Sniper)', icon:'🔭'},
+        {value:'rifle',label: isEn ? 'Assault Rifle' : 'Tüfek (Rifle)', icon:'🔫'},
+        {value:'lmg',label: isEn ? 'Light Machine Gun (LMG)' : 'Hafif Makineli (LMG)', icon:'💥'},
+        {value:'shotgun',label: isEn ? 'Shotgun' : 'Av Tüfeği (Shotgun)', icon:'🪖'},
+        {value:'dmr',label: isEn ? 'Designated Marksman (DMR)' : 'Yarı Otomatik (DMR)', icon:'🎯'},
+        {value:'pistol',label: isEn ? 'Pistol / Sidearm' : 'Tabanca (Pistol)', icon:'🔑'}
+      ]
+    },
+    {
+      id:'q10', phase:3,
+      title: isEn ? 'Which aiming style best describes you?' : 'Nişan alma stilin hangisine daha yakın?',
+      subtitle: isEn ? 'You can select multiple styles.' : 'Birden fazla seçebilirsin.',
+      type:'multi',
+      options:[
+        {value:'flick',label: isEn ? 'Flick Aim — Fast target snapping' : 'Ani sıçrama (Flick) — İmleci hızlıca hedefe götürürüm', icon:'⚡'},
+        {value:'track',label: isEn ? 'Tracking — Continuously staying on moving targets' : 'Takip (Tracking) — Sürekli hedefi nişanda tutarım', icon:'🎯'},
+        {value:'switch',label: isEn ? 'Target Switching — Bouncing between multiple targets' : 'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım', icon:'🔄'},
+        {value:'micro',label: isEn ? 'Micro-Correction — Subtle precise adjustments' : 'Mikro düzeltme — Küçük hassas hareketler yaparım', icon:'🔬'},
+        {value:'mixed',label: isEn ? 'Hybrid / Balanced — Equal mix of all styles' : 'Hepsini benzer oranda kullanıyorum', icon:'⚖️'}
+      ]
+    },
+    {
+      id:'q11', phase:3,
+      title: isEn ? 'How do you grip your mouse?' : 'Fareyi nasıl tutuyorsun?',
+      subtitle: isEn ? 'Grip style significantly impacts optimal sensitivity.' : 'Tutuş tarzı, önerilen sensitivity değerini etkiler.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'palm',label: isEn ? 'Palm Grip — Full palm rests on mouse' : 'Avuç içi tutuşu — Elin tamamı mouse\'u kaplar', icon:'🖐️'},
+        {value:'claw',label: isEn ? 'Claw Grip — Arched fingers, minimal palm contact' : 'Pençe tutuşu — Parmaklar kıvrık, avuç değmez', icon:'🦀'},
+        {value:'finger',label: isEn ? 'Fingertip Grip — Only fingertips contact mouse' : 'Parmak ucu tutuşu — Sadece parmak uçları temas eder', icon:'👆'}
+      ]
+    },
+    {
+      id:'q12', phase:3,
+      title: isEn ? 'What movement do you primarily use to aim?' : 'Fareyi hareket ettirirken ne kullanıyorsun?',
+      subtitle: isEn ? 'Directly influences recommended cm/360 value.' : 'Bu bilgi, önerilen cm/360 değerini doğrudan etkiler.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'wrist',label: isEn ? 'Wrist only (Wrist Aimer)' : 'Sadece bileğim', icon:'🤏'},
+        {value:'arm',label: isEn ? 'Arm only (Arm Aimer)' : 'Sadece kolum', icon:'💪'},
+        {value:'both',label: isEn ? 'Hybrid (Arm + Wrist)' : 'Hem kolum hem bileğim', icon:'🙌'}
+      ]
+    },
+    {
+      id:'q13', phase:3,
+      title: isEn ? 'What are your hand dimensions? (Optional)' : 'El ölçülerin neler? (İsteğe bağlı)',
+      subtitle: isEn ? 'Helps match mouse shape and ergonomic recommendations.' : 'Mouse modelini ve tutuş tavsiyesini daha iyi eşleştirmeye yardımcı olur.',
+      type:'inputs',
+      allowUnsure: true,
+      fields:[
+        {key:'length',label: isEn ? 'Hand Length (cm)' : 'Avuç Uzunluğu (cm)', placeholder: isEn ? 'e.g. 18' : 'Örn: 18'},
+        {key:'width',label: isEn ? 'Hand Width (cm)' : 'Avuç Genişliği (cm)', placeholder: isEn ? 'e.g. 9' : 'Örn: 9'}
+      ]
+    },
+    {
+      id:'q14', phase:3,
+      title: isEn ? 'Do you have enough desk space for mouse movement?' : 'Mouse\'u hareket ettirecek yeterli masa alanın var mı?',
+      subtitle: isEn ? 'Can you perform wide swipes without bumping into keyboard/edges?' : 'Mousepad\'ini rahatça kullanabiliyor musun?',
+      type:'single',
+      options:[
+        {value:'yes',label: isEn ? 'Yes, ample space' : 'Evet, yeterli alan var', icon:'✅'},
+        {value:'no',label: isEn ? 'No, cramped / limited space' : 'Hayır, alanım kısıtlı', icon:'❌'}
+      ]
+    },
+    {
+      id:'q15', phase:2,
+      title: isEn ? 'What average FPS do you achieve in-game?' : 'Oyunda ortalama kaç FPS alıyorsun?',
+      subtitle: isEn ? 'Higher frame rates provide smoother tracking and less input lag.' : 'Daha yüksek FPS, daha akıcı ve tutarlı bir aim deneyimi sağlar.',
+      type:'single',
+      options:[
+        {value:'low',label: isEn ? 'Under 60 FPS' : '60\'ın altı', icon:'🐢'},
+        {value:'mid',label:'60 – 120 FPS', icon:'👍'},
+        {value:'good',label:'120 – 180 FPS', icon:'⚡'},
+        {value:'high',label:'180 – 240 FPS', icon:'🚀'},
+        {value:'ultra',label: isEn ? '240+ FPS' : '240 ve üzeri', icon:'🔥'}
+      ]
+    },
+    {
+      id:'q16', phase:2,
+      title: isEn ? 'Is Mouse Acceleration enabled?' : 'Fare İvmesi (Mouse Acceleration) açık mı?',
+      subtitle: isEn ? 'Accelerates pointer speed when moving faster. Strongly recommended OFF for FPS.' : 'Mouse\'u hızlı hareket ettirince imlecin orantısız hızlanmasını sağlayan özellik. Kapalı olması önerilir. 📍 Kontrol: Windows Ayarları → Bluetooth ve cihazlar → Fare → Ek fare ayarları → İşaretçi Seçenekleri → "İşaretçi hassasiyetini artır" kutucuğu.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'on',label: isEn ? 'Enabled (ON)' : 'Açık', icon:'⚡'},
+        {value:'off',label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon:'✅'}
+      ]
+    },
+    {
+      id:'q17', phase:2,
+      title: isEn ? 'Is Raw Input enabled in-game?' : 'Ham Girdi (Raw Input) açık mı?',
+      subtitle: isEn ? 'Allows the game to read mouse hardware directly, bypassing OS scaling. Strongly recommended ON.' : 'Oyunun fareyi doğrudan okumasını sağlar, Windows ayarlarını devre dışı bırakır. Açık olması önerilir. 📍 Kontrol: Oyun içi Ayarlar → Fare bölümü → "Raw Input" seçeneği.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'on',label: isEn ? 'Enabled (ON — Recommended)' : 'Açık', icon:'✅'},
+        {value:'off',label: isEn ? 'Disabled (OFF)' : 'Kapalı', icon:'⚠️'}
+      ]
+    },
+    {
+      id:'q18', phase:2,
+      title: isEn ? 'What is your Windows Pointer Speed notch?' : 'Windows işaretçi hızı kaçıncı kademede?',
+      subtitle: isEn ? 'Default and recommended notch is 6/11 for 1:1 hardware pixel ratio.' : 'Önerilen değer: 6/11. Bu değer dışında mouse hareketleri hızlandırılır veya yavaşlatılır. 📍 Kontrol: Windows Fare Ayarları → İşaretçi Seçenekleri → 6. kademe.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'1',label:'1/11'},{value:'2',label:'2/11'},{value:'3',label:'3/11'},
+        {value:'4',label:'4/11'},{value:'5',label:'5/11'},
+        {value:'6',label: isEn ? '6/11 — Recommended (1:1)' : '6/11 — Önerilen'},
+        {value:'7',label:'7/11'},{value:'8',label:'8/11'},{value:'9',label:'9/11'},
+        {value:'10',label:'10/11'},{value:'11',label:'11/11'}
+      ]
+    },
+    {
+      id:'q19', phase:2,
+      title: isEn ? 'Is "Enhance Pointer Precision" enabled in Windows?' : '"İşaretçi hassasiyetini artır" seçeneği açık mı?',
+      subtitle: isEn ? 'This setting introduces non-linear mouse acceleration. Must be OFF.' : 'Bu özellik mouse hareketlerini tutarsız hale getirir. Kapalı olması şiddetle önerilir.',
+      type:'single',
+      allowUnsure: true,
+      options:[
+        {value:'on',label: isEn ? 'Enabled (ON)' : 'Açık', icon:'⚠️'},
+        {value:'off',label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon:'✅'}
+      ]
+    },
+    {
+      id:'q20', phase:4,
+      title: isEn ? 'What sensitivity do you currently use?' : 'Şu anda kullandığın sensitivity değeri nedir?',
+      subtitle: isEn ? 'Provide your DPI and current in-game sensitivity.' : 'DPI ve oyun içi hassasiyet değerini birlikte yaz.',
+      type:'inputs',
+      allowUnsure: true,
+      fields:[
+        {key:'dpi',label:'DPI', placeholder: isEn ? 'e.g. 800' : 'Örn: 800'},
+        {key:'sens',label: isEn ? 'In-Game Sens' : 'Oyun İçi Hassasiyet', placeholder: isEn ? 'e.g. 0.35' : 'Örn: 0.35'}
+      ]
+    },
+    {
+      id:'q21', phase:4,
+      title: isEn ? 'How do you feel about your current sensitivity?' : 'Mevcut hassasiyetin hakkında ne düşünüyorsun?',
+      subtitle:'', type:'single',
+      options:[
+        {value:'way_fast',label: isEn ? 'Far too fast — Crosshair constantly overshooting' : 'Çok hızlı — Nişan her yere kaçıyor', icon:'🚀'},
+        {value:'bit_fast',label: isEn ? 'Slightly fast — Occasionally passing targets' : 'Biraz hızlı — Zaman zaman hedefi geçiyorum', icon:'⚡'},
+        {value:'perfect',label: isEn ? 'Ideal — Very comfortable' : 'Tam ideal — Çok memnunum', icon:'✅'},
+        {value:'bit_slow',label: isEn ? 'Slightly slow — Lagging behind fast targets' : 'Biraz yavaş — Zaman zaman yetişemiyorum', icon:'🐢'},
+        {value:'way_slow',label: isEn ? 'Far too slow — Straining to turn 180°' : 'Çok yavaş — Hedefe hiç yetişemiyorum', icon:'🐌'}
+      ]
+    },
+    {
+      id:'q22', phase:4,
+      title: isEn ? 'What is your primary aiming difficulty?' : 'Nişan alırken en çok hangi sorunu yaşıyorsun?',
+      subtitle: isEn ? 'You can select multiple issues.' : 'Birden fazla seçebilirsin.',
+      type:'multi',
+      options:[
+        {value:'overshoot',label: isEn ? 'Overshooting past targets' : 'Nişanım hedefi geçiyor (Overshoot)', icon:'➡️'},
+        {value:'undershoot',label: isEn ? 'Undershooting / stopping short' : 'Nişanım hedefe ulaşamıyor (Undershoot)', icon:'⬅️'},
+        {value:'track',label: isEn ? 'Difficulty tracking moving targets' : 'Hareket eden hedefleri takip etmek zor', icon:'🔄'},
+        {value:'flick',label: isEn ? 'Struggling with fast flick accuracy' : 'Ani sıçrama (Flick) atışlarda zorlanıyorum', icon:'⚡'},
+        {value:'micro',label: isEn ? 'Difficulty making micro-adjustments' : 'Küçük nişan düzeltmeleri yapmak zor', icon:'🔬'},
+        {value:'turn180',label: isEn ? 'Cannot complete comfortable 180° turn' : '180 derece dönemiyorum', icon:'↩️'},
+        {value:'recoil',label: isEn ? 'Recoil control is difficult' : 'Geri tepme (Recoil) kontrolü zor', icon:'💥'},
+        {value:'none',label: isEn ? 'No noticeable issues' : 'Belirgin bir sorunum yok', icon:'✅'}
+      ]
+    },
+    {
+      id:'q23', phase:4,
+      title: isEn ? 'Do you use Aim Trainers (Aim Lab / KovaaK\'s)?' : 'Nişan geliştirici (Aim Trainer) kullanıyor musun?',
+      subtitle: isEn ? 'Specialized aim training software.' : 'Aim trainer, nişan becerilerini geliştirmeye yönelik özel uygulamalardır.',
+      type:'single',
+      options:[
+        {value:'aimlab',label:'Aim Lab', icon:'🎯'},
+        {value:'kovaak',label:'KovaaK\'s', icon:'🏆'},
+        {value:'both',label: isEn ? 'Both' : 'İkisi de', icon:'🎯🏆'},
+        {value:'no',label: isEn ? 'No, I don\'t use any' : 'Hayır, kullanmıyorum', icon:'❌'}
+      ]
+    },
+    {
+      id:'q24', phase:4,
+      title: isEn ? 'What is your FPS gaming experience?' : 'FPS oyunlarında deneyimin ne seviyede?',
+      subtitle:'', type:'single',
+      options:[
+        {value:'beginner',label: isEn ? 'Beginner (< 6 months)' : 'Yeni başladım (6 aydan az)', icon:'🌱'},
+        {value:'intermediate',label: isEn ? 'Intermediate (6 months – 2 years)' : 'Orta seviye (6 ay – 2 yıl)', icon:'📈'},
+        {value:'advanced',label: isEn ? 'Advanced (2+ years)' : 'İleri seviye (2+ yıl)', icon:'⭐'},
+        {value:'competitive',label: isEn ? 'Competitive / Tournament Player' : 'Rekabetçi oyuncu / Profesyonel sahne', icon:'🏆'}
+      ]
+    },
+    {
+      id:'q25', phase:4,
+      title: isEn ? 'What is your current in-game rank?' : 'Ana oyundaki rankın nedir?',
+      subtitle:'', type:'single',
+      options: ranks.map(r=>({value:r,label:r}))
+    },
+    {
+      id:'q26', phase:4,
+      title: isEn ? 'What is your main priority for your aim?' : 'Senin için hangisi daha öncelikli?',
+      subtitle: isEn ? 'Determines which profile we present as the primary recommendation.' : 'Bu öncelik, hangi profili birincil öneri olarak sunacağımızı belirler.',
+      type:'single',
+      options:[
+        {value:'precision',label: isEn ? 'Maximum Precision — Pinpoint accuracy on every shot' : 'Maksimum İsabet — Her atışı isabet ettirmek istiyorum', icon:'🎯'},
+        {value:'speed',label: isEn ? 'Maximum Speed — Lightning-fast flick reactions' : 'Maksimum Hız — Çok hızlı tepki vermek istiyorum', icon:'⚡'},
+        {value:'balanced',label: isEn ? 'Balanced — Best of both worlds' : 'Dengeli — İkisini birden istiyorum', icon:'⚖️'},
+        {value:'auto',label: isEn ? 'AI Decision — Analyze all my data' : 'Sen karar ver — Verilerimi analiz et', icon:'🤖'}
+      ]
+    },
+    {
+      id:'q27', phase:3,
+      title: isEn ? 'Do you play multiple FPS titles?' : 'Birden fazla FPS oyunu oynuyor musun?',
+      subtitle: isEn ? 'If yes, we can also compute universal equivalent sensitivities across all games.' : 'Evet ise, tüm oyunlara uygun evrensel bir sensitivity de hesaplayabiliriz.',
+      type:'single',
+      options:[
+        {value:'evet',label: isEn ? 'Yes, I play multiple games' : 'Evet, birden fazla oyun oynuyorum', icon:'🎮'},
+        {value:'hayir',label: isEn ? 'No, only one main game' : 'Hayır, sadece tek oyun oynuyorum', icon:'🎯'}
+      ]
+    }
   ];
 }
 
@@ -1010,22 +1253,37 @@ function renderQuestion(idx) {
   if (idx >= visible.length) { showLoading(); return; }
   const q = visible[idx];
   state.currentQ = idx;
+  const isEn = currentLang === 'en';
 
-  const phaseMap = {1:'Profil',2:'Ekipman',3:'Oyun Tarzı',4:'Mevcut Durum'};
-  document.getElementById('progressLabel').textContent = phaseMap[q.phase]||'Devam';
-  document.getElementById('progressCount').textContent = `${idx+1} / ${visible.length}`;
-  document.getElementById('progressFill').style.width = `${((idx+1)/visible.length)*100}%`;
+  const phaseMap = {
+    1: isEn ? 'Profile' : 'Profil',
+    2: isEn ? 'Hardware' : 'Ekipman',
+    3: isEn ? 'Playstyle' : 'Oyun Tarzı',
+    4: isEn ? 'Status' : 'Mevcut Durum'
+  };
+  
+  const progLabel = document.getElementById('progressLabel');
+  if (progLabel) progLabel.textContent = phaseMap[q.phase] || (isEn ? 'In Progress' : 'Devam');
+  const progCount = document.getElementById('progressCount');
+  if (progCount) progCount.textContent = `${idx+1} / ${visible.length}`;
+  const progFill = document.getElementById('progressFill');
+  if (progFill) progFill.style.width = `${((idx+1)/visible.length)*100}%`;
+  
   [1,2,3,4,5].forEach(p=>{
     const el=document.getElementById(`phase${p}`);
-    el.className=q.phase>p?'phase-dot done':q.phase===p?'phase-dot active':'phase-dot';
+    if (el) el.className=q.phase>p?'phase-dot done':q.phase===p?'phase-dot active':'phase-dot';
   });
 
-  let h = `<div class="question-number">Soru ${idx+1}</div>
+  const unsureLabel = isEn ? 'Not sure' : 'Emin değilim';
+  const multiHint = isEn ? '☑ Select all that apply' : '☑ Birden fazla seçebilirsin';
+  const qNumLabel = isEn ? `Question ${idx+1}` : `Soru ${idx+1}`;
+
+  let h = `<div class="question-number">${qNumLabel}</div>
     <div class="question-title">${q.title}</div>
     ${q.subtitle?`<div class="question-subtitle">${q.subtitle}</div>`:''}`;
 
   if (q.type==='multi') {
-    h+=`<div class="multi-hint">☑ Birden fazla seçebilirsin</div>`;
+    h+=`<div class="multi-hint">${multiHint}</div>`;
     h+=`<div class="options-grid">`;
     q.options.forEach(opt=>{
       const arr=state.answers[q.id]||[];
@@ -1036,7 +1294,7 @@ function renderQuestion(idx) {
     });
     if (q.allowUnsure) {
       const us=state.answers[q.id+'_unsure']?'selected unsure':'unsure';
-      h+=`<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+      h+=`<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
     }
     h+=`</div>`;
   } else if (q.type==='single') {
@@ -1050,7 +1308,7 @@ function renderQuestion(idx) {
     });
     if (q.allowUnsure) {
       const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
-      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
     }
     h+=`</div>`;
   } else if (q.type==='text') {
@@ -1060,7 +1318,7 @@ function renderQuestion(idx) {
     if(q.datalistId){h+=`<datalist id="${q.datalistId}">${MOUSE_DB.map(m=>`<option value="${m.brand} ${m.model}">`).join('')}</datalist>`;}
     if (q.allowUnsure) {
       const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
-      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button>`;
+      h+=`<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
     }
   } else if (q.type==='inputs') {
     h+=`<div class="inputs-row">`;
@@ -1076,10 +1334,10 @@ function renderQuestion(idx) {
         Object.keys(RES_PRESETS).forEach(ar=>{
           h+=`<button class="res-aspect-btn${aspect===ar?' active':''}" onclick="setResAspect('${q.id}','${ar}')">${ar}</button>`;
         });
-        h+=`<button class="res-aspect-btn${aspect==='other'?' active':''}" onclick="setResAspect('${q.id}','other')">Diğer ✏️</button>`;
+        h+=`<button class="res-aspect-btn${aspect==='other'?' active':''}" onclick="setResAspect('${q.id}','other')">${isEn ? 'Other ✏️' : 'Diğer ✏️'}</button>`;
         h+=`</div>`;
         if (aspect==='other') {
-          h+=`<input class="input-field" id="inp_${q.id}_${f.key}" type="text" placeholder="Örn: 1920×1080" value="${v}"/>`;
+          h+=`<input class="input-field" id="inp_${q.id}_${f.key}" type="text" placeholder="${isEn ? 'e.g. 1920×1080' : 'Örn: 1920×1080'}" value="${v}"/>`;
         } else {
           h+=`<div class="res-presets">`;
           presets.forEach(r=>{
@@ -1087,7 +1345,7 @@ function renderQuestion(idx) {
             h+=`<button class="res-preset-btn${sel}" onclick="pickRes('${q.id}','${f.key}','${r}')">${r}</button>`;
           });
           h+=`</div>`;
-          h+=`<div style="font-size:12px;color:var(--t3);margin-top:6px">Seçilen: <span style="color:var(--blue);font-weight:600">${v||'—'}</span></div>`;
+          h+=`<div style="font-size:12px;color:var(--t3);margin-top:6px">${isEn ? 'Selected:' : 'Seçilen:'} <span style="color:var(--blue);font-weight:600">${v||'—'}</span></div>`;
           h+=`<input type="hidden" id="inp_${q.id}_${f.key}" value="${v}"/>`;
         }
         h+=`</div>`;
@@ -1099,18 +1357,21 @@ function renderQuestion(idx) {
     h+=`</div>`;
     if (q.allowUnsure) {
       const sel=state.answers[q.id]==='__unsure__'?'selected radio unsure':'radio unsure';
-      h+=`<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">Emin değilim</span><span class="option-check"></span></button></div>`;
+      h+=`<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button></div>`;
     }
   }
 
-
   const isLast = idx===visible.length-1;
+  const backLabel = isEn ? '← Back' : '← Geri';
+  const nextLabel = isLast ? (isEn ? 'Complete Analysis 🚀' : 'Analizi Tamamla 🚀') : (isEn ? 'Next ➔' : 'Devam ➔');
+
   h+=`<div class="nav-buttons">
-    ${idx>0?`<button class="btn btn-secondary" onclick="goBack()">← Geri</button>`:''}
-    <button class="btn btn-primary" onclick="goNext()">${isLast?'Analizi Başlat →':'Devam →'}</button>
+    ${idx>0?`<button class="btn btn-secondary" onclick="goBack()">${backLabel}</button>`:''}
+    <button class="btn btn-primary" onclick="goNext()">${nextLabel}</button>
   </div>`;
 
-  document.getElementById('questionArea').innerHTML=`<div class="question-card">${h}</div>`;
+  const qArea = document.getElementById('questionArea');
+  if (qArea) qArea.innerHTML=`<div class="question-card">${h}</div>`;
 }
 
 function toggleMulti(qId,val) {
@@ -1171,20 +1432,21 @@ function goBack() {
 //  LOADING
 // ════════════════════════════════════════════════════════════
 function showLoading() {
+  const isEn = currentLang === 'en';
   document.getElementById('progressWrapper').classList.add('hidden');
   document.getElementById('phaseIndicator').classList.add('hidden');
   const steps=[
-    {icon:'🔍',text:'Kullanıcı profili analiz ediliyor...'},
-    {icon:'⚙️',text:'Ekipman verileri işleniyor...'},
-    {icon:'🎯',text:'Nişan stili hesaplanıyor...'},
-    {icon:'📐',text:'cm/360 değeri hesaplanıyor...'},
-    {icon:'🧠',text:'Üç profil oluşturuluyor...'},
-    {icon:'✅',text:'Kişiselleştirilmiş öneriler hazır!'},
+    {icon:'🔍',text:isEn?'Analyzing user profile...':'Kullanıcı profili analiz ediliyor...'},
+    {icon:'⚙️',text:isEn?'Processing hardware data...':'Ekipman verileri işleniyor...'},
+    {icon:'🎯',text:isEn?'Calculating aiming style...':'Nişan stili hesaplanıyor...'},
+    {icon:'📐',text:isEn?'Computing cm/360 value...':'cm/360 değeri hesaplanıyor...'},
+    {icon:'🧠',text:isEn?'Generating trio profiles...':'Üç profil oluşturuluyor...'},
+    {icon:'✅',text:isEn?'Personalized recommendations ready!':'Kişiselleştirilmiş öneriler hazır!'},
   ];
   document.getElementById('questionArea').innerHTML=`
     <div class="loading-screen">
       <div class="spinner"></div>
-      <div class="loading-text">Aim analizin yapılıyor...</div>
+      <div class="loading-text">${isEn?'Aim analysis in progress...':'Aim analizin yapılıyor...'}</div>
       <div class="loading-steps">${steps.map((s,i)=>`<div class="loading-step" id="ls${i}"><span class="step-icon">${s.icon}</span>${s.text}</div>`).join('')}</div>
     </div>`;
   let i=0;
@@ -1307,6 +1569,7 @@ function showResults() {
   state.computedProfiles=profiles;
   state.recIdx=recIdx;
   state.analysisComplete=true;
+  const isEn = currentLang === 'en';
 
   document.getElementById('progressWrapper').classList.add('hidden');
   document.getElementById('phaseIndicator').classList.add('hidden');
@@ -1319,13 +1582,13 @@ function showResults() {
 
   // Uyarılar
   const alerts=[];
-  if(a.q19==='on') alerts.push({c:'red',m:'<b>"İşaretçi hassasiyetini artır" (EPP) açık.</b> Kapatman aim tutarlılığını önemli ölçüde artıracak.'});
-  if(a.q16==='on') alerts.push({c:'amber',m:'<b>Fare İvmesi (Mouse Acceleration) açık.</b> Kapatman kas hafızası geliştirmeyi kolaylaştırır.'});
-  if(a.q18&&a.q18!=='6'&&a.q18!=='__unsure__') alerts.push({c:'blue',m:`Windows işaretçi hızın <b>${a.q18}/11</b>. Önerilen değer <b>6/11</b>.`});
-  if(a.q17==='off') alerts.push({c:'amber',m:'<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.'});
+  if(a.q19==='on') alerts.push({c:'red', m: isEn ? '<b>"Enhance Pointer Precision" (EPP) is enabled.</b> Disabling it will drastically improve aim consistency.' : '<b>"İşaretçi hassasiyetini artır" (EPP) açık.</b> Kapatman aim tutarlılığını önemli ölçüde artıracak.'});
+  if(a.q16==='on') alerts.push({c:'amber', m: isEn ? '<b>Mouse Acceleration is enabled.</b> Turning it OFF makes building muscle memory much easier.' : '<b>Fare İvmesi (Mouse Acceleration) açık.</b> Kapatman kas hafızası geliştirmeyi kolaylaştırır.'});
+  if(a.q18&&a.q18!=='6'&&a.q18!=='__unsure__') alerts.push({c:'blue', m: isEn ? `Windows pointer speed is set to <b>${a.q18}/11</b>. Recommended default is <b>6/11</b> (1:1 ratio).` : `Windows işaretçi hızın <b>${a.q18}/11</b>. Önerilen değer <b>6/11</b>.`});
+  if(a.q17==='off') alerts.push({c:'amber', m: isEn ? '<b>Raw Input is disabled.</b> We strongly recommend enabling it in game settings.' : '<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.'});
 
   const alertHtml=alerts.length?`<div class="analysis-card">
-    <h3>⚠️ Sistem Uyarıları</h3>
+    <h3>⚠️ ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
     ${alerts.map(al=>`<div style="background:rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.07);border:1px solid rgba(${al.c==='red'?'239,68,68':al.c==='amber'?'245,158,11':'99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
   </div>`:'';
 
@@ -1335,46 +1598,52 @@ function showResults() {
   if (detectedMouse) {
     const ma = getMouseAnalysis(detectedMouse, a);
     mouseCardHtml = `<div class="analysis-card">
-      <h3>🖱️ Mouse Analizi — ${detectedMouse.brand} ${detectedMouse.model}</h3>
+      <h3>🖱️ ${isEn ? 'Mouse Analysis' : 'Mouse Analizi'} — ${detectedMouse.brand} ${detectedMouse.model}</h3>
       <div class="analysis-grid" style="margin-bottom:14px">
         ${ma.info.map(i=>`<div class="analysis-item"><div class="label">${i.l}</div><div class="value">${i.v}</div></div>`).join('')}
       </div>
       ${ma.warnings.map(w=>`<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">⚠️ ${w}</div>`).join('')}
       ${ma.tips.map(t=>`<div style="background:rgba(99,179,237,.07);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">💡 ${t}</div>`).join('')}
-      ${!ma.warnings.length&&!ma.tips.length?'<div style="font-size:13px;color:var(--green)">Mouse\'un mevcut ayarlarınla uyumlu görünüyor.</div>':''}
+      ${!ma.warnings.length&&!ma.tips.length?`<div style="font-size:13px;color:var(--green)">${isEn ? 'Your mouse matches well with your current setup.' : 'Mouse\'un mevcut ayarlarınla uyumlu görünüyor.'}</div>`:''}
     </div>`;
   }
 
   const prosText={
-    precision:['Yüksek isabet oranı','Recoil kontrolü kolay','Uzun menzil avantajı'],
-    balanced: ['Hem flick hem tracking rahat','Çoğu role uygun','Esnek oyun tarzı'],
-    speed:    ['Hızlı 180° dönüş','Agresif flick atışlar','CQC (yakın dövüş) avantajı'],
+    precision: isEn ? ['High precision on micro-shots','Easier recoil control','Advantage at long range'] : ['Yüksek isabet oranı','Recoil kontrolü kolay','Uzun menzil avantajı'],
+    balanced:  isEn ? ['Comfortable flick and tracking','Suitable for all roles','Flexible playstyle'] : ['Hem flick hem tracking rahat','Çoğu role uygun','Esnek oyun tarzı'],
+    speed:     isEn ? ['Lightning 180° turns','Aggressive flick snaps','Close-quarters combat advantage'] : ['Hızlı 180° dönüş','Agresif flick atışlar','CQC (yakın dövüş) avantajı'],
   };
   const consText={
-    precision:['180° dönüş daha yavaş','Agresif flick zor','Yakın dövüşte dezavantaj'],
-    balanced: ['Uç durumlarda orta performans','Her iki tarafa uzlaşı'],
-    speed:    ['Mikro düzeltme zor','Uzak mesafe zorlu','Alışma süreci gerekir'],
+    precision: isEn ? ['180° turns take more arm travel','Harder to flick wide','Close-range disadvantage'] : ['180° dönüş daha yavaş','Agresif flick zor','Yakın dövüşte dezavantaj'],
+    balanced:  isEn ? ['Moderate across all ranges','Compromise between extremes'] : ['Uç durumlarda orta performans','Her iki tarafa uzlaşı'],
+    speed:     isEn ? ['Micro-correction is harder','Long-range precision takes practice','Requires acclimation'] : ['Mikro düzeltme zor','Uzak mesafe zorlu','Alışma süreci gerekir'],
   };
 
   const profileHtml=profiles.map((p,i)=>{
     const isRec=i===recIdx;
+    const profTitle = isEn ? (p.type==='precision'?'🎯 Precision':p.type==='speed'?'⚡ Speed':'⚖️ Balanced') : p.name;
+    const profTag = isEn ? (p.type==='precision'?'Every shot counts — maximum control':p.type==='speed'?'Rapid reactions, aggressive play':'Perfect balance of speed & precision') : p.tagline;
+
     return `<div class="profile-card ${p.type}${isRec?' recommended':''}">
       <div class="profile-header">
         <div class="profile-icon">${p.icon}</div>
-        <div><div class="profile-name">${p.name}</div><div class="profile-tagline">${p.tagline}</div></div>
+        <div>
+          <div class="profile-name">${profTitle} ${isRec?`<span style="font-size:11px;background:var(--blue);color:#fff;padding:2px 8px;border-radius:10px;margin-left:6px;font-weight:700">${isEn?'RECOMMENDED':'ÖNERİLEN'}</span>`:''}</div>
+          <div class="profile-tagline">${profTag}</div>
+        </div>
       </div>
       <div class="stats-grid">
         <div class="stat-box"><div class="stat-label">DPI</div><div class="stat-value">${p.dpi}</div></div>
         <div class="stat-box"><div class="stat-label">${gameName} Sens</div><div class="stat-value">${p.sens}</div></div>
         <div class="stat-box"><div class="stat-label">eDPI</div><div class="stat-value">${p.edpi}</div><div class="stat-sub">${p.dpi} × ${p.sens}</div></div>
         <div class="stat-box"><div class="stat-label">cm/360°</div><div class="stat-value">${p.cm360}</div></div>
-        <div class="stat-box"><div class="stat-label">180° Mesafe</div><div class="stat-value">~${p.halfTurn} cm</div></div>
-        <div class="stat-box"><div class="stat-label">Profil</div><div class="stat-value">${p.subname}</div></div>
+        <div class="stat-box"><div class="stat-label">${isEn?'180° Distance':'180° Mesafe'}</div><div class="stat-value">~${p.halfTurn} cm</div></div>
+        <div class="stat-box"><div class="stat-label">${isEn?'Profile':'Profil'}</div><div class="stat-value">${p.subname}</div></div>
       </div>
       <div class="profile-why">${getProfileReason(p.type)}</div>
       <div class="pros-cons">
-        <div class="pros"><h4>✓ AVANTAJLAR</h4><ul>${prosText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
-        <div class="cons"><h4>✗ DEZAVANTAJLAR</h4><ul>${consText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
+        <div class="pros"><h4>✓ ${isEn?'ADVANTAGES':'AVANTAJLAR'}</h4><ul>${prosText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
+        <div class="cons"><h4>✗ ${isEn?'DISADVANTAGES':'DEZAVANTAJLAR'}</h4><ul>${consText[p.type].map(t=>`<li>${t}</li>`).join('')}</ul></div>
       </div>
     </div>`;
   }).join('');
@@ -1383,11 +1652,11 @@ function showResults() {
   const games=a.q1||[];
   const multiGameHtml=(games.length>1&&a.q27==='evet')?`
     <div class="analysis-card">
-      <h3>🎮 Çoklu Oyun Hassasiyet Tablosu</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Dengeli profil baz alınarak (${profiles[1].cm360} cm/360) tüm oyunlar için eşdeğer hassasiyet hesaplandı.</p>
+      <h3>🎮 ${isEn?'Multi-Game Sensitivity Table':'Çoklu Oyun Hassasiyet Tablosu'}</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn?`Equivalent sensitivities calculated across all selected titles based on balanced profile (${profiles[1].cm360} cm/360).`:`Dengeli profil baz alınarak (${profiles[1].cm360} cm/360) tüm oyunlar için eşdeğer hassasiyet hesaplandı.`}</p>
       <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">
         <thead><tr style="background:rgba(255,255,255,.04)">
-          ${['Oyun','DPI','Hassasiyet','cm/360'].map(h=>`<th style="padding:10px 14px;text-align:left;color:var(--t3);font-size:11px;letter-spacing:.06em;text-transform:uppercase">${h}</th>`).join('')}
+          ${(isEn?['Game','DPI','Sensitivity','cm/360']:['Oyun','DPI','Hassasiyet','cm/360']).map(h=>`<th style="padding:10px 14px;text-align:left;color:var(--t3);font-size:11px;letter-spacing:.06em;text-transform:uppercase">${h}</th>`).join('')}
         </tr></thead>
         <tbody>${games.map(id=>{
           const gname=GAMES.find(g=>g.id===id)?.label||id;
@@ -1408,40 +1677,52 @@ function showResults() {
 
   const html=`
     <div class="results-header">
-      <div class="logo-badge"><span class="dot"></span>Analiz Tamamlandı</div>
-      <h2>Kişisel Aim Profillerin</h2>
-      <p style="color:var(--t2);font-size:14px">${gameName} için ${profiles.length} farklı profil hesaplandı</p>
+      <div class="logo-badge"><span class="dot"></span>${isEn?'Analysis Complete':'Analiz Tamamlandı'}</div>
+      <h2>${isEn?'Your Personalized Aim Profiles':'Kişisel Aim Profillerin'}</h2>
+      <p style="color:var(--t2);font-size:14px">${isEn?`${profiles.length} customized sensitivity profiles generated for ${gameName}`:`${gameName} için ${profiles.length} farklı profil hesaplandı`}</p>
       
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()">📸 Espor Profil Kartını İndir (PNG)</button>
-        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()">🔗 Sonuç Linkini Kopyala</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">🎯 Sens'i Canlı Test Et</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()">📸 ${isEn?'Download Player Card (PNG)':'Espor Profil Kartını İndir (PNG)'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()">🔗 ${isEn?'Copy Shareable Link':'Sonuç Linkini Kopyala'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">🎯 ${isEn?'Test Sens in Aim Lab':'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
     ${alertHtml}
     ${mouseCardHtml}
-    <div class="profiles-section"><h2>🎯 Sensitivity Profillerin</h2>${profileHtml}</div>
+    <div class="profiles-section"><h2>🎯 ${isEn?'Sensitivity Profiles':'Sensitivity Profillerin'}</h2>${profileHtml}</div>
     ${mousepadSimHtml}
     ${multiGameHtml}
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn">🔧 İnce Ayar Başlat</button>
-      <button class="btn btn-secondary" onclick="switchPage('pros')">🏆 Pro Oyuncuları Gör</button>
-      <button class="btn btn-secondary" onclick="location.reload()">↩ Baştan Başla</button>
+      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn">🔧 ${isEn?'Fine-Tune Sensitivity':'İnce Ayar Başlat'}</button>
+      <button class="btn btn-secondary" onclick="switchPage('pros')">🏆 ${isEn?'View Pro Players':'Pro Oyuncuları Gör'}</button>
+      <button class="btn btn-secondary" onclick="location.reload()">↩ ${isEn?'Start Over':'Baştan Başla'}</button>
     </div>`;
 
-  document.getElementById('resultsArea').classList.remove('hidden');
-  document.getElementById('resultsArea').innerHTML=html;
+  const rArea = document.getElementById('resultsArea');
+  if (rArea) {
+    rArea.classList.remove('hidden');
+    rArea.innerHTML = html;
+  }
 
   updateUrlHash();
 }
 
 function getProfileReason(type) {
+  const isEn = currentLang === 'en';
   const a=state.answers;
-  const move={wrist:'Bilek',arm:'Kol',both:'Kol+Bilek'}[a.q12]||'Karma';
-  const grip={palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[a.q11]||'tutuş';
+  const move= isEn ? ({wrist:'Wrist',arm:'Arm',both:'Arm+Wrist'}[a.q12]||'Hybrid') : ({wrist:'Bilek',arm:'Kol',both:'Kol+Bilek'}[a.q12]||'Karma');
+  const grip= isEn ? ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[a.q11]||'grip') : ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip'}[a.q11]||'tutuş');
+  
+  if (isEn) {
+    if(type==='precision') return `Optimized for ${move} motion and ${grip}. Higher cm/360 makes micro-adjustments and sniper rifle crosshair placement significantly easier.`;
+    if(type==='balanced')  return `Central balanced setting computed from all inputs for ${move} movement and ${grip}. Delivers reliable performance for both tracking and flicking.`;
+    if(type==='speed')     return `Lower cm/360 built for quick 180° turns and fast flick snaps. Ideal for entry fragging, duelist roles, and rapid target switching.`;
+    return '';
+  }
+
   if(type==='precision') return `${move} hareketi ve ${grip} tutuşuna göre daha yüksek cm/360, küçük nişan düzeltmelerini kolaylaştırır. Sniper, DMR ve gözetleme rolleri için önerilir.`;
   if(type==='balanced')  return `Tüm veriler analiz edilerek ${move} hareketi ve ${grip} tutuşu için merkezi dengeli değer hesaplandı. Hem flick hem tracking makul performans sunar.`;
   if(type==='speed')     return `Daha düşük cm/360, hızlı 180° dönüşler ve agresif flick atışlar için optimize edilmiştir. Düellocu ve Entry Fragger rolleri için uygundur.`;
@@ -1452,6 +1733,7 @@ function getProfileReason(type) {
 //  MOUSEPAD SIMULATOR
 // ════════════════════════════════════════════════════════════
 function getMousepadSimHtml(answers, recProf) {
+  const isEn = currentLang === 'en';
   let padW = 45, padH = 40;
   if (answers.q5 === 'small') { padW = 25; padH = 20; }
   else if (answers.q5 === 'medium') { padW = 35; padH = 30; }
@@ -1468,26 +1750,25 @@ function getMousepadSimHtml(answers, recProf) {
 
   return `
     <div class="analysis-card">
-      <h3>📏 Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)</h3>
+      <h3>📏 ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">
-        180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var.
-        Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.
+        ${isEn ? `Performing a full 180° turn requires <b>~${halfTurn} cm</b> of desk travel. That utilizes <b>${usagePct}%</b> of your mousepad width in a single swipe.` : `180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var. Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.`}
       </p>
       
       <div class="pad-visual">
         <div class="pad-center-mark" style="left:50%"></div>
         <div class="pad-swipe-range" style="width:${Math.min(96, usagePct)}%;left:${Math.max(2, (100 - usagePct) / 2)}%">
-          180° Dönüş Alanı: ~${halfTurn} cm
+          ${isEn ? `180° Turn Range: ~${halfTurn} cm` : `180° Dönüş Alanı: ~${halfTurn} cm`}
         </div>
       </div>
 
       ${isCramped ? `
         <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber)">
-          ⚠️ <b>Alan Uyarısı:</b> 180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.
+          ⚠️ <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
         </div>
       ` : `
         <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">
-          ✅ <b>İdeal Alan:</b> Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.
+          ✅ <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
         </div>
       `}
     </div>
@@ -1498,60 +1779,61 @@ function getMousepadSimHtml(answers, recProf) {
 //  PERSONALIZED AIM ROUTINE
 // ════════════════════════════════════════════════════════════
 function getPersonalizedRoutineHtml(answers) {
+  const isEn = currentLang === 'en';
   const probs = answers.q22 || [];
   const trainer = answers.q23 || 'aimlab';
   const isKovaaks = trainer === 'kovaak' || trainer === 'both';
 
-  let focusTitle = 'Dengeli Hassasiyet & Kontrol';
-  let s1 = isKovaaks ? 'Tile Frenzy 180 (3 Set)' : 'Gridshot Ultimate (3 Set)';
-  let s2 = isKovaaks ? '1Wall6Targets Extra Small (3 Set)' : 'Sixshot Precision (4 Set)';
-  let s3 = isKovaaks ? 'Smoothbot Voltaic Easy (3 Set)' : 'Strafetrack Ultimate (3 Set)';
+  let focusTitle = isEn ? 'Balanced Precision & Control' : 'Dengeli Hassasiyet & Kontrol';
+  let s1 = isKovaaks ? 'Tile Frenzy 180 (3 Sets)' : 'Gridshot Ultimate (3 Sets)';
+  let s2 = isKovaaks ? '1Wall6Targets Extra Small (3 Sets)' : 'Sixshot Precision (4 Sets)';
+  let s3 = isKovaaks ? 'Smoothbot Voltaic Easy (3 Sets)' : 'Strafetrack Ultimate (3 Sets)';
 
   if (probs.includes('overshoot')) {
-    focusTitle = 'Micro-Correction & Aşırı Kaymayı Önleme';
-    s1 = isKovaaks ? '1Wall 6Targets Small (4 Set)' : 'Microflex Precision (4 Set)';
-    s2 = isKovaaks ? 'Reflex Flick - Fair (3 Set)' : 'Spidershot Precision (3 Set)';
+    focusTitle = isEn ? 'Micro-Correction & Anti-Overshoot' : 'Micro-Correction & Aşırı Kaymayı Önleme';
+    s1 = isKovaaks ? '1Wall 6Targets Small (4 Sets)' : 'Microflex Precision (4 Sets)';
+    s2 = isKovaaks ? 'Reflex Flick - Fair (3 Sets)' : 'Spidershot Precision (3 Sets)';
   } else if (probs.includes('track')) {
-    focusTitle = 'Smooth Tracking & Hareketli Hedef Takibi';
-    s1 = isKovaaks ? 'Thin Shaft Extra Slow (3 Set)' : 'Motiontrack Precision (4 Set)';
-    s2 = isKovaaks ? 'Air Voltaic Easy (3 Set)' : 'Strafetrack Ultimate (4 Set)';
+    focusTitle = isEn ? 'Smooth Tracking & Target Following' : 'Smooth Tracking & Hareketli Hedef Takibi';
+    s1 = isKovaaks ? 'Thin Shaft Extra Slow (3 Sets)' : 'Motiontrack Precision (4 Sets)';
+    s2 = isKovaaks ? 'Air Voltaic Easy (3 Sets)' : 'Strafetrack Ultimate (4 Sets)';
   } else if (probs.includes('flick')) {
-    focusTitle = 'Hızlı Sıçrama & İsabet Odaklı Flick';
-    s1 = isKovaaks ? '1Wall 2Targets Pasu (3 Set)' : 'Spidershot Ultimate (4 Set)';
-    s2 = isKovaaks ? 'Wide Wall 6 Targets (3 Set)' : 'Gridshot Speed (3 Set)';
+    focusTitle = isEn ? 'Rapid Flick Snaps & Precision' : 'Hızlı Sıçrama & İsabet Odaklı Flick';
+    s1 = isKovaaks ? '1Wall 2Targets Pasu (3 Sets)' : 'Spidershot Ultimate (4 Sets)';
+    s2 = isKovaaks ? 'Wide Wall 6 Targets (3 Sets)' : 'Gridshot Speed (3 Sets)';
   }
 
   return `
     <div class="analysis-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <h3>🏋️ Sana Özel Günlük Aim Rutini (${focusTitle})</h3>
-        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()">📋 Rutini Kopyala</button>
+        <h3>🏋️ ${isEn ? `Daily Aim Routine (${focusTitle})` : `Sana Özel Günlük Aim Rutini (${focusTitle})`}</h3>
+        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()">📋 ${isEn ? 'Copy Routine' : 'Rutini Kopyala'}</button>
       </div>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">
-        Belirttiğin nişan sorunlarına göre optimize edilmiş <b>25 dakikalık</b> günlük antrenman programı (${trainer==='no'?'Aim Lab / KovaaKs':trainer.toUpperCase()}):
+        ${isEn ? `25-minute daily training program tailored to your aim mechanics (${trainer==='no'?'Aim Lab / KovaaKs':trainer.toUpperCase()}):` : `Belirttiğin nişan sorunlarına göre optimize edilmiş <b>25 dakikalık</b> günlük antrenman programı (${trainer==='no'?'Aim Lab / KovaaKs':trainer.toUpperCase()}):`}
       </p>
 
       <div class="routine-step">
         <div class="routine-num">1</div>
         <div>
-          <div class="routine-title"><span class="routine-tag">5 Dk</span> Genel Isınma & Kas Aktivasyonu</div>
-          <div class="routine-desc"><b>${s1}</b> — Mouse'u sıkmadan, sadece bilek ve kol kaslarını ısıtmak için sakin tempoda başla.</div>
+          <div class="routine-title"><span class="routine-tag">${isEn?'5 Min':'5 Dk'}</span> ${isEn?'Warmup & Muscle Activation':'Genel Isınma & Kas Aktivasyonu'}</div>
+          <div class="routine-desc"><b>${s1}</b> — ${isEn?'Start relaxed without gripping tightly to activate arm and wrist tendons.':'Mouse\'u sıkmadan, sadece bilek ve kol kaslarını ısıtmak için sakin tempoda başla.'}</div>
         </div>
       </div>
 
       <div class="routine-step">
         <div class="routine-num">2</div>
         <div>
-          <div class="routine-title"><span class="routine-tag">15 Dk</span> Ana Gelişim — Zayıf Nokta Odaklı</div>
-          <div class="routine-desc"><b>${s2}</b> ve <b>${s3}</b> — Hedefe tam isabet etmeden ateş etme; hız yerine %90+ doğruluğa odaklan.</div>
+          <div class="routine-title"><span class="routine-tag">${isEn?'15 Min':'15 Dk'}</span> ${isEn?'Core Development — Weakness Focus':'Ana Gelişim — Zayıf Nokta Odaklı'}</div>
+          <div class="routine-desc"><b>${s2}</b> ${isEn?'and':'ve'} <b>${s3}</b> — ${isEn?'Prioritize 90%+ accuracy over raw speed before firing.':'Hedefe tam isabet etmeden ateş etme; hız yerine %90+ doğruluğa odaklan.'}</div>
         </div>
       </div>
 
       <div class="routine-step">
         <div class="routine-num">3</div>
         <div>
-          <div class="routine-title"><span class="routine-tag">5 Dk</span> Maç Öncesi Hızlı Adaptasyon</div>
-          <div class="routine-desc">Oyun içi Poligon / Deathmatch modunda önerilen yeni sensitivity ile 2 el oynayarak antrenmanı tamamla.</div>
+          <div class="routine-title"><span class="routine-tag">${isEn?'5 Min':'5 Dk'}</span> ${isEn?'Pre-Match Game Adaptation':'Maç Öncesi Hızlı Adaptasyon'}</div>
+          <div class="routine-desc">${isEn?'Play 2 rounds of in-game Deathmatch / Range to anchor your new sensitivity into muscle memory.':'Oyun içi Poligon / Deathmatch modunda önerilen yeni sensitivity ile 2 el oynayarak antrenmanı tamamla.'}</div>
         </div>
       </div>
     </div>
@@ -1559,15 +1841,20 @@ function getPersonalizedRoutineHtml(answers) {
 }
 
 function copyRoutineText() {
-  const t = `🎮 VecSens Özel Aim Rutini:\n1. Isınma (5 dk): Genel Kas Aktivasyonu\n2. Ana Gelişim (15 dk): Mikro Düzeltme & Takip Senaryoları\n3. Maç Öncesi (5 dk): Oyun İçi Deathmatch\nÖnerilen cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360||'--'} cm`;
-  navigator.clipboard.writeText(t).then(()=>showToast('📋 Antrenman rutini panoya kopyalandı!'));
+  const isEn = currentLang === 'en';
+  const t = isEn 
+    ? `🎮 VecSens Custom Aim Routine:\n1. Warmup (5 min): Muscle Activation\n2. Core Development (15 min): Micro-Correction & Tracking\n3. In-Game (5 min): Deathmatch / Range\nRecommended cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360||'--'} cm`
+    : `🎮 VecSens Özel Aim Rutini:\n1. Isınma (5 dk): Genel Kas Aktivasyonu\n2. Ana Gelişim (15 dk): Mikro Düzeltme & Takip Senaryoları\n3. Maç Öncesi (5 dk): Oyun İçi Deathmatch\nÖnerilen cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360||'--'} cm`;
+  
+  navigator.clipboard.writeText(t).then(()=>showToast(isEn ? '📋 Aim routine copied to clipboard!' : '📋 Antrenman rutini panoya kopyalandı!'));
 }
 
 // ════════════════════════════════════════════════════════════
 //  ESPORTS PLAYER CARD GENERATOR (PNG)
 // ════════════════════════════════════════════════════════════
 function downloadPlayerCard() {
-  if (!state.computedProfiles) { alert('Lütfen önce analizi tamamlayın!'); return; }
+  const isEn = currentLang === 'en';
+  if (!state.computedProfiles) { alert(isEn ? 'Please complete the analysis first!' : 'Lütfen önce analizi tamamlayın!'); return; }
   const rec = state.computedProfiles[state.recIdx];
   const a = state.answers;
   const gameName = getPrimaryGameName();
@@ -1611,11 +1898,11 @@ function downloadPlayerCard() {
 
   ctx.fillStyle = '#ffffff';
   ctx.font = '800 48px "Outfit", sans-serif';
-  ctx.fillText(`${gameName.toUpperCase()} PROFiLİ`, 60, 135);
+  ctx.fillText(`${gameName.toUpperCase()} ${isEn?'PROFILE':'PROFİLİ'}`, 60, 135);
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '20px "Outfit", sans-serif';
-  ctx.fillText(`Önerilen Profil: ${rec.name} (${rec.subname})`, 60, 175);
+  ctx.fillText(`${isEn?'Recommended Profile:':'Önerilen Profil:'} ${rec.name} (${rec.subname})`, 60, 175);
 
   // Stats Grid Container
   const drawStatBox = (x, y, w, h, label, val, sub) => {
@@ -1642,15 +1929,15 @@ function downloadPlayerCard() {
     }
   };
 
-  drawStatBox(60, 220, 250, 130, 'DPI', `${rec.dpi}`, 'Donanım Hassasiyeti');
-  drawStatBox(330, 220, 250, 130, 'Hassasiyet', `${rec.sens}`, `${gameName} Oyun İçi`);
+  drawStatBox(60, 220, 250, 130, 'DPI', `${rec.dpi}`, isEn?'Hardware DPI':'Donanım Hassasiyeti');
+  drawStatBox(330, 220, 250, 130, isEn?'Sensitivity':'Hassasiyet', `${rec.sens}`, isEn?`${gameName} In-Game`:`${gameName} Oyun İçi`);
   drawStatBox(600, 220, 250, 130, 'eDPI', `${rec.edpi}`, `${rec.dpi} × ${rec.sens}`);
-  drawStatBox(870, 220, 270, 130, '360° Mesafe', `${rec.cm360} cm`, `180°: ~${rec.halfTurn} cm`);
+  drawStatBox(870, 220, 270, 130, isEn?'360° Distance':'360° Mesafe', `${rec.cm360} cm`, isEn?`180°: ~${rec.halfTurn} cm`:`180°: ~${rec.halfTurn} cm`);
 
   // Hardware & Grip Style Info
-  const moveStr = {wrist:'Bilek (Wrist)',arm:'Kol (Arm)',both:'Kol + Bilek (Hybrid)'}[a.q12] || 'Karma';
-  const gripStr = {palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip Grip'}[a.q11] || 'Standart';
-  const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'Standart FPS Mouse');
+  const moveStr = isEn ? ({wrist:'Wrist',arm:'Arm',both:'Arm + Wrist (Hybrid)'}[a.q12] || 'Hybrid') : ({wrist:'Bilek (Wrist)',arm:'Kol (Arm)',both:'Kol + Bilek (Hybrid)'}[a.q12] || 'Karma');
+  const gripStr = isEn ? ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip Grip'}[a.q11] || 'Standard') : ({palm:'Palm Grip',claw:'Claw Grip',finger:'Fingertip Grip'}[a.q11] || 'Standart');
+  const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'FPS Gaming Mouse');
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
   ctx.strokeStyle = 'rgba(99, 179, 237, 0.2)';
@@ -1661,14 +1948,14 @@ function downloadPlayerCard() {
 
   ctx.fillStyle = '#f1f5f9';
   ctx.font = 'bold 18px "Outfit", sans-serif';
-  ctx.fillText('🖱️ DONANIM & ERGONOMİ ANALİZİ', 90, 420);
+  ctx.fillText(isEn ? '🖱️ HARDWARE & ERGONOMIC ANALYSIS' : '🖱️ DONANIM & ERGONOMİ ANALİZİ', 90, 420);
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '15px "Outfit", sans-serif';
   ctx.fillText(`• Mouse: ${mouseName}`, 90, 460);
-  ctx.fillText(`• Tutuş Stili: ${gripStr}`, 90, 490);
-  ctx.fillText(`• Hareket Tipi: ${moveStr}`, 600, 460);
-  ctx.fillText(`• Doğrulanmış Tarih: ${new Date().toLocaleDateString('tr-TR')}`, 600, 490);
+  ctx.fillText(`• ${isEn?'Grip Style:':'Tutuş Stili:'} ${gripStr}`, 90, 490);
+  ctx.fillText(`• ${isEn?'Aim Motion:':'Hareket Tipi:'} ${moveStr}`, 600, 460);
+  ctx.fillText(`• ${isEn?'Verified Date:':'Doğrulanmış Tarih:'} ${new Date().toLocaleDateString(isEn?'en-US':'tr-TR')}`, 600, 490);
 
   // Footer Watermark
   ctx.fillStyle = '#64748b';
@@ -1681,7 +1968,7 @@ function downloadPlayerCard() {
   link.href = canvas.toDataURL('image/png');
   link.click();
 
-  showToast('📸 Espor Aim Kartın başarıyla indirildi!');
+  showToast(isEn ? '📸 Esports Player Card downloaded!' : '📸 Espor Aim Kartın başarıyla indirildi!');
 }
 
 // ════════════════════════════════════════════════════════════
@@ -1703,8 +1990,9 @@ function updateUrlHash() {
 
 function copyShareableLink() {
   updateUrlHash();
+  const isEn = currentLang === 'en';
   navigator.clipboard.writeText(window.location.href).then(() => {
-    showToast('🔗 Sonuç linki panoya kopyalandı!');
+    showToast(isEn ? '🔗 Result link copied to clipboard!' : '🔗 Sonuç linki panoya kopyalandı!');
   });
 }
 
@@ -1720,32 +2008,33 @@ function showToast(msg) {
 //  FINE TUNE
 // ════════════════════════════════════════════════════════════
 const FT_QUESTIONS=[
-  {id:'ft1',q:'Flick atışlarda hedefi geçiyor musun?',hint:'Evet → sensitivity azalt'},
-  {id:'ft2',q:'Hedefe yetişemiyor musun (Undershoot)?',hint:'Evet → sensitivity artır'},
-  {id:'ft3',q:'Hareket eden hedefleri takip etmek rahat mı?',hint:'Tracking kalitesi'},
-  {id:'ft4',q:'Küçük nişan düzeltmeleri (mikro) rahat mı?',hint:'Hassas kontrol'},
-  {id:'ft5',q:'180° dönüş rahat mı?',hint:'Hayır → sensitivity artır'},
-  {id:'ft6',q:'Genel hissiyat nasıl?',hint:'Genel değerlendirme'},
+  {id:'ft1',q:'Flick atışlarda hedefi geçiyor musun?',qEn:'Do you overshoot on fast flick shots?',hint:'Evet → sensitivity azalt',hintEn:'Yes → lower sensitivity'},
+  {id:'ft2',q:'Hedefe yetişemiyor musun (Undershoot)?',qEn:'Do you undershoot / stop short of targets?',hint:'Evet → sensitivity artır',hintEn:'Yes → raise sensitivity'},
+  {id:'ft3',q:'Hareket eden hedefleri takip etmek rahat mı?',qEn:'Is tracking moving targets comfortable?',hint:'Tracking kalitesi',hintEn:'Tracking smoothness'},
+  {id:'ft4',q:'Küçük nişan düzeltmeleri (mikro) rahat mı?',qEn:'Are micro-adjustments comfortable?',hint:'Hassas kontrol',hintEn:'Fine motor control'},
+  {id:'ft5',q:'180° dönüş rahat mı?',qEn:'Is a 180° turn comfortable in one swipe?',hint:'Hayır → sensitivity artır',hintEn:'No → raise sensitivity'},
+  {id:'ft6',q:'Genel hissiyat nasıl?',qEn:'How does the overall speed feel?',hint:'Genel değerlendirme',hintEn:'General feel'},
 ];
 
 function startFineTune() {
+  const isEn = currentLang === 'en';
   document.getElementById('ftBtn')?.classList.add('hidden');
   const rec=state.computedProfiles[state.recIdx];
   const gameName=getPrimaryGameName();
   let h=`<div class="finetune-card">
-    <h3>🔧 İnce Ayar</h3>
-    <p>Önerilen profil üzerinde ince ayar yap. Mevcut öneri: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)</p>
+    <h3>🔧 ${isEn?'Fine-Tune Sensitivity':'İnce Ayar'}</h3>
+    <p>${isEn?`Fine-tune your recommended profile. Current value: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)`:`Önerilen profil üzerinde ince ayar yap. Mevcut öneri: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)`}</p>
     ${FT_QUESTIONS.map(fq=>`
       <div class="finetune-question">
-        <div class="finetune-q">${fq.q}<br><span style="font-size:11px;color:var(--t3)">${fq.hint}</span></div>
+        <div class="finetune-q">${isEn?fq.qEn:fq.q}<br><span style="font-size:11px;color:var(--t3)">${isEn?fq.hintEn:fq.hint}</span></div>
         <div class="finetune-options">
-          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='yes'?'ay':''}" onclick="ftAnswer('${fq.id}','yes',this)">Evet</button>
-          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='ok'?'ao':''}"  onclick="ftAnswer('${fq.id}','ok',this)">Rahat</button>
-          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='no'?'an':''}"  onclick="ftAnswer('${fq.id}','no',this)">Hayır</button>
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='yes'?'ay':''}" onclick="ftAnswer('${fq.id}','yes',this)">${isEn?'Yes':'Evet'}</button>
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='ok'?'ao':''}"  onclick="ftAnswer('${fq.id}','ok',this)">${isEn?'Comfortable':'Rahat'}</button>
+          <button class="ftbtn ${state.fineTuneAnswers[fq.id]==='no'?'an':''}"  onclick="ftAnswer('${fq.id}','no',this)">${isEn?'No':'Hayır'}</button>
         </div>
       </div>`).join('')}
     <div style="margin-top:18px">
-      <button class="btn btn-primary" onclick="applyFineTune()">⚡ Ayarı Uygula</button>
+      <button class="btn btn-primary" onclick="applyFineTune()">⚡ ${isEn?'Apply Setting':'Ayarı Uygula'}</button>
     </div>
   </div>`;
   document.getElementById('fineTuneSection').innerHTML=h;
@@ -1758,6 +2047,7 @@ function ftAnswer(id,val,btn) {
 }
 
 function applyFineTune() {
+  const isEn = currentLang === 'en';
   const ft=state.fineTuneAnswers;
   let m=1.0;
   if(ft.ft1==='yes') m*=1.06; if(ft.ft1==='no') m*=0.97;
@@ -1773,21 +2063,24 @@ function applyFineTune() {
   state.computedProfiles[state.recIdx].sens=newSens;
   state.computedProfiles[state.recIdx].edpi=newEdpi;
   state.adjustmentRound++;
-  const dir=m>1?'azaltıldı (cm/360 artırıldı)':'artırıldı (cm/360 azaltıldı)';
+  const dir=isEn ? (m>1?'decreased (cm/360 increased)':'increased (cm/360 decreased)') : (m>1?'azaltıldı (cm/360 artırıldı)':'artırıldı (cm/360 azaltıldı)');
+  
   document.getElementById('fineTuneSection').insertAdjacentHTML('beforeend',`
     <div class="adj-result">
-      <h4>✅ İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}</h4>
+      <h4>✅ ${isEn ? `Fine-Tune Round ${state.adjustmentRound} — Sensitivity ${dir}` : `İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}`}</h4>
       <div class="adj-values">
         <div class="adj-val"><span>cm/360 →</span> ${newCm}</div>
-        <div class="adj-val"><span>Hassasiyet →</span> ${newSens}</div>
+        <div class="adj-val"><span>${isEn?'Sensitivity':'Hassasiyet'} →</span> ${newSens}</div>
         <div class="adj-val"><span>eDPI →</span> ${newEdpi}</div>
       </div>
-      <p style="font-size:12px;color:var(--t2);margin-top:9px">Bu değeri birkaç gün test et. Hâlâ uygun değilse tekrar ince ayar uygulayabilirsin.</p>
+      <p style="font-size:12px;color:var(--t2);margin-top:9px">${isEn?'Test this value in-game for a few days. You can fine-tune again anytime.':'Bu değeri birkaç gün test et. Hâlâ uygun değilse tekrar ince ayar uygulayabilirsin.'}</p>
     </div>
-    ${state.adjustmentRound<3?`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="startFineTune()">🔄 Bir Tur Daha</button></div>`:''}
+    ${state.adjustmentRound<3?`<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="startFineTune()">🔄 ${isEn?'One More Round':'Bir Tur Daha'}</button></div>`:''}
   `);
 }
-//  PRO PLAYERS PAGE WITH SEARCH
+
+// ════════════════════════════════════════════════════════════
+//  PRO PLAYERS PAGE WITH SEARCH & I18N
 // ════════════════════════════════════════════════════════════
 let proSearchQuery = '';
 
@@ -1797,6 +2090,7 @@ function onProSearch(q) {
 }
 
 function renderProPage() {
+  const isEn = currentLang === 'en';
   const gameId = state.proGameFilter || 'valorant';
   let players = (PRO_DATA[gameId] || []).map(p => ({
     ...p,
@@ -1816,7 +2110,7 @@ function renderProPage() {
   const col = state.proSortCol, dir = state.proSortDir;
   players.sort((a,b) => {
     const av = col==='name'?a.name:col==='team'?a.team:col==='mouse'?a.mouse:a[col];
-    const bv = col==='name'?b.name:col==='team'?b.team:col==='mouse'?b.mouse:b[col];
+    const bv = col==='name'?b.name:col==='team'?b.team:b[col];
     if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
     return dir === 'asc' ? av - bv : bv - av;
   });
@@ -1830,7 +2124,7 @@ function renderProPage() {
   const userRec = userProfiles ? userProfiles[state.recIdx] : null;
   const userHighlightHtml = userRec ? `
     <div class="user-highlight-box">
-      <div class="uh-label">📊 Senin Önerilen Dengeli Ayarın</div>
+      <div class="uh-label">📊 ${isEn?'Your Recommended Balanced Setting':'Senin Önerilen Dengeli Ayarın'}</div>
       <div class="uh-vals">
         <div class="uh-val"><span>DPI</span>${userRec.dpi}</div>
         <div class="uh-val"><span>Sens</span>${userRec.sens}</div>
@@ -1850,10 +2144,10 @@ function renderProPage() {
   }
 
   const cols = [
-    {key:'name', label:'Oyuncu / Takım'},
-    {key:'mouse', label:'Kullandığı Mouse'},
+    {key:'name', label: isEn ? 'Player / Team' : 'Oyuncu / Takım'},
+    {key:'mouse', label: isEn ? 'Mouse Used' : 'Kullandığı Mouse'},
     {key:'dpi', label:'DPI'},
-    {key:'sens', label:'Hassasiyet'},
+    {key:'sens', label: isEn ? 'Sensitivity' : 'Hassasiyet'},
     {key:'edpi', label:'eDPI'},
     {key:'cm360', label:'cm/360'},
   ];
@@ -1879,14 +2173,17 @@ function renderProPage() {
     `;
   }).join('');
 
+  const searchInput = document.getElementById('proSearchInput');
+  if (searchInput) searchInput.placeholder = isEn ? 'Search player, team or mouse model...' : 'Oyuncu, takım veya mouse modeli ara...';
+
   const html = `
     <div class="game-tabs">${filterTabs}</div>
     ${userHighlightHtml}
     <div class="pro-stats-row">
-      <div class="pro-stat"><div class="ps-label">Ortalama eDPI</div><div class="ps-value">${avgEdpi}</div><div class="ps-sub">${players.length} oyuncu</div></div>
-      <div class="pro-stat"><div class="ps-label">Ortalama cm/360</div><div class="ps-value">${avgCm}</div><div class="ps-sub">cm</div></div>
-      <div class="pro-stat"><div class="ps-label">En Düşük cm/360</div><div class="ps-value">${minCm}</div><div class="ps-sub">En hızlı</div></div>
-      <div class="pro-stat"><div class="ps-label">En Yüksek cm/360</div><div class="ps-value">${maxCm}</div><div class="ps-sub">En yavaş</div></div>
+      <div class="pro-stat"><div class="ps-label">${isEn?'Average eDPI':'Ortalama eDPI'}</div><div class="ps-value">${avgEdpi}</div><div class="ps-sub">${players.length} ${isEn?'players':'oyuncu'}</div></div>
+      <div class="pro-stat"><div class="ps-label">${isEn?'Average cm/360':'Ortalama cm/360'}</div><div class="ps-value">${avgCm}</div><div class="ps-sub">cm</div></div>
+      <div class="pro-stat"><div class="ps-label">${isEn?'Fastest (Lowest cm)':'En Düşük cm/360'}</div><div class="ps-value">${minCm}</div><div class="ps-sub">${isEn?'Fastest':'En hızlı'}</div></div>
+      <div class="pro-stat"><div class="ps-label">${isEn?'Slowest (Highest cm)':'En Yüksek cm/360'}</div><div class="ps-value">${maxCm}</div><div class="ps-sub">${isEn?'Slowest':'En yavaş'}</div></div>
     </div>
 
     <div class="pro-table-wrap">
@@ -1894,16 +2191,17 @@ function renderProPage() {
         <thead><tr>
           ${cols.map(c=>`<th class="${state.proSortCol===c.key?'sorted':''}" onclick="proSort('${c.key}')">${c.label} ${sortArrow(c.key)}</th>`).join('')}
         </tr></thead>
-        <tbody>${tableRows.length ? tableRows : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">Arama kriterine uygun oyuncu bulunamadı.</td></tr>`}</tbody>
+        <tbody>${tableRows.length ? tableRows : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">${isEn?'No pro players matched your search.':'Arama kriterine uygun oyuncu bulunamadı.'}</td></tr>`}</tbody>
       </table>
     </div>
     <p style="font-size:12px;color:var(--t3);margin-top:12px;text-align:center">
-      Kaynak: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a>
-      ${userRec ? `<br>🔵 Maviye yakın satırlar, senin sensitivity aralığındaki prolar.` : ''}
+      ${isEn ? 'Source: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a> — Click player names to verify settings.' : 'Kaynak: <a href="https://prosettings.net" target="_blank" style="color:var(--blue);text-decoration:none">prosettings.net</a> — Oyuncu adına tıklayarak kaynağı doğrulayabilirsin.'}
+      ${userRec ? `<br>${isEn?'🔵 Rows highlighted in blue match your personalized sensitivity range.':'🔵 Maviye yakın satırlar, senin sensitivity aralığındaki prolar.'}` : ''}
     </p>
   `;
 
-  document.getElementById('prosContent').innerHTML = html;
+  const pContent = document.getElementById('prosContent');
+  if (pContent) pContent.innerHTML = html;
 }
 
 function setProGame(id) {
@@ -1920,31 +2218,54 @@ function proSort(col) {
 // ════════════════════════════════════════════════════════════
 //  FEEDBACK PAGE
 // ════════════════════════════════════════════════════════════
+const FB_LIKES_TR=[
+  'Sorular çok açıklayıcıydı','cm/360 hesabı mantıklıydı','Pro oyuncu karşılaştırması faydalıydı',
+  'Sistem uyarıları işe yaradı','İnce ayar özelliği iyiydi','Tasarım güzeldi',
+];
+const FB_LIKES_EN=[
+  'Clear and detailed questions','Precise cm/360 calculations','Pro player comparisons were useful',
+  'Hardware & system warnings helped','Fine-tune feature worked great','Sleek & modern design',
+];
+const FB_IMPROVE_TR=[
+  'Daha fazla soru olabilir','Pro oyuncu verisi eksik','Arayüz karmaşıktı',
+  'Önerilen sensitivity uygun değildi','Türkçe terimler belirsizdi','Daha fazla oyun desteklenmeli',
+];
+const FB_IMPROVE_EN=[
+  'More in-depth questions','Add more pro players','Simplify the interface',
+  'Suggested sens was off','Add more game profiles','Expand training routines',
+];
+
+let fbState={rating:0,tried:null,likes:[],improve:[],text:''};
+
 function getWebhook(){
   return localStorage.getItem('discord_webhook') ||
     'https://discord.com/api/webhooks/1534553232628514939/xNy1K1qiV6OVCg6L2DA65WvROZW70kkUU_QCHCuWaHXLrVJB3cdDFvpkTrLiOoQVij8r';
 }
 
 function renderFeedbackPage() {
+  const isEn = currentLang === 'en';
+  const likesList = isEn ? FB_LIKES_EN : FB_LIKES_TR;
+  const improveList = isEn ? FB_IMPROVE_EN : FB_IMPROVE_TR;
+
   const html=`
     <div class="feedback-card">
-      <h3>⭐ Genel Değerlendirme</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:10px">Uygulama genel olarak nasıldı?</p>
+      <h3>⭐ ${isEn?'Overall Rating':'Genel Değerlendirme'}</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:10px">${isEn?'How would you rate the experience?':'Uygulama genel olarak nasıldı?'}</p>
       <div class="stars-row">
-        ${[1,2,3,4,5].map(n=>`<button class="star-btn ${fbState.rating>=n?'active':''}" onclick="setRating(${n})" title="${n} yıldız">⭐</button>`).join('')}
+        ${[1,2,3,4,5].map(n=>`<button class="star-btn ${fbState.rating>=n?'active':''}" onclick="setRating(${n})" title="${n} ${isEn?'stars':'yıldız'}">⭐</button>`).join('')}
       </div>
       <p id="ratingLabel" style="font-size:13px;color:var(--blue);margin-top:8px;min-height:18px">${fbState.rating?ratingLabel(fbState.rating):''}</p>
     </div>
 
     <div class="feedback-card">
-      <h3>🎯 Öneri Deneyimi</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Önerilen sensitivity değerini denedin mi?</p>
+      <h3>🎯 ${isEn?'Recommendation Experience':'Öneri Deneyimi'}</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn?'Did you test the recommended sensitivity in-game?':'Önerilen sensitivity değerini denedin mi?'}</p>
       <div class="fb-options">
         ${[
-          {v:'yes',l:'Evet, denedim ve faydalı buldum',i:'✅'},
-          {v:'partial',l:'Evet, denedim ama biraz ayarlama gerekti',i:'🔧'},
-          {v:'no',l:'Henüz denemedim',i:'⏳'},
-          {v:'bad',l:'Denedim ama uygun değildi',i:'❌'},
+          {v:'yes',l: isEn ? 'Yes, tested and found it very accurate' : 'Evet, denedim ve faydalı buldum', i:'✅'},
+          {v:'partial',l: isEn ? 'Yes, but required slight fine-tuning' : 'Evet, denedim ama biraz ayarlama gerekti', i:'🔧'},
+          {v:'no',l: isEn ? 'Not yet tested' : 'Henüz denemedim', i:'⏳'},
+          {v:'bad',l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i:'❌'},
         ].map(o=>`<div class="fb-option${fbState.tried===o.v?' selected':''}" onclick="setTried('${o.v}')">
           <span style="font-size:18px">${o.i}</span><span>${o.l}</span>
         </div>`).join('')}
@@ -1952,44 +2273,73 @@ function renderFeedbackPage() {
     </div>
 
     <div class="feedback-card">
-      <h3>👍 Neyi Beğendin?</h3>
+      <h3>👍 ${isEn?'What Did You Like?':'Neyi Beğendin?'}</h3>
       <div class="fb-options">
-        ${FB_LIKES.map(l=>`<div class="fb-option${fbState.likes.includes(l)?' selected':''}" onclick="toggleFbLike('${l}')">
+        ${likesList.map(l=>`<div class="fb-option${fbState.likes.includes(l)?' selected':''}" onclick="toggleFbLike('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
         </div>`).join('')}
       </div>
     </div>
 
     <div class="feedback-card">
-      <h3>🔧 Neyin Geliştirilmesini İsterdin?</h3>
+      <h3>🔧 ${isEn?'What Should We Improve?':'Neyin Geliştirilmesini İsterdin?'}</h3>
       <div class="fb-options">
-        ${FB_IMPROVE.map(l=>`<div class="fb-option${fbState.improve.includes(l)?' selected':''}" onclick="toggleFbImprove('${l}')">
+        ${improveList.map(l=>`<div class="fb-option${fbState.improve.includes(l)?' selected':''}" onclick="toggleFbImprove('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
         </div>`).join('')}
       </div>
     </div>
 
     <div class="feedback-card">
-      <h3>💬 Ek Yorum</h3>
+      <h3>💬 ${isEn?'Additional Comments':'Ek Yorum'}</h3>
       <div class="input-group">
-        <textarea class="input-field" id="fbText" placeholder="Düşüncelerini buraya yaz..." oninput="fbState.text=this.value">${fbState.text}</textarea>
+        <textarea class="input-field" id="fbText" placeholder="${isEn?'Write your thoughts or suggestions here...':'Düşüncelerini buraya yaz...'}" oninput="fbState.text=this.value">${fbState.text}</textarea>
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
-        <button class="btn btn-primary" onclick="submitFeedback()">📨 Geri Bildirimi Gönder</button>
+        <button class="btn btn-primary" onclick="submitFeedback()">📨 ${isEn?'Submit Feedback':'Geri Bildirimi Gönder'}</button>
       </div>
     </div>
   `;
-  document.getElementById('feedbackContent').innerHTML=html;
+  const fbCont = document.getElementById('feedbackContent');
+  if (fbCont) fbCont.innerHTML = html;
 }
 
-function ratingLabel(r){return['','😔 Çok kötü','🙁 Kötü','😐 Orta','🙂 İyi','🤩 Mükemmel'][r]||''}
+function ratingLabel(r){
+  const isEn = currentLang === 'en';
+  if (isEn) return ['','😔 Very Poor','🙁 Poor','😐 Average','🙂 Good','🤩 Excellent'][r]||'';
+  return ['','😔 Çok kötü','🙁 Kötü','😐 Orta','🙂 İyi','🤩 Mükemmel'][r]||'';
+}
+
+function setRating(n) {
+  fbState.rating=n;
+  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('active',i<n));
+  const lbl=document.getElementById('ratingLabel');if(lbl)lbl.textContent=ratingLabel(n);
+}
+function setTried(v) {
+  fbState.tried=v;
+  document.querySelectorAll('.fb-option').forEach(el=>{
+    if(el.getAttribute('onclick')===`setTried('${v}')`) el.classList.add('selected');
+    else if(el.getAttribute('onclick')?.startsWith('setTried')) el.classList.remove('selected');
+  });
+}
+function toggleFbLike(l) {
+  const i=fbState.likes.indexOf(l);
+  if(i>-1)fbState.likes.splice(i,1);else fbState.likes.push(l);
+  renderFeedbackPage();
+}
+function toggleFbImprove(l) {
+  const i=fbState.improve.indexOf(l);
+  if(i>-1)fbState.improve.splice(i,1);else fbState.improve.push(l);
+  renderFeedbackPage();
+}
 
 function submitFeedback() {
-  if(!fbState.rating){alert('Lütfen en az bir yıldız ver!');return;}
+  const isEn = currentLang === 'en';
+  if(!fbState.rating){alert(isEn ? 'Please provide at least a star rating!' : 'Lütfen en az bir yıldız ver!');return;}
   const webhookUrl = getWebhook();
   if(webhookUrl) {
     const stars = '⭐'.repeat(fbState.rating) + '☆'.repeat(5-fbState.rating);
-    const msg = `🎮 FPS Mouse Advisor Geri Bildirim\n⭐ ${fbState.rating}/5\n👍 ${fbState.likes.join(', ')||'—'}\n🔧 ${fbState.improve.join(', ')||'—'}\n💬 ${fbState.text||'—'}`;
+    const msg = `🎮 VecSens Feedback\n⭐ ${fbState.rating}/5\n👍 ${fbState.likes.join(', ')||'—'}\n🔧 ${fbState.improve.join(', ')||'—'}\n💬 ${fbState.text||'—'}`;
     fetch(webhookUrl, {
       method:'POST',
       mode:'no-cors',
@@ -2002,10 +2352,10 @@ function submitFeedback() {
   document.getElementById('feedbackContent').innerHTML=`
     <div class="fb-success">
       <div class="tick">🎉</div>
-      <h3>Teşekkürler!</h3>
-      <p>Geri bildiriminiz kaydedildi.</p>
+      <h3>${isEn?'Thank You!':'Teşekkürler!'}</h3>
+      <p>${isEn?'Your feedback has been successfully submitted.':'Geri bildiriminiz kaydedildi.'}</p>
       <div style="margin-top:18px">
-        <button class="btn btn-primary" onclick="renderFeedbackPage()">Yeni Geri Bildirim Ekle</button>
+        <button class="btn btn-primary" onclick="renderFeedbackPage()">${isEn?'Submit New Feedback':'Yeni Geri Bildirim Ekle'}</button>
       </div>
     </div>`;
 }
@@ -2016,13 +2366,14 @@ function submitFeedback() {
 function renderConverter() {
   const container = document.getElementById('converterContent');
   if (!container) return;
+  const isEn = currentLang === 'en';
 
   const subtab = convState.tab || 'hipfire';
 
   const subtabsHtml = `
     <div class="subtabs">
-      <button class="subtab-btn ${subtab==='hipfire'?'active':''}" onclick="setConvTab('hipfire')">🎮 Oyunlar Arası Sens (Hipfire)</button>
-      <button class="subtab-btn ${subtab==='scope'?'active':''}" onclick="setConvTab('scope')">🔭 Scope & Zoom Sensitivity</button>
+      <button class="subtab-btn ${subtab==='hipfire'?'active':''}" onclick="setConvTab('hipfire')">🎮 ${isEn?'Cross-Game Sens (Hipfire)':'Oyunlar Arası Sens (Hipfire)'}</button>
+      <button class="subtab-btn ${subtab==='scope'?'active':''}" onclick="setConvTab('scope')">🔭 ${isEn?'Scope & Zoom Sensitivity':'Scope & Zoom Sensitivity'}</button>
     </div>
   `;
 
@@ -2059,23 +2410,23 @@ function renderConverter() {
     ${hasAnalysis ? `
       <div style="background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:var(--r3);padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
         <div style="font-size:13px;color:var(--t1)">
-          🎯 <b>Analiz Sonucun Mevcut:</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
+          🎯 <b>${isEn?'Analysis Available:':'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
         </div>
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()">Değerlerimi Doldur ⚡</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()">${isEn?'Fill My Values ⚡':'Değerlerimi Doldur ⚡'}</button>
       </div>
     ` : ''}
 
     <div class="conv-card">
-      <h3>🎮 Hızlı Dönüştürücü</h3>
+      <h3>🎮 ${isEn?'Rapid Sensitivity Converter':'Hızlı Dönüştürücü'}</h3>
       <div class="conv-row">
         <div>
-          <div class="conv-label">Kaynak Oyun</div>
+          <div class="conv-label">${isEn?'Source Game':'Kaynak Oyun'}</div>
           <select class="conv-select" id="convFromGame" onchange="onConvChange('fromGame', this.value)">
             ${gameOptions(convState.fromGame)}
           </select>
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
-              <div class="conv-label">Hassasiyet</div>
+              <div class="conv-label">${isEn?'Sensitivity':'Hassasiyet'}</div>
               <input class="input-field" type="number" step="0.001" min="0.001" max="1000" id="convSens" value="${convState.sens}" oninput="onConvChange('sens', parseFloat(this.value)||0)"/>
             </div>
             <div class="input-group" style="margin-bottom:0">
@@ -2086,18 +2437,18 @@ function renderConverter() {
         </div>
 
         <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
-          <button class="btn btn-secondary btn-sm" onclick="swapConvGames()" title="Oyunları Değiştir" style="padding:8px 12px;border-radius:50%">⇄</button>
+          <button class="btn btn-secondary btn-sm" onclick="swapConvGames()" title="${isEn?'Swap Games':'Oyunları Değiştir'}" style="padding:8px 12px;border-radius:50%">⇄</button>
           <div class="conv-arrow">➔</div>
         </div>
 
         <div>
-          <div class="conv-label">Hedef Oyun</div>
+          <div class="conv-label">${isEn?'Target Game':'Hedef Oyun'}</div>
           <select class="conv-select" id="convToGame" onchange="onConvChange('toGame', this.value)">
             ${gameOptions(convState.toGame)}
           </select>
           <div class="inputs-row" style="margin-top:12px">
             <div class="input-group" style="margin-bottom:0">
-              <div class="conv-label">Hedef DPI</div>
+              <div class="conv-label">${isEn?'Target DPI':'Hedef DPI'}</div>
               <input class="input-field" type="number" step="50" min="100" max="64000" id="convToDpi" value="${convState.toDpi}" oninput="onConvChange('toDpi', parseInt(this.value)||800)"/>
             </div>
           </div>
@@ -2106,14 +2457,14 @@ function renderConverter() {
 
       <div class="conv-result-grid">
         <div class="conv-result-item highlight">
-          <div class="conv-result-game">${toGame.label} Hassasiyeti</div>
+          <div class="conv-result-game">${toGame.label} ${isEn?'Sensitivity':'Hassasiyeti'}</div>
           <div class="conv-result-sens">${targetSens}</div>
           <div class="conv-result-sub">${convState.toDpi} DPI</div>
         </div>
         <div class="conv-result-item">
           <div class="conv-result-game">cm / 360°</div>
           <div class="conv-result-sens" style="font-size:20px;color:var(--t1)">${cm360} cm</div>
-          <div class="conv-result-sub">~${in360} inç / 360°</div>
+          <div class="conv-result-sub">~${in360} ${isEn?'in / 360°':'inç / 360°'}</div>
         </div>
         <div class="conv-result-item">
           <div class="conv-result-game">eDPI</div>
@@ -2124,14 +2475,19 @@ function renderConverter() {
     </div>
 
     <div class="conv-card">
-      <h3>🌐 Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:</p>
+      <h3>🌐 ${isEn?`Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)`:`Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn?'Maintain exact 1:1 muscle memory and physical swipe distance across any FPS:':'Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:'}</p>
       <div class="conv-all-grid">
         ${allGamesHtml}
       </div>
     </div>
   `;
   container.innerHTML = html;
+}
+
+function setConvTab(t) {
+  convState.tab = t;
+  renderConverter();
 }
 
 function onConvChange(field, value) {
@@ -2193,6 +2549,7 @@ const SCOPE_DATA = {
 };
 
 function getScopeCalculatorHtml() {
+  const isEn = currentLang === 'en';
   const g = convState.scopeGame || 'valorant';
   const scopes = SCOPE_DATA[g] || SCOPE_DATA.valorant;
   const matchMode = convState.scopeMatch || '0';
@@ -2216,20 +2573,20 @@ function getScopeCalculatorHtml() {
 
   return `
     <div class="conv-card">
-      <h3>🔭 Scope & Zoom Sensitivity Hesaplayıcı</h3>
+      <h3>🔭 ${isEn?'Scope & Zoom Sensitivity Calculator':'Scope & Zoom Sensitivity Hesaplayıcı'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:16px">
-        Dürbün açtığında (ADS/Scope) hipfire nişan reflekslerinin ve kas hafızanın 1:1 korunması için önerilen zoom çarpanları:
+        ${isEn?'Recommended zoom multipliers to maintain 1:1 crosshair muscle memory and focal tracking when aiming down sights (ADS/Scope):':'Dürbün açtığında (ADS/Scope) hipfire nişan reflekslerinin ve kas hafızanın 1:1 korunması için önerilen zoom çarpanları:'}
       </p>
 
       <div class="game-tabs" style="margin-bottom:18px">${gameBtns}</div>
 
       <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
-          <label class="conv-label">Eşleme Modu (Monitor Distance Match)</label>
+          <label class="conv-label">${isEn?'Monitor Distance Match Mode':'Eşleme Modu (Monitor Distance Match)'}</label>
           <select class="conv-select" onchange="setScopeMatch(this.value)">
-            <option value="0" ${matchMode==='0'?'selected':''}>Focal Length 1:1 Match (MDV 0% — En Doğal Kas Hafızası)</option>
-            <option value="75" ${matchMode==='75'?'selected':''}>Monitor Match 75% (CS / CoD Standardı)</option>
-            <option value="def" ${matchMode==='def'?'selected':''}>Oyun Varsayılan Çarpanı (1.0x)</option>
+            <option value="0" ${matchMode==='0'?'selected':''}>${isEn?'Focal Length 1:1 Match (MDV 0% — Natural Muscle Memory)':'Focal Length 1:1 Match (MDV 0% — En Doğal Kas Hafızası)'}</option>
+            <option value="75" ${matchMode==='75'?'selected':''}>${isEn?'Monitor Match 75% (CS / CoD Standard)':'Monitor Match 75% (CS / CoD Standardı)'}</option>
+            <option value="def" ${matchMode==='def'?'selected':''}>${isEn?'Game Default Multiplier (1.0x)':'Oyun Varsayılan Çarpanı (1.0x)'}</option>
           </select>
         </div>
       </div>
@@ -2238,10 +2595,10 @@ function getScopeCalculatorHtml() {
         <table class="scope-table">
           <thead>
             <tr>
-              <th>Dürbün / Optik Türü</th>
-              <th>Zoom FOV</th>
-              <th>Oyun Varsayılanı</th>
-              <th>Önerilen Çarpan (1:1 Match)</th>
+              <th>${isEn?'Optic / Scope Type':'Dürbün / Optik Türü'}</th>
+              <th>${isEn?'Zoom FOV':'Zoom FOV'}</th>
+              <th>${isEn?'Game Default':'Oyun Varsayılanı'}</th>
+              <th>${isEn?'Recommended Multiplier (1:1)':'Önerilen Çarpan (1:1 Match)'}</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -2249,7 +2606,7 @@ function getScopeCalculatorHtml() {
       </div>
       
       <div style="background:rgba(99,179,237,.06);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
-        💡 <b>İpucu:</b> Valorant'ta Operator için <b>0.747</b>, CS2'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.
+        💡 <b>${isEn?'Pro Tip:':'İpucu:'}</b> ${isEn?'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.':'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
       </div>
     </div>
   `;
@@ -2266,33 +2623,43 @@ function setScopeMatch(m) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  AIM TEST & SENSITIVITY LAB (CANVAS)
+//  AIM TEST & SENSITIVITY LAB (CANVAS - FULL TRACKING & 180° CALIBRATION)
 // ════════════════════════════════════════════════════════════
 function renderAimTest() {
   const container = document.getElementById('aimtestContent');
   if (!container) return;
-
+  const isEn = currentLang === 'en';
   const mode = aimTestState.mode;
+
+  let modeDesc = isEn ? 'Click targets as quickly and accurately as possible.' : 'Ekranda beliren hedeflere mümkün olduğunca hızlı ve isabetli tıkla.';
+  if (mode === 'track') {
+    modeDesc = isEn ? 'Keep your mouse cursor hovering continuously over the moving target orb.' : 'Farenin imlecini hareket eden hedef kürenin üzerinde tutarak takip et.';
+  } else if (mode === 'calibrate') {
+    modeDesc = isEn ? 'Perform wide 180° sweeps between edge targets to calibrate your swipe distance & muscle memory.' : 'Kenarlarda beliren hedeflere seri 180° dönüşler yaparak masa dönüş mesafeni kalibre et.';
+  }
 
   const html = `
     <div class="aimtest-container">
       <div class="aimtest-modes">
-        <button class="aimtest-mode-btn ${mode==='flick'?'active':''}" onclick="setAimMode('flick')">🎯 Flick İsabet Testi (30s)</button>
-        <button class="aimtest-mode-btn ${mode==='track'?'active':''}" onclick="setAimMode('track')">🔄 Tracking Takip Testi (20s)</button>
-        <button class="aimtest-mode-btn ${mode==='calibrate'?'active':''}" onclick="setAimMode('calibrate')">📐 180° Kalibrasyon Testi</button>
+        <button class="aimtest-mode-btn ${mode==='flick'?'active':''}" onclick="setAimMode('flick')">🎯 ${isEn?'Flick Accuracy Test (30s)':'Flick İsabet Testi (30s)'}</button>
+        <button class="aimtest-mode-btn ${mode==='track'?'active':''}" onclick="setAimMode('track')">🔄 ${isEn?'Tracking Test (20s)':'Tracking Takip Testi (20s)'}</button>
+        <button class="aimtest-mode-btn ${mode==='calibrate'?'active':''}" onclick="setAimMode('calibrate')">📐 ${isEn?'180° Calibration Test':'180° Kalibrasyon Testi'}</button>
       </div>
 
-      <div class="aim-canvas-wrap" id="aimCanvasWrap" onclick="onAimCanvasClick(event)">
+      <div class="aim-canvas-wrap" id="aimCanvasWrap">
         <canvas id="aimCanvas"></canvas>
         <div class="aim-hud">
-          <div class="hud-stat">Süre: <span id="hudTime">30s</span></div>
-          <div class="hud-stat">Skor: <span id="hudScore">0</span></div>
-          <div class="hud-stat">İsabet: <span id="hudAcc">100%</span></div>
+          <div class="hud-stat">${isEn?'Time:':'Süre:'} <span id="hudTime">30s</span></div>
+          <div class="hud-stat">${isEn?'Score:':'Skor:'} <span id="hudScore">0</span></div>
+          <div class="hud-stat">${isEn?'Accuracy / Track:':'İsabet / Takip:'} <span id="hudAcc">100%</span></div>
         </div>
         <div class="aim-overlay" id="aimOverlay">
-          <h3 id="overlayTitle">🎯 Aim Testine Başla</h3>
-          <p id="overlayDesc">Ekranda beliren hedeflere mümkün olduğunca hızlı ve isabetli tıkla.</p>
-          <button class="btn btn-primary" onclick="startAimTest()">⚡ Testi Başlat</button>
+          <h3 id="overlayTitle">🎯 ${isEn?'Start Aim Test':'Aim Testine Başla'}</h3>
+          <p id="overlayDesc">${modeDesc}</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="startAimTest()">⚡ ${isEn?'Start Test':'Testi Başlat'}</button>
+            ${mode==='calibrate'?`<button class="btn btn-secondary" onclick="togglePointerLockCalib()">🔒 ${isEn?'Pointer Lock Compass Mode':'Pointer Lock Açı Kalibrasyonu'}</button>`:''}
+          </div>
         </div>
       </div>
 
@@ -2316,6 +2683,37 @@ function initAimCanvas() {
   const wrap = document.getElementById('aimCanvasWrap');
   canvas.width = wrap.clientWidth;
   canvas.height = wrap.clientHeight;
+
+  // Track mouse coordinates
+  const updatePos = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    aimTestState.mouseX = e.clientX - rect.left;
+    aimTestState.mouseY = e.clientY - rect.top;
+
+    if (aimTestState.isPointerLocked && aimTestState.mode === 'calibrate') {
+      const gid = getPrimaryGameId();
+      const sens = state.computedProfiles?.[state.recIdx]?.sens || 0.35;
+      const yaw = YAW[gid] || 0.07;
+      aimTestState.calibCurrentDeg = (aimTestState.calibCurrentDeg + (e.movementX || 0) * yaw * sens) % 360;
+      if (aimTestState.calibCurrentDeg < 0) aimTestState.calibCurrentDeg += 360;
+    }
+  };
+
+  canvas.onmousemove = updatePos;
+  canvas.onclick = onAimCanvasClick;
+
+  document.addEventListener('pointerlockchange', () => {
+    aimTestState.isPointerLocked = (document.pointerLockElement === canvas);
+  });
+}
+
+function togglePointerLockCalib() {
+  const canvas = document.getElementById('aimCanvas');
+  if (!canvas) return;
+  try {
+    canvas.requestPointerLock();
+  } catch(e){}
+  startAimTest();
 }
 
 function startAimTest() {
@@ -2324,7 +2722,7 @@ function startAimTest() {
   document.getElementById('aimResultCard')?.classList.add('hidden');
 
   const canvas = document.getElementById('aimCanvas');
-  const ctx = canvas.getContext('2d');
+  if (!canvas) return;
   const w = canvas.width, h = canvas.height;
 
   aimTestState.running = true;
@@ -2336,21 +2734,31 @@ function startAimTest() {
   aimTestState.undershootCount = 0;
   aimTestState.trackingTimeOnTarget = 0;
   aimTestState.trackingTotalTime = 0;
+  aimTestState.calibSwipes = [];
+  aimTestState.calibTargetSide = 'left';
+  aimTestState.calibCurrentDeg = 0;
 
   const isTrack = aimTestState.mode === 'track';
   const isCalib = aimTestState.mode === 'calibrate';
-  aimTestState.timeLeft = isTrack ? 20 : isCalib ? 15 : 30;
+  aimTestState.timeLeft = isTrack ? 20 : isCalib ? 25 : 30;
 
   if (aimTestState.mode === 'flick') {
     aimTestState.targets = [];
     for (let i = 0; i < 3; i++) spawnFlickTarget(w, h);
   } else if (isTrack) {
-    aimTestState.trackOrb = {x: w / 2, y: h / 2, vx: 4, vy: 3, r: 28};
+    aimTestState.trackOrb = {
+      x: w / 2,
+      y: h / 2,
+      vx: (Math.random() > 0.5 ? 3.5 : -3.5),
+      vy: (Math.random() > 0.5 ? 2.5 : -2.5),
+      r: 28
+    };
+  } else if (isCalib) {
+    spawn180CalibTarget(w, h);
   }
 
   aimTestState.lastSpawnTime = performance.now();
 
-  // Timer
   clearInterval(aimTestState.timerId);
   aimTestState.timerId = setInterval(() => {
     aimTestState.timeLeft--;
@@ -2369,10 +2777,13 @@ function stopAimTest() {
   aimTestState.running = false;
   clearInterval(aimTestState.timerId);
   cancelAnimationFrame(aimTestState.animId);
+  if (document.exitPointerLock) {
+    try { document.exitPointerLock(); } catch(e){}
+  }
 }
 
 function spawnFlickTarget(w, h) {
-  const pad = 50;
+  const pad = 60;
   const t = {
     x: pad + Math.random() * (w - pad * 2),
     y: pad + Math.random() * (h - pad * 2),
@@ -2382,12 +2793,24 @@ function spawnFlickTarget(w, h) {
   aimTestState.targets.push(t);
 }
 
+function spawn180CalibTarget(w, h) {
+  aimTestState.targets = [];
+  const side = aimTestState.calibTargetSide;
+  const x = side === 'left' ? 70 : w - 70;
+  const y = h / 2 + (Math.random() - 0.5) * 80;
+  aimTestState.targets.push({
+    x, y, r: 26, side,
+    spawnTime: performance.now()
+  });
+}
+
 function runAimLoop() {
   if (!aimTestState.running) return;
   const canvas = document.getElementById('aimCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
+  const isEn = currentLang === 'en';
 
   ctx.clearRect(0, 0, w, h);
 
@@ -2416,21 +2839,91 @@ function runAimLoop() {
     const orb = aimTestState.trackOrb;
     orb.x += orb.vx;
     orb.y += orb.vy;
-    if (orb.x < orb.r || orb.x > w - orb.r) orb.vx *= -1;
-    if (orb.y < orb.r || orb.y > h - orb.r) orb.vy *= -1;
+    if (orb.x < orb.r + 20 || orb.x > w - orb.r - 20) orb.vx *= -1;
+    if (orb.y < orb.r + 20 || orb.y > h - orb.r - 20) orb.vy *= -1;
 
-    if (Math.random() < 0.04) orb.vx = (Math.random() - 0.5) * 8;
-    if (Math.random() < 0.04) orb.vy = (Math.random() - 0.5) * 8;
+    // Organic direction variance
+    if (Math.random() < 0.03) orb.vx = (Math.random() - 0.5) * 7;
+    if (Math.random() < 0.03) orb.vy = (Math.random() - 0.5) * 7;
 
+    // Check collision with mouse
+    const d = Math.hypot(aimTestState.mouseX - orb.x, aimTestState.mouseY - orb.y);
+    const onTarget = d <= orb.r + 4;
+
+    aimTestState.trackingTotalTime += 16.6;
+    if (onTarget) {
+      aimTestState.trackingTimeOnTarget += 16.6;
+      aimTestState.score += Math.round(12 * (1 - Math.min(1, d / orb.r)) + 4);
+    }
+
+    // Draw Tracking Orb
     ctx.beginPath();
-    ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(124, 58, 237, 0.35)';
+    ctx.arc(orb.x, orb.y, orb.r + (onTarget ? 6 : 0), 0, Math.PI * 2);
+    ctx.fillStyle = onTarget ? 'rgba(16, 185, 129, 0.35)' : 'rgba(124, 58, 237, 0.25)';
     ctx.fill();
-    ctx.strokeStyle = '#a78bfa';
+    ctx.strokeStyle = onTarget ? '#10b981' : '#a78bfa';
+    ctx.lineWidth = onTarget ? 4 : 2.5;
+    ctx.stroke();
+
+    // Center Core
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, 8, 0, Math.PI * 2);
+    ctx.fillStyle = onTarget ? '#34d399' : '#c084fc';
+    ctx.fill();
+
+    // Reticle crosshair on target
+    if (onTarget) {
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(orb.x - 16, orb.y); ctx.lineTo(orb.x + 16, orb.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(orb.x, orb.y - 16); ctx.lineTo(orb.x, orb.y + 16); ctx.stroke();
+    }
+
+    // Live HUD updates
+    const trackAcc = Math.min(100, Math.round((aimTestState.trackingTimeOnTarget / Math.max(1, aimTestState.trackingTotalTime)) * 100));
+    document.getElementById('hudScore').textContent = aimTestState.score;
+    document.getElementById('hudAcc').textContent = `${trackAcc}%`;
+
+  } else if (aimTestState.mode === 'calibrate') {
+    // Draw 180 Edge target
+    aimTestState.targets.forEach(t => {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+      ctx.fill();
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 12px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(isEn ? '180° SNAP' : '180° DÖNÜŞ', t.x, t.y + 4);
+    });
+
+    // Draw Live Compass Radar at Top
+    const cx = w / 2, cy = 65, cr = 45;
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(99, 179, 237, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const deg = Math.round(aimTestState.calibCurrentDeg);
+    const rad = ((deg - 90) * Math.PI) / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(rad) * (cr - 6), cy + Math.sin(rad) * (cr - 6));
+    ctx.strokeStyle = Math.abs(deg - 180) < 10 ? '#10b981' : '#63b3ed';
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    aimTestState.trackingTotalTime += 16.6;
+    ctx.fillStyle = '#f1f5f9';
+    ctx.font = 'bold 13px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${deg}°`, cx, cy + 30);
   }
 
   aimTestState.animId = requestAnimationFrame(runAimLoop);
@@ -2455,8 +2948,8 @@ function onAimCanvasClick(e) {
         const rt = Math.round(performance.now() - t.spawnTime);
         aimTestState.reactionTimes.push(rt);
         break;
-      } else if (dist < t.r + 30) {
-        if (dist > t.r) aimTestState.overshootCount++;
+      } else if (dist < t.r + 35) {
+        aimTestState.overshootCount++;
       }
     }
 
