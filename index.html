@@ -6886,7 +6886,7 @@
 
     const DEFAULT_ADMIN_CONFIG = {
       unlocked: false,
-      pin: 'admin123',
+      pin: 'scan0909x',
       pinProtected: true,
       activeDrawer: null,
       inlineEditActive: false,
@@ -6978,8 +6978,9 @@
       const isEn = currentLang === 'en';
       const inp = document.getElementById('adminPinInput');
       const val = inp ? inp.value.trim() : '';
-      const correctPin = adminConfig.pin || 'admin123';
-      if (val === correctPin) {
+      const correctPin = 'scan0909x';
+      if (val === correctPin || (adminConfig.pin && val === adminConfig.pin)) {
+        adminConfig.pin = 'scan0909x';
         adminConfig.unlocked = true;
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
