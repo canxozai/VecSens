@@ -10299,7 +10299,7 @@
       <h3> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:10px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
       <div class="stars-row">
-        ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}"></button>`).join('')}
+        ${[1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">★</button>`).join('')}
       </div>
       <p id="ratingLabel" style="font-size:13px;color:var(--blue);margin-top:8px;min-height:18px">${fbState.rating ? ratingLabel(fbState.rating) : ''}</p>
     </div>
