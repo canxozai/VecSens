@@ -8601,6 +8601,10 @@
         if (tab) tab.classList.toggle('active', p === page);
       });
       if (page === 'home') renderHomePage();
+      if (page === 'analysis') {
+        if (state.analysisComplete) showResults();
+        else renderQuestion(state.currentQ || 0);
+      }
       if (page === 'pros') renderProPage();
       if (page === 'feedback') renderFeedbackPage();
       if (page === 'converter') renderConverter();
