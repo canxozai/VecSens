@@ -11186,16 +11186,25 @@
           : `<span style="font-size:14px">⛶</span> ${isEn ? 'Fullscreen' : 'Tam Ekran'}`;
       }
 
-      setTimeout(() => {
+      const syncNow = () => {
         if (wrap && canvas) {
-          canvas.width = wrap.clientWidth || (isFs ? window.innerWidth : 800);
-          canvas.height = wrap.clientHeight || (isFs ? window.innerHeight : 560);
-          if (!aimTestState.running) {
-            aimTestState.crosshairX = canvas.width / 2;
-            aimTestState.crosshairY = canvas.height / 2;
+          const rect = wrap.getBoundingClientRect();
+          const targetW = isFs ? window.innerWidth : (Math.round(rect.width) || wrap.clientWidth || 800);
+          const targetH = isFs ? window.innerHeight : (Math.round(rect.height) || wrap.clientHeight || 560);
+          if (targetW > 0 && targetH > 0) {
+            canvas.width = targetW;
+            canvas.height = targetH;
+            if (!aimTestState.running) {
+              aimTestState.crosshairX = targetW / 2;
+              aimTestState.crosshairY = targetH / 2;
+            }
           }
         }
-      }, 60);
+      };
+      syncNow();
+      requestAnimationFrame(syncNow);
+      setTimeout(syncNow, 50);
+      setTimeout(syncNow, 200);
     }
 
     document.addEventListener('fullscreenchange', handleAimFullscreenChange);
@@ -11204,8 +11213,9 @@
       const canvas = document.getElementById('aimCanvas');
       const wrap = document.getElementById('aimCanvasWrap');
       if (canvas && wrap && (!document.fullscreenElement && !document.webkitFullscreenElement)) {
-        canvas.width = wrap.clientWidth;
-        canvas.height = wrap.clientHeight;
+        const rect = wrap.getBoundingClientRect();
+        canvas.width = Math.round(rect.width) || wrap.clientWidth;
+        canvas.height = Math.round(rect.height) || wrap.clientHeight;
       }
     });
 
@@ -11266,8 +11276,11 @@
       const canvas = document.getElementById('aimCanvas');
       if (!canvas) return;
       const wrap = document.getElementById('aimCanvasWrap');
-      canvas.width = wrap.clientWidth || 800;
-      canvas.height = wrap.clientHeight || 560;
+      if (wrap) {
+        const rect = wrap.getBoundingClientRect();
+        canvas.width = Math.round(rect.width) || wrap.clientWidth || 800;
+        canvas.height = Math.round(rect.height) || wrap.clientHeight || 560;
+      }
 
       if (!aimTestState.crosshairX || isNaN(aimTestState.crosshairX)) aimTestState.crosshairX = canvas.width / 2;
       if (!aimTestState.crosshairY || isNaN(aimTestState.crosshairY)) aimTestState.crosshairY = canvas.height / 2;
@@ -11283,20 +11296,21 @@
           const deltaY = e.movementY || 0;
 
           if (aimTestState.mode === 'calibrate') {
+            // 3D 180° Calibration: pure angular head rotation in degrees
             const deltaDeg = deltaX * yaw * sens;
             aimTestState.calibPlayerYaw = (aimTestState.calibPlayerYaw + deltaDeg + 360) % 360;
           } else {
-            // Mathematically exact 1:1 In-Game 3D-to-2D Perspective Projection
-            // Focal length f = (W / 2) / tan(FOV_H / 2)
-            // Displacement per mouse count = f * (sens * yaw * PI / 180)
-            const gameFov = (gid === 'cs2' || gid === 'source') ? 106.26 : 103.0; // Standard 16:9 Horizontal FOV
+            // 2D Tactical Aim: 1:1 In-Game 1080p Physical Screen Space Movement
+            // Standard 1080p focal length: f_1080 = (1920 / 2) / tan(FOV_H / 2) = 763.62 px for 103° FOV (Valorant)
+            // Displacement per mouse count = f_1080 * (sens * yaw * PI / 180)
+            const gameFov = (gid === 'cs2' || gid === 'source') ? 106.26 : 103.0;
             const fovHalfRad = (gameFov / 2) * (Math.PI / 180);
-            const focalLength = (canvas.width / 2) / Math.tan(fovHalfRad);
+            const refFocalLength = 960 / Math.tan(fovHalfRad); // 763.62 px for Valorant, 720 px for CS2
             const radPerCount = (sens * yaw) * (Math.PI / 180);
-            const pxPerCount = focalLength * radPerCount;
+            const pxPerCount = refFocalLength * radPerCount;
 
-            aimTestState.crosshairX = Math.max(8, Math.min(canvas.width - 8, aimTestState.crosshairX + deltaX * pxPerCount));
-            aimTestState.crosshairY = Math.max(8, Math.min(canvas.height - 8, aimTestState.crosshairY + deltaY * pxPerCount));
+            aimTestState.crosshairX = Math.max(6, Math.min(canvas.width - 6, aimTestState.crosshairX + deltaX * pxPerCount));
+            aimTestState.crosshairY = Math.max(6, Math.min(canvas.height - 6, aimTestState.crosshairY + deltaY * pxPerCount));
             aimTestState.mouseX = aimTestState.crosshairX;
             aimTestState.mouseY = aimTestState.crosshairY;
           }
@@ -11350,6 +11364,12 @@
 
       const canvas = document.getElementById('aimCanvas');
       if (!canvas) return;
+      const wrap = document.getElementById('aimCanvasWrap');
+      if (wrap) {
+        const rect = wrap.getBoundingClientRect();
+        canvas.width = Math.round(rect.width) || wrap.clientWidth || 800;
+        canvas.height = Math.round(rect.height) || wrap.clientHeight || 560;
+      }
       const w = canvas.width, h = canvas.height;
 
       aimTestState.running = true;
@@ -11426,10 +11446,14 @@
 
     function spawnFlickTarget(w, h) {
       const pad = 60;
+      const spanW = Math.min(w - pad * 2, 1100);
+      const spanH = Math.min(h - pad * 2, 640);
+      const minX = (w - spanW) / 2;
+      const minY = (h - spanH) / 2;
       const t = {
-        x: pad + Math.random() * (w - pad * 2),
-        y: pad + Math.random() * (h - pad * 2),
-        r: 22,
+        x: minX + Math.random() * spanW,
+        y: minY + Math.random() * spanH,
+        r: 24,
         spawnTime: performance.now(),
       };
       aimTestState.targets.push(t);
@@ -11439,6 +11463,16 @@
       if (!aimTestState.running) return;
       const canvas = document.getElementById('aimCanvas');
       if (!canvas) return;
+      const wrap = document.getElementById('aimCanvasWrap');
+      if (wrap) {
+        const rect = wrap.getBoundingClientRect();
+        const curW = Math.round(rect.width);
+        const curH = Math.round(rect.height);
+        if (curW > 0 && curH > 0 && (canvas.width !== curW || canvas.height !== curH)) {
+          canvas.width = curW;
+          canvas.height = curH;
+        }
+      }
       const ctx = canvas.getContext('2d');
       const w = canvas.width, h = canvas.height;
       const isEn = currentLang === 'en';
@@ -11447,11 +11481,14 @@
       ctx.clearRect(0, 0, w, h);
 
       if (aimTestState.mode === 'flick') {
-        // Background Grid
+        // Background Grid (Perfect 40x40 squares centered on canvas)
         ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 5%, transparent)';
         ctx.lineWidth = 1;
-        for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-        for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+        const gridSize = 40;
+        const startX = cx % gridSize;
+        const startY = cy % gridSize;
+        for (let x = startX; x < w; x += gridSize) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = startY; y < h; y += gridSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
         aimTestState.targets.forEach(t => {
           ctx.beginPath();
@@ -11485,11 +11522,14 @@
         ctx.beginPath(); ctx.arc(chX, chY, 1.5, 0, Math.PI * 2); ctx.fill();
 
       } else if (aimTestState.mode === 'track') {
-        // Background Grid
+        // Background Grid (Perfect 40x40 squares centered on canvas)
         ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 5%, transparent)';
         ctx.lineWidth = 1;
-        for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-        for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+        const gridSize = 40;
+        const startX = cx % gridSize;
+        const startY = cy % gridSize;
+        for (let x = startX; x < w; x += gridSize) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = startY; y < h; y += gridSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
         const orb = aimTestState.trackOrb;
         orb.x += orb.vx;
