@@ -11286,10 +11286,17 @@
             const deltaDeg = deltaX * yaw * sens;
             aimTestState.calibPlayerYaw = (aimTestState.calibPlayerYaw + deltaDeg + 360) % 360;
           } else {
-            // In 2D Flick & Tracking: Apply in-game sensitivity with precision yaw scaling
-            const sensScale = 5.2 * (yaw / 0.07) * sens;
-            aimTestState.crosshairX = Math.max(10, Math.min(canvas.width - 10, aimTestState.crosshairX + deltaX * sensScale));
-            aimTestState.crosshairY = Math.max(10, Math.min(canvas.height - 10, aimTestState.crosshairY + deltaY * sensScale));
+            // Mathematically exact 1:1 In-Game 3D-to-2D Perspective Projection
+            // Focal length f = (W / 2) / tan(FOV_H / 2)
+            // Displacement per mouse count = f * (sens * yaw * PI / 180)
+            const gameFov = (gid === 'cs2' || gid === 'source') ? 106.26 : 103.0; // Standard 16:9 Horizontal FOV
+            const fovHalfRad = (gameFov / 2) * (Math.PI / 180);
+            const focalLength = (canvas.width / 2) / Math.tan(fovHalfRad);
+            const radPerCount = (sens * yaw) * (Math.PI / 180);
+            const pxPerCount = focalLength * radPerCount;
+
+            aimTestState.crosshairX = Math.max(8, Math.min(canvas.width - 8, aimTestState.crosshairX + deltaX * pxPerCount));
+            aimTestState.crosshairY = Math.max(8, Math.min(canvas.height - 8, aimTestState.crosshairY + deltaY * pxPerCount));
             aimTestState.mouseX = aimTestState.crosshairX;
             aimTestState.mouseY = aimTestState.crosshairY;
           }
