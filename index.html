@@ -3613,6 +3613,313 @@
       vertical-align: middle;
     }
 
+  
+    /* ════════════════════════════════════════════════════════════
+       HOMEPAGE (PORTAL & FEATURE HUB) STYLES
+    ════════════════════════════════════════════════════════════ */
+    .home-hero {
+      text-align: center;
+      padding: 10px 0 28px 0;
+      position: relative;
+    }
+    .home-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+    .home-hero-badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .home-hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0 0 12px 0;
+      background: linear-gradient(135deg, var(--t1) 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .home-hero-sub {
+      font-size: 15px;
+      color: var(--t2);
+      max-width: 680px;
+      margin: 0 auto 24px auto;
+      line-height: 1.6;
+    }
+    .home-hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    
+    /* Stats Bar */
+    .home-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+    @media (max-width: 640px) {
+      .home-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .home-stat-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 14px 12px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .home-stat-item:hover {
+      border-color: color-mix(in srgb, var(--cyan) 40%, transparent);
+      background: color-mix(in srgb, var(--cyan) 5%, var(--card));
+    }
+    .home-stat-val {
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .home-stat-lbl {
+      font-size: 11px;
+      color: var(--t3);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Cards Grid */
+    .home-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+    @media (max-width: 768px) {
+      .home-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .home-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .home-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cyan) 60%, transparent), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .home-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--cyan) 50%, transparent);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--cyan) 18%, transparent);
+    }
+    .home-card:hover::before {
+      opacity: 1;
+    }
+    .home-card.featured {
+      grid-column: span 2;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--cyan) 8%, var(--card)), var(--card));
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent);
+    }
+    @media (max-width: 768px) {
+      .home-card.featured {
+        grid-column: span 1;
+      }
+    }
+    .home-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .home-card-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .home-card-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .home-card-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--t2);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .home-card-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--t1);
+      margin: 0 0 8px 0;
+      letter-spacing: -0.01em;
+    }
+    .home-card-desc {
+      font-size: 13.5px;
+      color: var(--t2);
+      line-height: 1.55;
+      margin: 0 0 16px 0;
+      flex: 1;
+    }
+    .home-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .home-card-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--t3);
+      font-weight: 500;
+    }
+    .home-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--r3);
+      font-size: 13.5px;
+      font-weight: 600;
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent);
+      color: var(--cyan);
+      transition: all 0.2s ease;
+      width: 100%;
+      cursor: pointer;
+    }
+    .home-card:hover .home-card-btn {
+      background: var(--gbtn);
+      color: #030712;
+      border-color: transparent;
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--cyan) 30%, transparent);
+    }
+    .home-card-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Steps Section */
+    .home-steps-sec {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .home-steps-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--t1);
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .home-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 640px) {
+      .home-steps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .home-step-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--r3);
+      padding: 16px;
+      position: relative;
+    }
+    .home-step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--cyan) 20%, transparent);
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .home-step-heading {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--t1);
+      margin: 0 0 6px 0;
+    }
+    .home-step-text {
+      font-size: 12px;
+      color: var(--t3);
+      line-height: 1.5;
+      margin: 0;
+    }
+
   </style>
 </head>
 
@@ -3623,12 +3930,13 @@
 
       <!-- TOP NAV -->
       <div class="topnav">
-        <div class="nav-brand" onclick="switchPage('analysis')" title="VecSens Precision Aim Advisor">
+        <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
           <img src="logo.svg" alt="VecSens" class="nav-brand-logo" onerror="this.onerror=null;this.src='logo.png'" />
           <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
         </div>
         <div class="nav-tabs">
-          <button class="nav-tab active" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
+          <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
+          <button class="nav-tab" id="ntab-analysis" onclick="switchPage('home')">Analiz</button>
           <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Sens & Scope Converter</button>
           <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
           <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
@@ -3641,23 +3949,23 @@
         </div>
       </div>
 
-      <!-- HEADER -->
-      <div class="header">
-        <div class="hero-logo-container" onclick="switchPage('analysis')" title="VecSens Precision Tactical Aim Engine">
-          <div class="hero-logo-glow"></div>
-          <img src="logo.svg" alt="VecSens Logo" class="hero-main-logo" onerror="this.onerror=null;this.src='logo.png'" />
-        </div>
-        <div class="logo-badge" id="mainLogoBadge">
-          <img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
-          <span class="dot"></span>VecSens
-        </div>
-        <h1 id="headerTitle">VecSens<br /><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span></h1>
-        <p id="headerSub">Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını
-          hesaplıyoruz.</p>
-      </div>
+      <!-- HOMEPAGE (PORTAL & FEATURE HUB) -->
+      <div id="page-home"></div>
 
       <!-- ANALYSIS PAGE -->
-      <div id="page-analysis">
+      <div id="page-analysis" class="hidden">
+        <div class="header">
+          <div class="hero-logo-container" onclick="switchPage('home')" title="VecSens Precision Tactical Aim Engine">
+            <div class="hero-logo-glow"></div>
+            <img src="logo.svg" alt="VecSens Logo" class="hero-main-logo" onerror="this.onerror=null;this.src='logo.png'" />
+          </div>
+          <div class="logo-badge" id="mainLogoBadge">
+            <img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
+            <span class="dot"></span>VecSens
+          </div>
+          <h1 id="headerTitle">VecSens<br /><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span></h1>
+          <p id="headerSub">Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.</p>
+        </div>
         <div class="progress-wrapper" id="progressWrapper">
           <div class="progress-info">
             <span class="progress-label" id="progressLabel">Profil Oluşturma</span>
@@ -3764,7 +4072,7 @@
     </div>
 
     <div class="footer-wrap">
-      <div class="footer-brand" onclick="switchPage('analysis')" title="VecSens">
+      <div class="footer-brand" onclick="switchPage('home')" title="VecSens">
         <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
         <span class="footer-brand-title">VecSens</span>
       </div>
@@ -8274,12 +8582,13 @@
         return;
       }
       state.currentPage = page;
-      ['analysis', 'converter', 'aimtest', 'pros', 'feedback', 'admin'].forEach(p => {
+      ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
         const tab = document.getElementById(`ntab-${p}`);
         if (el) el.classList.toggle('hidden', p !== page);
         if (tab) tab.classList.toggle('active', p === page);
       });
+      if (page === 'home') renderHomePage();
       if (page === 'pros') renderProPage();
       if (page === 'feedback') renderFeedbackPage();
       if (page === 'converter') renderConverter();
@@ -8349,6 +8658,224 @@
     function getLineIcon(key) {
       if (!key) return '';
       return LINE_ICONS[key] || '';
+    }
+
+    
+    // ════════════════════════════════════════════════════════════
+    //  HOMEPAGE (PORTAL & FEATURE HUB) RENDERER
+    // ════════════════════════════════════════════════════════════
+    function renderHomePage() {
+      const isEn = currentLang === 'en';
+      const container = document.getElementById('page-home');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="home-hero">
+          <div class="home-hero-badge">
+            <span class="dot"></span>
+            <span>${isEn ? 'VecSens Precision Tactical Aim Engine' : 'VecSens Taktiksel Aim & Hassasiyet Mimarisi'}</span>
+          </div>
+          <h2 class="home-hero-title">${isEn ? 'Elevate Your Tactical FPS Aim & Performance' : 'FPS Performansını & Aim Yeteneğini Zirveye Taşı'}</h2>
+          <p class="home-hero-sub">${isEn 
+            ? 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.' 
+            : '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.'}
+          </p>
+          <div class="home-hero-actions">
+            <button class="btn btn-primary" onclick="switchPage('analysis')">
+              <svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+              <span>${isEn ? 'Start Aim Analysis' : 'Aim Analizini Başlat'}</span>
+            </button>
+            <button class="btn btn-secondary" onclick="switchPage('converter')">
+              <svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+              <span>${isEn ? 'Sens Converter' : 'Sens Dönüştürücü'}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- LIVE STATS BAR -->
+        <div class="home-stats-bar">
+          <div class="home-stat-item">
+            <div class="home-stat-val">224+</div>
+            <div class="home-stat-lbl">${isEn ? 'Mouse Models in DB' : 'Kayıtlı Mouse Modeli'}</div>
+          </div>
+          <div class="home-stat-item">
+            <div class="home-stat-val">12+</div>
+            <div class="home-stat-lbl">${isEn ? 'FPS Game Engines' : 'FPS Oyun Motoru'}</div>
+          </div>
+          <div class="home-stat-item">
+            <div class="home-stat-val">100+</div>
+            <div class="home-stat-lbl">${isEn ? 'Verified Pro Players' : 'Esporcu Hassasiyet Ayarı'}</div>
+          </div>
+          <div class="home-stat-item">
+            <div class="home-stat-val">100%</div>
+            <div class="home-stat-lbl">${isEn ? 'Local & Secure Engine' : 'Yerel & Güvenli Hesaplama'}</div>
+          </div>
+        </div>
+
+        <!-- FEATURE CARDS GRID -->
+        <div class="home-cards-grid">
+          
+          <!-- Card 1: Analysis (Featured) -->
+          <div class="home-card featured" onclick="switchPage('analysis')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+                </div>
+                <div class="home-card-badge">${isEn ? 'Core Feature · 5 Phases' : 'Ana Özellik · 5 Aşamalı'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Personalized Aim & Sensitivity Advisor' : 'Kişiselleştirilmiş Aim & Hassasiyet Analizi'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Analyzes your specific mouse model, DPI, polling rate, mousepad dimensions, hand size, grip style (Palm/Claw/Fingertip), arm/wrist biomechanics, and main in-game roles to compute 3 tailored profiles (Balanced, Speed Flick, Precision Tracking) with custom Esports Player Card export.'
+                : 'Kullandığın mouse modeli (224+ veritabanı), DPI, polling rate, mousepad ölçün, el boyutun, tutuş şeklin (Palm/Claw/Fingertip), nişan mekaniğin ve oyun rollerine göre sana özel 3 profil (Dengeli, Hızlı Flick, Hassas Tracking) hesaplar ve Esporcu Kartı oluşturur.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">${isEn ? '224+ Mouse Specs' : '224+ Mouse Donanım Analizi'}</span>
+                <span class="home-card-tag">${isEn ? 'Grip & Hand Ratio' : 'El & Tutuş Ergonomisi'}</span>
+                <span class="home-card-tag">${isEn ? '3 Aim Profiles' : '3 Ayrı Aim Profili'}</span>
+                <span class="home-card-tag">${isEn ? 'Mousepad Simulation' : 'Mousepad Simülatörü'}</span>
+                <span class="home-card-tag">${isEn ? 'Downloadable Card' : 'İndirilebilir Oyuncu Kartı'}</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Start 5-Phase Analysis' : 'Analizi Başlat'}</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Card 2: Converter -->
+          <div class="home-card" onclick="switchPage('converter')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+                </div>
+                <div class="home-card-badge">${isEn ? '1:1 Motor Conversion' : '1:1 Motor Çevrimi'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Cross-Game Sens & Scope Converter' : 'Sens & Scope / ADS Dönüştürücü'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Lossless cm/360 and eDPI conversion across Valorant, CS2, Apex Legends, R6, Call of Duty, PUBG, Fortnite, Overwatch 2, The Finals, and more. Includes 1:1 Monitor Match Scope/ADS multipliers.'
+                : 'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">12+ FPS Motoru</span>
+                <span class="home-card-tag">cm/360 Koruma</span>
+                <span class="home-card-tag">Scope / Zoom Çarpanı</span>
+                <span class="home-card-tag">Hızlı Çapraz Çeviri</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Open Converter' : 'Dönüştürücüye Git'}</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Card 3: Aim Test Lab -->
+          <div class="home-card" onclick="switchPage('aimtest')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg>
+                </div>
+                <div class="home-card-badge">${isEn ? 'Interactive Lab' : 'Canlı Laboratuvar'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Interactive Aim & 180° Calibration' : 'Aim & 180° Kalibrasyon Testi'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Test your reflex turning, muscle memory, and angular accuracy directly inside the browser using Pointer Lock. Measures your 180° turn error and provides live recommendations.'
+                : 'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">180° Kas Hafızası</span>
+                <span class="home-card-tag">Tepki Süresi Ölçümü</span>
+                <span class="home-card-tag">Sapma & Hata Oranı</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Launch Aim Lab' : 'Aim Testini Başlat'}</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Card 4: Pro Players -->
+          <div class="home-card" onclick="switchPage('pros')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg>
+                </div>
+                <div class="home-card-badge">${isEn ? 'Esports DB' : 'Espor Veritabanı'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Pro Player Settings & Hardware DB' : 'Pro Oyuncular & Ekipman Veritabanı'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Verified DPI, sensitivity, eDPI, cm/360, and mouse gear used by Tier-1 professionals across Valorant, CS2, Apex Legends, R6, and Fortnite. Compare your settings directly against pro benchmarks.'
+                : 'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">Tier-1 Esporcular</span>
+                <span class="home-card-tag">Kullandıkları Mouselar</span>
+                <span class="home-card-tag">Canlı Kıyaslama</span>
+                <span class="home-card-tag">ProSettings Verisi</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Explore Pro DB' : 'Pro Ayarlarını İncele'}</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Card 5: Feedback & Community -->
+          <div class="home-card" onclick="switchPage('feedback')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg>
+                </div>
+                <div class="home-card-badge">${isEn ? 'Community' : 'Topluluk'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Feedback & Mouse Wishlist' : 'Geri Bildirim & Fare İstek Kutusu'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Request new mouse models to be added to the engine, rate your calculation results, and help improve the VecSens tactical algorithm.'
+                : 'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">Yeni Model Talebi</span>
+                <span class="home-card-tag">Yıldız Puanlama</span>
+                <span class="home-card-tag">Geliştiriciye Not</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Leave Feedback' : 'Geri Bildirim Bırak'}</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- 3 STEPS WORKFLOW SECTION -->
+        <div class="home-steps-sec">
+          <div class="home-steps-title">
+            <svg viewBox="0 0 24 24" class="inline-icon" style="color:var(--cyan)"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>${isEn ? 'How VecSens Works — 3 Simple Steps' : 'VecSens Nasıl Çalışır? — 3 Adımda Kusursuz Aim'}</span>
+          </div>
+          <div class="home-steps-grid">
+            <div class="home-step-item">
+              <div class="home-step-num">1</div>
+              <div class="home-step-heading">${isEn ? '1. Enter Gear & Biometrics' : '1. Ekipman & Biyometriğini Gir'}</div>
+              <div class="home-step-text">${isEn ? 'Specify your mouse model, DPI, mousepad dimensions, hand size, and preferred grip style.' : 'Mouse modelini, DPI değerini, mousepad boyutunu, el ölçülerini ve tutuş tarzını seç.'}</div>
+            </div>
+            <div class="home-step-item">
+              <div class="home-step-num">2</div>
+              <div class="home-step-heading">${isEn ? '2. Get 3 Calculated Profiles' : '2. Özel 3 Aim Profilini Al'}</div>
+              <div class="home-step-text">${isEn ? 'Engine computes your exact cm/360, eDPI, sensitivity for each game, LOD warnings, and routine.' : 'Sistem senin için en ideal cm/360, oyun içi sens, eDPI, donanım uyarıları ve çalışma rutini üretir.'}</div>
+            </div>
+            <div class="home-step-item">
+              <div class="home-step-num">3</div>
+              <div class="home-step-heading">${isEn ? '3. Calibrate & Convert' : '3. Test Et & Oyunlara Aktar'}</div>
+              <div class="home-step-text">${isEn ? 'Validate your muscle memory in the 180° Lab and port your sens to 12+ games with 1:1 Scope match.' : '180° Laboratuvarında kas hafızanı test et ve Converter ile tüm oyunlarına kayıpsız aktar.'}</div>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     function buildQuestions() {
@@ -11135,7 +11662,8 @@
         if (el) el.textContent = dict.phases[idx];
       });
       if (state.currentPage === 'analysis') state.analysisComplete ? showResults() : renderQuestion(state.currentQ);
-      else if (state.currentPage === 'converter') renderConverter();
+      else if (state.currentPage === 'home') renderHomePage();
+      if (state.currentPage === 'converter') renderConverter();
       else if (state.currentPage === 'aimtest') renderAimTest();
       else if (state.currentPage === 'pros') renderProPage();
       else if (state.currentPage === 'feedback') renderFeedbackPage();
