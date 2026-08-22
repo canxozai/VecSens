@@ -8579,10 +8579,10 @@
       if (btn) {
         const isEn = currentLang === 'en';
         if (currentTheme === 'light') {
-          btn.innerHTML = isEn ? ' Dark' : ' Koyu Mod';
+          btn.textContent = isEn ? 'Dark' : 'Koyu Mod';
           btn.title = isEn ? 'Switch to Dark Mode' : 'Karanlık Moda Geç';
         } else {
-          btn.innerHTML = isEn ? ' Light' : ' Açık Mod';
+          btn.textContent = isEn ? 'Light' : 'Açık Mod';
           btn.title = isEn ? 'Switch to Light Mode' : 'Aydınlık Moda Geç';
         }
       }
@@ -11825,13 +11825,23 @@
       const dict = I18N[currentLang];
       document.documentElement.lang = currentLang;
       document.title = dict.docTitle;
+      
       const lBtn = document.getElementById('langBtn');
       if (lBtn) lBtn.textContent = dict.btn;
+      
       applyTheme();
+      
+      // Header Brand, Title, and Sub
       const hTitle = document.getElementById('headerTitle');
-      if (hTitle && (!adminConfig.customTexts || !adminConfig.customTexts['id_headerTitle'])) hTitle.innerHTML = dict.title;
+      if (hTitle) hTitle.innerHTML = dict.title;
       const hSub = document.getElementById('headerSub');
-      if (hSub && (!adminConfig.customTexts || !adminConfig.customTexts['id_headerSub'])) hSub.textContent = dict.sub;
+      if (hSub) hSub.textContent = dict.sub;
+      const mainBadge = document.getElementById('mainLogoBadge');
+      if (mainBadge) mainBadge.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${isEn ? 'Aim Advisor' : 'Aim Danışmanı'}`;
+
+      // Top Navbar Tabs
+      const tHome = document.getElementById('ntab-home');
+      if (tHome) tHome.textContent = dict.tabHome || (isEn ? 'Home' : 'Ana Sayfa');
       const tAna = document.getElementById('ntab-analysis');
       if (tAna) tAna.textContent = dict.tabAnalysis;
       const tConv = document.getElementById('ntab-converter');
@@ -11842,39 +11852,48 @@
       if (tPros) tPros.textContent = dict.tabPros;
       const tFb = document.getElementById('ntab-feedback');
       if (tFb) tFb.textContent = dict.tabFeedback;
+
       const setBadge = (id, text) => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${text}`;
       };
+      
       setBadge('convBadge', dict.convBadge);
       const convTitle = document.getElementById('convTitle');
       if (convTitle) convTitle.textContent = dict.convTitle;
       const convSub = document.getElementById('convSub');
       if (convSub) convSub.textContent = dict.convSub;
+      
       setBadge('aimBadge', dict.aimBadge);
       const aimTitle = document.getElementById('aimTitle');
       if (aimTitle) aimTitle.textContent = dict.aimTitle;
       const aimSub = document.getElementById('aimSub');
       if (aimSub) aimSub.textContent = dict.aimSub;
+      
       setBadge('prosBadge', dict.prosBadge);
       const prosTitle = document.getElementById('prosTitle');
       if (prosTitle) prosTitle.textContent = dict.prosTitle;
       const prosSub = document.getElementById('prosSub');
       if (prosSub) prosSub.textContent = dict.prosSub;
+      
       setBadge('fbBadge', dict.fbBadge);
       const fbTitle = document.getElementById('fbTitle');
       if (fbTitle) fbTitle.textContent = dict.fbTitle;
       const fbSub = document.getElementById('fbSub');
       if (fbSub) fbSub.textContent = dict.fbSub;
+      
       const foot = document.getElementById('footerText');
-      if (foot && (!adminConfig.customTexts || !adminConfig.customTexts['id_footerText'])) foot.textContent = dict.footer;
+      if (foot) foot.textContent = dict.footer;
+
       [1, 2, 3, 4, 5].forEach((p, idx) => {
         const el = document.getElementById(`phase${p}`);
         if (el) el.textContent = dict.phases[idx];
       });
-      if (state.currentPage === 'analysis') state.analysisComplete ? showResults() : renderQuestion(state.currentQ);
-      else if (state.currentPage === 'home') renderHomePage();
-      if (state.currentPage === 'converter') renderConverter();
+
+      // Always re-render current view with current language
+      if (state.currentPage === 'home') renderHomePage();
+      else if (state.currentPage === 'analysis') state.analysisComplete ? showResults() : renderQuestion(state.currentQ);
+      else if (state.currentPage === 'converter') renderConverter();
       else if (state.currentPage === 'aimtest') renderAimTest();
       else if (state.currentPage === 'pros') renderProPage();
       else if (state.currentPage === 'feedback') renderFeedbackPage();
