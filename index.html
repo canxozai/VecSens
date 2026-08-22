@@ -4070,81 +4070,3864 @@
     //  MOUSE DATABASE
     // ════════════════════════════════════════════════════════════
     const MOUSE_DB = [
-      // ── Logitech ──
-      { brand: 'Logitech', model: 'G Pro X Superlight', sensor: 'HERO 25K', sensorType: 'optical', weight: 63, maxDPI: 25600, length: 125, width: 63.5, height: 40, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['palm', 'claw'] },
-      { brand: 'Logitech', model: 'G Pro X Superlight 2', sensor: 'HERO 2', sensorType: 'optical', weight: 60, maxDPI: 32000, length: 125.8, width: 63.5, height: 40, shape: 'ambi', lod: 0.8, wireless: true, bestGrip: ['palm', 'claw'] },
-      { brand: 'Logitech', model: 'G502 X', sensor: 'HERO 25K', sensorType: 'optical', weight: 89, maxDPI: 25600, length: 131, width: 79, height: 41, shape: 'ergo', lod: 1.0, wireless: false, bestGrip: ['palm'] },
-      { brand: 'Logitech', model: 'G502 X Lightspeed', sensor: 'HERO 25K', sensorType: 'optical', weight: 102, maxDPI: 25600, length: 131, width: 79, height: 41, shape: 'ergo', lod: 1.0, wireless: true, bestGrip: ['palm'] },
-      { brand: 'Logitech', model: 'G305', sensor: 'HERO', sensorType: 'optical', weight: 99, maxDPI: 12000, length: 116.8, width: 62.2, height: 38.2, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Logitech', model: 'G703', sensor: 'HERO 25K', sensorType: 'optical', weight: 95, maxDPI: 25600, length: 124, width: 68, height: 43, shape: 'ergo', lod: 1.0, wireless: true, bestGrip: ['palm'] },
-      { brand: 'Logitech', model: 'G203', sensor: 'Mercury', sensorType: 'optical', weight: 85, maxDPI: 8000, length: 116.6, width: 62.2, height: 38.2, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Logitech', model: 'G303 Shroud Edition', sensor: 'HERO 25K', sensorType: 'optical', weight: 75, maxDPI: 25600, length: 117.2, width: 64.6, height: 39.4, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── Razer ──
-      { brand: 'Razer', model: 'DeathAdder V3', sensor: 'Focus Pro 30K', sensorType: 'optical', weight: 59, maxDPI: 30000, length: 128.3, width: 67.8, height: 43.7, shape: 'ergo', lod: 0.8, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Razer', model: 'DeathAdder V3 Pro', sensor: 'Focus Pro 30K', sensorType: 'optical', weight: 63, maxDPI: 30000, length: 128.3, width: 67.8, height: 44.7, shape: 'ergo', lod: 0.8, wireless: true, bestGrip: ['palm', 'claw'] },
-      { brand: 'Razer', model: 'Viper V3 Pro', sensor: 'Focus Pro 36K', sensorType: 'optical', weight: 54, maxDPI: 36000, length: 127.1, width: 63.7, height: 39.4, shape: 'ambi', lod: 0.6, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Razer', model: 'Viper V3 HyperSpeed', sensor: 'Focus Pro 30K', sensorType: 'optical', weight: 82, maxDPI: 30000, length: 127.1, width: 63.7, height: 39.4, shape: 'ambi', lod: 0.8, wireless: true, bestGrip: ['claw', 'palm'] },
-      { brand: 'Razer', model: 'Viper V2 Pro', sensor: 'Focus Pro 30K', sensorType: 'optical', weight: 58, maxDPI: 30000, length: 126.7, width: 63.6, height: 37.8, shape: 'ambi', lod: 0.8, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Razer', model: 'Viper Mini', sensor: 'PMW3359', sensorType: 'optical', weight: 61, maxDPI: 8500, length: 118.3, width: 53.5, height: 38.3, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Razer', model: 'Basilisk V3', sensor: 'Focus Pro 26K', sensorType: 'optical', weight: 101, maxDPI: 26000, length: 130, width: 75, height: 42.5, shape: 'ergo', lod: 1.0, wireless: false, bestGrip: ['palm'] },
-      { brand: 'Razer', model: 'Orochi V2', sensor: '5G Advanced', sensorType: 'optical', weight: 60, maxDPI: 18000, length: 108, width: 60, height: 38, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── Zowie ──
-      { brand: 'Zowie', model: 'EC1-C', sensor: '3360', sensorType: 'optical', weight: 74, maxDPI: 3200, length: 128, width: 65, height: 43, shape: 'ergo', lod: 2.0, wireless: false, bestGrip: ['palm'] },
-      { brand: 'Zowie', model: 'EC2-C', sensor: '3360', sensorType: 'optical', weight: 73, maxDPI: 3200, length: 120, width: 61, height: 40, shape: 'ergo', lod: 2.0, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Zowie', model: 'EC3-C', sensor: '3360', sensorType: 'optical', weight: 70, maxDPI: 3200, length: 115, width: 58, height: 38, shape: 'ergo', lod: 2.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Zowie', model: 'FK1-C', sensor: '3360', sensorType: 'optical', weight: 72, maxDPI: 3200, length: 128, width: 64, height: 36, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Zowie', model: 'FK2-C', sensor: '3360', sensorType: 'optical', weight: 70, maxDPI: 3200, length: 124, width: 60, height: 34, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Zowie', model: 'S1-C', sensor: '3360', sensorType: 'optical', weight: 74, maxDPI: 3200, length: 126, width: 66, height: 39, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Zowie', model: 'S2-C', sensor: '3360', sensorType: 'optical', weight: 72, maxDPI: 3200, length: 122, width: 64, height: 38, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Zowie', model: 'ZA11-C', sensor: '3360', sensorType: 'optical', weight: 76, maxDPI: 3200, length: 128, width: 66, height: 40, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['palm'] },
-      { brand: 'Zowie', model: 'ZA13-C', sensor: '3360', sensorType: 'optical', weight: 68, maxDPI: 3200, length: 120, width: 60, height: 37, shape: 'ambi', lod: 2.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      // ── Pulsar ──
-      { brand: 'Pulsar', model: 'X2', sensor: 'PAW3395', sensorType: 'optical', weight: 56, maxDPI: 26000, length: 120, width: 63, height: 38, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Pulsar', model: 'X2 Mini', sensor: 'PAW3395', sensorType: 'optical', weight: 52, maxDPI: 26000, length: 116, width: 60, height: 36, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Pulsar', model: 'X2H', sensor: 'PAW3395', sensorType: 'optical', weight: 57, maxDPI: 26000, length: 122, width: 65, height: 40, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['palm', 'claw'] },
-      { brand: 'Pulsar', model: 'Xlite V3', sensor: 'PAW3395', sensorType: 'optical', weight: 55, maxDPI: 26000, length: 122, width: 67, height: 42, shape: 'ergo', lod: 1.0, wireless: true, bestGrip: ['palm', 'claw'] },
-      // ── Finalmouse ──
-      { brand: 'Finalmouse', model: 'UltralightX Large', sensor: 'Focus Pro', sensorType: 'optical', weight: 42, maxDPI: 30000, length: 126, width: 62, height: 38, shape: 'ambi', lod: 0.8, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Finalmouse', model: 'UltralightX Medium', sensor: 'Focus Pro', sensorType: 'optical', weight: 38, maxDPI: 30000, length: 118, width: 58, height: 36, shape: 'ambi', lod: 0.8, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Finalmouse', model: 'Starlight-12 Medium', sensor: 'Finalsensor', sensorType: 'optical', weight: 47, maxDPI: 20000, length: 121, width: 59, height: 37, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── SteelSeries ──
-      { brand: 'SteelSeries', model: 'Aerox 3', sensor: 'TrueMove Air', sensorType: 'optical', weight: 59, maxDPI: 18000, length: 120.6, width: 67.4, height: 37.9, shape: 'ambi', lod: 1.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'SteelSeries', model: 'Prime', sensor: 'TrueMove Pro', sensorType: 'optical', weight: 69, maxDPI: 18000, length: 125.3, width: 59.4, height: 40.4, shape: 'ambi', lod: 1.0, wireless: false, bestGrip: ['claw'] },
-      { brand: 'SteelSeries', model: 'Rival 3', sensor: 'TrueMove Core', sensorType: 'optical', weight: 77, maxDPI: 8500, length: 120.6, width: 67, height: 37.9, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw', 'palm'] },
-      // ── Endgame Gear ──
-      { brand: 'Endgame Gear', model: 'OP1we', sensor: 'PAW3395', sensorType: 'optical', weight: 59, maxDPI: 26000, length: 123, width: 59, height: 38, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw'] },
-      { brand: 'Endgame Gear', model: 'XM1r', sensor: 'PAW3370', sensorType: 'optical', weight: 70, maxDPI: 19000, length: 122.1, width: 65.8, height: 38.3, shape: 'ambi', lod: 1.0, wireless: false, bestGrip: ['claw'] },
-      { brand: 'Endgame Gear', model: 'XM2w', sensor: 'PAW3395', sensorType: 'optical', weight: 63, maxDPI: 26000, length: 122, width: 66, height: 38, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw'] },
-      // ── Lamzu ──
-      { brand: 'Lamzu', model: 'Atlantis', sensor: 'PAW3395', sensorType: 'optical', weight: 55, maxDPI: 26000, length: 122, width: 63, height: 39, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Lamzu', model: 'Atlantis Mini', sensor: 'PAW3395', sensorType: 'optical', weight: 49, maxDPI: 26000, length: 117, width: 60, height: 37, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      { brand: 'Lamzu', model: 'Thorn', sensor: 'PAW3395', sensorType: 'optical', weight: 52, maxDPI: 26000, length: 118, width: 58, height: 39, shape: 'ergo', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── Glorious ──
-      { brand: 'Glorious', model: 'Model O', sensor: 'BAMF', sensorType: 'optical', weight: 67, maxDPI: 19000, length: 128, width: 66, height: 37.5, shape: 'ambi', lod: 1.2, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Glorious', model: 'Model O-', sensor: 'BAMF', sensorType: 'optical', weight: 58, maxDPI: 19000, length: 120, width: 63, height: 36, shape: 'ambi', lod: 1.2, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Glorious', model: 'Model D', sensor: 'BAMF 2.0', sensorType: 'optical', weight: 68, maxDPI: 26000, length: 128, width: 67, height: 40, shape: 'ergo', lod: 1.0, wireless: false, bestGrip: ['palm', 'claw'] },
-      { brand: 'Glorious', model: 'Model D-', sensor: 'BAMF 2.0', sensorType: 'optical', weight: 61, maxDPI: 26000, length: 120, width: 61, height: 37, shape: 'ergo', lod: 1.0, wireless: false, bestGrip: ['claw', 'finger'] },
-      // ── HyperX ──
-      { brand: 'HyperX', model: 'Pulsefire Haste', sensor: 'TTC Golden', sensorType: 'optical', weight: 59, maxDPI: 16000, length: 124.2, width: 66.8, height: 38.2, shape: 'ambi', lod: 1.2, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'HyperX', model: 'Pulsefire Haste 2', sensor: 'PAW3395', sensorType: 'optical', weight: 53, maxDPI: 26000, length: 122, width: 63.5, height: 38.5, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── Corsair ──
-      { brand: 'Corsair', model: 'M75 Air', sensor: 'Marksman', sensorType: 'optical', weight: 60, maxDPI: 26000, length: 128.8, width: 63.3, height: 40.1, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['palm', 'claw'] },
-      { brand: 'Corsair', model: 'Sabre RGB Pro', sensor: 'Marksman', sensorType: 'optical', weight: 74, maxDPI: 18000, length: 129, width: 70, height: 43, shape: 'ergo', lod: 1.0, wireless: false, bestGrip: ['palm'] },
-      // ── Cooler Master ──
-      { brand: 'Cooler Master', model: 'MM710', sensor: 'PMW3389', sensorType: 'optical', weight: 53, maxDPI: 16000, length: 116.6, width: 62.6, height: 38.3, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Cooler Master', model: 'MM712', sensor: 'PAW3370', sensorType: 'optical', weight: 59, maxDPI: 19000, length: 116.5, width: 62.4, height: 38.3, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── Vaxee ──
-      { brand: 'Vaxee', model: 'NP-01', sensor: 'PMW3389', sensorType: 'optical', weight: 80, maxDPI: 16000, length: 125, width: 64, height: 40, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw'] },
-      { brand: 'Vaxee', model: 'NP-01S', sensor: 'PMW3389', sensorType: 'optical', weight: 76, maxDPI: 16000, length: 120, width: 62, height: 38, shape: 'ambi', lod: 1.5, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Vaxee', model: 'Outset AX', sensor: 'PMW3389', sensorType: 'optical', weight: 82, maxDPI: 16000, length: 124, width: 66, height: 43, shape: 'ergo', lod: 1.5, wireless: false, bestGrip: ['palm', 'claw'] },
-      // ── Xtrfy ──
-      { brand: 'Xtrfy', model: 'M42', sensor: 'PMW3389', sensorType: 'optical', weight: 59, maxDPI: 16000, length: 118, width: 56, height: 38, shape: 'ambi', lod: 1.2, wireless: false, bestGrip: ['claw', 'finger'] },
-      { brand: 'Xtrfy', model: 'MZ1', sensor: 'PMW3389', sensorType: 'optical', weight: 56, maxDPI: 16000, length: 124, width: 55.8, height: 38.4, shape: 'ambi', lod: 1.2, wireless: false, bestGrip: ['finger'] },
-      // ── Ninjutso ──
-      { brand: 'Ninjutso', model: 'Sora V2', sensor: 'PAW3395', sensorType: 'optical', weight: 48, maxDPI: 26000, length: 121, width: 64, height: 39, shape: 'ambi', lod: 1.0, wireless: true, bestGrip: ['claw', 'finger'] },
-      // ── WLMouse ──
-      { brand: 'WLMouse', model: 'Beast X', sensor: 'PAW3950', sensorType: 'optical', weight: 48, maxDPI: 30000, length: 127, width: 64, height: 40, shape: 'ambi', lod: 0.6, wireless: true, bestGrip: ['claw', 'palm'] },
-    ];
+  {
+    "brand": "Logitech",
+    "model": "G Pro X Superlight 2",
+    "sensor": "HERO 2",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 32000,
+    "length": 125.8,
+    "width": 63.5,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G Pro X Superlight 2 DEX",
+    "sensor": "HERO 2",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 44000,
+    "length": 125.8,
+    "width": 67.7,
+    "height": 43.9,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G Pro X Superlight",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 63,
+    "maxDPI": 25600,
+    "length": 125,
+    "width": 63.5,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G Pro Wireless",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 80,
+    "maxDPI": 25600,
+    "length": 125,
+    "width": 63.5,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G Pro HERO (Wired)",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 83,
+    "maxDPI": 25600,
+    "length": 116.6,
+    "width": 62.1,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G502 X PLUS",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 106,
+    "maxDPI": 25600,
+    "length": 131.4,
+    "width": 79.2,
+    "height": 41.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G502 X Lightspeed",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 99,
+    "maxDPI": 25600,
+    "length": 131.4,
+    "width": 79.2,
+    "height": 41.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G502 X (Wired)",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 89,
+    "maxDPI": 25600,
+    "length": 131.4,
+    "width": 79.2,
+    "height": 41.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G502 HERO",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 121,
+    "maxDPI": 25600,
+    "length": 132,
+    "width": 75,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G502 Proteus Spectrum",
+    "sensor": "PMW3366",
+    "sensorType": "optical",
+    "weight": 121,
+    "maxDPI": 12000,
+    "length": 132,
+    "width": 75,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G305 Lightspeed",
+    "sensor": "HERO",
+    "sensorType": "optical",
+    "weight": 99,
+    "maxDPI": 12000,
+    "length": 116.8,
+    "width": 62.2,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G703 Lightspeed",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 95,
+    "maxDPI": 25600,
+    "length": 124,
+    "width": 68,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G403 HERO",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 87,
+    "maxDPI": 25600,
+    "length": 124,
+    "width": 68,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G203 Lightsync",
+    "sensor": "Mercury",
+    "sensorType": "optical",
+    "weight": 85,
+    "maxDPI": 8000,
+    "length": 116.6,
+    "width": 62.2,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G102 Lightsync",
+    "sensor": "Mercury",
+    "sensorType": "optical",
+    "weight": 85,
+    "maxDPI": 8000,
+    "length": 116.6,
+    "width": 62.2,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G303 Shroud Edition",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 75,
+    "maxDPI": 25600,
+    "length": 117.2,
+    "width": 64.6,
+    "height": 39.4,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G309 Lightspeed",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 86,
+    "maxDPI": 25600,
+    "length": 120,
+    "width": 64,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G903 HERO",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 110,
+    "maxDPI": 25600,
+    "length": 130.3,
+    "width": 66.5,
+    "height": 40.4,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G604 Lightspeed",
+    "sensor": "HERO 25K",
+    "sensorType": "optical",
+    "weight": 135,
+    "maxDPI": 25600,
+    "length": 130,
+    "width": 80,
+    "height": 45,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "G600 MMO",
+    "sensor": "Laser Avago S9808",
+    "sensorType": "laser",
+    "weight": 133,
+    "maxDPI": 8200,
+    "length": 118,
+    "width": 75,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX518 Legendary",
+    "sensor": "HERO 16K",
+    "sensorType": "optical",
+    "weight": 101,
+    "maxDPI": 16000,
+    "length": 131,
+    "width": 73,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper V3 Pro",
+    "sensor": "Focus Pro 35K Gen-2",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 35000,
+    "length": 127.1,
+    "width": 63.9,
+    "height": 39.9,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper V3 HyperSpeed",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 82,
+    "maxDPI": 30000,
+    "length": 127.1,
+    "width": 63.9,
+    "height": 39.9,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper V2 Pro",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 30000,
+    "length": 126.7,
+    "width": 63.6,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper Ultimate",
+    "sensor": "Focus+ 20K",
+    "sensorType": "optical",
+    "weight": 74,
+    "maxDPI": 20000,
+    "length": 126.7,
+    "width": 63.6,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper 8KHz",
+    "sensor": "Focus+ 20K",
+    "sensorType": "optical",
+    "weight": 71,
+    "maxDPI": 20000,
+    "length": 126.7,
+    "width": 63.6,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper Mini",
+    "sensor": "PMW3359",
+    "sensorType": "optical",
+    "weight": 61,
+    "maxDPI": 8500,
+    "length": 118.3,
+    "width": 53.5,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Viper Mini Signature Edition",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 30000,
+    "length": 119,
+    "width": 62,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V3 Pro",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 63,
+    "maxDPI": 30000,
+    "length": 128,
+    "width": 68,
+    "height": 44,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V3 (Wired)",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 30000,
+    "length": 128,
+    "width": 68,
+    "height": 44,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V3 HyperSpeed",
+    "sensor": "Focus X 26K",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 122.2,
+    "width": 64.8,
+    "height": 41.3,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V2 Pro",
+    "sensor": "Focus+ 20K",
+    "sensorType": "optical",
+    "weight": 88,
+    "maxDPI": 20000,
+    "length": 127,
+    "width": 72.7,
+    "height": 42.7,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V2",
+    "sensor": "Focus+ 20K",
+    "sensorType": "optical",
+    "weight": 82,
+    "maxDPI": 20000,
+    "length": 127,
+    "width": 61.7,
+    "height": 42.7,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder V2 Mini",
+    "sensor": "PMW3359",
+    "sensorType": "optical",
+    "weight": 62,
+    "maxDPI": 8500,
+    "length": 114.2,
+    "width": 56,
+    "height": 38.5,
+    "shape": "ergo",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "DeathAdder Essential",
+    "sensor": "PAW3328",
+    "sensorType": "optical",
+    "weight": 96,
+    "maxDPI": 6400,
+    "length": 127,
+    "width": 73,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Basilisk V3 Pro",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 112,
+    "maxDPI": 30000,
+    "length": 130,
+    "width": 75.4,
+    "height": 42.5,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Basilisk V3 35K",
+    "sensor": "Focus Pro 35K",
+    "sensorType": "optical",
+    "weight": 101,
+    "maxDPI": 35000,
+    "length": 130,
+    "width": 75.4,
+    "height": 42.5,
+    "shape": "ergo",
+    "lod": 0.6,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Basilisk V3",
+    "sensor": "Focus+ 26K",
+    "sensorType": "optical",
+    "weight": 101,
+    "maxDPI": 26000,
+    "length": 130,
+    "width": 75.4,
+    "height": 42.5,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Basilisk X HyperSpeed",
+    "sensor": "PAW3369",
+    "sensorType": "optical",
+    "weight": 93,
+    "maxDPI": 16000,
+    "length": 130,
+    "width": 60,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Orochi V2",
+    "sensor": "5G Advanced",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 18000,
+    "length": 108,
+    "width": 60,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Cobra Pro",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 77,
+    "maxDPI": 30000,
+    "length": 119.6,
+    "width": 62.5,
+    "height": 38.1,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Cobra (Wired)",
+    "sensor": "Optical 8500",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 8500,
+    "length": 119.6,
+    "width": 62.5,
+    "height": 38.1,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Naga V2 Pro",
+    "sensor": "Focus Pro 30K",
+    "sensorType": "optical",
+    "weight": 134,
+    "maxDPI": 30000,
+    "length": 119.5,
+    "width": 75.5,
+    "height": 43.5,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Razer",
+    "model": "Naga Trinity",
+    "sensor": "5G Optical",
+    "sensorType": "optical",
+    "weight": 120,
+    "maxDPI": 16000,
+    "length": 119,
+    "width": 74,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC1-CW Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 79,
+    "maxDPI": 3200,
+    "length": 130,
+    "width": 69,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC2-CW Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 77,
+    "maxDPI": 3200,
+    "length": 123,
+    "width": 65,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC3-CW Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 76,
+    "maxDPI": 3200,
+    "length": 119,
+    "width": 66,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC1-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 74,
+    "maxDPI": 3200,
+    "length": 130,
+    "width": 69,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC2-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 73,
+    "maxDPI": 3200,
+    "length": 123,
+    "width": 65,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "EC3-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 70,
+    "maxDPI": 3200,
+    "length": 119,
+    "width": 66,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "FK1+-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 77,
+    "maxDPI": 3200,
+    "length": 128,
+    "width": 68,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "FK1-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 74,
+    "maxDPI": 3200,
+    "length": 128,
+    "width": 66,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "FK2-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 70,
+    "maxDPI": 3200,
+    "length": 124,
+    "width": 64,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "S1-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 72,
+    "maxDPI": 3200,
+    "length": 126,
+    "width": 66,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "S2-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 69,
+    "maxDPI": 3200,
+    "length": 122,
+    "width": 64,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "ZA11-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 72,
+    "maxDPI": 3200,
+    "length": 128,
+    "width": 67,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "ZA12-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 70,
+    "maxDPI": 3200,
+    "length": 125,
+    "width": 65,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "ZA13-C",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 65,
+    "maxDPI": 3200,
+    "length": 121,
+    "width": 62,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zowie",
+    "model": "U2 Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 3200,
+    "length": 124,
+    "width": 65,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "X2V2",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 53,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 63,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "X2V2 Mini",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 51,
+    "maxDPI": 26000,
+    "length": 115.6,
+    "width": 61,
+    "height": 36.6,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "X2H",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 26000,
+    "length": 120.4,
+    "width": 65,
+    "height": 39.8,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "X2H Mini",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 52,
+    "maxDPI": 26000,
+    "length": 115.6,
+    "width": 62.4,
+    "height": 37.9,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "X2A",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 57,
+    "maxDPI": 26000,
+    "length": 120.4,
+    "width": 65,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "Xlite V3 Medium",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 122,
+    "width": 66,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "Xlite V3 Mini",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 52,
+    "maxDPI": 26000,
+    "length": 115.6,
+    "width": 63.4,
+    "height": 40.7,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Pulsar",
+    "model": "Xlite V3 Large",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 26000,
+    "length": 126,
+    "width": 68,
+    "height": 44,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "UltralightX Tiger (Large)",
+    "sensor": "PAW3950 Finalsensor",
+    "sensorType": "optical",
+    "weight": 37,
+    "maxDPI": 30000,
+    "length": 126,
+    "width": 62.5,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "UltralightX Lion (Medium)",
+    "sensor": "PAW3950 Finalsensor",
+    "sensorType": "optical",
+    "weight": 35,
+    "maxDPI": 30000,
+    "length": 121.3,
+    "width": 60,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "UltralightX Cheetah (Small)",
+    "sensor": "PAW3950 Finalsensor",
+    "sensorType": "optical",
+    "weight": 31,
+    "maxDPI": 30000,
+    "length": 115.6,
+    "width": 57,
+    "height": 35.5,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "finger",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "Starlight Pro TenZ Medium",
+    "sensor": "Finalsensor",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 20000,
+    "length": 121,
+    "width": 59,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "Starlight-12 Medium",
+    "sensor": "Finalsensor",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 20000,
+    "length": 121,
+    "width": 59,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Finalmouse",
+    "model": "Starlight-12 Small",
+    "sensor": "Finalsensor",
+    "sensorType": "optical",
+    "weight": 42,
+    "maxDPI": 20000,
+    "length": 115,
+    "width": 56,
+    "height": 35,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "WLMouse",
+    "model": "Beast X 8K",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 39,
+    "maxDPI": 30000,
+    "length": 126,
+    "width": 64,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "WLMouse",
+    "model": "Beast X Mini",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 34,
+    "maxDPI": 26000,
+    "length": 116,
+    "width": 58,
+    "height": 35,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "finger",
+      "claw"
+    ]
+  },
+  {
+    "brand": "WLMouse",
+    "model": "Beast X Max",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 42,
+    "maxDPI": 30000,
+    "length": 126,
+    "width": 65,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "WLMouse",
+    "model": "Sword X",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 30000,
+    "length": 123,
+    "width": 67,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Scyrox",
+    "model": "V8 8K",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 36,
+    "maxDPI": 30000,
+    "length": 118,
+    "width": 63,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Scyrox",
+    "model": "V6",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 38,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 64,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Maya 4K / Maya X",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 45,
+    "maxDPI": 30000,
+    "length": 124,
+    "width": 64,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Maya (Standard)",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 45,
+    "maxDPI": 26000,
+    "length": 119,
+    "width": 62,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Atlantis OG V2 Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 123,
+    "width": 66,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Atlantis Mini Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 26000,
+    "length": 117,
+    "width": 63,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Thorn 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 52,
+    "maxDPI": 26000,
+    "length": 119,
+    "width": 65,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Lamzu",
+    "model": "Paro",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 30000,
+    "length": 118,
+    "width": 63,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Endgame Gear",
+    "model": "OP1 8K (Wired)",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 50,
+    "maxDPI": 26000,
+    "length": 118.2,
+    "width": 60.5,
+    "height": 37.2,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Endgame Gear",
+    "model": "OP1we Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 19000,
+    "length": 118.2,
+    "width": 60.5,
+    "height": 37.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Endgame Gear",
+    "model": "XM2we Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 63,
+    "maxDPI": 19000,
+    "length": 122,
+    "width": 66,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw"
+    ]
+  },
+  {
+    "brand": "Endgame Gear",
+    "model": "XM2 8K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 52,
+    "maxDPI": 26000,
+    "length": 122,
+    "width": 66,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": false,
+    "bestGrip": [
+      "claw"
+    ]
+  },
+  {
+    "brand": "Endgame Gear",
+    "model": "XM1r",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 70,
+    "maxDPI": 19000,
+    "length": 122.1,
+    "width": 65.8,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "claw"
+    ]
+  },
+  {
+    "brand": "Ninjutso",
+    "model": "Sora V2 8K",
+    "sensor": "PAW3395 SnappyFire",
+    "sensorType": "optical",
+    "weight": 39,
+    "maxDPI": 26000,
+    "length": 119.2,
+    "width": 59.8,
+    "height": 37.3,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Ninjutso",
+    "model": "Sora 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 26000,
+    "length": 120.5,
+    "width": 63.8,
+    "height": 37.3,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Ninjutso",
+    "model": "Katana Superlight",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 19000,
+    "length": 125,
+    "width": 60,
+    "height": 39.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Vaxee",
+    "model": "NP-01 Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 71,
+    "maxDPI": 3200,
+    "length": 120,
+    "width": 66,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Vaxee",
+    "model": "NP-01S Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 68,
+    "maxDPI": 3200,
+    "length": 120,
+    "width": 62,
+    "height": 37,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Vaxee",
+    "model": "Outset AX Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 73,
+    "maxDPI": 3200,
+    "length": 120,
+    "width": 66,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Vaxee",
+    "model": "XE Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 76,
+    "maxDPI": 3200,
+    "length": 122,
+    "width": 66,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Vaxee",
+    "model": "XE-S Wireless",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 3200,
+    "length": 119,
+    "width": 63,
+    "height": 36.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Aerox 3 Wireless (2022)",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 68,
+    "maxDPI": 18000,
+    "length": 120.5,
+    "width": 67,
+    "height": 37.9,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Aerox 3 (Wired)",
+    "sensor": "TrueMove Core",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 8500,
+    "length": 120.5,
+    "width": 67,
+    "height": 37.9,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Aerox 5 Wireless",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 74,
+    "maxDPI": 18000,
+    "length": 128.8,
+    "width": 68.2,
+    "height": 42.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Aerox 9 Wireless (MMO)",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 89,
+    "maxDPI": 18000,
+    "length": 128.8,
+    "width": 68.2,
+    "height": 42.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Prime Wireless",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 80,
+    "maxDPI": 18000,
+    "length": 125.3,
+    "width": 67.9,
+    "height": 42.4,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Prime Mini Wireless",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 73,
+    "maxDPI": 18000,
+    "length": 120.3,
+    "width": 66.2,
+    "height": 40.7,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Rival 3 Wireless",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 96,
+    "maxDPI": 18000,
+    "length": 120.6,
+    "width": 67,
+    "height": 37.9,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Rival 3 (Wired)",
+    "sensor": "TrueMove Core",
+    "sensorType": "optical",
+    "weight": 77,
+    "maxDPI": 8500,
+    "length": 120.6,
+    "width": 67,
+    "height": 37.9,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Rival 5",
+    "sensor": "TrueMove Air",
+    "sensorType": "optical",
+    "weight": 85,
+    "maxDPI": 18000,
+    "length": 128.8,
+    "width": 68.2,
+    "height": 42.1,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "SteelSeries",
+    "model": "Sensei Ten",
+    "sensor": "TrueMove Pro",
+    "sensorType": "optical",
+    "weight": 92,
+    "maxDPI": 18000,
+    "length": 126,
+    "width": 68,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O 2 Pro 8K/4K",
+    "sensor": "BAMF 2.0 26K",
+    "sensorType": "optical",
+    "weight": 57,
+    "maxDPI": 26000,
+    "length": 128,
+    "width": 66,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O 2 Wireless",
+    "sensor": "BAMF 2.0 26K",
+    "sensorType": "optical",
+    "weight": 68,
+    "maxDPI": 26000,
+    "length": 128,
+    "width": 66,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O Wireless",
+    "sensor": "BAMF",
+    "sensorType": "optical",
+    "weight": 69,
+    "maxDPI": 19000,
+    "length": 128,
+    "width": 66,
+    "height": 37.5,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O (Wired)",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 67,
+    "maxDPI": 12000,
+    "length": 128,
+    "width": 66,
+    "height": 37.5,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O- Wireless",
+    "sensor": "BAMF",
+    "sensorType": "optical",
+    "weight": 65,
+    "maxDPI": 19000,
+    "length": 120,
+    "width": 63,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model O- (Wired)",
+    "sensor": "PMW3360",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 12000,
+    "length": 120,
+    "width": 63,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model D 2 Pro 8K/4K",
+    "sensor": "BAMF 2.0 26K",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 26000,
+    "length": 128,
+    "width": 67,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model D Wireless",
+    "sensor": "BAMF",
+    "sensorType": "optical",
+    "weight": 69,
+    "maxDPI": 19000,
+    "length": 128,
+    "width": 67,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Glorious",
+    "model": "Model D- Wireless",
+    "sensor": "BAMF",
+    "sensorType": "optical",
+    "weight": 67,
+    "maxDPI": 19000,
+    "length": 120,
+    "width": 64,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "HyperX",
+    "model": "Pulsefire Haste 2 Wireless",
+    "sensor": "HyperX 26K",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 26000,
+    "length": 124.3,
+    "width": 66.8,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "HyperX",
+    "model": "Pulsefire Haste 2 (Wired 8K)",
+    "sensor": "HyperX 26K",
+    "sensorType": "optical",
+    "weight": 53,
+    "maxDPI": 26000,
+    "length": 124.3,
+    "width": 66.8,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "HyperX",
+    "model": "Pulsefire Haste (Wired)",
+    "sensor": "PAW3335",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 16000,
+    "length": 124.2,
+    "width": 66.8,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "HyperX",
+    "model": "Pulsefire Core",
+    "sensor": "PixArt 3327",
+    "sensorType": "optical",
+    "weight": 87,
+    "maxDPI": 6200,
+    "length": 119.3,
+    "width": 63.9,
+    "height": 41.3,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Corsair",
+    "model": "M75 Air Wireless",
+    "sensor": "Marksman 26K",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 26000,
+    "length": 128,
+    "width": 64.6,
+    "height": 42,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Corsair",
+    "model": "Sabre RGB Pro Wireless",
+    "sensor": "Marksman 26K",
+    "sensorType": "optical",
+    "weight": 79,
+    "maxDPI": 26000,
+    "length": 129,
+    "width": 70,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Corsair",
+    "model": "Katar Pro Wireless",
+    "sensor": "PMW3325",
+    "sensorType": "optical",
+    "weight": 96,
+    "maxDPI": 10000,
+    "length": 115.8,
+    "width": 64.2,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 1.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Corsair",
+    "model": "M65 RGB Ultra Wireless",
+    "sensor": "Marksman 26K",
+    "sensorType": "optical",
+    "weight": 110,
+    "maxDPI": 26000,
+    "length": 117,
+    "width": 77,
+    "height": 39,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "ASUS ROG",
+    "model": "ROG Harpe Ace Aim Lab Edition",
+    "sensor": "AimPoint 36K",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 36000,
+    "length": 127.5,
+    "width": 63.7,
+    "height": 39.6,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "ASUS ROG",
+    "model": "ROG Harpe Ace Extreme (Carbon)",
+    "sensor": "AimPoint Pro 42K",
+    "sensorType": "optical",
+    "weight": 47,
+    "maxDPI": 42000,
+    "length": 127.5,
+    "width": 63.7,
+    "height": 39.6,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "ASUS ROG",
+    "model": "ROG Keris II Ace",
+    "sensor": "AimPoint Pro 42K",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 42000,
+    "length": 121,
+    "width": 67,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "ASUS ROG",
+    "model": "ROG Gladius III Wireless AimPoint",
+    "sensor": "AimPoint 36K",
+    "sensorType": "optical",
+    "weight": 79,
+    "maxDPI": 36000,
+    "length": 123,
+    "width": 68,
+    "height": 44,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "VGN",
+    "model": "Dragonfly F1 Pro Max",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 121.2,
+    "width": 63.5,
+    "height": 37.6,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "VGN",
+    "model": "Dragonfly F1 MOBA",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 121.2,
+    "width": 63.5,
+    "height": 37.6,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "VGN",
+    "model": "Dragonfly R1 Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 51,
+    "maxDPI": 26000,
+    "length": 120.6,
+    "width": 64,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "ATK",
+    "model": "Blazing Sky F1 Ultimate",
+    "sensor": "PAW3950 Ultra",
+    "sensorType": "optical",
+    "weight": 38,
+    "maxDPI": 30000,
+    "length": 118.2,
+    "width": 62.4,
+    "height": 38.8,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "ATK",
+    "model": "Blazing Sky X1 Ultra",
+    "sensor": "PAW3950 Ultra",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 30000,
+    "length": 127,
+    "width": 64,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Darmoshark",
+    "model": "M3 4K / M3 Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 58,
+    "maxDPI": 26000,
+    "length": 129.5,
+    "width": 66,
+    "height": 39.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Darmoshark",
+    "model": "M3s Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 26000,
+    "length": 122.7,
+    "width": 62.5,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Darmoshark",
+    "model": "M3 Micro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 42,
+    "maxDPI": 26000,
+    "length": 105,
+    "width": 57,
+    "height": 34,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zaopin",
+    "model": "Z1 Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 46,
+    "maxDPI": 26000,
+    "length": 110,
+    "width": 62,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Zaopin",
+    "model": "Z2 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 65,
+    "maxDPI": 26000,
+    "length": 123,
+    "width": 64,
+    "height": 40.5,
+    "shape": "ergo",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Attack Shark",
+    "model": "X3 / X3 Pro",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 26000,
+    "length": 118.5,
+    "width": 61,
+    "height": 39.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Attack Shark",
+    "model": "R1 / R1 Pro",
+    "sensor": "PAW3311",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 18000,
+    "length": 123,
+    "width": 64,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "AJAZZ",
+    "model": "AJ199 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 26000,
+    "length": 118,
+    "width": 61.6,
+    "height": 38.6,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "AJAZZ",
+    "model": "AJ139 Pro 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 65,
+    "maxDPI": 26000,
+    "length": 125,
+    "width": 63.3,
+    "height": 38.2,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "AJAZZ",
+    "model": "AJ159 Apex",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 56,
+    "maxDPI": 30000,
+    "length": 118.1,
+    "width": 62.3,
+    "height": 37.8,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Kysona",
+    "model": "M600",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 118,
+    "width": 62,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Fantech",
+    "model": "Aria XD7",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 26000,
+    "length": 114,
+    "width": 65,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Fantech",
+    "model": "Helios II Pro XD3V3",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 64,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "G-Wolves",
+    "model": "HTX 4K",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 39,
+    "maxDPI": 26000,
+    "length": 119,
+    "width": 63.5,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "G-Wolves",
+    "model": "Hati S Plus 4K (HTS+)",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 48,
+    "maxDPI": 26000,
+    "length": 117,
+    "width": 61,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Delux",
+    "model": "M800 Pro (PAW3395)",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 68,
+    "maxDPI": 26000,
+    "length": 124,
+    "width": 64,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Delux",
+    "model": "M800 Ultra",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 26000,
+    "length": 124,
+    "width": 64,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Rapoo",
+    "model": "VT9 Pro",
+    "sensor": "PAW3398",
+    "sensorType": "optical",
+    "weight": 68,
+    "maxDPI": 26000,
+    "length": 124.9,
+    "width": 67.1,
+    "height": 40.2,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Rapoo",
+    "model": "VT9 Air",
+    "sensor": "PAW3398",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 65.7,
+    "height": 39.9,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Redragon",
+    "model": "M711 Cobra",
+    "sensor": "PixArt PMW3325",
+    "sensorType": "optical",
+    "weight": 105,
+    "maxDPI": 10000,
+    "length": 127,
+    "width": 66,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Redragon",
+    "model": "M908 Impact MMO",
+    "sensor": "PixArt PMW3327",
+    "sensorType": "optical",
+    "weight": 130,
+    "maxDPI": 12400,
+    "length": 122,
+    "width": 92,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Redragon",
+    "model": "M808 Storm",
+    "sensor": "PixArt PMW3327",
+    "sensorType": "optical",
+    "weight": 85,
+    "maxDPI": 12400,
+    "length": 126.8,
+    "width": 65.5,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Redragon",
+    "model": "M913 Impact Elite Wireless",
+    "sensor": "PAW3335",
+    "sensorType": "optical",
+    "weight": 119,
+    "maxDPI": 16000,
+    "length": 129,
+    "width": 92,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Bloody",
+    "model": "A70 Light Strike",
+    "sensor": "AVAGO A3050",
+    "sensorType": "optical",
+    "weight": 140,
+    "maxDPI": 4000,
+    "length": 124,
+    "width": 73.5,
+    "height": 41,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Bloody",
+    "model": "A90 Light Strike",
+    "sensor": "AVAGO A3050",
+    "sensorType": "optical",
+    "weight": 143,
+    "maxDPI": 4000,
+    "length": 125,
+    "width": 66,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Bloody",
+    "model": "W90 Max",
+    "sensor": "BC3332-A",
+    "sensorType": "optical",
+    "weight": 105,
+    "maxDPI": 10000,
+    "length": 127,
+    "width": 68,
+    "height": 44,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Bloody",
+    "model": "W70 Max",
+    "sensor": "BC3332-A",
+    "sensorType": "optical",
+    "weight": 102,
+    "maxDPI": 10000,
+    "length": 126,
+    "width": 74,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Bloody",
+    "model": "V8M",
+    "sensor": "Optical HD",
+    "sensorType": "optical",
+    "weight": 143,
+    "maxDPI": 3200,
+    "length": 122,
+    "width": 82,
+    "height": 42,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Rampage",
+    "model": "SMX-R44 Claw",
+    "sensor": "Sunplus 6651B",
+    "sensorType": "optical",
+    "weight": 110,
+    "maxDPI": 6400,
+    "length": 128,
+    "width": 68,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Rampage",
+    "model": "SMX-R85 Gentle",
+    "sensor": "PMW3325",
+    "sensorType": "optical",
+    "weight": 80,
+    "maxDPI": 10000,
+    "length": 123,
+    "width": 64,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Rampage",
+    "model": "SMX-R120 Sector",
+    "sensor": "PMW3327",
+    "sensorType": "optical",
+    "weight": 95,
+    "maxDPI": 12400,
+    "length": 125,
+    "width": 66,
+    "height": 40,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Rampage",
+    "model": "SMX-R9 Plus",
+    "sensor": "Avago 3050",
+    "sensorType": "optical",
+    "weight": 135,
+    "maxDPI": 4000,
+    "length": 130,
+    "width": 70,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Rampage",
+    "model": "SMX-R22",
+    "sensor": "Instant A704F",
+    "sensorType": "optical",
+    "weight": 125,
+    "maxDPI": 4800,
+    "length": 125,
+    "width": 68,
+    "height": 39,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Gamepower",
+    "model": "Ursa",
+    "sensor": "PMW3325",
+    "sensorType": "optical",
+    "weight": 105,
+    "maxDPI": 10000,
+    "length": 126,
+    "width": 66,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Gamepower",
+    "model": "Kyojin",
+    "sensor": "PMW3389",
+    "sensorType": "optical",
+    "weight": 88,
+    "maxDPI": 16000,
+    "length": 124,
+    "width": 68,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Gamepower",
+    "model": "Devour",
+    "sensor": "PMW3389",
+    "sensorType": "optical",
+    "weight": 95,
+    "maxDPI": 16000,
+    "length": 124,
+    "width": 66,
+    "height": 41,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Gamepower",
+    "model": "Bane",
+    "sensor": "Avago 5050",
+    "sensorType": "optical",
+    "weight": 135,
+    "maxDPI": 2500,
+    "length": 125,
+    "width": 68,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Gamepower",
+    "model": "Translucent",
+    "sensor": "PMW3325",
+    "sensorType": "optical",
+    "weight": 98,
+    "maxDPI": 10000,
+    "length": 124,
+    "width": 65,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1.8,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Everest",
+    "model": "SGM-X7 / SGM-X7 Pro",
+    "sensor": "Instant Optical",
+    "sensorType": "optical",
+    "weight": 130,
+    "maxDPI": 2400,
+    "length": 128,
+    "width": 85,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 3,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Everest",
+    "model": "GX69 Javelin",
+    "sensor": "Sunplus Optical",
+    "sensorType": "optical",
+    "weight": 115,
+    "maxDPI": 6400,
+    "length": 126,
+    "width": 68,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Roccat",
+    "model": "Kone Pro Air",
+    "sensor": "Owl-Eye 19K",
+    "sensorType": "optical",
+    "weight": 75,
+    "maxDPI": 19000,
+    "length": 125.6,
+    "width": 72,
+    "height": 40,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Roccat",
+    "model": "Burst Pro Air",
+    "sensor": "Owl-Eye 19K",
+    "sensorType": "optical",
+    "weight": 81,
+    "maxDPI": 19000,
+    "length": 120,
+    "width": 58,
+    "height": 38.7,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Roccat",
+    "model": "Kain 120 AIMO",
+    "sensor": "Owl-Eye 16K",
+    "sensorType": "optical",
+    "weight": 89,
+    "maxDPI": 16000,
+    "length": 124,
+    "width": 65,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Xtrfy",
+    "model": "M42 Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 67,
+    "maxDPI": 19000,
+    "length": 118,
+    "width": 63,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Xtrfy",
+    "model": "MZ1 Wireless (Zy’s Rail)",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 62,
+    "maxDPI": 19000,
+    "length": 111,
+    "width": 58.5,
+    "height": 36.5,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Xtrfy",
+    "model": "M4 Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 71,
+    "maxDPI": 19000,
+    "length": 120,
+    "width": 68,
+    "height": 39,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Xtrfy",
+    "model": "M8 Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 55,
+    "maxDPI": 26000,
+    "length": 118,
+    "width": 60.5,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Cooler Master",
+    "model": "MM712 Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 59,
+    "maxDPI": 19000,
+    "length": 116.5,
+    "width": 62.4,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Cooler Master",
+    "model": "MM710 / MM711",
+    "sensor": "PMW3389",
+    "sensorType": "optical",
+    "weight": 53,
+    "maxDPI": 16000,
+    "length": 116.5,
+    "width": 62.6,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Cooler Master",
+    "model": "MM720",
+    "sensor": "PMW3389",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 16000,
+    "length": 105.4,
+    "width": 76.5,
+    "height": 37.4,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Master 3S",
+    "sensor": "Darkfield High Precision",
+    "sensorType": "laser",
+    "weight": 141,
+    "maxDPI": 8000,
+    "length": 124.9,
+    "width": 84.3,
+    "height": 51,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Master 3",
+    "sensor": "Darkfield High Precision",
+    "sensorType": "laser",
+    "weight": 141,
+    "maxDPI": 4000,
+    "length": 124.9,
+    "width": 84.3,
+    "height": 51,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Master 2S",
+    "sensor": "Darkfield Laser",
+    "sensorType": "laser",
+    "weight": 145,
+    "maxDPI": 4000,
+    "length": 126,
+    "width": 85.7,
+    "height": 48.4,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Anywhere 3S",
+    "sensor": "Darkfield Laser",
+    "sensorType": "laser",
+    "weight": 99,
+    "maxDPI": 8000,
+    "length": 100.5,
+    "width": 65,
+    "height": 34.4,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Anywhere 3",
+    "sensor": "Darkfield Laser",
+    "sensorType": "laser",
+    "weight": 99,
+    "maxDPI": 4000,
+    "length": 100.5,
+    "width": 65,
+    "height": 34.4,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Vertical (Ergonomic)",
+    "sensor": "Optical Precision",
+    "sensorType": "optical",
+    "weight": 135,
+    "maxDPI": 4000,
+    "length": 120,
+    "width": 79,
+    "height": 78.5,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "Lift Vertical Ergonomic",
+    "sensor": "Advanced Optical",
+    "sensorType": "optical",
+    "weight": 125,
+    "maxDPI": 4000,
+    "length": 108,
+    "width": 70,
+    "height": 71,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "MX Ergo (Trackball)",
+    "sensor": "Advanced Optical",
+    "sensorType": "optical",
+    "weight": 259,
+    "maxDPI": 2048,
+    "length": 132.5,
+    "width": 99.8,
+    "height": 51.4,
+    "shape": "ergo",
+    "lod": 3,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M720 Triathlon",
+    "sensor": "High Precision Optical",
+    "sensorType": "optical",
+    "weight": 135,
+    "maxDPI": 1000,
+    "length": 115,
+    "width": 74,
+    "height": 45,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M705 Marathon",
+    "sensor": "Laser / Precision Optical",
+    "sensorType": "laser",
+    "weight": 135,
+    "maxDPI": 1000,
+    "length": 109,
+    "width": 71,
+    "height": 42,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M330 Silent Plus",
+    "sensor": "Advanced Optical",
+    "sensorType": "optical",
+    "weight": 91,
+    "maxDPI": 1000,
+    "length": 105.4,
+    "width": 67.9,
+    "height": 38.4,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M220 Silent",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 75,
+    "maxDPI": 1000,
+    "length": 99,
+    "width": 60,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M185 Wireless",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 75,
+    "maxDPI": 1000,
+    "length": 99,
+    "width": 60,
+    "height": 39,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "M171 Wireless",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 70,
+    "maxDPI": 1000,
+    "length": 97.7,
+    "width": 61.5,
+    "height": 35.2,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Logitech",
+    "model": "B100 / M90 (Office Wired)",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 90,
+    "maxDPI": 1000,
+    "length": 113,
+    "width": 62,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Microsoft",
+    "model": "Pro IntelliMouse",
+    "sensor": "PAW3389 Pro",
+    "sensorType": "optical",
+    "weight": 104,
+    "maxDPI": 16000,
+    "length": 132,
+    "width": 69,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 1.2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Microsoft",
+    "model": "Classic IntelliMouse",
+    "sensor": "BlueTrack",
+    "sensorType": "optical",
+    "weight": 100,
+    "maxDPI": 3200,
+    "length": 132,
+    "width": 69,
+    "height": 43,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Microsoft",
+    "model": "Bluetooth Ergonomic Mouse",
+    "sensor": "BlueTrack",
+    "sensorType": "optical",
+    "weight": 91,
+    "maxDPI": 2400,
+    "length": 118.2,
+    "width": 76.3,
+    "height": 42.4,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Microsoft",
+    "model": "Modern Mobile Mouse",
+    "sensor": "BlueTrack",
+    "sensorType": "optical",
+    "weight": 78,
+    "maxDPI": 1800,
+    "length": 107.2,
+    "width": 60.3,
+    "height": 25.8,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Microsoft",
+    "model": "Sculpt Ergonomic Mouse",
+    "sensor": "BlueTrack",
+    "sensorType": "optical",
+    "weight": 155,
+    "maxDPI": 2400,
+    "length": 98.2,
+    "width": 74.9,
+    "height": 56.7,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Apple",
+    "model": "Magic Mouse (USB-C / 2)",
+    "sensor": "Laser Tracking",
+    "sensorType": "laser",
+    "weight": 99,
+    "maxDPI": 1300,
+    "length": 113.5,
+    "width": 57.1,
+    "height": 21.6,
+    "shape": "ambi",
+    "lod": 3,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Dell",
+    "model": "Alienware AW620M Wireless",
+    "sensor": "Optical 26K",
+    "sensorType": "optical",
+    "weight": 100,
+    "maxDPI": 26000,
+    "length": 131.5,
+    "width": 77.8,
+    "height": 41.5,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Dell",
+    "model": "Alienware AW320M Wired",
+    "sensor": "Optical 19K",
+    "sensorType": "optical",
+    "weight": 74,
+    "maxDPI": 19000,
+    "length": 125,
+    "width": 62,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Dell",
+    "model": "MS5320W Multi-Device",
+    "sensor": "Optical 4K",
+    "sensorType": "optical",
+    "weight": 84,
+    "maxDPI": 4000,
+    "length": 114.5,
+    "width": 69.7,
+    "height": 41.6,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Dell",
+    "model": "MS116 Wired Optical",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 85,
+    "maxDPI": 1000,
+    "length": 113.6,
+    "width": 61.1,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "HP",
+    "model": "OMEN Vector Wireless",
+    "sensor": "Warp Wireless Radar 3",
+    "sensorType": "optical",
+    "weight": 103,
+    "maxDPI": 16000,
+    "length": 128,
+    "width": 74.5,
+    "height": 41.5,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "HP",
+    "model": "OMEN Vector (Wired)",
+    "sensor": "Radar 3",
+    "sensorType": "optical",
+    "weight": 88,
+    "maxDPI": 16000,
+    "length": 128,
+    "width": 74.5,
+    "height": 41.5,
+    "shape": "ergo",
+    "lod": 1,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "HP",
+    "model": "X500 / X1000 Wired",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 106,
+    "maxDPI": 1200,
+    "length": 115,
+    "width": 63,
+    "height": 36,
+    "shape": "ambi",
+    "lod": 2.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Legion M600s Qi Wireless",
+    "sensor": "PAW3370",
+    "sensorType": "optical",
+    "weight": 73,
+    "maxDPI": 19000,
+    "length": 121.6,
+    "width": 61.4,
+    "height": 38.3,
+    "shape": "ambi",
+    "lod": 1,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Legion M300 RGB",
+    "sensor": "PixArt 3325",
+    "sensorType": "optical",
+    "weight": 88,
+    "maxDPI": 8000,
+    "length": 127.6,
+    "width": 68.2,
+    "height": 42.1,
+    "shape": "ambi",
+    "lod": 1.5,
+    "wireless": false,
+    "bestGrip": [
+      "palm",
+      "claw"
+    ]
+  },
+  {
+    "brand": "Lenovo",
+    "model": "ThinkPad Essential Wireless",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 60,
+    "maxDPI": 1200,
+    "length": 106,
+    "width": 61,
+    "height": 33,
+    "shape": "ambi",
+    "lod": 2,
+    "wireless": true,
+    "bestGrip": [
+      "finger"
+    ]
+  },
+  {
+    "brand": "Trust",
+    "model": "GXT 922 Ybar",
+    "sensor": "Optical 7200",
+    "sensorType": "optical",
+    "weight": 95,
+    "maxDPI": 7200,
+    "length": 124,
+    "width": 69,
+    "height": 41,
+    "shape": "ergo",
+    "lod": 2,
+    "wireless": false,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Trust",
+    "model": "Verto Ergonomic Vertical",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 89,
+    "maxDPI": 1600,
+    "length": 120,
+    "width": 63,
+    "height": 75,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  },
+  {
+    "brand": "Anker",
+    "model": "Ergonomic Vertical Wireless",
+    "sensor": "Optical",
+    "sensorType": "optical",
+    "weight": 95,
+    "maxDPI": 1600,
+    "length": 120,
+    "width": 62.8,
+    "height": 74.8,
+    "shape": "ergo",
+    "lod": 2.5,
+    "wireless": true,
+    "bestGrip": [
+      "palm"
+    ]
+  }
+];
 
     function findMouse(input) {
       if (!input || input === '__unsure__') return null;
