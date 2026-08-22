@@ -4071,6 +4071,116 @@
     // ════════════════════════════════════════════════════════════
     const MOUSE_DB = [
   {
+    "brand": "Wraith",
+    "model": "W1 Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 63.5,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Wraith",
+    "model": "W1 4K Wireless",
+    "sensor": "PAW3395 4K",
+    "sensorType": "optical",
+    "weight": 54,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 63.5,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Wraith",
+    "model": "W1 Pro 8K Wireless",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 49,
+    "maxDPI": 30000,
+    "length": 120,
+    "width": 63.5,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Wraith",
+    "model": "Blade Wireless",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 51,
+    "maxDPI": 26000,
+    "length": 119,
+    "width": 62,
+    "height": 37.5,
+    "shape": "ambi",
+    "lod": 0.8,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
+    "brand": "Wraith",
+    "model": "Spirit of Aim Wireless",
+    "sensor": "PAW3950",
+    "sensorType": "optical",
+    "weight": 48,
+    "maxDPI": 30000,
+    "length": 121,
+    "width": 64,
+    "height": 38.5,
+    "shape": "ambi",
+    "lod": 0.6,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "palm"
+    ]
+  },
+  {
+    "brand": "Wraith",
+    "model": "Cosmic Edition (Skates / Custom)",
+    "sensor": "PAW3395",
+    "sensorType": "optical",
+    "weight": 53,
+    "maxDPI": 26000,
+    "length": 120,
+    "width": 63.5,
+    "height": 38,
+    "shape": "ambi",
+    "lod": 0.7,
+    "wireless": true,
+    "bestGrip": [
+      "claw",
+      "finger"
+    ]
+  },
+  {
     "brand": "Logitech",
     "model": "G Pro X Superlight 2",
     "sensor": "HERO 2",
@@ -8318,9 +8428,10 @@
           allowUnsure: true,
           options: [
             { value: 'small', label: isEn ? 'Small (~20×25 cm)' : 'Küçük (~20×25 cm)', icon: 'box' },
-            { value: 'medium', label: isEn ? 'Medium (~30×35 cm)' : 'Orta (~30×35 cm)', icon: '' },
-            { value: 'large', label: isEn ? 'Large (~40×45 cm)' : 'Büyük (~40×45 cm)', icon: 'folder' },
-            { value: 'xxl', label: isEn ? 'XXL Desk Mat (45 cm+)' : 'XXL (45 cm+)', icon: 'triangle' },
+            { value: 'medium', label: isEn ? 'Medium (~30×35 cm) — e.g. SteelSeries QcK M' : 'Orta (~30×35 cm) — Örn: QcK Medium', icon: 'clipboard' },
+            { value: 'large', label: isEn ? 'Large / Standard (~45×40 cm) — e.g. Wraith Spirit of Aim / QcK Large / Artisan L' : 'Büyük / Espor Standart (~45×40 cm) — Örn: Wraith Spirit of Aim / QcK Large / Artisan L', icon: 'folder' },
+            { value: 'xlarge', label: isEn ? 'XL / Glass (~50×50 cm) — e.g. Wraith Cosmic Glass / Artisan XL' : 'Geniş / Cam Pad (~50×50 cm) — Örn: Wraith Cosmic Glass / Artisan XL', icon: 'scope' },
+            { value: 'xxl', label: isEn ? 'XXL Desk Mat (90×40 cm+)' : 'XXL Masa Boyu (90×40 cm+)', icon: 'triangle' },
             { value: 'custom', label: isEn ? 'Custom dimensions' : 'Ölçüsünü biliyorum', icon: 'ruler' }
           ]
         },
@@ -8390,7 +8501,7 @@
           options: [
             { value: 'flick', label: isEn ? 'Flick Aim — Fast target snapping' : 'Ani sıçrama (Flick) — İmleci hızlıca hedefe götürürüm', icon: 'bolt' },
             { value: 'track', label: isEn ? 'Tracking — Continuously staying on moving targets' : 'Takip (Tracking) — Sürekli hedefi nişanda tutarım', icon: 'target' },
-            { value: 'switch', label: isEn ? 'Target Switching — Bouncing between multiple targets' : 'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım', icon: '' },
+            { value: 'switch', label: isEn ? 'Target Switching — Bouncing between multiple targets' : 'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım', icon: 'rocket' },
             { value: 'micro', label: isEn ? 'Micro-Correction — Subtle precise adjustments' : 'Mikro düzeltme — Küçük hassas hareketler yaparım', icon: 'microscope' },
             { value: 'mixed', label: isEn ? 'Hybrid / Balanced — Equal mix of all styles' : 'Hepsini benzer oranda kullanıyorum', icon: 'scale' }
           ]
@@ -8436,8 +8547,8 @@
           subtitle: isEn ? 'Can you perform wide swipes without bumping into keyboard/edges?' : 'Mousepad\'ini rahatça kullanabiliyor musun?',
           type: 'single',
           options: [
-            { value: 'yes', label: isEn ? 'Yes, ample space' : 'Evet, yeterli alan var', icon: '' },
-            { value: 'no', label: isEn ? 'No, cramped / limited space' : 'Hayır, alanım kısıtlı', icon: '' }
+            { value: 'yes', label: isEn ? 'Yes, ample space' : 'Evet, yeterli alan var', icon: 'check' },
+            { value: 'no', label: isEn ? 'No, cramped / limited space' : 'Hayır, alanım kısıtlı', icon: 'cross' }
           ]
         },
         {
@@ -8449,8 +8560,8 @@
             { value: 'low', label: isEn ? 'Under 60 FPS' : '60\'ın altı', icon: 'turtle' },
             { value: 'mid', label: '60 – 120 FPS', icon: 'thumbs_up' },
             { value: 'good', label: '120 – 180 FPS', icon: 'bolt' },
-            { value: 'high', label: '180 – 240 FPS', icon: '' },
-            { value: 'ultra', label: isEn ? '240+ FPS' : '240 ve üzeri', icon: '' }
+            { value: 'high', label: '180 – 240 FPS', icon: 'rocket' },
+            { value: 'ultra', label: isEn ? '240+ FPS' : '240 ve üzeri', icon: 'fire' }
           ]
         },
         {
@@ -9092,6 +9203,7 @@
       if (answers.q5 === 'small') { padW = 25; padH = 20; }
       else if (answers.q5 === 'medium') { padW = 35; padH = 30; }
       else if (answers.q5 === 'large') { padW = 45; padH = 40; }
+      else if (answers.q5 === 'xlarge') { padW = 50; padH = 50; }
       else if (answers.q5 === 'xxl') { padW = 90; padH = 40; }
       else if (answers.q5 === 'custom' && answers.q5b) {
         padW = parseFloat(answers.q5b.width) || 45;
