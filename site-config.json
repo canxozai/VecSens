@@ -1,27 +1,27 @@
 {
   "themeDark": {
-    "bg": "#050f0c",
-    "card": "#0b1c16",
-    "border": "#16382c",
-    "cyan": "#34d399",
-    "blue": "#10b981",
+    "bg": "#0b0f19",
+    "card": "#111827",
+    "border": "#1f2937",
+    "cyan": "#94a3b8",
+    "blue": "#64748b",
     "vctRed": "#f43f5e",
     "purple": "#a855f7",
     "green": "#10b981",
-    "gbtnStart": "#10b981",
-    "gbtnEnd": "#047857"
+    "gbtnStart": "#475569",
+    "gbtnEnd": "#1e293b"
   },
   "themeLight": {
-    "bg": "#f0fdf4",
+    "bg": "#f8fafc",
     "card": "#ffffff",
-    "border": "#bbf7d0",
-    "cyan": "#064e3b",
-    "blue": "#065f46",
+    "border": "#cbd5e1",
+    "cyan": "#334155",
+    "blue": "#1e293b",
     "vctRed": "#e11d48",
     "purple": "#4338ca",
     "green": "#059669",
-    "gbtnStart": "#065f46",
-    "gbtnEnd": "#064e3b"
+    "gbtnStart": "#334155",
+    "gbtnEnd": "#0f172a"
   },
   "layout": {
     "containerMaxWidth": 1000,
