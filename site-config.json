@@ -24,13 +24,13 @@
     "gbtnEnd": "#0f172a"
   },
   "layout": {
-    "containerMaxWidth": 1020,
+    "containerMaxWidth": 890,
     "cardPadding": 34,
-    "borderRadius": 14,
+    "borderRadius": 16,
     "boxGap": 20,
     "fontScale": 100,
     "cardBlur": 24,
-    "glowIntensity": 25,
+    "glowIntensity": 30,
     "heroLogoSize": 84,
     "heroLogoOffsetY": 0,
     "heroLogoAlign": "center",
@@ -38,17 +38,15 @@
     "badgeLogoSize": 18,
     "navLogoSize": 26,
     "fontFamily": "Plus Jakarta Sans",
-    "displayFont": "Plus Jakarta Sans",
-    "hudFont": "JetBrains Mono",
-    "shadowIntensity": 4,
-    "animSpeed": 0.25
+    "displayFont": "Space Grotesk",
+    "hudFont": "JetBrains Mono"
   },
   "texts": {
     "brandName": "VecSens",
     "headerTitleTr": "VecSens<br/><span class=\"header-sub-gradient\">Kişiselleştirilmiş Aim Analizi</span>",
     "headerTitleEn": "VecSens<br/><span class=\"header-sub-gradient\">Personalized Aim Optimizer</span>",
-    "headerSubTr": "Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.",
-    "headerSubEn": "Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.",
+    "headerSubTr": "Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.",
+    "headerSubEn": "Analyze your playstyle to compute your ideal sensitivity.",
     "footerTr": "Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez",
     "footerEn": "All calculations are performed locally in your browser · No data is sent to external servers"
   },
