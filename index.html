@@ -3920,6 +3920,18 @@
       margin: 0;
     }
 
+  
+    /* ZERO ICON & ZERO EMOJI MINIMALIST OVERRIDES */
+    .opt-icon, .profile-icon, .home-card-icon-wrap, .inline-icon {
+      display: none !important;
+    }
+    .profile-header {
+      display: block !important;
+    }
+    .home-card-top {
+      justify-content: flex-end !important;
+    }
+
   </style>
 </head>
 
@@ -3943,9 +3955,9 @@
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
         </div>
         <div class="top-controls">
-          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg> Açık Mod</button>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
           <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)"
-            title="Dili Değiştir / Change Language"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> EN</button>
+            title="Dili Değiştir / Change Language"> EN</button>
         </div>
       </div>
 
@@ -3976,11 +3988,11 @@
           </div>
         </div>
         <div class="phase-indicator" id="phaseIndicator">
-          <div class="phase-dot active" id="phase1">① Profil</div>
-          <div class="phase-dot" id="phase2">② Ekipman</div>
-          <div class="phase-dot" id="phase3">③ Oyun Tarzı</div>
-          <div class="phase-dot" id="phase4">④ Mevcut Durum</div>
-          <div class="phase-dot" id="phase5">⑤ Analiz</div>
+          <div class="phase-dot active" id="phase1">1.  Profil</div>
+          <div class="phase-dot" id="phase2">2.  Ekipman</div>
+          <div class="phase-dot" id="phase3">3.  Oyun Tarzı</div>
+          <div class="phase-dot" id="phase4">4.  Mevcut Durum</div>
+          <div class="phase-dot" id="phase5">5.  Analiz</div>
         </div>
         <div id="questionArea"></div>
         <div id="resultsArea" class="hidden"></div>
@@ -4030,32 +4042,32 @@
 
       <!-- LIVE FLOATING VISUAL STUDIO TOOLBAR -->
       <div id="vecsensVisualStudio" class="visual-studio-toolbar hidden">
-        <div class="vs-brand"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> Visual Studio</div>
+        <div class="vs-brand"> Visual Studio</div>
         <button class="vs-btn" id="btnVsInlineEdit" onclick="toggleVsInlineEdit()">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M17 3l4 4-12 12H5v-4L17 3z"/><path d="M14 6l4 4"/></svg></span> <span id="lblVsInlineEdit">Canlı Yazı Düzenle</span>
+          <span></span> <span id="lblVsInlineEdit">Canlı Yazı Düzenle</span>
         </button>
         <button class="vs-btn" id="btnVsBoxes" onclick="toggleVsDrawer('boxes')">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg></span> <span>Kutu & Boyutlar</span>
+          <span></span> <span>Kutu & Boyutlar</span>
         </button>
         <button class="vs-btn" id="btnVsThemes" onclick="toggleVsDrawer('themes')">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="15.5" cy="14.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 0 2 1.5 3.5 1.5s2-1 2-2"/></svg></span> <span>Canlı Renkler</span>
+          <span></span> <span>Canlı Renkler</span>
         </button>
         <button class="vs-btn" onclick="openVsAdvancedModal()">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span>Gelişmiş / DB</span>
+          <span></span> <span>Gelişmiş / DB</span>
         </button>
         <button class="vs-btn success" onclick="saveVsConfig()">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span> <span>Kaydet</span>
+          <span></span> <span>Kaydet</span>
         </button>
         <button class="vs-btn" onclick="deployToGitHub()" title="Tema ve ayarları GitHub'a yayınla – tüm ziyaretçiler görecek" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;border-color:#10b981">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 2c-3 4-5 8-5 13h10c0-5-2-9-5-13z"/><path d="M7 15l-2 4h2M17 15l2 4h-2"/><circle cx="12" cy="11" r="2"/></svg></span> <span>Siteye Yayınla</span>
+          <span></span> <span>Siteye Yayınla</span>
         </button>
         <button class="vs-btn" onclick="exportFullUpdatedHtml()" title="GitHub için güncel index.html dosyasını indir">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span> <span>HTML İndir</span>
+          <span></span> <span>HTML İndir</span>
         </button>
         <button class="vs-btn" onclick="resetVsConfig()">
-          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg></span> <span>Sıfırla</span>
+          <span></span> <span>Sıfırla</span>
         </button>
-        <button class="vs-btn danger" onclick="closeVsStudio()" title="Kapat"><span><svg viewBox="0 0 24 24" class="inline-icon" style="width:14px;height:14px"><path d="M18 6L6 18M6 6l12 12"/></svg></span></button>
+        <button class="vs-btn danger" onclick="closeVsStudio()" title="Kapat"><span></span></button>
       </div>
 
       <!-- VISUAL STUDIO DRAWERS -->
@@ -8599,65 +8611,9 @@
     // ════════════════════════════════════════════════════════════
     //  SVG LINE-ART ICON MAP (replaces emojis with line drawings)
     // ════════════════════════════════════════════════════════════
-    const LINE_ICONS = {
-      'snail': '<svg viewBox="0 0 24 24"><path d="M3 18c0 0 2 0 4-2s3-5 7-5c3 0 5 2 5 5s-2 5-5 5"/><circle cx="14" cy="16" r="3"/><path d="M8 9l-1-4M11 9l1-4"/></svg>',
-      'turtle': '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="7" ry="5"/><path d="M12 9v-3M8 12l-3 3M16 12l3 3M9 18l-1 2M15 18l1 2"/><circle cx="12" cy="6" r="2"/></svg>',
-      'bolt': '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
-      'rocket': '<svg viewBox="0 0 24 24"><path d="M12 2c-3 4-5 8-5 13h10c0-5-2-9-5-13z"/><path d="M7 15l-2 4h2M17 15l2 4h-2"/><circle cx="12" cy="11" r="2"/></svg>',
-      'fire': '<svg viewBox="0 0 24 24"><path d="M12 22c-4 0-7-3-7-7 0-3 2-5 4-7 0 2 1 3 3 3-1-3 1-7 4-9 0 3 1 5 2 6 1.5 1.5 2 3.5 2 5.5 0 4.5-3.5 8.5-8 8.5z"/></svg>',
-      'pencil': '<svg viewBox="0 0 24 24"><path d="M17 3l4 4-12 12H5v-4L17 3z"/><path d="M14 6l4 4"/></svg>',
-      'box': '<svg viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4V8z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>',
-      'clipboard': '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>',
-      'folder': '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>',
-      'triangle': '<svg viewBox="0 0 24 24"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg>',
-      'ruler': '<svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v5M14 8v3M18 8v5"/></svg>',
-      'scope': '<svg viewBox="0 0 24 24"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg>',
-      'gun': '<svg viewBox="0 0 24 24"><path d="M4 12h12l4-4M16 12v5l-3 3M8 12v4"/></svg>',
-      'explosion': '<svg viewBox="0 0 24 24"><path d="M12 2l2 5 5-1-3 4 4 3-5 1 1 5-4-3-4 3 1-5-5-1 4-3-3-4 5 1z"/></svg>',
-      'helmet': '<svg viewBox="0 0 24 24"><path d="M4 14c0-5 3.5-8 8-8s8 3 8 8"/><path d="M3 14h18v2c0 1-1 2-2 2H5c-1 0-2-1-2-2v-2z"/></svg>',
-      'target': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>',
-      'key': '<svg viewBox="0 0 24 24"><path d="M5 12h10M12 9v6"/><rect x="13" y="8" width="7" height="8" rx="1"/></svg>',
-      'microscope': '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/><path d="M11 8v6M8 11h6"/></svg>',
-      'scale': '<svg viewBox="0 0 24 24"><path d="M12 3v18M5 7l7-1 7 1"/><path d="M3 13l2-6 2 6a3 3 0 0 1-4 0zM17 13l2-6 2 6a3 3 0 0 1-4 0z"/></svg>',
-      'hand': '<svg viewBox="0 0 24 24"><path d="M8 14V6a1 1 0 0 1 2 0v5M12 5a1 1 0 0 1 2 0v6M16 7a1 1 0 0 1 2 0v5M6 10a1 1 0 0 1 2 0v4"/><path d="M18 12v3c0 4-3 6-6 6s-6-2-6-6v-1"/></svg>',
-      'claw': '<svg viewBox="0 0 24 24"><path d="M7 10c0-2 1-4 5-4s5 2 5 4"/><path d="M6 10l-3-3M18 10l3-3"/><path d="M7 13c0 3 2 5 5 5s5-2 5-5"/><path d="M9 10v3M15 10v3"/></svg>',
-      'finger': '<svg viewBox="0 0 24 24"><path d="M12 3v10M9 18c0 1 1 2 3 2s3-1 3-2v-4H9v4z"/><path d="M12 3a2 2 0 0 0-2 2v3h4V5a2 2 0 0 0-2-2z"/></svg>',
-      'wrist': '<svg viewBox="0 0 24 24"><path d="M6 12c0-1 .5-2 2-2h2"/><path d="M10 10h4a2 2 0 0 1 0 4h-4a2 2 0 0 1 0-4z"/><path d="M3 12h3M18 12h3"/></svg>',
-      'arm': '<svg viewBox="0 0 24 24"><path d="M7 18c-1 0-2-1-2-2v-3c0-2 1-3 3-4l4-2c2-1 3 0 3 1v2"/><path d="M15 10l2-4c1-1 2 0 2 1v6c0 3-2 5-5 5H7"/></svg>',
-      'both_hands': '<svg viewBox="0 0 24 24"><path d="M7 10V5a1 1 0 0 1 2 0v5M11 10V4a1 1 0 0 1 2 0v6M15 10V5a1 1 0 0 1 2 0v5"/><path d="M7 10c-2 0-3 2-3 4v2c0 3 3 5 8 5s8-2 8-5v-2c0-2-1-4-3-4"/></svg>',
-      'check': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>',
-      'cross': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
-      'warn': '<svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>',
-      'question': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a3 3 0 0 1 5 1c0 2-3 2-3 4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>',
-      'thumbs_up': '<svg viewBox="0 0 24 24"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg>',
-      'gamepad': '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg>',
-      'trophy': '<svg viewBox="0 0 24 24"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg>',
-      'robot': '<svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="12" rx="2"/><circle cx="9" cy="13" r="1.5"/><circle cx="15" cy="13" r="1.5"/><path d="M9 17h6M12 4v4M8 5h2M14 5h2"/></svg>',
-      'plant': '<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M7 10c0-4 2-6 5-7 3 1 5 3 5 7-2 0-4-1-5-3-1 2-3 3-5 3z"/></svg>',
-      'chart': '<svg viewBox="0 0 24 24"><path d="M4 18l5-5 3 3 7-9"/><path d="M16 7h4v4"/></svg>',
-      'star': '<svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-2.5L7 19.5l1-6-4-4 5.5-1z"/></svg>',
-      'arrow_right': '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-      'arrow_left': '<svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
-      'undo': '<svg viewBox="0 0 24 24"><path d="M19 8v3c0 3-2 5-5 5H5"/><path d="M9 12l-4 4 4 4"/></svg>',
-      'reset': '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg>',
-      'bomb': '<svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="7"/><path d="M12 7V4M10 4h4"/><path d="M15 5l2-2"/></svg>',
-      'shield': '<svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z"/></svg>',
-      'chicken': '<svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="5"/><path d="M12 5c0-2 2-3 3-2M9 9h.01M15 9h.01"/><path d="M10 12c0 1 .9 2 2 2s2-1 2-2"/><path d="M8 15l-1 5h2M16 15l1 5h-2"/></svg>',
-      'pickaxe': '<svg viewBox="0 0 24 24"><path d="M5 19L12 12M12 5l4 4M8 5l8 8"/><path d="M15 3l3 3-7 7"/></svg>',
-      'hero': '<svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M8 12h8l2 8H6l2-8z"/><path d="M4 10l3 2M20 10l-3 2"/></svg>',
-      'helicopter': '<svg viewBox="0 0 24 24"><path d="M4 11h16M12 4v7"/><ellipse cx="12" cy="14" rx="5" ry="3"/><path d="M7 17l-2 3M17 17l2 3M17 14h3"/></svg>',
-      'tv': '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
-      'galaxy': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 12c3-4 7-4 7 0s4 4 7 0"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="10" r=".7" fill="currentColor"/><circle cx="13" cy="16" r=".7" fill="currentColor"/></svg>',
-      'hourglass': '<svg viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>',
-      'wrench': '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
-      'search': '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
-      'gear': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
-      'brain': '<svg viewBox="0 0 24 24"><path d="M12 5a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0-3 3c0 1.3.8 2.4 2 2.8A3 3 0 0 0 5 17a3 3 0 0 0 7 2 3 3 0 0 0 7-2 3 3 0 0 0 0-6.2c1.2-.4 2-1.5 2-2.8a3 3 0 0 0-3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3z"/></svg>'
-    };
-
+    const LINE_ICONS = {};
     function getLineIcon(key) {
-      if (!key) return '';
-      return LINE_ICONS[key] || '';
+      return '';
     }
 
     
@@ -8682,11 +8638,11 @@
           </p>
           <div class="home-hero-actions">
             <button class="btn btn-primary" onclick="switchPage('analysis')">
-              <svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+              
               <span>${isEn ? 'Start Aim Analysis' : 'Aim Analizini Başlat'}</span>
             </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')">
-              <svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+              
               <span>${isEn ? 'Sens Converter' : 'Sens Dönüştürücü'}</span>
             </button>
           </div>
@@ -8720,7 +8676,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+                  
                 </div>
                 <div class="home-card-badge">${isEn ? 'Core Feature · 5 Phases' : 'Ana Özellik · 5 Aşamalı'}</div>
               </div>
@@ -8739,7 +8695,7 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Start 5-Phase Analysis' : 'Analizi Başlat'}</span>
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              
             </button>
           </div>
 
@@ -8748,7 +8704,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  <svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+                  
                 </div>
                 <div class="home-card-badge">${isEn ? '1:1 Motor Conversion' : '1:1 Motor Çevrimi'}</div>
               </div>
@@ -8766,7 +8722,7 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Open Converter' : 'Dönüştürücüye Git'}</span>
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              
             </button>
           </div>
 
@@ -8775,7 +8731,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  <svg viewBox="0 0 24 24"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg>
+                  
                 </div>
                 <div class="home-card-badge">${isEn ? 'Interactive Lab' : 'Canlı Laboratuvar'}</div>
               </div>
@@ -8792,7 +8748,7 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Launch Aim Lab' : 'Aim Testini Başlat'}</span>
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              
             </button>
           </div>
 
@@ -8801,7 +8757,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  <svg viewBox="0 0 24 24"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg>
+                  
                 </div>
                 <div class="home-card-badge">${isEn ? 'Esports DB' : 'Espor Veritabanı'}</div>
               </div>
@@ -8819,7 +8775,7 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Explore Pro DB' : 'Pro Ayarlarını İncele'}</span>
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              
             </button>
           </div>
 
@@ -8828,7 +8784,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  <svg viewBox="0 0 24 24"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg>
+                  
                 </div>
                 <div class="home-card-badge">${isEn ? 'Community' : 'Topluluk'}</div>
               </div>
@@ -8845,7 +8801,7 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Leave Feedback' : 'Geri Bildirim Bırak'}</span>
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              
             </button>
           </div>
 
@@ -8854,7 +8810,7 @@
         <!-- 3 STEPS WORKFLOW SECTION -->
         <div class="home-steps-sec">
           <div class="home-steps-title">
-            <svg viewBox="0 0 24 24" class="inline-icon" style="color:var(--cyan)"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            
             <span>${isEn ? 'How VecSens Works — 3 Simple Steps' : 'VecSens Nasıl Çalışır? — 3 Adımda Kusursuz Aim'}</span>
           </div>
           <div class="home-steps-grid">
@@ -9437,7 +9393,7 @@
     <div class="loading-screen">
       <div class="spinner"></div>
       <div class="loading-text">${isEn ? 'Aim analysis in progress...' : 'Aim analizin yapılıyor...'}</div>
-      <div class="loading-steps">${steps.map((s, i) => `<div class="loading-step" id="ls${i}"><span class="step-icon">${getLineIcon(s.icon)}</span><span>${s.text}</span></div>`).join('')}</div>
+      <div class="loading-steps">${steps.map((s, i) => `<div class="loading-step" id="ls${i}"><span class="step-num" style="font-family:var(--mono);font-size:12px;color:var(--cyan);font-weight:700;margin-right:8px">${i + 1}.</span><span>${s.text}</span></div>`).join('')}</div>
     </div>`;
       let i = 0;
       const iv = setInterval(() => {
@@ -9580,7 +9536,7 @@
       if (a.q17 === 'off') alerts.push({ c: 'amber', m: isEn ? '<b>Raw Input is disabled.</b> We strongly recommend enabling it in game settings.' : '<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.' });
 
       const alertHtml = alerts.length ? `<div class="analysis-card">
-    <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg> ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
+    <h3> ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
     ${alerts.map(al => `<div style="background:rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.07);border:1px solid rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
   </div>`: '';
 
@@ -9590,7 +9546,7 @@
       if (detectedMouse) {
         const ma = getMouseAnalysis(detectedMouse, a);
         mouseCardHtml = `<div class="analysis-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v4"/></svg> ${isEn ? 'Mouse Analysis' : 'Mouse Analizi'} — ${detectedMouse.brand} ${detectedMouse.model}</h3>
+      <h3> ${isEn ? 'Mouse Analysis' : 'Mouse Analizi'} — ${detectedMouse.brand} ${detectedMouse.model}</h3>
       <div class="analysis-grid" style="margin-bottom:14px">
         ${ma.info.map(i => `<div class="analysis-item"><div class="label">${i.l}</div><div class="value">${i.v}</div></div>`).join('')}
       </div>
@@ -9634,8 +9590,8 @@
       </div>
       <div class="profile-why">${getProfileReason(p.type)}</div>
       <div class="pros-cons">
-        <div class="pros"><h4><svg viewBox='0 0 24 24' class='inline-icon' style='color:var(--green)'><circle cx='12' cy='12' r='9'/><path d='M8 12l3 3 5-6'/></svg> ${isEn ? 'ADVANTAGES' : 'AVANTAJLAR'}</h4><ul>${prosText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
-        <div class="cons"><h4><svg viewBox='0 0 24 24' class='inline-icon' style='color:var(--red)'><circle cx='12' cy='12' r='9'/><path d='M9 9l6 6M15 9l-6 6'/></svg> ${isEn ? 'DISADVANTAGES' : 'DEZAVANTAJLAR'}</h4><ul>${consText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
+        <div class="pros"><h4> ${isEn ? 'ADVANTAGES' : 'AVANTAJLAR'}</h4><ul>${prosText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
+        <div class="cons"><h4> ${isEn ? 'DISADVANTAGES' : 'DEZAVANTAJLAR'}</h4><ul>${consText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
       </div>
     </div>`;
       }).join('');
@@ -9644,7 +9600,7 @@
       const games = a.q1 || [];
       const multiGameHtml = (games.length > 1 && a.q27 === 'evet') ? `
     <div class="analysis-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg> ${isEn ? 'Multi-Game Sensitivity Table' : 'Çoklu Oyun Hassasiyet Tablosu'}</h3>
+      <h3> ${isEn ? 'Multi-Game Sensitivity Table' : 'Çoklu Oyun Hassasiyet Tablosu'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn ? `Equivalent sensitivities calculated across all selected titles based on balanced profile (${profiles[1].cm360} cm/360).` : `Dengeli profil baz alınarak (${profiles[1].cm360} cm/360) tüm oyunlar için eşdeğer hassasiyet hesaplandı.`}</p>
       <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">
         <thead><tr style="background:rgba(255,255,255,.04)">
@@ -9675,8 +9631,8 @@
       
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
-        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"> ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"> ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
         <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
@@ -9688,9 +9644,9 @@
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
-      <button class="btn btn-secondary" onclick="switchPage('pros')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
-      <button class="btn btn-secondary" onclick="location.reload()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 8v3c0 3-2 5-5 5H5"/><path d="M9 12l-4 4 4 4"/></svg> ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
+      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
+      <button class="btn btn-secondary" onclick="switchPage('pros')"> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
+      <button class="btn btn-secondary" onclick="location.reload()"> ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
     </div>`;
 
       const rArea = document.getElementById('resultsArea');
@@ -9743,7 +9699,7 @@
 
       return `
     <div class="analysis-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v5M14 8v3M18 8v5"/></svg> ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
+      <h3> ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">
         ${isEn ? `Performing a full 180° turn requires <b>~${halfTurn} cm</b> of desk travel. That utilizes <b>${usagePct}%</b> of your mousepad width in a single swipe.` : `180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var. Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.`}
       </p>
@@ -9757,11 +9713,11 @@
 
       ${isCramped ? `
         <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber)">
-          <svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg> <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
+           <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
         </div>
       ` : `
         <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">
-          <svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
+           <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
         </div>
       `}
     </div>
@@ -9799,8 +9755,8 @@
       return `
     <div class="analysis-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 5v14M18 5v14M4 8v8M20 8v8M2 10v4M22 10v4M6 12h12"/></svg> ${isEn ? `Daily Aim Routine (${focusTitle})` : `Sana Özel Günlük Aim Rutini (${focusTitle})`}</h3>
-        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg> ${isEn ? 'Copy Routine' : 'Rutini Kopyala'}</button>
+        <h3> ${isEn ? `Daily Aim Routine (${focusTitle})` : `Sana Özel Günlük Aim Rutini (${focusTitle})`}</h3>
+        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()"> ${isEn ? 'Copy Routine' : 'Rutini Kopyala'}</button>
       </div>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">
         ${isEn ? `25-minute daily training program tailored to your aim mechanics (${trainer === 'no' ? 'Aim Lab / KovaaKs' : trainer.toUpperCase()}):` : `Belirttiğin nişan sorunlarına göre optimize edilmiş <b>25 dakikalık</b> günlük antrenman programı (${trainer === 'no' ? 'Aim Lab / KovaaKs' : trainer.toUpperCase()}):`}
@@ -9843,11 +9799,112 @@
     }
 
     // ════════════════════════════════════════════════════════════
-    //  ESPORTS PLAYER CARD GENERATOR (PNG)
+    //  ESPORTS PLAYER CARD GENERATOR & APPLICATION ENGINE
     // ════════════════════════════════════════════════════════════
+    function applyProfile(idx) {
+      const isEn = currentLang === 'en';
+      if (!state.computedProfiles || !state.computedProfiles[idx]) return;
+      state.recIdx = idx;
+      const rec = state.computedProfiles[idx];
+      aimTestState.calibSens = rec.sens;
+      aimTestState.calibDpi = rec.dpi;
+      aimTestState.calibGame = getPrimaryGameId();
+      aimTestState.userSensSet = true;
+      
+      // Update Converter
+      convState.fromSens = rec.sens;
+      convState.fromDpi = rec.dpi;
+      convState.fromGame = getPrimaryGameId();
+      
+      renderResults();
+      showToast(isEn ? `"${rec.name}" profile applied to Aim Lab & Converter!` : `"${rec.name}" profili seçildi ve tüm araçlara uygulandı!`);
+    }
+
+    function openPlayerCardModal() {
+      const isEn = currentLang === 'en';
+      if (!state.computedProfiles) {
+        showToast(isEn ? 'Please complete the analysis first!' : 'Lütfen önce analizi tamamlayın!');
+        return;
+      }
+      const rec = state.computedProfiles[state.recIdx];
+      const a = state.answers;
+      const gameName = getPrimaryGameName();
+      const mouse = findMouse(a.q2);
+      const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'FPS Gaming Mouse');
+      const moveStr = isEn ? ({ wrist: 'Wrist', arm: 'Arm', both: 'Arm + Wrist' }[a.q12] || 'Hybrid') : ({ wrist: 'Bilek', arm: 'Kol', both: 'Kol + Bilek' }[a.q12] || 'Karma');
+      const gripStr = isEn ? ({ palm: 'Palm Grip', claw: 'Claw Grip', finger: 'Fingertip Grip' }[a.q11] || 'Standard') : ({ palm: 'Palm Grip', claw: 'Claw Grip', finger: 'Fingertip Grip' }[a.q11] || 'Standart');
+
+      let modal = document.getElementById('playerCardModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'playerCardModal';
+        modal.className = 'modal-backdrop';
+        document.body.appendChild(modal);
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width:680px;background:var(--card);border:1px solid var(--border);border-radius:var(--r1);padding:28px;box-shadow:0 24px 60px rgba(0,0,0,0.5)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:14px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:0.05em">${isEn ? 'Esports Player Card' : 'Esporcu Profil Kartı'}</div>
+              <h3 style="margin:4px 0 0 0;font-size:20px;color:var(--t1)">${gameName.toUpperCase()} · ${rec.name}</h3>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="closePlayerCardModal()">${isEn ? 'Close' : 'Kapat'}</button>
+          </div>
+
+          <div style="background:linear-gradient(145deg, #090e18, #0e172a);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+              <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;border:1px solid var(--border);text-align:center">
+                <div style="font-size:11px;color:var(--t3);text-transform:uppercase">DPI</div>
+                <div style="font-family:var(--mono);font-size:20px;font-weight:800;color:var(--cyan)">${rec.dpi}</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;border:1px solid var(--border);text-align:center">
+                <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Sens' : 'Hassasiyet'}</div>
+                <div style="font-family:var(--mono);font-size:20px;font-weight:800;color:var(--cyan)">${rec.sens}</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;border:1px solid var(--border);text-align:center">
+                <div style="font-size:11px;color:var(--t3);text-transform:uppercase">eDPI</div>
+                <div style="font-family:var(--mono);font-size:20px;font-weight:800;color:var(--t1)">${rec.edpi}</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;border:1px solid var(--border);text-align:center">
+                <div style="font-size:11px;color:var(--t3);text-transform:uppercase">cm/360</div>
+                <div style="font-family:var(--mono);font-size:20px;font-weight:800;color:var(--t1)">${rec.cm360} cm</div>
+              </div>
+            </div>
+
+            <div style="font-size:13px;color:var(--t2);line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px">
+              <div><b>${isEn ? 'Mouse Model:' : 'Mouse Modeli:'}</b> ${mouseName}</div>
+              <div><b>${isEn ? 'Grip & Motion:' : 'Tutuş & Hareket:'}</b> ${gripStr} · ${moveStr}</div>
+              <div><b>${isEn ? '180° Turn Distance:' : '180° Dönüş Mesafesi:'}</b> ~${rec.halfTurn} cm</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="applyProfile(${state.recIdx}); closePlayerCardModal();">${isEn ? 'Use & Apply This Profile' : 'Bu Profili Kullan & Uygula'}</button>
+            <button class="btn btn-secondary" onclick="downloadPlayerCard()">${isEn ? 'Download PNG Card' : 'PNG Kartını İndir'}</button>
+            <button class="btn btn-ghost" onclick="switchPage('aimtest'); closePlayerCardModal();">${isEn ? 'Test in Aim Lab' : 'Aim Testinde Dene'}</button>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+
+    function closePlayerCardModal() {
+      const modal = document.getElementById('playerCardModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+
     function downloadPlayerCard() {
       const isEn = currentLang === 'en';
-      if (!state.computedProfiles) { alert(isEn ? 'Please complete the analysis first!' : 'Lütfen önce analizi tamamlayın!'); return; }
+      if (!state.computedProfiles) { 
+        showToast(isEn ? 'Please complete the analysis first!' : 'Lütfen önce analizi tamamlayın!'); 
+        return; 
+      }
       const rec = state.computedProfiles[state.recIdx];
       const a = state.answers;
       const gameName = getPrimaryGameName();
@@ -9858,34 +9915,34 @@
       canvas.height = 630;
       const ctx = canvas.getContext('2d');
 
-      // Background
+      // Solid Gradient Background
       const bgGrad = ctx.createLinearGradient(0, 0, 1200, 630);
-      bgGrad.addColorStop(0, '#080c14');
-      bgGrad.addColorStop(0.5, '#0d1527');
-      bgGrad.addColorStop(1, '#05070c');
+      bgGrad.addColorStop(0, '#070b12');
+      bgGrad.addColorStop(0.5, '#0c1322');
+      bgGrad.addColorStop(1, '#05070d');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, 1200, 630);
 
-      // Radial glow accents
+      // Radial Glows (Pure Hex/RGBA for safe canvas rendering)
       const glow1 = ctx.createRadialGradient(200, 100, 10, 200, 100, 400);
-      glow1.addColorStop(0, 'color-mix(in srgb, var(--cyan) 25%, transparent)');
-      glow1.addColorStop(1, 'transparent');
+      glow1.addColorStop(0, 'rgba(56, 189, 248, 0.2)');
+      glow1.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = glow1;
       ctx.fillRect(0, 0, 1200, 630);
 
       const glow2 = ctx.createRadialGradient(1000, 500, 10, 1000, 500, 450);
-      glow2.addColorStop(0, 'rgba(124, 58, 237, 0.2)');
-      glow2.addColorStop(1, 'transparent');
+      glow2.addColorStop(0, 'rgba(124, 58, 237, 0.15)');
+      glow2.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = glow2;
       ctx.fillRect(0, 0, 1200, 630);
 
-      // Border frame
-      ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 30%, transparent)';
-      ctx.lineWidth = 4;
+      // Outer Frame
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+      ctx.lineWidth = 3;
       ctx.strokeRect(24, 24, 1152, 582);
 
-      // Header Title & Logo Badge
-      ctx.fillStyle = '#63b3ed';
+      // Header Brand
+      ctx.fillStyle = '#38bdf8';
       ctx.font = 'bold 20px "Outfit", sans-serif';
       ctx.fillText('VECSENS AIM ADVISOR', 60, 75);
 
@@ -9895,23 +9952,28 @@
 
       ctx.fillStyle = '#94a3b8';
       ctx.font = '20px "Outfit", sans-serif';
-      ctx.fillText(`${isEn ? 'Recommended Profile:' : 'Önerilen Profil:'} ${rec.name} (${rec.subname})`, 60, 175);
+      ctx.fillText(`${isEn ? 'Active Profile:' : 'Aktif Profil:'} ${rec.name} (${rec.subname})`, 60, 175);
 
-      // Stats Grid Container
-      const drawStatBox = (x, y, w, h, label, val, sub) => {
+      // Safe Rect Drawer
+      const drawBox = (x, y, w, h, label, val, sub) => {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
         ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.roundRect(x, y, w, h, 14);
-        ctx.fill();
-        ctx.stroke();
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(x, y, w, h, 12);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(x, y, w, h);
+          ctx.strokeRect(x, y, w, h);
+        }
 
         ctx.fillStyle = '#64748b';
         ctx.font = 'bold 13px "Outfit", sans-serif';
         ctx.fillText(label.toUpperCase(), x + 20, y + 32);
 
-        ctx.fillStyle = '#63b3ed';
+        ctx.fillStyle = '#38bdf8';
         ctx.font = 'bold 36px "JetBrains Mono", monospace';
         ctx.fillText(val, x + 20, y + 76);
 
@@ -9922,22 +9984,27 @@
         }
       };
 
-      drawStatBox(60, 220, 250, 130, 'DPI', `${rec.dpi}`, isEn ? 'Hardware DPI' : 'Donanım Hassasiyeti');
-      drawStatBox(330, 220, 250, 130, isEn ? 'Sensitivity' : 'Hassasiyet', `${rec.sens}`, isEn ? `${gameName} In-Game` : `${gameName} Oyun İçi`);
-      drawStatBox(600, 220, 250, 130, 'eDPI', `${rec.edpi}`, `${rec.dpi} × ${rec.sens}`);
-      drawStatBox(870, 220, 270, 130, isEn ? '360° Distance' : '360° Mesafe', `${rec.cm360} cm`, isEn ? `180°: ~${rec.halfTurn} cm` : `180°: ~${rec.halfTurn} cm`);
+      drawBox(60, 220, 250, 130, 'DPI', `${rec.dpi}`, isEn ? 'Hardware DPI' : 'Donanım DPI');
+      drawBox(330, 220, 250, 130, isEn ? 'Sensitivity' : 'Hassasiyet', `${rec.sens}`, isEn ? `${gameName} In-Game` : `${gameName} Oyun İçi`);
+      drawBox(600, 220, 250, 130, 'eDPI', `${rec.edpi}`, `${rec.dpi} × ${rec.sens}`);
+      drawBox(870, 220, 270, 130, isEn ? '360° Distance' : '360° Mesafe', `${rec.cm360} cm`, `180°: ~${rec.halfTurn} cm`);
 
-      // Hardware & Grip Style Info
-      const moveStr = isEn ? ({ wrist: 'Wrist', arm: 'Arm', both: 'Arm + Wrist (Hybrid)' }[a.q12] || 'Hybrid') : ({ wrist: 'Bilek (Wrist)', arm: 'Kol (Arm)', both: 'Kol + Bilek (Hybrid)' }[a.q12] || 'Karma');
+      // Hardware Spec Box
+      const moveStr = isEn ? ({ wrist: 'Wrist', arm: 'Arm', both: 'Arm + Wrist' }[a.q12] || 'Hybrid') : ({ wrist: 'Bilek (Wrist)', arm: 'Kol (Arm)', both: 'Kol + Bilek (Hybrid)' }[a.q12] || 'Karma');
       const gripStr = isEn ? ({ palm: 'Palm Grip', claw: 'Claw Grip', finger: 'Fingertip Grip' }[a.q11] || 'Standard') : ({ palm: 'Palm Grip', claw: 'Claw Grip', finger: 'Fingertip Grip' }[a.q11] || 'Standart');
       const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'FPS Gaming Mouse');
 
       ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-      ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 20%, transparent)';
-      ctx.beginPath();
-      ctx.roundRect(60, 380, 1080, 140, 14);
-      ctx.fill();
-      ctx.stroke();
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+      if (ctx.roundRect) {
+        ctx.beginPath();
+        ctx.roundRect(60, 380, 1080, 140, 14);
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        ctx.fillRect(60, 380, 1080, 140);
+        ctx.strokeRect(60, 380, 1080, 140);
+      }
 
       ctx.fillStyle = '#f1f5f9';
       ctx.font = 'bold 18px "Outfit", sans-serif';
@@ -9950,18 +10017,23 @@
       ctx.fillText(`• ${isEn ? 'Aim Motion:' : 'Hareket Tipi:'} ${moveStr}`, 600, 460);
       ctx.fillText(`• ${isEn ? 'Verified Date:' : 'Doğrulanmış Tarih:'} ${new Date().toLocaleDateString(isEn ? 'en-US' : 'tr-TR')}`, 600, 490);
 
-      // Footer Watermark
+      // Watermark
       ctx.fillStyle = '#64748b';
       ctx.font = '14px "JetBrains Mono", monospace';
-      ctx.fillText('VecSens AI Aim Optimizer · github.com/canxozai/VecSens', 60, 570);
+      ctx.fillText('VecSens Tactical Aim Engine · github.com/canxozai/VecSens', 60, 570);
 
-      // Trigger Download
-      const link = document.createElement('a');
-      link.download = `VecSens_${gameName}_AimProfile.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-
-      showToast(isEn ? ' Esports Player Card downloaded!' : ' Espor Aim Kartın başarıyla indirildi!');
+      try {
+        const link = document.createElement('a');
+        link.download = `VecSens_${gameName}_AimProfile.png`;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast(isEn ? 'Esports Player Card downloaded!' : 'Espor Profil Kartın başarıyla indirildi!');
+      } catch (err) {
+        console.error('Player card download error:', err);
+        showToast(isEn ? 'Unable to trigger download automatically.' : 'Kart otomatik indirilemedi.');
+      }
     }
 
     // ════════════════════════════════════════════════════════════
@@ -10015,7 +10087,7 @@
       const rec = state.computedProfiles[state.recIdx];
       const gameName = getPrimaryGameName();
       let h = `<div class="finetune-card">
-    <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar'}</h3>
+    <h3> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar'}</h3>
     <p>${isEn ? `Fine-tune your recommended profile. Current value: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)` : `Önerilen profil üzerinde ince ayar yap. Mevcut öneri: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)`}</p>
     ${FT_QUESTIONS.map(fq => `
       <div class="finetune-question">
@@ -10027,7 +10099,7 @@
         </div>
       </div>`).join('')}
     <div style="margin-top:18px">
-      <button class="btn btn-primary" onclick="applyFineTune()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Apply Setting' : 'Ayarı Uygula'}</button>
+      <button class="btn btn-primary" onclick="applyFineTune()"> ${isEn ? 'Apply Setting' : 'Ayarı Uygula'}</button>
     </div>
   </div>`;
       document.getElementById('fineTuneSection').innerHTML = h;
@@ -10060,7 +10132,7 @@
 
       document.getElementById('fineTuneSection').insertAdjacentHTML('beforeend', `
     <div class="adj-result">
-      <h4><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> ${isEn ? `Fine-Tune Round ${state.adjustmentRound} — Sensitivity ${dir}` : `İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}`}</h4>
+      <h4> ${isEn ? `Fine-Tune Round ${state.adjustmentRound} — Sensitivity ${dir}` : `İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}`}</h4>
       <div class="adj-values">
         <div class="adj-val"><span>cm/360 →</span> ${newCm}</div>
         <div class="adj-val"><span>${isEn ? 'Sensitivity' : 'Hassasiyet'} →</span> ${newSens}</div>
@@ -10102,7 +10174,7 @@
       const userRec = userProfiles ? userProfiles[state.recIdx] : null;
       const userHighlightHtml = userRec ? `
     <div class="user-highlight-box">
-      <div class="uh-label"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M18 20V10M12 20V4M6 20v-6"/></svg> ${isEn ? 'Your Recommended Balanced Setting' : 'Senin Önerilen Dengeli Ayarın'}</div>
+      <div class="uh-label"> ${isEn ? 'Your Recommended Balanced Setting' : 'Senin Önerilen Dengeli Ayarın'}</div>
       <div class="uh-vals">
         <div class="uh-val"><span>DPI</span>${userRec.dpi}</div>
         <div class="uh-val"><span>Sens</span>${userRec.sens}</div>
@@ -10113,7 +10185,7 @@
 
       const filterTabs = PRO_GAME_IDS.map(id => {
         const g = GAMES.find(x => x.id === id);
-        return `<button class="game-tab ${gameId === id ? 'active' : ''}" onclick="setProGame('${id}')">${g?.icon ? `<span class="inline-icon" style="margin-right:6px">${getLineIcon(g.icon)}</span>` : ''}${g?.label || id}</button>`;
+        return `<button class="game-tab ${gameId === id ? 'active' : ''}" onclick="setProGame('${id}')">${g?.label || id}</button>`;
       }).join('');
 
       function sortArrow(c) {
@@ -10224,10 +10296,10 @@
 
       const html = `
     <div class="feedback-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-2.5L7 19.5l1-6-4-4 5.5-1z"/></svg> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
+      <h3> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:10px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
       <div class="stars-row">
-        ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}"><svg viewBox="0 0 24 24" class="inline-icon lg"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-2.5L7 19.5l1-6-4-4 5.5-1z" fill="currentColor"/></svg></button>`).join('')}
+        ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}"></button>`).join('')}
       </div>
       <p id="ratingLabel" style="font-size:13px;color:var(--blue);margin-top:8px;min-height:18px">${fbState.rating ? ratingLabel(fbState.rating) : ''}</p>
     </div>
@@ -10248,7 +10320,7 @@
     </div>
 
     <div class="feedback-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg> ${isEn ? 'What Did You Like?' : 'Neyi Beğendin?'}</h3>
+      <h3> ${isEn ? 'What Did You Like?' : 'Neyi Beğendin?'}</h3>
       <div class="fb-options">
         ${likesList.map(l => `<div class="fb-option${fbState.likes.includes(l) ? ' selected' : ''}" onclick="toggleFbLike('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
@@ -10257,7 +10329,7 @@
     </div>
 
     <div class="feedback-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'What Should We Improve?' : 'Neyin Geliştirilmesini İsterdin?'}</h3>
+      <h3> ${isEn ? 'What Should We Improve?' : 'Neyin Geliştirilmesini İsterdin?'}</h3>
       <div class="fb-options">
         ${improveList.map(l => `<div class="fb-option${fbState.improve.includes(l) ? ' selected' : ''}" onclick="toggleFbImprove('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
@@ -10266,12 +10338,12 @@
     </div>
 
     <div class="feedback-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${isEn ? 'Additional Comments' : 'Ek Yorum'}</h3>
+      <h3> ${isEn ? 'Additional Comments' : 'Ek Yorum'}</h3>
       <div class="input-group">
         <textarea class="input-field" id="fbText" placeholder="${isEn ? 'Write your thoughts or suggestions here...' : 'Düşüncelerini buraya yaz...'}" oninput="fbState.text=this.value">${fbState.text}</textarea>
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
-        <button class="btn btn-primary" onclick="submitFeedback()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> ${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</button>
+        <button class="btn btn-primary" onclick="submitFeedback()"> ${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</button>
       </div>
     </div>
   `;
@@ -10342,7 +10414,7 @@
       fbState = { rating: 0, tried: null, likes: [], improve: [], text: '' };
       document.getElementById('feedbackContent').innerHTML = `
     <div class="fb-success">
-      <div class="tick"><svg viewBox="0 0 24 24" class="inline-icon lg" style="width:32px;height:32px;color:var(--green)"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <div class="tick"></div>
       <h3>${isEn ? 'Thank You!' : 'Teşekkürler!'}</h3>
       <p>${isEn ? 'Your feedback has been successfully submitted.' : 'Geri bildiriminiz kaydedildi.'}</p>
       <div style="margin-top:18px">
@@ -10363,8 +10435,8 @@
 
       const subtabsHtml = `
     <div class="subtabs">
-      <button class="subtab-btn ${subtab === 'hipfire' ? 'active' : ''}" onclick="setConvTab('hipfire')"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg> ${isEn ? 'Cross-Game Sens (Hipfire)' : 'Oyunlar Arası Sens (Hipfire)'}</button>
-      <button class="subtab-btn ${subtab === 'scope' ? 'active' : ''}" onclick="setConvTab('scope')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg> ${isEn ? 'Scope & Zoom Sensitivity' : 'Scope & Zoom Sensitivity'}</button>
+      <button class="subtab-btn ${subtab === 'hipfire' ? 'active' : ''}" onclick="setConvTab('hipfire')"> ${isEn ? 'Cross-Game Sens (Hipfire)' : 'Oyunlar Arası Sens (Hipfire)'}</button>
+      <button class="subtab-btn ${subtab === 'scope' ? 'active' : ''}" onclick="setConvTab('scope')"> ${isEn ? 'Scope & Zoom Sensitivity' : 'Scope & Zoom Sensitivity'}</button>
     </div>
   `;
 
@@ -10403,12 +10475,12 @@
         <div style="font-size:13px;color:var(--t1)">
           <b>${isEn ? 'Analysis Available:' : 'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
         </div>
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Fill My Values' : 'Değerlerimi Doldur'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()"> ${isEn ? 'Fill My Values' : 'Değerlerimi Doldur'}</button>
       </div>
     ` : ''}
 
     <div class="conv-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg> ${isEn ? 'Rapid Sensitivity Converter' : 'Hızlı Dönüştürücü'}</h3>
+      <h3> ${isEn ? 'Rapid Sensitivity Converter' : 'Hızlı Dönüştürücü'}</h3>
       <div class="conv-row">
         <div>
           <div class="conv-label">${isEn ? 'Source Game' : 'Kaynak Oyun'}</div>
@@ -10429,7 +10501,7 @@
 
         <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
           <button class="btn btn-secondary btn-sm" onclick="swapConvGames()" title="${isEn ? 'Swap Games' : 'Oyunları Değiştir'}" style="padding:8px 12px;border-radius:50%">⇄</button>
-          <div class="conv-arrow"><svg viewBox="0 0 24 24" class="inline-icon" style="width:20px;height:20px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="conv-arrow"></div>
         </div>
 
         <div>
@@ -10466,7 +10538,7 @@
     </div>
 
     <div class="conv-card">
-      <h3 id="convAllTitle"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ${isEn ? `Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)` : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
+      <h3 id="convAllTitle"> ${isEn ? `Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)` : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn ? 'Maintain exact 1:1 muscle memory and physical swipe distance across any FPS:' : 'Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:'}</p>
       <div class="conv-all-grid" id="convAllGrid">
         ${allGamesHtml}
@@ -10637,7 +10709,7 @@
 
       return `
     <div class="conv-card">
-      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg> ${isEn ? 'Scope & Zoom Sensitivity Calculator' : 'Scope & Zoom Sensitivity Hesaplayıcı'}</h3>
+      <h3> ${isEn ? 'Scope & Zoom Sensitivity Calculator' : 'Scope & Zoom Sensitivity Hesaplayıcı'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:16px">
         ${isEn ? 'Recommended zoom multipliers to maintain 1:1 crosshair muscle memory and focal tracking when aiming down sights (ADS/Scope):' : 'Dürbün açtığında (ADS/Scope) hipfire nişan reflekslerinin ve kas hafızanın 1:1 korunması için önerilen zoom çarpanları:'}
       </p>
@@ -10670,7 +10742,7 @@
       </div>
       
       <div style="background:color-mix(in srgb, var(--cyan) 6%, transparent);border:1px solid color-mix(in srgb, var(--cyan) 20%, transparent);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
-        <svg viewBox="0 0 24 24" class="inline-icon"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.3 4.7 3.3 6h7.4c2-1.3 3.3-3.5 3.3-6a7 7 0 0 0-7-7z"/></svg> <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn ? 'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.' : 'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
+         <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn ? 'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.' : 'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
       </div>
     </div>
   `;
@@ -10827,7 +10899,7 @@
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle'}</button>
       </div>
     </div>
   `;
@@ -11679,8 +11751,8 @@
           ${analysisText}
         </div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="startAimTest()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
-          <button class="btn btn-secondary" onclick="switchPage('converter')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
+          <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
+          <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
         </div>
       `;
     }
@@ -12335,7 +12407,7 @@
       drawer.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
           <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
-            <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg></span> <span>${isEn ? 'Live Box & Layout Resizer' : 'Canlı Kutu & Boyutlandırma Stüdyosu'}</span>
+            <span></span> <span>${isEn ? 'Live Box & Layout Resizer' : 'Canlı Kutu & Boyutlandırma Stüdyosu'}</span>
           </div>
           <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('boxes')"></button>
         </div>
@@ -12393,7 +12465,7 @@
         <!-- LOGO & BRANDING CONTROLS -->
         <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
           <div style="font-weight:700;font-size:13.5px;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span> <span>${isEn ? 'Logo & Brand Layout / Placement' : 'Logo Boyutu, Konumu ve Arkaplanı'}</span>
+            <span></span> <span>${isEn ? 'Logo & Brand Layout / Placement' : 'Logo Boyutu, Konumu ve Arkaplanı'}</span>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
@@ -12459,8 +12531,8 @@
             <div class="admin-field" style="margin-bottom:0">
               <div class="admin-field-label"><span>${isEn ? 'Logo Background Style' : 'Logo Arkaplan Stili'}</span></div>
               <div style="display:flex;gap:6px;margin-top:6px">
-                <button class="vs-btn btn-sm ${!lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',false);renderVsBoxDrawer()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5zM19 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg> ${isEn ? 'Transparent' : 'Şeffaf'}</button>
-                <button class="vs-btn btn-sm ${lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',true);renderVsBoxDrawer()"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="3" width="18" height="18" rx="3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg> ${isEn ? 'Glass Card' : 'Cam Kart'}</button>
+                <button class="vs-btn btn-sm ${!lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',false);renderVsBoxDrawer()"> ${isEn ? 'Transparent' : 'Şeffaf'}</button>
+                <button class="vs-btn btn-sm ${lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',true);renderVsBoxDrawer()"> ${isEn ? 'Glass Card' : 'Cam Kart'}</button>
               </div>
             </div>
           </div>
@@ -12495,7 +12567,7 @@
       drawer.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
           <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
-            <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="15.5" cy="14.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 0 2 1.5 3.5 1.5s2-1 2-2"/></svg></span> <span>${isEn ? 'Live Theme & Color Palette Studio' : 'Canlı Renk & Tema Stüdyosu'}</span>
+            <span></span> <span>${isEn ? 'Live Theme & Color Palette Studio' : 'Canlı Renk & Tema Stüdyosu'}</span>
           </div>
           <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('themes')"></button>
         </div>
@@ -12506,7 +12578,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <!-- Dark Mode Colors -->
           <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:12px">
-            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> ${isEn ? 'Dark Mode Colors' : 'Koyu Mod Renkleri'}</div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"> ${isEn ? 'Dark Mode Colors' : 'Koyu Mod Renkleri'}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div class="admin-color-picker-wrap">
                 <input type="color" class="admin-color-picker" value="${d.bg}" onchange="updateAdminColor('themeDark','bg',this.value)"/>
@@ -12529,7 +12601,7 @@
 
           <!-- Light Mode Colors -->
           <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:12px">
-            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg> ${isEn ? 'Light Mode Colors' : 'Açık Mod Renkleri'}</div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"> ${isEn ? 'Light Mode Colors' : 'Açık Mod Renkleri'}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div class="admin-color-picker-wrap">
                 <input type="color" class="admin-color-picker" value="${l.bg}" onchange="updateAdminColor('themeLight','bg',this.value)"/>
@@ -12586,16 +12658,16 @@
         <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:850px;width:95%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 16px 50px rgba(0,0,0,0.8)">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px">
             <div style="font-weight:700;font-size:18px;color:var(--t1);display:flex;align-items:center;gap:10px">
-              <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span>${isEn ? 'Advanced Settings & Database' : 'Gelişmiş Yönetim & Veritabanı'}</span>
+              <span></span> <span>${isEn ? 'Advanced Settings & Database' : 'Gelişmiş Yönetim & Veritabanı'}</span>
             </div>
             <button class="vs-btn danger btn-sm" onclick="document.getElementById('vsAdvancedModal').className='admin-form-modal hidden'"></button>
           </div>
 
           <div class="nav-tabs" style="margin-bottom:16px;justify-content:flex-start">
-            <button class="nav-tab ${activeTab === 'pros' ? 'active' : ''}" onclick="openVsAdvancedModal('pros')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg> ${isEn ? 'Pro DB' : 'Pro Veritabanı'}</button>
-            <button class="nav-tab ${activeTab === 'feedbacks' ? 'active' : ''}" onclick="openVsAdvancedModal('feedbacks')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${isEn ? 'Feedbacks' : 'Geri Bildirimler'}</button>
+            <button class="nav-tab ${activeTab === 'pros' ? 'active' : ''}" onclick="openVsAdvancedModal('pros')"> ${isEn ? 'Pro DB' : 'Pro Veritabanı'}</button>
+            <button class="nav-tab ${activeTab === 'feedbacks' ? 'active' : ''}" onclick="openVsAdvancedModal('feedbacks')"> ${isEn ? 'Feedbacks' : 'Geri Bildirimler'}</button>
             <button class="nav-tab ${activeTab === 'algo' ? 'active' : ''}" onclick="openVsAdvancedModal('algo')"> ${isEn ? 'Algorithm' : 'Algoritma'}</button>
-            <button class="nav-tab ${activeTab === 'backup' ? 'active' : ''}" onclick="openVsAdvancedModal('backup')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> ${isEn ? 'Backup & PIN' : 'Yedek & PIN'}</button>
+            <button class="nav-tab ${activeTab === 'backup' ? 'active' : ''}" onclick="openVsAdvancedModal('backup')"> ${isEn ? 'Backup & PIN' : 'Yedek & PIN'}</button>
           </div>
 
           <div style="flex:1;overflow-y:auto;padding-right:6px" id="vsAdvModalBody">
@@ -12618,7 +12690,7 @@
                 <b style="color:var(--t1);font-size:14px">${isEn ? 'Pro Player Database' : 'Esporcu & Pro Veritabanı'}</b>
                 <span style="font-size:12px;color:var(--t3);margin-left:8px">(${totalPros} ${isEn ? 'players' : 'oyuncu kayıtlı'})</span>
               </div>
-              <button class="btn btn-primary btn-sm" onclick="openNewPlayerModal()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 5v14M5 12h14"/></svg> ${isEn ? 'Add Player' : 'Yeni Oyuncu Ekle'}</button>
+              <button class="btn btn-primary btn-sm" onclick="openNewPlayerModal()"> ${isEn ? 'Add Player' : 'Yeni Oyuncu Ekle'}</button>
             </div>
             <p style="font-size:12.5px;color:var(--t2);margin-bottom:16px">${isEn ? 'Manage or expand the pro player rosters across Valorant, CS2, Apex, and Overwatch:' : 'Valorant, CS2, Apex Legends ve Overwatch pro oyuncu listelerini düzenle veya yeni oyuncular ekle:'}</p>
           </div>
@@ -12630,8 +12702,8 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
               <b style="color:var(--t1);font-size:14px">${isEn ? 'User Feedbacks' : 'Kullanıcı Geri Bildirimleri'} (${fbs.length})</b>
               <div style="display:flex;gap:8px">
-                <button class="btn btn-secondary btn-sm" onclick="exportFeedbacksCSV()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> CSV İndir</button>
-                <button class="btn btn-secondary btn-sm" onclick="localStorage.removeItem('vecsens_feedbacks');openVsAdvancedModal('feedbacks');showToast('Temizlendi!')"><svg viewBox="0 0 24 24" class="inline-icon"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Tümünü Sil</button>
+                <button class="btn btn-secondary btn-sm" onclick="exportFeedbacksCSV()"> CSV İndir</button>
+                <button class="btn btn-secondary btn-sm" onclick="localStorage.removeItem('vecsens_feedbacks');openVsAdvancedModal('feedbacks');showToast('Temizlendi!')"> Tümünü Sil</button>
               </div>
             </div>
             ${fbs.length === 0 ? `<p style="font-size:13px;color:var(--t3);text-align:center;padding:30px">${isEn ? 'No feedbacks recorded yet.' : 'Henüz geri bildirim kaydı yok.'}</p>` : `
@@ -12661,12 +12733,12 @@
         return `
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
             <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
-              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> ${isEn ? 'JSON Backup & Sync' : 'JSON Yedekleme'}</b>
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"> ${isEn ? 'JSON Backup & Sync' : 'JSON Yedekleme'}</b>
               <p style="font-size:12px;color:var(--t2);margin-bottom:12px">${isEn ? 'Download complete custom config to a JSON file or restore.' : 'Yaptığın tüm özelleştirmeleri tek JSON dosyası olarak indir:'}</p>
-              <button class="btn btn-primary btn-sm" onclick="exportAdminConfigJSON()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> vecsens-config.json İndir</button>
+              <button class="btn btn-primary btn-sm" onclick="exportAdminConfigJSON()"> vecsens-config.json İndir</button>
             </div>
             <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
-              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ${isEn ? 'PIN Management' : 'Admin PIN Kodu'}</b>
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"> ${isEn ? 'PIN Management' : 'Admin PIN Kodu'}</b>
               <div style="display:flex;gap:8px;margin-top:10px">
                 <input class="input-field" type="password" id="newAdminPin" placeholder="Yeni PIN (min 4 hane)" style="margin-bottom:0;font-size:12px"/>
                 <button class="btn btn-secondary btn-sm" onclick="const p=document.getElementById('newAdminPin').value.trim();if(p.length>=4){adminConfig.pin=p;saveVsConfig();showToast('PIN güncellendi!');}else{alert('En az 4 hane olmalı!');}">Güncelle</button>
