@@ -1,7 +1,73 @@
 {
-  "themeDark": { "bg": "#0a0e17", "card": "#0f1624", "border": "#232f46", "cyan": "#38bdf8", "blue": "#38bdf8", "vctRed": "#ff4655", "purple": "#a855f7", "green": "#10b981", "gbtnStart": "#38bdf8", "gbtnEnd": "#0284c7" },
-  "themeLight": { "bg": "#f8fafc", "card": "#ffffff", "border": "#e2e8f0", "cyan": "#1e3a8a", "blue": "#1e3a8a", "vctRed": "#e11d48", "purple": "#4338ca", "green": "#059669", "gbtnStart": "#1e40af", "gbtnEnd": "#1e3a8a" },
-  "layout": { "containerMaxWidth": 890, "cardPadding": 34, "borderRadius": 16, "boxGap": 20, "fontScale": 100, "cardBlur": 24, "glowIntensity": 30, "heroLogoSize": 84, "heroLogoOffsetY": 0, "heroLogoAlign": "center", "heroLogoGlass": false, "badgeLogoSize": 18, "navLogoSize": 26, "fontFamily": "Plus Jakarta Sans", "displayFont": "Space Grotesk", "hudFont": "JetBrains Mono" },
-  "texts": { "brandName": "VecSens" },
-  "algorithm": { "globalSensMultiplier": 1.0, "wristMultiplier": 1.0, "armMultiplier": 1.0 }
+  "themeDark": {
+    "bg": "#0d0a0e",
+    "card": "#170f17",
+    "border": "#331b26",
+    "cyan": "#fb7185",
+    "blue": "#f43f5e",
+    "vctRed": "#e11d48",
+    "purple": "#a855f7",
+    "green": "#10b981",
+    "gbtnStart": "#f43f5e",
+    "gbtnEnd": "#be123c"
+  },
+  "themeLight": {
+    "bg": "#fff5f6",
+    "card": "#ffffff",
+    "border": "#fecdd3",
+    "cyan": "#881337",
+    "blue": "#9f1239",
+    "vctRed": "#e11d48",
+    "purple": "#4338ca",
+    "green": "#059669",
+    "gbtnStart": "#9f1239",
+    "gbtnEnd": "#881337"
+  },
+  "layout": {
+    "containerMaxWidth": 1000,
+    "cardPadding": 34,
+    "borderRadius": 14,
+    "boxGap": 20,
+    "fontScale": 100,
+    "cardBlur": 24,
+    "glowIntensity": 25,
+    "heroLogoSize": 84,
+    "heroLogoOffsetY": 0,
+    "heroLogoAlign": "center",
+    "heroLogoGlass": false,
+    "badgeLogoSize": 18,
+    "navLogoSize": 26,
+    "fontFamily": "Plus Jakarta Sans",
+    "displayFont": "Plus Jakarta Sans",
+    "hudFont": "JetBrains Mono",
+    "shadowIntensity": 4,
+    "animSpeed": 0.25
+  },
+  "texts": {
+    "brandName": "VecSens",
+    "headerTitleTr": "VecSens<br/><span class=\"header-sub-gradient\">Kişiselleştirilmiş Aim Analizi</span>",
+    "headerTitleEn": "VecSens<br/><span class=\"header-sub-gradient\">Personalized Aim Optimizer</span>",
+    "headerSubTr": "Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.",
+    "headerSubEn": "Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.",
+    "footerTr": "Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez",
+    "footerEn": "All calculations are performed locally in your browser · No data is sent to external servers"
+  },
+  "customTexts": {
+    "id_ntab-pros": "Pro Oyuncular",
+    "id_ntab-aimtest": "Aim Test Lab",
+    "id_ntab-converter": "Sens &amp; Scope Converter",
+    "id_ntab-analysis": "Analysis",
+    "id_ntab-feedback": "Geri Bildirim",
+    "id_aimSub": "Test your sensitivity directly in your browser with real-time feedback.",
+    "id_convSub": "Hipfire ve Dürbün hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle.",
+    "id_prosSub": "Profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları.",
+    "id_fbSub": "Geri bildiriminle uygulamayı daha iyi hale getirmemize yardımcı ol.",
+    "id_headerTitle": "VecSens<br><span class=\"header-sub-gradient\">Kişiselleştirilmiş Aim Analizi</span>"
+  },
+  "algorithm": {
+    "globalSensMultiplier": 1,
+    "wristMultiplier": 1,
+    "armMultiplier": 1
+  },
+  "customPros": {}
 }
