@@ -10798,27 +10798,39 @@
         return `<option value="${gid}" ${gid === aimTestState.calibGame ? 'selected' : ''}>${glabel}</option>`;
       }).join('');
 
-      const calibControlsHtml = mode === 'calibrate' ? `
-    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      const curGid = aimTestState.calibGame || 'valorant';
+      const curSensVal = aimTestState.calibSens || 0.35;
+      const curDpiVal = aimTestState.calibDpi || 800;
+      const curYawVal = YAW[curGid] || 0.07;
+      const curEdpiVal = Math.round(curSensVal * curDpiVal * 100) / 100;
+      const curCm360Val = Math.round((360 / (curDpiVal * curSensVal * curYawVal) * 2.54) * 10) / 10;
+
+      const calibControlsHtml = `
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div>
           <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">${isEn ? 'Game' : 'Oyun'}</label>
           <select class="conv-select" style="padding:6px 10px;font-size:13px;width:auto" onchange="setCalibGame(this.value)">${gameOptions}</select>
         </div>
         <div>
-          <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">${isEn ? 'Sens' : 'Hassasiyet'}</label>
-          <input type="number" step="0.01" class="input-field" style="width:90px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibSens}" oninput="setCalibSens(parseFloat(this.value)||0.1)"/>
+          <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">${isEn ? 'Sensitivity' : 'Hassasiyet'}</label>
+          <input type="number" step="0.01" class="input-field" style="width:95px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibSens}" oninput="setCalibSens(parseFloat(this.value)||0.1)"/>
         </div>
         <div>
           <label style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px">DPI</label>
-          <input type="number" step="50" class="input-field" style="width:80px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibDpi}" oninput="setCalibDpi(parseInt(this.value)||800)"/>
+          <input type="number" step="50" class="input-field" style="width:85px;padding:6px 10px;font-size:13px;margin:0" value="${aimTestState.calibDpi}" oninput="setCalibDpi(parseInt(this.value)||800)"/>
+        </div>
+        <div style="padding:6px 12px;border-radius:8px;background:color-mix(in srgb, var(--cyan) 8%, transparent);border:1px solid color-mix(in srgb, var(--cyan) 25%, transparent);font-family:var(--mono);font-size:12px;color:var(--t2);display:flex;gap:10px;align-items:center">
+          <span>eDPI: <b style="color:var(--cyan)">${curEdpiVal}</b></span>
+          <span style="color:var(--border)">|</span>
+          <span>cm/360: <b style="color:var(--cyan)">${curCm360Val} cm</b></span>
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle '}</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle'}</button>
       </div>
     </div>
-  ` : '';
+  `;
 
       const html = `
     <div class="aimtest-container">
