@@ -24,8 +24,8 @@
       --card-solid: #0f1422;
       --glass: rgba(255, 255, 255, 0.025);
       --border: rgba(255, 255, 255, 0.07);
-      --border-bright: rgba(56, 189, 248, 0.35);
-      --bactive: rgba(56, 189, 248, 0.6);
+      --border-bright: color-mix(in srgb, var(--cyan) 35%, transparent);
+      --bactive: color-mix(in srgb, var(--cyan) 60%, transparent);
       --cyan: #38bdf8;
       --blue: #38bdf8;
       --vct-red: #f43f5e;
@@ -47,7 +47,7 @@
       --r3: 16px;
       --r4: 20px;
       --shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 255, 255, 0.04);
-      --glow: 0 0 30px rgba(56, 189, 248, 0.15);
+      --glow: 0 0 30px color-mix(in srgb, var(--cyan) 15%, transparent);
       --glow-vct: 0 0 30px rgba(244, 63, 94, 0.15);
       --ease: all .22s cubic-bezier(.4, 0, .2, 1);
     }
@@ -80,9 +80,9 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 75% 45% at 50% -5%, rgba(56, 189, 248, 0.09) 0%, rgba(99, 102, 241, 0.04) 45%, transparent 70%),
+        radial-gradient(ellipse 75% 45% at 50% -5%, color-mix(in srgb, var(--cyan) 9%, transparent) 0%, color-mix(in srgb, var(--purple) 4%, transparent) 45%, transparent 70%),
         radial-gradient(ellipse 60% 35% at 90% 90%, rgba(244, 63, 94, 0.04) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 35% at 10% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 35% at 10% 85%, color-mix(in srgb, var(--cyan) 5%, transparent) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -202,11 +202,11 @@
       background: var(--gbtn);
       color: #031726;
       font-weight: 700;
-      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--cyan) 30%, transparent);
     }
 
     .nav-badge {
-      background: rgba(56, 189, 248, .15);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
       color: var(--cyan);
       border-radius: 999px;
       padding: 1px 7px;
@@ -425,10 +425,10 @@
     }
 
     .phase-dot.active {
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.35);
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent);
       color: var(--cyan);
-      box-shadow: 0 0 16px rgba(56, 189, 248, .1);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 10%, transparent);
     }
 
     .phase-dot.done {
@@ -469,15 +469,15 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4) 50%, transparent);
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cyan) 40%, transparent) 50%, transparent);
     }
 
     .question-number {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 25%, transparent);
       border-radius: var(--r1);
       padding: 4px 11px;
       font-family: var(--mono);
@@ -556,9 +556,9 @@
     }
 
     .option-btn:hover {
-      border-color: rgba(56, 189, 248, 0.3);
+      border-color: color-mix(in srgb, var(--cyan) 30%, transparent);
       color: var(--t1);
-      background: rgba(56, 189, 248, 0.03);
+      background: color-mix(in srgb, var(--cyan) 3%, transparent);
       transform: translateY(-1px);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
@@ -566,8 +566,8 @@
     .option-btn.selected {
       border-color: var(--cyan);
       color: var(--t1);
-      background: rgba(56, 189, 248, 0.08);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.25), 0 4px 18px rgba(56, 189, 248, 0.08);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--cyan) 25%, transparent), 0 4px 18px color-mix(in srgb, var(--cyan) 8%, transparent);
       font-weight: 600;
     }
 
@@ -663,8 +663,8 @@
 
     .input-field:focus {
       border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.04);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+      background: color-mix(in srgb, var(--cyan) 4%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 12%, transparent);
     }
 
     .input-field::placeholder {
@@ -704,12 +704,12 @@
       background: var(--gbtn);
       color: #031726;
       font-weight: 800;
-      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.3);
+      box-shadow: 0 4px 18px color-mix(in srgb, var(--cyan) 30%, transparent);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.45);
+      box-shadow: 0 6px 24px color-mix(in srgb, var(--cyan) 45%, transparent);
       filter: brightness(1.05);
     }
 
@@ -859,8 +859,8 @@
     }
 
     .profile-card.balanced {
-      background: linear-gradient(135deg, rgba(0, 242, 254, .1), rgba(13, 18, 27, .95));
-      border-color: rgba(0, 242, 254, .35)
+      background: linear-gradient(135deg, color-mix(in srgb, var(--cyan) 10%, transparent), rgba(13, 18, 27, .95));
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent)
     }
 
     .profile-card.speed {
@@ -881,7 +881,7 @@
       font-weight: 800;
       font-family: var(--hud);
       letter-spacing: .08em;
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 40%, transparent);
     }
 
     .profile-header {
@@ -899,7 +899,17 @@
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      flex-shrink: 0
+      flex-shrink: 0;
+    }
+
+    .profile-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .profile-card.precision .profile-icon {
@@ -908,7 +918,7 @@
     }
 
     .profile-card.balanced .profile-icon {
-      background: rgba(56, 189, 248, 0.15);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
       color: var(--cyan)
     }
 
@@ -1073,8 +1083,8 @@
 
     /* ── FINE TUNE ── */
     .finetune-card {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(15, 22, 36, 0.9));
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--cyan) 8%, transparent), rgba(15, 22, 36, 0.9));
+      border: 1px solid color-mix(in srgb, var(--cyan) 25%, transparent);
       border-radius: var(--r4);
       padding: 28px;
       margin-top: 24px;
@@ -1151,8 +1161,8 @@
     }
 
     .ftbtn.ao {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.4);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 40%, transparent);
       color: var(--cyan)
     }
 
@@ -1204,12 +1214,12 @@
     .spinner {
       width: 54px;
       height: 54px;
-      border: 3px solid rgba(56, 189, 248, 0.15);
+      border: 3px solid color-mix(in srgb, var(--cyan) 15%, transparent);
       border-top-color: var(--cyan);
       border-right-color: var(--vct-red);
       border-radius: 50%;
       animation: spin .8s linear infinite;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cyan) 20%, transparent);
     }
 
     @keyframes spin {
@@ -1289,8 +1299,8 @@
     }
 
     .res-aspect-btn.active {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.5);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 50%, transparent);
       color: var(--cyan)
     }
 
@@ -1321,8 +1331,8 @@
     }
 
     .res-preset-btn.selected {
-      background: rgba(56, 189, 248, 0.16);
-      border-color: rgba(56, 189, 248, 0.55);
+      background: color-mix(in srgb, var(--cyan) 16%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 55%, transparent);
       color: var(--cyan);
       font-weight: 700
     }
@@ -1377,13 +1387,13 @@
     }
 
     .game-tab:hover {
-      border-color: rgba(56, 189, 248, 0.35);
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent);
       color: var(--t2)
     }
 
     .game-tab.active {
-      background: rgba(56, 189, 248, 0.12);
-      border-color: rgba(56, 189, 248, 0.45);
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
       color: var(--cyan)
     }
 
@@ -1455,11 +1465,11 @@
     }
 
     .pro-table tr:hover td {
-      background: rgba(56, 189, 248, 0.03)
+      background: color-mix(in srgb, var(--cyan) 3%, transparent)
     }
 
     .pro-table tr.user-row td {
-      background: rgba(56, 189, 248, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       color: var(--t1)
     }
 
@@ -1531,8 +1541,8 @@
     }
 
     .user-highlight-box {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
       border-radius: var(--r3);
       padding: 16px 22px;
       margin-bottom: 20px;
@@ -1637,13 +1647,13 @@
     }
 
     .fb-option:hover {
-      border-color: rgba(56, 189, 248, 0.35);
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent);
       color: var(--t1)
     }
 
     .fb-option.selected {
       border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.08);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
       color: var(--t1);
       font-weight: 600
     }
@@ -1816,7 +1826,7 @@
     .conv-select:focus {
       outline: none;
       border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12)
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 12%, transparent)
     }
 
     .conv-result-grid {
@@ -1827,17 +1837,17 @@
     }
 
     .conv-result-item {
-      background: rgba(56, 189, 248, 0.06);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      background: color-mix(in srgb, var(--cyan) 6%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 20%, transparent);
       border-radius: var(--r3);
       padding: 16px;
       text-align: center;
     }
 
     .conv-result-item.highlight {
-      background: rgba(56, 189, 248, 0.12);
-      border-color: rgba(56, 189, 248, 0.45);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.12)
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cyan) 12%, transparent)
     }
 
     .conv-result-game {
@@ -1883,7 +1893,7 @@
 
     .conv-all-item.target {
       border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.08)
+      background: color-mix(in srgb, var(--cyan) 8%, transparent)
     }
 
     .conv-all-game {
@@ -1912,8 +1922,8 @@
     }
 
     .conv-analysis-alert {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 25%, transparent);
       border-radius: var(--r3);
       padding: 14px 18px;
       margin-bottom: 20px;
@@ -1960,7 +1970,7 @@
 
     .aimtest-mode-btn:hover {
       color: var(--t1);
-      border-color: rgba(56, 189, 248, 0.35)
+      border-color: color-mix(in srgb, var(--cyan) 35%, transparent)
     }
 
     .aimtest-mode-btn.active {
@@ -1968,7 +1978,7 @@
       color: #031726;
       border-color: transparent;
       font-weight: 800;
-      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.3);
+      box-shadow: 0 4px 18px color-mix(in srgb, var(--cyan) 30%, transparent);
     }
 
     .aim-canvas-wrap {
@@ -1987,7 +1997,7 @@
     .aim-canvas-wrap:focus {
       outline: none;
       border-color: var(--cyan);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.25)
+      box-shadow: 0 0 25px color-mix(in srgb, var(--cyan) 25%, transparent)
     }
 
     #aimCanvas {
@@ -2111,7 +2121,7 @@
     }
 
     .subtab-btn.active {
-      background: rgba(56, 189, 248, 0.15);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
       color: var(--cyan)
     }
 
@@ -2154,14 +2164,14 @@
       max-width: 520px;
       height: 240px;
       background: #06080e;
-      border: 2px solid rgba(56, 189, 248, 0.35);
+      border: 2px solid color-mix(in srgb, var(--cyan) 35%, transparent);
       border-radius: 12px;
       margin: 16px auto;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
+      box-shadow: 0 0 25px color-mix(in srgb, var(--cyan) 10%, transparent);
     }
 
     .pad-center-mark {
@@ -2174,7 +2184,7 @@
     .pad-swipe-range {
       position: absolute;
       height: 70%;
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.15), rgba(244, 63, 94, 0.2), rgba(56, 189, 248, 0.15));
+      background: linear-gradient(90deg, color-mix(in srgb, var(--cyan) 15%, transparent), rgba(244, 63, 94, 0.2), color-mix(in srgb, var(--cyan) 15%, transparent));
       border: 1px dashed var(--cyan);
       border-radius: 8px;
       display: flex;
@@ -2205,8 +2215,8 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
       color: var(--cyan);
       display: flex;
       align-items: center;
@@ -2236,7 +2246,7 @@
       border-radius: 4px;
       font-size: 10px;
       font-weight: 800;
-      background: rgba(56, 189, 248, 0.15);
+      background: color-mix(in srgb, var(--cyan) 15%, transparent);
       color: var(--cyan);
       font-family: var(--hud);
       margin-right: 6px
@@ -2281,7 +2291,7 @@
     .lang-btn:hover {
       color: var(--t1);
       border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.08)
+      background: color-mix(in srgb, var(--cyan) 8%, transparent)
     }
 
     /* ── SELECT & DROPDOWNS FIX FOR DARK & LIGHT MODES ── */
@@ -2312,10 +2322,10 @@
       --bg2: #ffffff;
       --card: #ffffff;
       --card-solid: #ffffff;
-      --glass: rgba(30, 58, 138, 0.02);
+      --glass: color-mix(in srgb, var(--cyan) 2%, transparent);
       --border: #e2e8f0;
-      --border-bright: rgba(30, 58, 138, 0.35);
-      --bactive: rgba(30, 58, 138, 0.55);
+      --border-bright: color-mix(in srgb, var(--cyan) 35%, transparent);
+      --bactive: color-mix(in srgb, var(--cyan) 55%, transparent);
       --cyan: #1e3a8a;
       --blue: #1e3a8a;
       --vct-red: #e11d48;
@@ -2329,7 +2339,7 @@
       --t2: #334155;
       --t3: #64748b;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
-      --glow: 0 0 25px rgba(30, 58, 138, 0.15);
+      --glow: 0 0 25px color-mix(in srgb, var(--cyan) 15%, transparent);
       --glow-vct: 0 0 25px rgba(225, 29, 72, 0.12);
     }
 
@@ -2342,9 +2352,9 @@
     html[data-theme="light"] body::before,
     body[data-theme="light"]::before {
       background:
-        radial-gradient(ellipse 80% 45% at 50% -5%, rgba(30, 58, 138, 0.07) 0%, rgba(67, 56, 202, 0.03) 45%, transparent 70%),
+        radial-gradient(ellipse 80% 45% at 50% -5%, color-mix(in srgb, var(--cyan) 7%, transparent) 0%, rgba(67, 56, 202, 0.03) 45%, transparent 70%),
         radial-gradient(ellipse 60% 35% at 90% 90%, rgba(225, 29, 72, 0.03) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 35% at 10% 85%, rgba(30, 58, 138, 0.04) 0%, transparent 60%) !important;
+        radial-gradient(ellipse 60% 35% at 10% 85%, color-mix(in srgb, var(--cyan) 4%, transparent) 0%, transparent 60%) !important;
     }
 
     html[data-theme="light"] .grid-bg,
@@ -2379,7 +2389,7 @@
 
     html[data-theme="light"] .nav-badge,
     body[data-theme="light"] .nav-badge {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       color: var(--cyan) !important;
     }
 
@@ -2414,7 +2424,7 @@
 
     html[data-theme="light"] .logo-badge,
     body[data-theme="light"] .logo-badge {
-      background: rgba(30, 58, 138, 0.07) !important;
+      background: color-mix(in srgb, var(--cyan) 7%, transparent) !important;
       border-color: var(--border) !important;
       color: var(--cyan) !important;
     }
@@ -2529,7 +2539,7 @@
 
     html[data-theme="light"] .question-number,
     body[data-theme="light"] .question-number {
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       border: 1px solid var(--border) !important;
       color: var(--cyan) !important;
     }
@@ -2544,14 +2554,14 @@
     html[data-theme="light"] .option-btn:hover,
     body[data-theme="light"] .option-btn:hover {
       border-color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.03) !important;
+      background: color-mix(in srgb, var(--cyan) 3%, transparent) !important;
       color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .option-btn.selected,
     body[data-theme="light"] .option-btn.selected {
       border-color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       color: var(--cyan) !important;
       box-shadow: 0 0 0 1px var(--cyan) !important;
       font-weight: 600 !important;
@@ -2590,7 +2600,7 @@
     body[data-theme="light"] .conv-select:focus,
     body[data-theme="light"] select:focus {
       border-color: var(--cyan) !important;
-      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15) !important;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 15%, transparent) !important;
     }
 
     html[data-theme="light"] .phase-dot,
@@ -2602,10 +2612,10 @@
 
     html[data-theme="light"] .phase-dot.active,
     body[data-theme="light"] .phase-dot.active {
-      background: rgba(30, 58, 138, 0.09) !important;
+      background: color-mix(in srgb, var(--cyan) 9%, transparent) !important;
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
-      box-shadow: 0 0 12px rgba(30, 58, 138, 0.12) !important;
+      box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 12%, transparent) !important;
     }
 
     html[data-theme="light"] .progress-count,
@@ -2616,7 +2626,7 @@
     html[data-theme="light"] .progress-fill,
     body[data-theme="light"] .progress-fill {
       background: var(--gbtn) !important;
-      box-shadow: 0 0 12px rgba(30, 58, 138, 0.25) !important;
+      box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 25%, transparent) !important;
     }
 
     html[data-theme="light"] .analysis-card h3,
@@ -2640,12 +2650,12 @@
     html[data-theme="light"] .profile-card.balanced,
     body[data-theme="light"] .profile-card.balanced {
       border-color: var(--border) !important;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), var(--card)) !important;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--cyan) 5%, transparent), var(--card)) !important;
     }
 
     html[data-theme="light"] .profile-card.balanced .profile-icon,
     body[data-theme="light"] .profile-card.balanced .profile-icon {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       color: var(--cyan) !important;
     }
 
@@ -2706,7 +2716,7 @@
 
     html[data-theme="light"] .pro-table tr.user-row td,
     body[data-theme="light"] .pro-table tr.user-row td {
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       color: var(--cyan) !important;
     }
 
@@ -2720,28 +2730,28 @@
 
     html[data-theme="light"] .res-preset-btn.selected,
     body[data-theme="light"] .res-preset-btn.selected {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .res-aspect-btn.active,
     body[data-theme="light"] .res-aspect-btn.active {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .ftbtn.ao,
     body[data-theme="light"] .ftbtn.ao {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .finetune-card,
     body[data-theme="light"] .finetune-card {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), var(--card)) !important;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--cyan) 5%, transparent), var(--card)) !important;
       border: 1px solid var(--border) !important;
     }
 
@@ -2756,7 +2766,7 @@
     body[data-theme="light"] .ftbtn:hover {
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.03) !important;
+      background: color-mix(in srgb, var(--cyan) 3%, transparent) !important;
     }
 
     html[data-theme="light"] .stat-box,
@@ -2782,7 +2792,7 @@
 
     html[data-theme="light"] .user-highlight-box,
     body[data-theme="light"] .user-highlight-box {
-      background: rgba(30, 58, 138, 0.06) !important;
+      background: color-mix(in srgb, var(--cyan) 6%, transparent) !important;
       border: 1px solid var(--border) !important;
     }
 
@@ -2832,7 +2842,7 @@
 
     html[data-theme="light"] .conv-result-item.highlight,
     body[data-theme="light"] .conv-result-item.highlight {
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       border: 1px solid var(--cyan) !important;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
     }
@@ -2850,7 +2860,7 @@
 
     html[data-theme="light"] .conv-all-item.target,
     body[data-theme="light"] .conv-all-item.target {
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       border-color: var(--cyan) !important;
     }
 
@@ -2861,7 +2871,7 @@
 
     html[data-theme="light"] .conv-analysis-alert,
     body[data-theme="light"] .conv-analysis-alert {
-      background: rgba(30, 58, 138, 0.06) !important;
+      background: color-mix(in srgb, var(--cyan) 6%, transparent) !important;
       border: 1px solid var(--border) !important;
     }
 
@@ -2876,7 +2886,7 @@
     body[data-theme="light"] .aimtest-mode-btn:hover {
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.03) !important;
+      background: color-mix(in srgb, var(--cyan) 3%, transparent) !important;
     }
 
     html[data-theme="light"] .aimtest-mode-btn.active,
@@ -2962,7 +2972,7 @@
 
     html[data-theme="light"] .pad-swipe-range,
     body[data-theme="light"] .pad-swipe-range {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border: 1px dashed var(--cyan) !important;
       color: var(--cyan) !important;
     }
@@ -2974,14 +2984,14 @@
 
     html[data-theme="light"] .routine-num,
     body[data-theme="light"] .routine-num {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border: 1px solid var(--border) !important;
       color: var(--cyan) !important;
     }
 
     html[data-theme="light"] .routine-tag,
     body[data-theme="light"] .routine-tag {
-      background: rgba(30, 58, 138, 0.1) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       color: var(--cyan) !important;
     }
 
@@ -3007,13 +3017,13 @@
     body[data-theme="light"] .fb-option:hover {
       border-color: var(--cyan) !important;
       color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.02) !important;
+      background: color-mix(in srgb, var(--cyan) 2%, transparent) !important;
     }
 
     html[data-theme="light"] .fb-option.selected,
     body[data-theme="light"] .fb-option.selected {
       border-color: var(--cyan) !important;
-      background: rgba(30, 58, 138, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
       color: var(--cyan) !important;
       font-weight: 600 !important;
     }
@@ -3071,7 +3081,7 @@
     .theme-btn:hover {
       color: var(--t1);
       border-color: var(--cyan);
-      background: rgba(0, 242, 254, 0.1);
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
     }
 
     /* ══════════════════════════════════════
@@ -3091,7 +3101,7 @@
       align-items: center;
       gap: 7px;
       z-index: 99999;
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 25px color-mix(in srgb, var(--cyan) 35%, transparent);
       animation: vsSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       transition: var(--ease);
       max-width: 96vw;
@@ -3103,7 +3113,7 @@
     body[data-theme="light"] .visual-studio-toolbar {
       background: rgba(255, 255, 255, 0.96);
       border-color: var(--cyan);
-      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.18), 0 0 20px rgba(30, 58, 138, 0.15);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.18), 0 0 20px color-mix(in srgb, var(--cyan) 15%, transparent);
     }
 
     @keyframes vsSlideUp {
@@ -3127,7 +3137,7 @@
       font-weight: 800;
       color: var(--cyan);
       padding: 4px 10px;
-      background: rgba(56, 189, 248, 0.12);
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
       border-radius: 999px;
       letter-spacing: 0.05em;
       white-space: nowrap;
@@ -3155,14 +3165,14 @@
     .vs-btn:hover {
       border-color: var(--cyan);
       color: var(--cyan);
-      background: rgba(56, 189, 248, 0.08);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
     }
 
     .vs-btn.active {
       background: var(--gbtn);
       color: #ffffff;
       border-color: transparent;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 15px color-mix(in srgb, var(--cyan) 40%, transparent);
     }
 
     .vs-btn.success {
@@ -3202,7 +3212,7 @@
       max-width: 520px;
       max-height: 80vh;
       overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px color-mix(in srgb, var(--cyan) 15%, transparent);
       z-index: 99998;
       animation: vsDrawerPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -3267,19 +3277,19 @@
       cursor: text !important;
       position: relative;
       transition: outline 0.15s ease, background 0.15s ease;
-      outline: 2px dashed rgba(56, 189, 248, 0.45) !important;
+      outline: 2px dashed color-mix(in srgb, var(--cyan) 45%, transparent) !important;
       outline-offset: 3px !important;
       border-radius: 4px;
     }
 
     body.visual-edit-mode [contenteditable="true"]:hover {
       outline: 2px dashed var(--cyan) !important;
-      background: rgba(56, 189, 248, 0.08) !important;
+      background: color-mix(in srgb, var(--cyan) 8%, transparent) !important;
     }
 
     body.visual-edit-mode [contenteditable="true"]:focus {
       outline: 2px solid var(--cyan) !important;
-      background: rgba(56, 189, 248, 0.14) !important;
+      background: color-mix(in srgb, var(--cyan) 14%, transparent) !important;
     }
 
     /* Modal Form / Advanced Settings */
@@ -3307,7 +3317,7 @@
       width: 100%;
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px color-mix(in srgb, var(--cyan) 20%, transparent);
       animation: vsDrawerPop 0.25s ease;
     }
 
@@ -3357,7 +3367,7 @@
 
     .admin-preset-card:hover {
       border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.05);
+      background: color-mix(in srgb, var(--cyan) 5%, transparent);
       transform: translateY(-2px);
     }
 
@@ -3420,7 +3430,7 @@
     .admin-btn-icon:hover {
       border-color: var(--cyan);
       color: var(--cyan);
-      background: rgba(56, 189, 248, 0.08);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
     }
 
     .admin-btn-icon.danger:hover {
@@ -3451,7 +3461,7 @@
       font-size: 14px;
       font-weight: 700;
       font-family: var(--display);
-      box-shadow: 0 8px 35px rgba(0, 0, 0, .7), 0 0 20px rgba(0, 242, 254, .2);
+      box-shadow: 0 8px 35px rgba(0, 0, 0, .7), 0 0 20px color-mix(in srgb, var(--cyan) 20%, transparent);
       z-index: 9999;
       opacity: 0;
       transition: all .3s cubic-bezier(.4, 0, .2, 1);
@@ -3472,7 +3482,29 @@
     }
 
     .option-icon {
-      display: none !important
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--t3);
+      transition: color 0.2s ease;
+    }
+
+    .option-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .option-btn:hover .option-icon,
+    .option-btn.selected .option-icon {
+      color: var(--cyan);
     }
 
     .divider {
@@ -3509,7 +3541,7 @@
       width: 22px;
       height: 22px;
       object-fit: contain;
-      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
+      filter: drop-shadow(0 0 6px color-mix(in srgb, var(--cyan) 40%, transparent));
       border-radius: 4px;
     }
 
@@ -3543,12 +3575,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(0, 242, 254, 0.2);
+      background: color-mix(in srgb, var(--cyan) 20%, transparent);
       border-radius: 3px
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 242, 254, 0.4)
+      background: color-mix(in srgb, var(--cyan) 40%, transparent)
     }
   </style>
 </head>
@@ -4335,6 +4367,69 @@
     }
 
     // ════════════════════════════════════════════════════════════
+    //  SVG LINE-ART ICON MAP (replaces emojis with line drawings)
+    // ════════════════════════════════════════════════════════════
+    const LINE_ICONS = {
+      '🐌': '<svg viewBox="0 0 24 24"><path d="M3 18c0 0 2 0 4-2s3-5 7-5c3 0 5 2 5 5s-2 5-5 5"/><circle cx="14" cy="16" r="3"/><path d="M8 9l-1-4M11 9l1-4"/></svg>',
+      '🐢': '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="7" ry="5"/><path d="M12 9v-3M8 12l-3 3M16 12l3 3M9 18l-1 2M15 18l1 2"/><circle cx="12" cy="6" r="2"/></svg>',
+      '⚡': '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
+      '🚀': '<svg viewBox="0 0 24 24"><path d="M12 2c-3 4-5 8-5 13h10c0-5-2-9-5-13z"/><path d="M7 15l-2 4h2M17 15l2 4h-2"/><circle cx="12" cy="11" r="2"/></svg>',
+      '🔥': '<svg viewBox="0 0 24 24"><path d="M12 22c-4 0-7-3-7-7 0-3 2-5 4-7 0 2 1 3 3 3-1-3 1-7 4-9 0 3 1 5 2 6 1.5 1.5 2 3.5 2 5.5 0 4.5-3.5 8.5-8 8.5z"/></svg>',
+      '✏️': '<svg viewBox="0 0 24 24"><path d="M17 3l4 4-12 12H5v-4L17 3z"/><path d="M14 6l4 4"/></svg>',
+      '📦': '<svg viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4V8z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>',
+      '📋': '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>',
+      '🗂️': '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>',
+      '📐': '<svg viewBox="0 0 24 24"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg>',
+      '📏': '<svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v5M14 8v3M18 8v5"/></svg>',
+      '🔭': '<svg viewBox="0 0 24 24"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg>',
+      '🔫': '<svg viewBox="0 0 24 24"><path d="M4 12h12l4-4M16 12v5l-3 3M8 12v4"/></svg>',
+      '💥': '<svg viewBox="0 0 24 24"><path d="M12 2l2 5 5-1-3 4 4 3-5 1 1 5-4-3-4 3 1-5-5-1 4-3-3-4 5 1z"/></svg>',
+      '🪖': '<svg viewBox="0 0 24 24"><path d="M4 14c0-5 3.5-8 8-8s8 3 8 8"/><path d="M3 14h18v2c0 1-1 2-2 2H5c-1 0-2-1-2-2v-2z"/></svg>',
+      '🎯': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>',
+      '🔑': '<svg viewBox="0 0 24 24"><path d="M5 12h10M12 9v6"/><rect x="13" y="8" width="7" height="8" rx="1"/></svg>',
+      '🔬': '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/><path d="M11 8v6M8 11h6"/></svg>',
+      '⚖️': '<svg viewBox="0 0 24 24"><path d="M12 3v18M5 7l7-1 7 1"/><path d="M3 13l2-6 2 6a3 3 0 0 1-4 0zM17 13l2-6 2 6a3 3 0 0 1-4 0z"/></svg>',
+      '🖐️': '<svg viewBox="0 0 24 24"><path d="M8 14V6a1 1 0 0 1 2 0v5M12 5a1 1 0 0 1 2 0v6M16 7a1 1 0 0 1 2 0v5M6 10a1 1 0 0 1 2 0v4"/><path d="M18 12v3c0 4-3 6-6 6s-6-2-6-6v-1"/></svg>',
+      '🦀': '<svg viewBox="0 0 24 24"><path d="M7 10c0-2 1-4 5-4s5 2 5 4"/><path d="M6 10l-3-3M18 10l3-3"/><path d="M7 13c0 3 2 5 5 5s5-2 5-5"/><path d="M9 10v3M15 10v3"/></svg>',
+      '👆': '<svg viewBox="0 0 24 24"><path d="M12 3v10M9 18c0 1 1 2 3 2s3-1 3-2v-4H9v4z"/><path d="M12 3a2 2 0 0 0-2 2v3h4V5a2 2 0 0 0-2-2z"/></svg>',
+      '🤏': '<svg viewBox="0 0 24 24"><path d="M6 12c0-1 .5-2 2-2h2"/><path d="M10 10h4a2 2 0 0 1 0 4h-4a2 2 0 0 1 0-4z"/><path d="M3 12h3M18 12h3"/></svg>',
+      '💪': '<svg viewBox="0 0 24 24"><path d="M7 18c-1 0-2-1-2-2v-3c0-2 1-3 3-4l4-2c2-1 3 0 3 1v2"/><path d="M15 10l2-4c1-1 2 0 2 1v6c0 3-2 5-5 5H7"/></svg>',
+      '🙌': '<svg viewBox="0 0 24 24"><path d="M7 10V5a1 1 0 0 1 2 0v5M11 10V4a1 1 0 0 1 2 0v6M15 10V5a1 1 0 0 1 2 0v5"/><path d="M7 10c-2 0-3 2-3 4v2c0 3 3 5 8 5s8-2 8-5v-2c0-2-1-4-3-4"/></svg>',
+      '✅': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>',
+      '❌': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
+      '⚠️': '<svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>',
+      '❓': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a3 3 0 0 1 5 1c0 2-3 2-3 4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>',
+      '👍': '<svg viewBox="0 0 24 24"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg>',
+      '🎮': '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg>',
+      '🏆': '<svg viewBox="0 0 24 24"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg>',
+      '🤖': '<svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="12" rx="2"/><circle cx="9" cy="13" r="1.5"/><circle cx="15" cy="13" r="1.5"/><path d="M9 17h6M12 4v4M8 5h2M14 5h2"/></svg>',
+      '🌱': '<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M7 10c0-4 2-6 5-7 3 1 5 3 5 7-2 0-4-1-5-3-1 2-3 3-5 3z"/></svg>',
+      '📈': '<svg viewBox="0 0 24 24"><path d="M4 18l5-5 3 3 7-9"/><path d="M16 7h4v4"/></svg>',
+      '⭐': '<svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-2.5L7 19.5l1-6-4-4 5.5-1z"/></svg>',
+      '➡️': '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+      '⬅️': '<svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+      '↩️': '<svg viewBox="0 0 24 24"><path d="M19 8v3c0 3-2 5-5 5H5"/><path d="M9 12l-4 4 4 4"/></svg>',
+      '🔄': '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg>',
+      '🎯🏆': '<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/><path d="M15 14h-2v4c0 1 .5 2 3 2s3-1 3-2v-4z"/><path d="M14 11h4v3h-4z"/></svg>',
+      // Game-specific icons
+      '💣': '<svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="7"/><path d="M12 7V4M10 4h4"/><path d="M15 5l2-2"/></svg>',
+      '🛡️': '<svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z"/></svg>',
+      '🐔': '<svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="5"/><path d="M12 5c0-2 2-3 3-2M9 9h.01M15 9h.01"/><path d="M10 12c0 1 .9 2 2 2s2-1 2-2"/><path d="M8 15l-1 5h2M16 15l1 5h-2"/></svg>',
+      '⛏️': '<svg viewBox="0 0 24 24"><path d="M5 19L12 12M12 5l4 4M8 5l8 8"/><path d="M15 3l3 3-7 7"/></svg>',
+      '🦸': '<svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M8 12h8l2 8H6l2-8z"/><path d="M4 10l3 2M20 10l-3 2"/></svg>',
+      '🚁': '<svg viewBox="0 0 24 24"><path d="M4 11h16M12 4v7"/><ellipse cx="12" cy="14" rx="5" ry="3"/><path d="M7 17l-2 3M17 17l2 3M17 14h3"/></svg>',
+      '📺': '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+      '🌌': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 12c3-4 7-4 7 0s4 4 7 0"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="10" r=".7" fill="currentColor"/><circle cx="13" cy="16" r=".7" fill="currentColor"/></svg>',
+      '⏳': '<svg viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>',
+      '🔧': '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+    };
+
+    function getLineIcon(emoji) {
+      if (!emoji) return '';
+      return LINE_ICONS[emoji] || '';
+    }
+
+    // ════════════════════════════════════════════════════════════
     //  QUESTIONS (BILINGUAL TR / EN)
     // ════════════════════════════════════════════════════════════
     function buildQuestions() {
@@ -4737,12 +4832,12 @@
           const arr = state.answers[q.id] || [];
           const sel = arr.includes(opt.value) ? 'selected' : '';
           h += `<button class="option-btn ${sel}" onclick="toggleMulti('${q.id}','${opt.value}')">
-        ${opt.icon ? `<span class="option-icon">${opt.icon}</span>` : ''}
+        ${opt.icon && getLineIcon(opt.icon) ? `<span class="option-icon">${getLineIcon(opt.icon)}</span>` : ''}
         <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
         });
         if (q.allowUnsure) {
           const us = state.answers[q.id + '_unsure'] ? 'selected unsure' : 'unsure';
-          h += `<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">${getLineIcon('❓')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
         h += `</div>`;
       } else if (q.type === 'single') {
@@ -4751,12 +4846,12 @@
         q.options.forEach(opt => {
           const sel = state.answers[q.id] === opt.value ? 'selected' : '';
           h += `<button class="option-btn radio ${sel}" onclick="selectSingle('${q.id}','${opt.value}')">
-        ${opt.icon ? `<span class="option-icon">${opt.icon}</span>` : ''}
+        ${opt.icon && getLineIcon(opt.icon) ? `<span class="option-icon">${getLineIcon(opt.icon)}</span>` : ''}
         <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
         });
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('❓')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
         h += `</div>`;
       } else if (q.type === 'text') {
@@ -4766,7 +4861,7 @@
         if (q.datalistId) { h += `<datalist id="${q.datalistId}">${MOUSE_DB.map(m => `<option value="${m.brand} ${m.model}">`).join('')}</datalist>`; }
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('❓')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
       } else if (q.type === 'inputs') {
         h += `<div class="inputs-row">`;
@@ -4805,7 +4900,7 @@
         h += `</div>`;
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">❓</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button></div>`;
+          h += `<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('❓')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button></div>`;
         }
       }
 
@@ -5053,7 +5148,7 @@
         ${ma.info.map(i => `<div class="analysis-item"><div class="label">${i.l}</div><div class="value">${i.v}</div></div>`).join('')}
       </div>
       ${ma.warnings.map(w => `<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">⚠️ ${w}</div>`).join('')}
-      ${ma.tips.map(t => `<div style="background:rgba(99,179,237,.07);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">💡 ${t}</div>`).join('')}
+      ${ma.tips.map(t => `<div style="background:color-mix(in srgb, var(--cyan) 7%, transparent);border:1px solid color-mix(in srgb, var(--cyan) 20%, transparent);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px;color:var(--t2)">💡 ${t}</div>`).join('')}
       ${!ma.warnings.length && !ma.tips.length ? `<div style="font-size:13px;color:var(--green)">${isEn ? 'Your mouse matches well with your current setup.' : 'Mouse\'un mevcut ayarlarınla uyumlu görünüyor.'}</div>` : ''}
     </div>`;
       }
@@ -5076,7 +5171,7 @@
 
         return `<div class="profile-card ${p.type}${isRec ? ' recommended' : ''}">
       <div class="profile-header">
-        <div class="profile-icon">${p.icon}</div>
+        <div class="profile-icon">${getLineIcon(p.icon) || p.icon}</div>
         <div>
           <div class="profile-name">${profTitle} ${isRec ? `<span style="font-size:11px;background:var(--blue);color:#fff;padding:2px 8px;border-radius:10px;margin-left:6px;font-weight:700">${isEn ? 'RECOMMENDED' : 'ÖNERİLEN'}</span>` : ''}</div>
           <div class="profile-tagline">${profTag}</div>
@@ -5325,7 +5420,7 @@
 
       // Radial glow accents
       const glow1 = ctx.createRadialGradient(200, 100, 10, 200, 100, 400);
-      glow1.addColorStop(0, 'rgba(99, 179, 237, 0.25)');
+      glow1.addColorStop(0, 'color-mix(in srgb, var(--cyan) 25%, transparent)');
       glow1.addColorStop(1, 'transparent');
       ctx.fillStyle = glow1;
       ctx.fillRect(0, 0, 1200, 630);
@@ -5337,7 +5432,7 @@
       ctx.fillRect(0, 0, 1200, 630);
 
       // Border frame
-      ctx.strokeStyle = 'rgba(99, 179, 237, 0.3)';
+      ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 30%, transparent)';
       ctx.lineWidth = 4;
       ctx.strokeRect(24, 24, 1152, 582);
 
@@ -5390,7 +5485,7 @@
       const mouseName = mouse ? `${mouse.brand} ${mouse.model} (${mouse.weight}g)` : (typeof a.q2 === 'string' && a.q2 !== '__unsure__' ? a.q2 : 'FPS Gaming Mouse');
 
       ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-      ctx.strokeStyle = 'rgba(99, 179, 237, 0.2)';
+      ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 20%, transparent)';
       ctx.beginPath();
       ctx.roundRect(60, 380, 1080, 140, 14);
       ctx.fill();
@@ -5699,7 +5794,7 @@
           { v: 'no', l: isEn ? 'Not yet tested' : 'Henüz denemedim', i: '⏳' },
           { v: 'bad', l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i: '❌' },
         ].map(o => `<div class="fb-option${fbState.tried === o.v ? ' selected' : ''}" onclick="setTried('${o.v}')">
-          <span style="font-size:18px">${o.i}</span><span>${o.l}</span>
+          <span class="option-icon" style="width:20px;height:20px">${getLineIcon(o.i) || o.i}</span><span>${o.l}</span>
         </div>`).join('')}
       </div>
     </div>
@@ -6126,7 +6221,7 @@
         </table>
       </div>
       
-      <div style="background:rgba(99,179,237,.06);border:1px solid rgba(99,179,237,.2);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
+      <div style="background:color-mix(in srgb, var(--cyan) 6%, transparent);border:1px solid color-mix(in srgb, var(--cyan) 20%, transparent);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
         💡 <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn ? 'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.' : 'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
       </div>
     </div>
@@ -6498,7 +6593,7 @@
 
       if (aimTestState.mode === 'flick') {
         // Background Grid
-        ctx.strokeStyle = 'rgba(99, 179, 237, 0.05)';
+        ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 5%, transparent)';
         ctx.lineWidth = 1;
         for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
         for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
@@ -6506,7 +6601,7 @@
         aimTestState.targets.forEach(t => {
           ctx.beginPath();
           ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(99, 179, 237, 0.2)';
+          ctx.fillStyle = 'color-mix(in srgb, var(--cyan) 20%, transparent)';
           ctx.fill();
           ctx.strokeStyle = '#63b3ed';
           ctx.lineWidth = 2.5;
@@ -6520,7 +6615,7 @@
 
       } else if (aimTestState.mode === 'track') {
         // Background Grid
-        ctx.strokeStyle = 'rgba(99, 179, 237, 0.05)';
+        ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 5%, transparent)';
         ctx.lineWidth = 1;
         for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
         for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
@@ -6589,12 +6684,12 @@
         ctx.fillRect(0, cy, w, h - cy);
 
         // Horizon line
-        ctx.strokeStyle = 'rgba(99, 179, 237, 0.15)';
+        ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 15%, transparent)';
         ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
 
         // 2. Perspective Floor Grid Lines
-        ctx.strokeStyle = 'rgba(99, 179, 237, 0.07)';
+        ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 7%, transparent)';
         ctx.lineWidth = 1;
         for (let deg = 0; deg < 360; deg += 15) {
           const diff = (((deg - playerYaw + 540) % 360) - 180);
@@ -6685,7 +6780,7 @@
             // Target Outer Ring
             ctx.beginPath();
             ctx.arc(xPos, yPos, radius, 0, Math.PI * 2);
-            ctx.fillStyle = t.active ? (t.deg === 180 ? 'rgba(245, 158, 11, 0.25)' : 'rgba(99, 179, 237, 0.25)') : 'rgba(255, 255, 255, 0.05)';
+            ctx.fillStyle = t.active ? (t.deg === 180 ? 'rgba(245, 158, 11, 0.25)' : 'color-mix(in srgb, var(--cyan) 25%, transparent)') : 'rgba(255, 255, 255, 0.05)';
             ctx.fill();
             ctx.strokeStyle = t.active ? (t.deg === 180 ? '#f59e0b' : '#63b3ed') : 'rgba(255, 255, 255, 0.2)';
             ctx.lineWidth = t.active ? 3.5 : 1.5;
@@ -6702,7 +6797,7 @@
               const pulseR = radius + (Math.sin(performance.now() * 0.008) + 1) * 7;
               ctx.beginPath();
               ctx.arc(xPos, yPos, pulseR, 0, Math.PI * 2);
-              ctx.strokeStyle = t.deg === 180 ? 'rgba(245, 158, 11, 0.5)' : 'rgba(99, 179, 237, 0.5)';
+              ctx.strokeStyle = t.deg === 180 ? 'rgba(245, 158, 11, 0.5)' : 'color-mix(in srgb, var(--cyan) 50%, transparent)';
               ctx.lineWidth = 2;
               ctx.stroke();
             }
@@ -6719,7 +6814,7 @@
         const compassH = 34;
         ctx.fillStyle = 'rgba(8, 12, 20, 0.9)';
         ctx.fillRect(cx - 220, 10, 440, compassH);
-        ctx.strokeStyle = 'rgba(99, 179, 237, 0.3)';
+        ctx.strokeStyle = 'color-mix(in srgb, var(--cyan) 30%, transparent)';
         ctx.lineWidth = 1;
         ctx.strokeRect(cx - 220, 10, 440, compassH);
 
@@ -6762,8 +6857,8 @@
 
         const curDegFormatted = playerYaw.toFixed(1);
         let promptMsg = '';
-        let promptBg = 'rgba(99, 179, 237, 0.15)';
-        let promptBorder = 'rgba(99, 179, 237, 0.4)';
+        let promptBg = 'color-mix(in srgb, var(--cyan) 15%, transparent)';
+        let promptBorder = 'color-mix(in srgb, var(--cyan) 40%, transparent)';
 
         if (aimTestState.calibPhase === 'wait_start') {
           promptMsg = isEn
@@ -7875,6 +7970,12 @@
     function updateAdminColor(mode, key, val) {
       adminConfig[mode] = adminConfig[mode] || {};
       adminConfig[mode][key] = val;
+      if (key === 'cyan') {
+        adminConfig[mode].gbtnStart = val;
+      }
+      if (key === 'blue') {
+        adminConfig[mode].gbtnEnd = val;
+      }
       applyAdminConfig(adminConfig);
     }
 
