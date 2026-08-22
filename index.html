@@ -8714,10 +8714,10 @@
                 : 'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.'}
               </p>
               <div class="home-card-tags">
-                <span class="home-card-tag">12+ FPS Motoru</span>
-                <span class="home-card-tag">cm/360 Koruma</span>
-                <span class="home-card-tag">Scope / Zoom Çarpanı</span>
-                <span class="home-card-tag">Hızlı Çapraz Çeviri</span>
+                <span class="home-card-tag">${isEn ? '12+ FPS Engines' : '12+ FPS Motoru'}</span>
+                <span class="home-card-tag">${isEn ? 'cm/360 Preservation' : 'cm/360 Koruma'}</span>
+                <span class="home-card-tag">${isEn ? 'Scope/ADS Multipliers' : 'Scope / Zoom Çarpanı'}</span>
+                <span class="home-card-tag">${isEn ? 'Lossless 1:1 Conversion' : 'Hızlı Çapraz Çeviri'}</span>
               </div>
             </div>
             <button class="home-card-btn">
@@ -8741,9 +8741,9 @@
                 : 'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.'}
               </p>
               <div class="home-card-tags">
-                <span class="home-card-tag">180° Kas Hafızası</span>
-                <span class="home-card-tag">Tepki Süresi Ölçümü</span>
-                <span class="home-card-tag">Sapma & Hata Oranı</span>
+                <span class="home-card-tag">${isEn ? '180° Muscle Memory' : '180° Kas Hafızası'}</span>
+                <span class="home-card-tag">${isEn ? 'Reaction Time Tracker' : 'Tepki Süresi Ölçümü'}</span>
+                <span class="home-card-tag">${isEn ? 'Angle Deviation & Error' : 'Sapma & Hata Oranı'}</span>
               </div>
             </div>
             <button class="home-card-btn">
@@ -8767,10 +8767,10 @@
                 : 'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.'}
               </p>
               <div class="home-card-tags">
-                <span class="home-card-tag">Tier-1 Esporcular</span>
-                <span class="home-card-tag">Kullandıkları Mouselar</span>
-                <span class="home-card-tag">Canlı Kıyaslama</span>
-                <span class="home-card-tag">ProSettings Verisi</span>
+                <span class="home-card-tag">${isEn ? 'Tier-1 Esports Benchmarks' : 'Tier-1 Esporcular'}</span>
+                <span class="home-card-tag">${isEn ? 'Mice & Hardware Used' : 'Kullandıkları Mouselar'}</span>
+                <span class="home-card-tag">${isEn ? 'Live Comparison' : 'Canlı Kıyaslama'}</span>
+                <span class="home-card-tag">${isEn ? 'ProSettings Verified' : 'ProSettings Verisi'}</span>
               </div>
             </div>
             <button class="home-card-btn">
@@ -8794,9 +8794,9 @@
                 : 'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.'}
               </p>
               <div class="home-card-tags">
-                <span class="home-card-tag">Yeni Model Talebi</span>
-                <span class="home-card-tag">Yıldız Puanlama</span>
-                <span class="home-card-tag">Geliştiriciye Not</span>
+                <span class="home-card-tag">${isEn ? 'Mouse Model Wishlist' : 'Yeni Model Talebi'}</span>
+                <span class="home-card-tag">${isEn ? 'Star Rating System' : 'Yıldız Puanlama'}</span>
+                <span class="home-card-tag">${isEn ? 'Developer Notes' : 'Geliştiriciye Not'}</span>
               </div>
             </div>
             <button class="home-card-btn">
@@ -11763,6 +11763,7 @@
         btn: 'EN',
         title: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>',
         sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
+        tabHome: 'Ana Sayfa',
         tabAnalysis: 'Analiz',
         tabConverter: 'Sens & Scope Converter',
         tabAimtest: 'Aim Testi',
@@ -11789,6 +11790,7 @@
         btn: 'TR',
         title: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>',
         sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
+        tabHome: 'Home',
         tabAnalysis: 'Analysis',
         tabConverter: 'Sens & Scope Converter',
         tabAimtest: 'Aim Test Lab',
@@ -12308,11 +12310,11 @@
       const txt = conf.texts || DEFAULT_ADMIN_CONFIG.texts;
       const hTitle = document.getElementById('headerTitle');
       if (hTitle && (!conf.customTexts || !conf.customTexts['id_headerTitle'])) {
-        hTitle.innerHTML = isEn ? (txt.headerTitleEn || txt.headerTitleTr) : txt.headerTitleTr;
+        hTitle.innerHTML = dict.title;
       }
       const hSub = document.getElementById('headerSub');
       if (hSub && (!conf.customTexts || !conf.customTexts['id_headerSub'])) {
-        hSub.textContent = isEn ? (txt.headerSubEn || txt.headerSubTr) : txt.headerSubTr;
+        hSub.textContent = dict.sub;
       }
       const fText = document.getElementById('footerText');
       if (fText && (!conf.customTexts || !conf.customTexts['id_footerText'])) {
