@@ -3582,6 +3582,25 @@
     ::-webkit-scrollbar-thumb:hover {
       background: color-mix(in srgb, var(--cyan) 40%, transparent)
     }
+  
+    .inline-icon {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: -2px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .inline-icon.lg {
+      width: 18px;
+      height: 18px;
+      vertical-align: -3px;
+    }
+
   </style>
 </head>
 
@@ -3604,10 +3623,9 @@
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
         </div>
         <div class="top-controls">
-          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme">☀️
-            Açık Mod</button>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg> Açık Mod</button>
           <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)"
-            title="Dili Değiştir / Change Language">🌐 EN</button>
+            title="Dili Değiştir / Change Language"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> EN</button>
         </div>
       </div>
 
@@ -3692,30 +3710,30 @@
 
       <!-- LIVE FLOATING VISUAL STUDIO TOOLBAR -->
       <div id="vecsensVisualStudio" class="visual-studio-toolbar hidden">
-        <div class="vs-brand">⚡ Visual Studio</div>
+        <div class="vs-brand"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> Visual Studio</div>
         <button class="vs-btn" id="btnVsInlineEdit" onclick="toggleVsInlineEdit()">
-          <span>✏️</span> <span id="lblVsInlineEdit">Canlı Yazı Düzenle</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M17 3l4 4-12 12H5v-4L17 3z"/><path d="M14 6l4 4"/></svg></span> <span id="lblVsInlineEdit">Canlı Yazı Düzenle</span>
         </button>
         <button class="vs-btn" id="btnVsBoxes" onclick="toggleVsDrawer('boxes')">
-          <span>📐</span> <span>Kutu & Boyutlar</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg></span> <span>Kutu & Boyutlar</span>
         </button>
         <button class="vs-btn" id="btnVsThemes" onclick="toggleVsDrawer('themes')">
-          <span>🎨</span> <span>Canlı Renkler</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="15.5" cy="14.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 0 2 1.5 3.5 1.5s2-1 2-2"/></svg></span> <span>Canlı Renkler</span>
         </button>
         <button class="vs-btn" onclick="openVsAdvancedModal()">
-          <span>⚙️</span> <span>Gelişmiş / DB</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span>Gelişmiş / DB</span>
         </button>
         <button class="vs-btn success" onclick="saveVsConfig()">
-          <span>💾</span> <span>Kaydet</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span> <span>Kaydet</span>
         </button>
         <button class="vs-btn" onclick="deployToGitHub()" title="Tema ve ayarları GitHub'a yayınla – tüm ziyaretçiler görecek" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;border-color:#10b981">
-          <span>🚀</span> <span>Siteye Yayınla</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 2c-3 4-5 8-5 13h10c0-5-2-9-5-13z"/><path d="M7 15l-2 4h2M17 15l2 4h-2"/><circle cx="12" cy="11" r="2"/></svg></span> <span>Siteye Yayınla</span>
         </button>
         <button class="vs-btn" onclick="exportFullUpdatedHtml()" title="GitHub için güncel index.html dosyasını indir">
-          <span>📥</span> <span>HTML İndir</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span> <span>HTML İndir</span>
         </button>
         <button class="vs-btn" onclick="resetVsConfig()">
-          <span>🔄</span> <span>Sıfırla</span>
+          <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg></span> <span>Sıfırla</span>
         </button>
         <button class="vs-btn danger" onclick="closeVsStudio()" title="Kapat">
           <span>✕</span>
@@ -3753,7 +3771,7 @@
       { id: 'valorant', label: 'Valorant', icon: '🎯' },
       { id: 'cs2', label: 'Counter-Strike 2', icon: '💣' },
       { id: 'r6', label: 'Rainbow Six Siege', icon: '🛡️' },
-      { id: 'apex', label: 'Apex Legends', icon: '🔥' },
+      { id: 'apex', label: 'Apex Legends', icon: '' },
       { id: 'warzone', label: 'Call of Duty Warzone', icon: '🪖' },
       { id: 'pubg', label: 'PUBG', icon: '🐔' },
       { id: 'fortnite', label: 'Fortnite', icon: '⛏️' },
@@ -4469,12 +4487,12 @@
             { value: '800', label: '800 DPI', icon: '⚡' },
             { value: '1000', label: '1000 DPI', icon: '⚡' },
             { value: '1200', label: '1200 DPI', icon: '⚡' },
-            { value: '1600', label: '1600 DPI', icon: '🚀' },
-            { value: '2400', label: '2400 DPI', icon: '🚀' },
-            { value: '3200', label: '3200 DPI', icon: '🚀' },
-            { value: '4000', label: '4000 DPI', icon: '🔥' },
-            { value: '6400', label: '6400 DPI', icon: '🔥' },
-            { value: 'custom', label: isEn ? 'Other — I will enter value' : 'Diğer — Kendim yazacağım', icon: '✏️' },
+            { value: '1600', label: '1600 DPI', icon: '' },
+            { value: '2400', label: '2400 DPI', icon: '' },
+            { value: '3200', label: '3200 DPI', icon: '' },
+            { value: '4000', label: '4000 DPI', icon: '' },
+            { value: '6400', label: '6400 DPI', icon: '' },
+            { value: 'custom', label: isEn ? 'Other — I will enter value' : 'Diğer — Kendim yazacağım', icon: '' },
           ]
         },
         {
@@ -4496,9 +4514,9 @@
             { value: '250', label: '250 Hz' },
             { value: '500', label: '500 Hz' },
             { value: '1000', label: '1000 Hz', icon: '⚡' },
-            { value: '2000', label: '2000 Hz', icon: '🚀' },
-            { value: '4000', label: '4000 Hz', icon: '🚀' },
-            { value: '8000', label: '8000 Hz', icon: '🔥' }
+            { value: '2000', label: '2000 Hz', icon: '' },
+            { value: '4000', label: '4000 Hz', icon: '' },
+            { value: '8000', label: '8000 Hz', icon: '' }
           ]
         },
         {
@@ -4509,7 +4527,7 @@
           allowUnsure: true,
           options: [
             { value: 'small', label: isEn ? 'Small (~20×25 cm)' : 'Küçük (~20×25 cm)', icon: '📦' },
-            { value: 'medium', label: isEn ? 'Medium (~30×35 cm)' : 'Orta (~30×35 cm)', icon: '📋' },
+            { value: 'medium', label: isEn ? 'Medium (~30×35 cm)' : 'Orta (~30×35 cm)', icon: '' },
             { value: 'large', label: isEn ? 'Large (~40×45 cm)' : 'Büyük (~40×45 cm)', icon: '🗂️' },
             { value: 'xxl', label: isEn ? 'XXL Desk Mat (45 cm+)' : 'XXL (45 cm+)', icon: '📐' },
             { value: 'custom', label: isEn ? 'Custom dimensions' : 'Ölçüsünü biliyorum', icon: '📏' }
@@ -4581,7 +4599,7 @@
           options: [
             { value: 'flick', label: isEn ? 'Flick Aim — Fast target snapping' : 'Ani sıçrama (Flick) — İmleci hızlıca hedefe götürürüm', icon: '⚡' },
             { value: 'track', label: isEn ? 'Tracking — Continuously staying on moving targets' : 'Takip (Tracking) — Sürekli hedefi nişanda tutarım', icon: '🎯' },
-            { value: 'switch', label: isEn ? 'Target Switching — Bouncing between multiple targets' : 'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım', icon: '🔄' },
+            { value: 'switch', label: isEn ? 'Target Switching — Bouncing between multiple targets' : 'Hızlı geçiş (Target Switch) — Hedeften hedefe atlarım', icon: '' },
             { value: 'micro', label: isEn ? 'Micro-Correction — Subtle precise adjustments' : 'Mikro düzeltme — Küçük hassas hareketler yaparım', icon: '🔬' },
             { value: 'mixed', label: isEn ? 'Hybrid / Balanced — Equal mix of all styles' : 'Hepsini benzer oranda kullanıyorum', icon: '⚖️' }
           ]
@@ -4627,8 +4645,8 @@
           subtitle: isEn ? 'Can you perform wide swipes without bumping into keyboard/edges?' : 'Mousepad\'ini rahatça kullanabiliyor musun?',
           type: 'single',
           options: [
-            { value: 'yes', label: isEn ? 'Yes, ample space' : 'Evet, yeterli alan var', icon: '✅' },
-            { value: 'no', label: isEn ? 'No, cramped / limited space' : 'Hayır, alanım kısıtlı', icon: '❌' }
+            { value: 'yes', label: isEn ? 'Yes, ample space' : 'Evet, yeterli alan var', icon: '' },
+            { value: 'no', label: isEn ? 'No, cramped / limited space' : 'Hayır, alanım kısıtlı', icon: '' }
           ]
         },
         {
@@ -4640,8 +4658,8 @@
             { value: 'low', label: isEn ? 'Under 60 FPS' : '60\'ın altı', icon: '🐢' },
             { value: 'mid', label: '60 – 120 FPS', icon: '👍' },
             { value: 'good', label: '120 – 180 FPS', icon: '⚡' },
-            { value: 'high', label: '180 – 240 FPS', icon: '🚀' },
-            { value: 'ultra', label: isEn ? '240+ FPS' : '240 ve üzeri', icon: '🔥' }
+            { value: 'high', label: '180 – 240 FPS', icon: '' },
+            { value: 'ultra', label: isEn ? '240+ FPS' : '240 ve üzeri', icon: '' }
           ]
         },
         {
@@ -4652,7 +4670,7 @@
           allowUnsure: true,
           options: [
             { value: 'on', label: isEn ? 'Enabled (ON)' : 'Açık', icon: '⚡' },
-            { value: 'off', label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon: '✅' }
+            { value: 'off', label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon: '' }
           ]
         },
         {
@@ -4662,7 +4680,7 @@
           type: 'single',
           allowUnsure: true,
           options: [
-            { value: 'on', label: isEn ? 'Enabled (ON — Recommended)' : 'Açık', icon: '✅' },
+            { value: 'on', label: isEn ? 'Enabled (ON — Recommended)' : 'Açık', icon: '' },
             { value: 'off', label: isEn ? 'Disabled (OFF)' : 'Kapalı', icon: '⚠️' }
           ]
         },
@@ -4688,7 +4706,7 @@
           allowUnsure: true,
           options: [
             { value: 'on', label: isEn ? 'Enabled (ON)' : 'Açık', icon: '⚠️' },
-            { value: 'off', label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon: '✅' }
+            { value: 'off', label: isEn ? 'Disabled (OFF — Recommended)' : 'Kapalı', icon: '' }
           ]
         },
         {
@@ -4707,9 +4725,9 @@
           title: isEn ? 'How do you feel about your current sensitivity?' : 'Mevcut hassasiyetin hakkında ne düşünüyorsun?',
           subtitle: '', type: 'single',
           options: [
-            { value: 'way_fast', label: isEn ? 'Far too fast — Crosshair constantly overshooting' : 'Çok hızlı — Nişan her yere kaçıyor', icon: '🚀' },
+            { value: 'way_fast', label: isEn ? 'Far too fast — Crosshair constantly overshooting' : 'Çok hızlı — Nişan her yere kaçıyor', icon: '' },
             { value: 'bit_fast', label: isEn ? 'Slightly fast — Occasionally passing targets' : 'Biraz hızlı — Zaman zaman hedefi geçiyorum', icon: '⚡' },
-            { value: 'perfect', label: isEn ? 'Ideal — Very comfortable' : 'Tam ideal — Çok memnunum', icon: '✅' },
+            { value: 'perfect', label: isEn ? 'Ideal — Very comfortable' : 'Tam ideal — Çok memnunum', icon: '' },
             { value: 'bit_slow', label: isEn ? 'Slightly slow — Lagging behind fast targets' : 'Biraz yavaş — Zaman zaman yetişemiyorum', icon: '🐢' },
             { value: 'way_slow', label: isEn ? 'Far too slow — Straining to turn 180°' : 'Çok yavaş — Hedefe hiç yetişemiyorum', icon: '🐌' }
           ]
@@ -4722,12 +4740,12 @@
           options: [
             { value: 'overshoot', label: isEn ? 'Overshooting past targets' : 'Nişanım hedefi geçiyor (Overshoot)', icon: '➡️' },
             { value: 'undershoot', label: isEn ? 'Undershooting / stopping short' : 'Nişanım hedefe ulaşamıyor (Undershoot)', icon: '⬅️' },
-            { value: 'track', label: isEn ? 'Difficulty tracking moving targets' : 'Hareket eden hedefleri takip etmek zor', icon: '🔄' },
+            { value: 'track', label: isEn ? 'Difficulty tracking moving targets' : 'Hareket eden hedefleri takip etmek zor', icon: '' },
             { value: 'flick', label: isEn ? 'Struggling with fast flick accuracy' : 'Ani sıçrama (Flick) atışlarda zorlanıyorum', icon: '⚡' },
             { value: 'micro', label: isEn ? 'Difficulty making micro-adjustments' : 'Küçük nişan düzeltmeleri yapmak zor', icon: '🔬' },
             { value: 'turn180', label: isEn ? 'Cannot complete comfortable 180° turn' : '180 derece dönemiyorum', icon: '↩️' },
             { value: 'recoil', label: isEn ? 'Recoil control is difficult' : 'Geri tepme (Recoil) kontrolü zor', icon: '💥' },
-            { value: 'none', label: isEn ? 'No noticeable issues' : 'Belirgin bir sorunum yok', icon: '✅' }
+            { value: 'none', label: isEn ? 'No noticeable issues' : 'Belirgin bir sorunum yok', icon: '' }
           ]
         },
         {
@@ -4739,7 +4757,7 @@
             { value: 'aimlab', label: 'Aim Lab', icon: '🎯' },
             { value: 'kovaak', label: 'KovaaK\'s', icon: '🏆' },
             { value: 'both', label: isEn ? 'Both' : 'İkisi de', icon: '🎯🏆' },
-            { value: 'no', label: isEn ? 'No, I don\'t use any' : 'Hayır, kullanmıyorum', icon: '❌' }
+            { value: 'no', label: isEn ? 'No, I don\'t use any' : 'Hayır, kullanmıyorum', icon: '' }
           ]
         },
         {
@@ -4877,7 +4895,7 @@
             Object.keys(RES_PRESETS).forEach(ar => {
               h += `<button class="res-aspect-btn${aspect === ar ? ' active' : ''}" onclick="setResAspect('${q.id}','${ar}')">${ar}</button>`;
             });
-            h += `<button class="res-aspect-btn${aspect === 'other' ? ' active' : ''}" onclick="setResAspect('${q.id}','other')">${isEn ? 'Other ✏️' : 'Diğer ✏️'}</button>`;
+            h += `<button class="res-aspect-btn${aspect === 'other' ? ' active' : ''}" onclick="setResAspect('${q.id}','other')">${isEn ? 'Other' : 'Diğer'}</button>`;
             h += `</div>`;
             if (aspect === 'other') {
               h += `<input class="input-field" id="inp_${q.id}_${f.key}" type="text" placeholder="${isEn ? 'e.g. 1920×1080' : 'Örn: 1920×1080'}" value="${v}"/>`;
@@ -4984,7 +5002,7 @@
         { icon: '🎯', text: isEn ? 'Calculating aiming style...' : 'Nişan stili hesaplanıyor...' },
         { icon: '📐', text: isEn ? 'Computing cm/360 value...' : 'cm/360 değeri hesaplanıyor...' },
         { icon: '🧠', text: isEn ? 'Generating trio profiles...' : 'Üç profil oluşturuluyor...' },
-        { icon: '✅', text: isEn ? 'Personalized recommendations ready!' : 'Kişiselleştirilmiş öneriler hazır!' },
+        { icon: '', text: isEn ? 'Personalized recommendations ready!' : 'Kişiselleştirilmiş öneriler hazır!' },
       ];
       document.getElementById('questionArea').innerHTML = `
     <div class="loading-screen">
@@ -5133,7 +5151,7 @@
       if (a.q17 === 'off') alerts.push({ c: 'amber', m: isEn ? '<b>Raw Input is disabled.</b> We strongly recommend enabling it in game settings.' : '<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.' });
 
       const alertHtml = alerts.length ? `<div class="analysis-card">
-    <h3>⚠️ ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
+    <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg> ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
     ${alerts.map(al => `<div style="background:rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.07);border:1px solid rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
   </div>`: '';
 
@@ -5143,7 +5161,7 @@
       if (detectedMouse) {
         const ma = getMouseAnalysis(detectedMouse, a);
         mouseCardHtml = `<div class="analysis-card">
-      <h3>🖱️ ${isEn ? 'Mouse Analysis' : 'Mouse Analizi'} — ${detectedMouse.brand} ${detectedMouse.model}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v4"/></svg> ${isEn ? 'Mouse Analysis' : 'Mouse Analizi'} — ${detectedMouse.brand} ${detectedMouse.model}</h3>
       <div class="analysis-grid" style="margin-bottom:14px">
         ${ma.info.map(i => `<div class="analysis-item"><div class="label">${i.l}</div><div class="value">${i.v}</div></div>`).join('')}
       </div>
@@ -5197,7 +5215,7 @@
       const games = a.q1 || [];
       const multiGameHtml = (games.length > 1 && a.q27 === 'evet') ? `
     <div class="analysis-card">
-      <h3>🎮 ${isEn ? 'Multi-Game Sensitivity Table' : 'Çoklu Oyun Hassasiyet Tablosu'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg> ${isEn ? 'Multi-Game Sensitivity Table' : 'Çoklu Oyun Hassasiyet Tablosu'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn ? `Equivalent sensitivities calculated across all selected titles based on balanced profile (${profiles[1].cm360} cm/360).` : `Dengeli profil baz alınarak (${profiles[1].cm360} cm/360) tüm oyunlar için eşdeğer hassasiyet hesaplandı.`}</p>
       <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">
         <thead><tr style="background:rgba(255,255,255,.04)">
@@ -5228,8 +5246,8 @@
       
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()">📸 ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
-        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()">🔗 ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
         <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
@@ -5241,9 +5259,9 @@
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn">🔧 ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
-      <button class="btn btn-secondary" onclick="switchPage('pros')">🏆 ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
-      <button class="btn btn-secondary" onclick="location.reload()">↩ ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
+      <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
+      <button class="btn btn-secondary" onclick="switchPage('pros')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 4h12v5c0 4-2.5 6-6 6s-6-2-6-6V4z"/><path d="M6 7H3v2c0 2 1.5 3 3 3M18 7h3v2c0 2-1.5 3-3 3"/><path d="M9 18h6M12 15v3"/><rect x="8" y="18" width="8" height="2" rx="1"/></svg> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
+      <button class="btn btn-secondary" onclick="location.reload()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 8v3c0 3-2 5-5 5H5"/><path d="M9 12l-4 4 4 4"/></svg> ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
     </div>`;
 
       const rArea = document.getElementById('resultsArea');
@@ -5295,7 +5313,7 @@
 
       return `
     <div class="analysis-card">
-      <h3>📏 ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v5M14 8v3M18 8v5"/></svg> ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">
         ${isEn ? `Performing a full 180° turn requires <b>~${halfTurn} cm</b> of desk travel. That utilizes <b>${usagePct}%</b> of your mousepad width in a single swipe.` : `180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var. Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.`}
       </p>
@@ -5309,11 +5327,11 @@
 
       ${isCramped ? `
         <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber)">
-          ⚠️ <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
+          <svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/></svg> <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
         </div>
       ` : `
         <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">
-          ✅ <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
+          <svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
         </div>
       `}
     </div>
@@ -5351,8 +5369,8 @@
       return `
     <div class="analysis-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <h3>🏋️ ${isEn ? `Daily Aim Routine (${focusTitle})` : `Sana Özel Günlük Aim Rutini (${focusTitle})`}</h3>
-        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()">📋 ${isEn ? 'Copy Routine' : 'Rutini Kopyala'}</button>
+        <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 5v14M18 5v14M4 8v8M20 8v8M2 10v4M22 10v4M6 12h12"/></svg> ${isEn ? `Daily Aim Routine (${focusTitle})` : `Sana Özel Günlük Aim Rutini (${focusTitle})`}</h3>
+        <button class="btn btn-ghost btn-sm" onclick="copyRoutineText()"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg> ${isEn ? 'Copy Routine' : 'Rutini Kopyala'}</button>
       </div>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">
         ${isEn ? `25-minute daily training program tailored to your aim mechanics (${trainer === 'no' ? 'Aim Lab / KovaaKs' : trainer.toUpperCase()}):` : `Belirttiğin nişan sorunlarına göre optimize edilmiş <b>25 dakikalık</b> günlük antrenman programı (${trainer === 'no' ? 'Aim Lab / KovaaKs' : trainer.toUpperCase()}):`}
@@ -5391,7 +5409,7 @@
         ? `🎮 VecSens Custom Aim Routine:\n1. Warmup (5 min): Muscle Activation\n2. Core Development (15 min): Micro-Correction & Tracking\n3. In-Game (5 min): Deathmatch / Range\nRecommended cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360 || '--'} cm`
         : `🎮 VecSens Özel Aim Rutini:\n1. Isınma (5 dk): Genel Kas Aktivasyonu\n2. Ana Gelişim (15 dk): Mikro Düzeltme & Takip Senaryoları\n3. Maç Öncesi (5 dk): Oyun İçi Deathmatch\nÖnerilen cm/360: ${state.computedProfiles?.[state.recIdx]?.cm360 || '--'} cm`;
 
-      navigator.clipboard.writeText(t).then(() => showToast(isEn ? '📋 Aim routine copied to clipboard!' : '📋 Antrenman rutini panoya kopyalandı!'));
+      navigator.clipboard.writeText(t).then(() => showToast(isEn ? ' Aim routine copied to clipboard!' : ' Antrenman rutini panoya kopyalandı!'));
     }
 
     // ════════════════════════════════════════════════════════════
@@ -5513,7 +5531,7 @@
       link.href = canvas.toDataURL('image/png');
       link.click();
 
-      showToast(isEn ? '📸 Esports Player Card downloaded!' : '📸 Espor Aim Kartın başarıyla indirildi!');
+      showToast(isEn ? ' Esports Player Card downloaded!' : ' Espor Aim Kartın başarıyla indirildi!');
     }
 
     // ════════════════════════════════════════════════════════════
@@ -5537,7 +5555,7 @@
       updateUrlHash();
       const isEn = currentLang === 'en';
       navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast(isEn ? '🔗 Result link copied to clipboard!' : '🔗 Sonuç linki panoya kopyalandı!');
+        showToast(isEn ? ' Result link copied to clipboard!' : ' Sonuç linki panoya kopyalandı!');
       });
     }
 
@@ -5567,7 +5585,7 @@
       const rec = state.computedProfiles[state.recIdx];
       const gameName = getPrimaryGameName();
       let h = `<div class="finetune-card">
-    <h3>🔧 ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar'}</h3>
+    <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar'}</h3>
     <p>${isEn ? `Fine-tune your recommended profile. Current value: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)` : `Önerilen profil üzerinde ince ayar yap. Mevcut öneri: <strong style="color:var(--blue)">${rec.sens} ${gameName} sens</strong> (${rec.cm360} cm/360)`}</p>
     ${FT_QUESTIONS.map(fq => `
       <div class="finetune-question">
@@ -5579,7 +5597,7 @@
         </div>
       </div>`).join('')}
     <div style="margin-top:18px">
-      <button class="btn btn-primary" onclick="applyFineTune()">⚡ ${isEn ? 'Apply Setting' : 'Ayarı Uygula'}</button>
+      <button class="btn btn-primary" onclick="applyFineTune()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Apply Setting' : 'Ayarı Uygula'}</button>
     </div>
   </div>`;
       document.getElementById('fineTuneSection').innerHTML = h;
@@ -5612,7 +5630,7 @@
 
       document.getElementById('fineTuneSection').insertAdjacentHTML('beforeend', `
     <div class="adj-result">
-      <h4>✅ ${isEn ? `Fine-Tune Round ${state.adjustmentRound} — Sensitivity ${dir}` : `İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}`}</h4>
+      <h4><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> ${isEn ? `Fine-Tune Round ${state.adjustmentRound} — Sensitivity ${dir}` : `İnce Ayar Tur ${state.adjustmentRound} — Sensitivity ${dir}`}</h4>
       <div class="adj-values">
         <div class="adj-val"><span>cm/360 →</span> ${newCm}</div>
         <div class="adj-val"><span>${isEn ? 'Sensitivity' : 'Hassasiyet'} →</span> ${newSens}</div>
@@ -5654,7 +5672,7 @@
       const userRec = userProfiles ? userProfiles[state.recIdx] : null;
       const userHighlightHtml = userRec ? `
     <div class="user-highlight-box">
-      <div class="uh-label">📊 ${isEn ? 'Your Recommended Balanced Setting' : 'Senin Önerilen Dengeli Ayarın'}</div>
+      <div class="uh-label"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M18 20V10M12 20V4M6 20v-6"/></svg> ${isEn ? 'Your Recommended Balanced Setting' : 'Senin Önerilen Dengeli Ayarın'}</div>
       <div class="uh-vals">
         <div class="uh-val"><span>DPI</span>${userRec.dpi}</div>
         <div class="uh-val"><span>Sens</span>${userRec.sens}</div>
@@ -5776,7 +5794,7 @@
 
       const html = `
     <div class="feedback-card">
-      <h3>⭐ ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-2.5L7 19.5l1-6-4-4 5.5-1z"/></svg> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:10px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
       <div class="stars-row">
         ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">⭐</button>`).join('')}
@@ -5789,10 +5807,10 @@
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn ? 'Did you test the recommended sensitivity in-game?' : 'Önerilen sensitivity değerini denedin mi?'}</p>
       <div class="fb-options">
         ${[
-          { v: 'yes', l: isEn ? 'Yes, tested and found it very accurate' : 'Evet, denedim ve faydalı buldum', i: '✅' },
+          { v: 'yes', l: isEn ? 'Yes, tested and found it very accurate' : 'Evet, denedim ve faydalı buldum', i: '' },
           { v: 'partial', l: isEn ? 'Yes, but required slight fine-tuning' : 'Evet, denedim ama biraz ayarlama gerekti', i: '🔧' },
           { v: 'no', l: isEn ? 'Not yet tested' : 'Henüz denemedim', i: '⏳' },
-          { v: 'bad', l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i: '❌' },
+          { v: 'bad', l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i: '' },
         ].map(o => `<div class="fb-option${fbState.tried === o.v ? ' selected' : ''}" onclick="setTried('${o.v}')">
           <span class="option-icon" style="width:20px;height:20px">${getLineIcon(o.i) || o.i}</span><span>${o.l}</span>
         </div>`).join('')}
@@ -5800,7 +5818,7 @@
     </div>
 
     <div class="feedback-card">
-      <h3>👍 ${isEn ? 'What Did You Like?' : 'Neyi Beğendin?'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12v8h3v-8H4zM9 20h7c1.5 0 2.5-1 3-2l1.5-5c.3-1-.5-2-1.5-2h-5l.5-3c.2-1-.5-2-1.5-2L9 11v9z"/></svg> ${isEn ? 'What Did You Like?' : 'Neyi Beğendin?'}</h3>
       <div class="fb-options">
         ${likesList.map(l => `<div class="fb-option${fbState.likes.includes(l) ? ' selected' : ''}" onclick="toggleFbLike('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
@@ -5809,7 +5827,7 @@
     </div>
 
     <div class="feedback-card">
-      <h3>🔧 ${isEn ? 'What Should We Improve?' : 'Neyin Geliştirilmesini İsterdin?'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${isEn ? 'What Should We Improve?' : 'Neyin Geliştirilmesini İsterdin?'}</h3>
       <div class="fb-options">
         ${improveList.map(l => `<div class="fb-option${fbState.improve.includes(l) ? ' selected' : ''}" onclick="toggleFbImprove('${l}')">
           <span class="fb-checkbox"></span><span>${l}</span>
@@ -5818,12 +5836,12 @@
     </div>
 
     <div class="feedback-card">
-      <h3>💬 ${isEn ? 'Additional Comments' : 'Ek Yorum'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${isEn ? 'Additional Comments' : 'Ek Yorum'}</h3>
       <div class="input-group">
         <textarea class="input-field" id="fbText" placeholder="${isEn ? 'Write your thoughts or suggestions here...' : 'Düşüncelerini buraya yaz...'}" oninput="fbState.text=this.value">${fbState.text}</textarea>
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
-        <button class="btn btn-primary" onclick="submitFeedback()">📨 ${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</button>
+        <button class="btn btn-primary" onclick="submitFeedback()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> ${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</button>
       </div>
     </div>
   `;
@@ -5916,7 +5934,7 @@
       const subtabsHtml = `
     <div class="subtabs">
       <button class="subtab-btn ${subtab === 'hipfire' ? 'active' : ''}" onclick="setConvTab('hipfire')">🎮 ${isEn ? 'Cross-Game Sens (Hipfire)' : 'Oyunlar Arası Sens (Hipfire)'}</button>
-      <button class="subtab-btn ${subtab === 'scope' ? 'active' : ''}" onclick="setConvTab('scope')">🔭 ${isEn ? 'Scope & Zoom Sensitivity' : 'Scope & Zoom Sensitivity'}</button>
+      <button class="subtab-btn ${subtab === 'scope' ? 'active' : ''}" onclick="setConvTab('scope')"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg> ${isEn ? 'Scope & Zoom Sensitivity' : 'Scope & Zoom Sensitivity'}</button>
     </div>
   `;
 
@@ -5955,12 +5973,12 @@
         <div style="font-size:13px;color:var(--t1)">
           <b>${isEn ? 'Analysis Available:' : 'Analiz Sonucun Mevcut:'}</b> ${getPrimaryGameName()} — ${recProf.sens} sens (${recProf.dpi} DPI, ${recProf.cm360} cm/360)
         </div>
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()">${isEn ? 'Fill My Values ⚡' : 'Değerlerimi Doldur ⚡'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoConverter()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Fill My Values' : 'Değerlerimi Doldur'}</button>
       </div>
     ` : ''}
 
     <div class="conv-card">
-      <h3>🎮 ${isEn ? 'Rapid Sensitivity Converter' : 'Hızlı Dönüştürücü'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="7" width="18" height="10" rx="5"/><path d="M8 10v4M6 12h4M15 10.5h.01M17 13.5h.01"/></svg> ${isEn ? 'Rapid Sensitivity Converter' : 'Hızlı Dönüştürücü'}</h3>
       <div class="conv-row">
         <div>
           <div class="conv-label">${isEn ? 'Source Game' : 'Kaynak Oyun'}</div>
@@ -6018,7 +6036,7 @@
     </div>
 
     <div class="conv-card">
-      <h3 id="convAllTitle">🌐 ${isEn ? `Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)` : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
+      <h3 id="convAllTitle"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ${isEn ? `Equivalent Sensitivities Across All Games (${convState.toDpi} DPI, ${cm360} cm/360)` : `Tüm Oyunlar İçin Eşdeğer Hassasiyetler (${convState.toDpi} DPI, ${cm360} cm/360)`}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:14px">${isEn ? 'Maintain exact 1:1 muscle memory and physical swipe distance across any FPS:' : 'Aynı kas hafızasını ve dönüş mesafesini korumak için kullanman gereken değerler:'}</p>
       <div class="conv-all-grid" id="convAllGrid">
         ${allGamesHtml}
@@ -6189,7 +6207,7 @@
 
       return `
     <div class="conv-card">
-      <h3>🔭 ${isEn ? 'Scope & Zoom Sensitivity Calculator' : 'Scope & Zoom Sensitivity Hesaplayıcı'}</h3>
+      <h3><svg viewBox="0 0 24 24" class="inline-icon"><path d="M6 18l4-8M10 10l8-4M18 6l-2 4M8 14l6-3"/><circle cx="5" cy="19" r="2"/></svg> ${isEn ? 'Scope & Zoom Sensitivity Calculator' : 'Scope & Zoom Sensitivity Hesaplayıcı'}</h3>
       <p style="font-size:13px;color:var(--t2);margin-bottom:16px">
         ${isEn ? 'Recommended zoom multipliers to maintain 1:1 crosshair muscle memory and focal tracking when aiming down sights (ADS/Scope):' : 'Dürbün açtığında (ADS/Scope) hipfire nişan reflekslerinin ve kas hafızanın 1:1 korunması için önerilen zoom çarpanları:'}
       </p>
@@ -6222,7 +6240,7 @@
       </div>
       
       <div style="background:color-mix(in srgb, var(--cyan) 6%, transparent);border:1px solid color-mix(in srgb, var(--cyan) 20%, transparent);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--t2)">
-        💡 <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn ? 'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.' : 'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
+        <svg viewBox="0 0 24 24" class="inline-icon"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.3 4.7 3.3 6h7.4c2-1.3 3.3-3.5 3.3-6a7 7 0 0 0-7-7z"/></svg> <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn ? 'Setting Operator to <b>0.747</b> in Valorant and AWP to <b>0.8189</b> in CS2 synchronizes screen-center micro-adjustments 1:1 with hipfire.' : 'Valorant\'ta Operator için <b>0.747</b>, CS2\'de AWP için <b>0.8189</b> çarpanı kullanarak ekran merkezindeki mikro düzeltmelerini hipfire ile birebir eşitleyebilirsin.'}
       </div>
     </div>
   `;
@@ -6367,7 +6385,7 @@
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()">${isEn ? 'Load Analysis Sens ⚡' : 'Analiz Ayarımı Yükle ⚡'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle ⚡'}</button>
       </div>
     </div>
   ` : '';
@@ -6980,7 +6998,7 @@
           playAimSound('lock');
           spawnAimParticles(cx, cy, '#63b3ed', 10);
           spawnAimPopup(isEn ? '0° LOCKED!' : '0° KİLİTLENDİ!', cx, cy - 20, '#63b3ed');
-          showToast(isEn ? '🔥 Now turn 180° behind you in ONE reflexive swipe!' : '🔥 Şimdi tek refleks hamlenle 180° arkana dön ve tıkla!');
+          showToast(isEn ? ' Now turn 180° behind you in ONE reflexive swipe!' : ' Şimdi tek refleks hamlenle 180° arkana dön ve tıkla!');
 
         } else if (aimTestState.calibPhase === 'wait_180') {
           // Step 2: Click after 180° Turn -> Calculate points, error, speed, and record round!
@@ -7342,7 +7360,7 @@
           inp.value = '';
           inp.focus();
         }
-        showToast(isEn ? '❌ Incorrect PIN!' : '❌ Hatalı PIN kodu!');
+        showToast(isEn ? ' Incorrect PIN!' : ' Hatalı PIN kodu!');
       }
     }
 
@@ -7353,9 +7371,9 @@
         const toSave = { ...adminConfig, unlocked: false, activeDrawer: null, inlineEditActive: false };
         localStorage.setItem('vecsens_admin_config', JSON.stringify(toSave));
         applyAdminConfig(adminConfig);
-        showToast(isEn ? '💾 Saved locally! Use "🚀 Deploy" to publish for all visitors.' : '💾 Yerel olarak kaydedildi! Tüm ziyaretçilere yayınlamak için "🚀 Yayınla" butonunu kullanın.');
+        showToast(isEn ? ' Saved locally! Use "🚀 Deploy" to publish for all visitors.' : ' Yerel olarak kaydedildi! Tüm ziyaretçilere yayınlamak için "🚀 Yayınla" butonunu kullanın.');
       } catch (e) {
-        showToast(isEn ? '❌ Save failed!' : '❌ Kaydetme hatası!');
+        showToast(isEn ? ' Save failed!' : ' Kaydetme hatası!');
       }
     }
 
@@ -7374,7 +7392,7 @@
           ? '🔑 Enter your GitHub Personal Access Token (PAT) to deploy.\nThis is stored only in your current browser session and never saved permanently.\n\nYou can create one at: github.com → Settings → Developer settings → Personal access tokens'
           : '🔑 GitHub Personal Access Token (PAT) girin.\nBu token sadece bu oturumda saklanır, kalıcı olarak kaydedilmez.\n\nOluşturmak için: github.com → Settings → Developer settings → Personal access tokens');
         if (!token || !token.trim()) {
-          showToast(isEn ? '❌ Deploy cancelled – no token provided.' : '❌ Yayınlama iptal edildi – token girilmedi.');
+          showToast(isEn ? ' Deploy cancelled – no token provided.' : ' Yayınlama iptal edildi – token girilmedi.');
           return;
         }
         token = token.trim();
@@ -7394,7 +7412,7 @@
       const contentB64 = btoa(unescape(encodeURIComponent(JSON.stringify(deployConf, null, 2) + '\n')));
 
       try {
-        showToast(isEn ? '🚀 Deploying to GitHub...' : '🚀 GitHub\'a yayınlanıyor...');
+        showToast(isEn ? ' Deploying to GitHub...' : ' GitHub\'a yayınlanıyor...');
 
         // 1. Get current file SHA (needed for updates)
         const apiBase = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_CONFIG_PATH}`;
@@ -7411,7 +7429,7 @@
 
         // 2. PUT (create or update) site-config.json
         const body = {
-          message: '🎨 Deploy site theme & layout config from Visual Studio admin panel',
+          message: ' Deploy site theme & layout config from Visual Studio admin panel',
           content: contentB64,
           branch: 'main'
         };
@@ -7430,18 +7448,18 @@
         if (putResp.ok || putResp.status === 201) {
           showToast(isEn
             ? '✅ Deployed! All visitors will see your changes in ~1 minute (GitHub Pages rebuild).'
-            : '✅ Yayınlandı! Tüm ziyaretçiler değişiklikleri ~1 dakika içinde görecek (GitHub Pages yeniden derleniyor).');
+            : ' Yayınlandı! Tüm ziyaretçiler değişiklikleri ~1 dakika içinde görecek (GitHub Pages yeniden derleniyor).');
         } else {
           const errData = await putResp.json().catch(() => ({}));
           if (putResp.status === 401 || putResp.status === 403) {
             sessionStorage.removeItem('gh_deploy_token');
-            showToast(isEn ? '❌ Invalid token. Please try again.' : '❌ Geçersiz token. Tekrar deneyin.');
+            showToast(isEn ? ' Invalid token. Please try again.' : ' Geçersiz token. Tekrar deneyin.');
           } else {
             showToast(isEn ? `❌ Deploy failed: ${errData.message || putResp.status}` : `❌ Yayınlama hatası: ${errData.message || putResp.status}`);
           }
         }
       } catch (e) {
-        showToast(isEn ? '❌ Network error during deploy.' : '❌ Yayınlama sırasında ağ hatası.');
+        showToast(isEn ? ' Network error during deploy.' : ' Yayınlama sırasında ağ hatası.');
       }
     }
 
@@ -7699,7 +7717,7 @@
           };
         });
 
-        showToast(isEn ? '✏️ Live Inline Edit ON! Click and edit any text directly on-screen.' : '✏️ Canlı Yazı Düzenleme Aktif! Düzenlemek istediğiniz yazıya tıklayıp doğrudan yazın.');
+        showToast(isEn ? ' Live Inline Edit ON! Click and edit any text directly on-screen.' : ' Canlı Yazı Düzenleme Aktif! Düzenlemek istediğiniz yazıya tıklayıp doğrudan yazın.');
       } else {
         document.body.classList.remove('visual-edit-mode');
         if (btn) btn.classList.remove('active');
@@ -7710,7 +7728,7 @@
           el.onblur = null;
         });
 
-        showToast(isEn ? '✏️ Inline Edit closed.' : '✏️ Canlı Yazı Düzenleme kapatıldı.');
+        showToast(isEn ? ' Inline Edit closed.' : ' Canlı Yazı Düzenleme kapatıldı.');
       }
     }
 
@@ -7749,7 +7767,7 @@
       drawer.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
           <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
-            <span>📐</span> <span>${isEn ? 'Live Box & Layout Resizer' : 'Canlı Kutu & Boyutlandırma Stüdyosu'}</span>
+            <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 20L4 4l16 16H4z"/><path d="M4 15h5M4 11h3"/></svg></span> <span>${isEn ? 'Live Box & Layout Resizer' : 'Canlı Kutu & Boyutlandırma Stüdyosu'}</span>
           </div>
           <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('boxes')">✕</button>
         </div>
@@ -7807,7 +7825,7 @@
         <!-- LOGO & BRANDING CONTROLS -->
         <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
           <div style="font-weight:700;font-size:13.5px;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            <span>🎯</span> <span>${isEn ? 'Logo & Brand Layout / Placement' : 'Logo Boyutu, Konumu ve Arkaplanı'}</span>
+            <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span> <span>${isEn ? 'Logo & Brand Layout / Placement' : 'Logo Boyutu, Konumu ve Arkaplanı'}</span>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
@@ -7873,8 +7891,8 @@
             <div class="admin-field" style="margin-bottom:0">
               <div class="admin-field-label"><span>${isEn ? 'Logo Background Style' : 'Logo Arkaplan Stili'}</span></div>
               <div style="display:flex;gap:6px;margin-top:6px">
-                <button class="vs-btn btn-sm ${!lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',false);renderVsBoxDrawer()">✨ ${isEn ? 'Transparent' : 'Şeffaf'}</button>
-                <button class="vs-btn btn-sm ${lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',true);renderVsBoxDrawer()">🔲 ${isEn ? 'Glass Card' : 'Cam Kart'}</button>
+                <button class="vs-btn btn-sm ${!lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',false);renderVsBoxDrawer()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5zM19 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg> ${isEn ? 'Transparent' : 'Şeffaf'}</button>
+                <button class="vs-btn btn-sm ${lay.heroLogoGlass ? 'active' : ''}" style="flex:1" onclick="updateVsLayout('heroLogoGlass',true);renderVsBoxDrawer()"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="3" width="18" height="18" rx="3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg> ${isEn ? 'Glass Card' : 'Cam Kart'}</button>
               </div>
             </div>
           </div>
@@ -7909,7 +7927,7 @@
       drawer.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px">
           <div style="font-weight:700;font-size:15px;color:var(--t1);display:flex;align-items:center;gap:8px">
-            <span>🎨</span> <span>${isEn ? 'Live Theme & Color Palette Studio' : 'Canlı Renk & Tema Stüdyosu'}</span>
+            <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="15.5" cy="14.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 0 2 1.5 3.5 1.5s2-1 2-2"/></svg></span> <span>${isEn ? 'Live Theme & Color Palette Studio' : 'Canlı Renk & Tema Stüdyosu'}</span>
           </div>
           <button class="vs-btn danger btn-sm" onclick="toggleVsDrawer('themes')">✕</button>
         </div>
@@ -7920,7 +7938,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <!-- Dark Mode Colors -->
           <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:12px">
-            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px">🌙 ${isEn ? 'Dark Mode Colors' : 'Koyu Mod Renkleri'}</div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> ${isEn ? 'Dark Mode Colors' : 'Koyu Mod Renkleri'}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div class="admin-color-picker-wrap">
                 <input type="color" class="admin-color-picker" value="${d.bg}" onchange="updateAdminColor('themeDark','bg',this.value)"/>
@@ -7943,7 +7961,7 @@
 
           <!-- Light Mode Colors -->
           <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:12px">
-            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px">☀️ ${isEn ? 'Light Mode Colors' : 'Açık Mod Renkleri'}</div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1);margin-bottom:10px"><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg> ${isEn ? 'Light Mode Colors' : 'Açık Mod Renkleri'}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div class="admin-color-picker-wrap">
                 <input type="color" class="admin-color-picker" value="${l.bg}" onchange="updateAdminColor('themeLight','bg',this.value)"/>
@@ -8000,7 +8018,7 @@
         <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:850px;width:95%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 16px 50px rgba(0,0,0,0.8)">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px">
             <div style="font-weight:700;font-size:18px;color:var(--t1);display:flex;align-items:center;gap:10px">
-              <span>⚙️</span> <span>${isEn ? 'Advanced Settings & Database' : 'Gelişmiş Yönetim & Veritabanı'}</span>
+              <span><svg viewBox="0 0 24 24" class="inline-icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span>${isEn ? 'Advanced Settings & Database' : 'Gelişmiş Yönetim & Veritabanı'}</span>
             </div>
             <button class="vs-btn danger btn-sm" onclick="document.getElementById('vsAdvancedModal').className='admin-form-modal hidden'">✕</button>
           </div>
@@ -8032,7 +8050,7 @@
                 <b style="color:var(--t1);font-size:14px">${isEn ? 'Pro Player Database' : 'Esporcu & Pro Veritabanı'}</b>
                 <span style="font-size:12px;color:var(--t3);margin-left:8px">(${totalPros} ${isEn ? 'players' : 'oyuncu kayıtlı'})</span>
               </div>
-              <button class="btn btn-primary btn-sm" onclick="openNewPlayerModal()">➕ ${isEn ? 'Add Player' : 'Yeni Oyuncu Ekle'}</button>
+              <button class="btn btn-primary btn-sm" onclick="openNewPlayerModal()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M12 5v14M5 12h14"/></svg> ${isEn ? 'Add Player' : 'Yeni Oyuncu Ekle'}</button>
             </div>
             <p style="font-size:12.5px;color:var(--t2);margin-bottom:16px">${isEn ? 'Manage or expand the pro player rosters across Valorant, CS2, Apex, and Overwatch:' : 'Valorant, CS2, Apex Legends ve Overwatch pro oyuncu listelerini düzenle veya yeni oyuncular ekle:'}</p>
           </div>
@@ -8044,8 +8062,8 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
               <b style="color:var(--t1);font-size:14px">${isEn ? 'User Feedbacks' : 'Kullanıcı Geri Bildirimleri'} (${fbs.length})</b>
               <div style="display:flex;gap:8px">
-                <button class="btn btn-secondary btn-sm" onclick="exportFeedbacksCSV()">📥 CSV İndir</button>
-                <button class="btn btn-secondary btn-sm" onclick="localStorage.removeItem('vecsens_feedbacks');openVsAdvancedModal('feedbacks');showToast('Temizlendi!')">🗑️ Tümünü Sil</button>
+                <button class="btn btn-secondary btn-sm" onclick="exportFeedbacksCSV()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> CSV İndir</button>
+                <button class="btn btn-secondary btn-sm" onclick="localStorage.removeItem('vecsens_feedbacks');openVsAdvancedModal('feedbacks');showToast('Temizlendi!')"><svg viewBox="0 0 24 24" class="inline-icon"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Tümünü Sil</button>
               </div>
             </div>
             ${fbs.length === 0 ? `<p style="font-size:13px;color:var(--t3);text-align:center;padding:30px">${isEn ? 'No feedbacks recorded yet.' : 'Henüz geri bildirim kaydı yok.'}</p>` : `
@@ -8075,12 +8093,12 @@
         return `
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
             <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
-              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px">💾 ${isEn ? 'JSON Backup & Sync' : 'JSON Yedekleme'}</b>
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> ${isEn ? 'JSON Backup & Sync' : 'JSON Yedekleme'}</b>
               <p style="font-size:12px;color:var(--t2);margin-bottom:12px">${isEn ? 'Download complete custom config to a JSON file or restore.' : 'Yaptığın tüm özelleştirmeleri tek JSON dosyası olarak indir:'}</p>
-              <button class="btn btn-primary btn-sm" onclick="exportAdminConfigJSON()">📥 vecsens-config.json İndir</button>
+              <button class="btn btn-primary btn-sm" onclick="exportAdminConfigJSON()"><svg viewBox="0 0 24 24" class="inline-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> vecsens-config.json İndir</button>
             </div>
             <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px">
-              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px">🔒 ${isEn ? 'PIN Management' : 'Admin PIN Kodu'}</b>
+              <b style="color:var(--t1);font-size:13px;display:block;margin-bottom:8px"><svg viewBox="0 0 24 24" class="inline-icon"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ${isEn ? 'PIN Management' : 'Admin PIN Kodu'}</b>
               <div style="display:flex;gap:8px;margin-top:10px">
                 <input class="input-field" type="password" id="newAdminPin" placeholder="Yeni PIN (min 4 hane)" style="margin-bottom:0;font-size:12px"/>
                 <button class="btn btn-secondary btn-sm" onclick="const p=document.getElementById('newAdminPin').value.trim();if(p.length>=4){adminConfig.pin=p;saveVsConfig();showToast('PIN güncellendi!');}else{alert('En az 4 hane olmalı!');}">Güncelle</button>
@@ -8107,7 +8125,7 @@
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(toExport, null, 2));
       const a = document.createElement('a'); a.setAttribute("href", dataStr); a.setAttribute("download", `vecsens-config-${Date.now()}.json`);
       document.body.appendChild(a); a.click(); a.remove();
-      showToast('📥 Yapılandırma JSON indirildi!');
+      showToast(' Yapılandırma JSON indirildi!');
     }
 
     function exportFullUpdatedHtml() {
@@ -8142,7 +8160,7 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast(isEn ? '📥 Updated index.html downloaded! You can push it to your GitHub repo.' : '📥 Güncel index.html indirildi! Doğrudan GitHub reponuza atabilirsiniz.');
+      showToast(isEn ? ' Updated index.html downloaded! You can push it to your GitHub repo.' : ' Güncel index.html indirildi! Doğrudan GitHub reponuza atabilirsiniz.');
     }
 
     function resetVsConfig() {
@@ -8154,7 +8172,7 @@
         applyAdminConfig(adminConfig);
         closeAllVsDrawers();
         applyLanguage();
-        showToast(isEn ? '🔄 Settings reset to factory defaults.' : '🔄 Tüm ayarlar varsayılana sıfırlandı.');
+        showToast(isEn ? ' Settings reset to factory defaults.' : ' Tüm ayarlar varsayılana sıfırlandı.');
       }
     }
 
