@@ -3601,6 +3601,18 @@
       vertical-align: -3px;
     }
 
+  
+    .step-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
+    }
+
   </style>
 </head>
 
@@ -3735,9 +3747,7 @@
         <button class="vs-btn" onclick="resetVsConfig()">
           <span><svg viewBox="0 0 24 24" class="inline-icon"><path d="M4 12a8 8 0 0 1 14-5l2 2"/><path d="M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg></span> <span>Sıfırla</span>
         </button>
-        <button class="vs-btn danger" onclick="closeVsStudio()" title="Kapat">
-          <span></span>
-        </button>
+        <button class="vs-btn danger" onclick="closeVsStudio()" title="Kapat"><span><svg viewBox="0 0 24 24" class="inline-icon" style="width:14px;height:14px"><path d="M18 6L6 18M6 6l12 12"/></svg></span></button>
       </div>
 
       <!-- VISUAL STUDIO DRAWERS -->
@@ -3771,7 +3781,7 @@
       { id: 'valorant', label: 'Valorant', icon: 'target' },
       { id: 'cs2', label: 'Counter-Strike 2', icon: 'bomb' },
       { id: 'r6', label: 'Rainbow Six Siege', icon: 'shield' },
-      { id: 'apex', label: 'Apex Legends', icon: '' },
+      { id: 'apex', label: 'Apex Legends', icon: 'fire' },
       { id: 'warzone', label: 'Call of Duty Warzone', icon: 'helmet' },
       { id: 'pubg', label: 'PUBG', icon: 'chicken' },
       { id: 'fortnite', label: 'Fortnite', icon: 'pickaxe' },
@@ -4490,7 +4500,7 @@
             { value: '3200', label: '3200 DPI', icon: 'fire' },
             { value: '4000', label: '4000 DPI', icon: 'fire' },
             { value: '6400', label: '6400 DPI', icon: 'fire' },
-            { value: 'custom', label: isEn ? 'Other — I will enter value' : 'Diğer — Kendim yazacağım', icon: '' },
+            { value: 'custom', label: isEn ? 'Other — I will enter value' : 'Diğer — Kendim yazacağım', icon: 'pencil' },
           ]
         },
         {
@@ -5000,13 +5010,13 @@
         { icon: 'target', text: isEn ? 'Calculating aiming style...' : 'Nişan stili hesaplanıyor...' },
         { icon: 'triangle', text: isEn ? 'Computing cm/360 value...' : 'cm/360 değeri hesaplanıyor...' },
         { icon: 'brain', text: isEn ? 'Generating trio profiles...' : 'Üç profil oluşturuluyor...' },
-        { icon: '', text: isEn ? 'Personalized recommendations ready!' : 'Kişiselleştirilmiş öneriler hazır!' },
+        { icon: 'check', text: isEn ? 'Personalized recommendations ready!' : 'Kişiselleştirilmiş öneriler hazır!' },
       ];
       document.getElementById('questionArea').innerHTML = `
     <div class="loading-screen">
       <div class="spinner"></div>
       <div class="loading-text">${isEn ? 'Aim analysis in progress...' : 'Aim analizin yapılıyor...'}</div>
-      <div class="loading-steps">${steps.map((s, i) => `<div class="loading-step" id="ls${i}"><span class="step-icon">${s.icon}</span>${s.text}</div>`).join('')}</div>
+      <div class="loading-steps">${steps.map((s, i) => `<div class="loading-step" id="ls${i}"><span class="step-icon">${getLineIcon(s.icon)}</span><span>${s.text}</span></div>`).join('')}</div>
     </div>`;
       let i = 0;
       const iv = setInterval(() => {
@@ -5681,7 +5691,7 @@
 
       const filterTabs = PRO_GAME_IDS.map(id => {
         const g = GAMES.find(x => x.id === id);
-        return `<button class="game-tab ${gameId === id ? 'active' : ''}" onclick="setProGame('${id}')">${g?.icon || ''} ${g?.label || id}</button>`;
+        return `<button class="game-tab ${gameId === id ? 'active' : ''}" onclick="setProGame('${id}')">${g?.icon ? `<span class="inline-icon" style="margin-right:6px">${getLineIcon(g.icon)}</span>` : ''}${g?.label || id}</button>`;
       }).join('');
 
       function sortArrow(c) {
