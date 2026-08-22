@@ -3676,6 +3676,9 @@
         <button class="vs-btn success" onclick="saveVsConfig()">
           <span>💾</span> <span>Kaydet</span>
         </button>
+        <button class="vs-btn" onclick="deployToGitHub()" title="Tema ve ayarları GitHub'a yayınla – tüm ziyaretçiler görecek" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;border-color:#10b981">
+          <span>🚀</span> <span>Siteye Yayınla</span>
+        </button>
         <button class="vs-btn" onclick="exportFullUpdatedHtml()" title="GitHub için güncel index.html dosyasını indir">
           <span>📥</span> <span>HTML İndir</span>
         </button>
@@ -7255,9 +7258,95 @@
         const toSave = { ...adminConfig, unlocked: false, activeDrawer: null, inlineEditActive: false };
         localStorage.setItem('vecsens_admin_config', JSON.stringify(toSave));
         applyAdminConfig(adminConfig);
-        showToast(isEn ? '💾 All visual and layout changes saved!' : '💾 Tüm görsel ve kutu ayarları başarıyla kaydedildi!');
+        showToast(isEn ? '💾 Saved locally! Use "🚀 Deploy" to publish for all visitors.' : '💾 Yerel olarak kaydedildi! Tüm ziyaretçilere yayınlamak için "🚀 Yayınla" butonunu kullanın.');
       } catch (e) {
         showToast(isEn ? '❌ Save failed!' : '❌ Kaydetme hatası!');
+      }
+    }
+
+    // ── DEPLOY TO GITHUB (pushes site-config.json so ALL visitors see changes) ──
+    const GITHUB_REPO_OWNER = 'canxozai';
+    const GITHUB_REPO_NAME = 'VecSens';
+    const GITHUB_CONFIG_PATH = 'site-config.json';
+
+    async function deployToGitHub() {
+      const isEn = currentLang === 'en';
+
+      // Get or prompt for GitHub token
+      let token = sessionStorage.getItem('gh_deploy_token');
+      if (!token) {
+        token = prompt(isEn
+          ? '🔑 Enter your GitHub Personal Access Token (PAT) to deploy.\nThis is stored only in your current browser session and never saved permanently.\n\nYou can create one at: github.com → Settings → Developer settings → Personal access tokens'
+          : '🔑 GitHub Personal Access Token (PAT) girin.\nBu token sadece bu oturumda saklanır, kalıcı olarak kaydedilmez.\n\nOluşturmak için: github.com → Settings → Developer settings → Personal access tokens');
+        if (!token || !token.trim()) {
+          showToast(isEn ? '❌ Deploy cancelled – no token provided.' : '❌ Yayınlama iptal edildi – token girilmedi.');
+          return;
+        }
+        token = token.trim();
+        sessionStorage.setItem('gh_deploy_token', token);
+      }
+
+      // Build the config to deploy (exclude sensitive/UI-only fields)
+      const deployConf = {
+        themeDark: adminConfig.themeDark || DEFAULT_ADMIN_CONFIG.themeDark,
+        themeLight: adminConfig.themeLight || DEFAULT_ADMIN_CONFIG.themeLight,
+        layout: adminConfig.layout || DEFAULT_ADMIN_CONFIG.layout,
+        texts: adminConfig.texts || DEFAULT_ADMIN_CONFIG.texts,
+        customTexts: adminConfig.customTexts || {},
+        algorithm: adminConfig.algorithm || DEFAULT_ADMIN_CONFIG.algorithm,
+        customPros: adminConfig.customPros || {}
+      };
+      const contentB64 = btoa(unescape(encodeURIComponent(JSON.stringify(deployConf, null, 2) + '\n')));
+
+      try {
+        showToast(isEn ? '🚀 Deploying to GitHub...' : '🚀 GitHub\'a yayınlanıyor...');
+
+        // 1. Get current file SHA (needed for updates)
+        const apiBase = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_CONFIG_PATH}`;
+        let sha = null;
+        try {
+          const getResp = await fetch(apiBase, {
+            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+          });
+          if (getResp.ok) {
+            const fileData = await getResp.json();
+            sha = fileData.sha;
+          }
+        } catch (e) { /* file may not exist yet */ }
+
+        // 2. PUT (create or update) site-config.json
+        const body = {
+          message: '🎨 Deploy site theme & layout config from Visual Studio admin panel',
+          content: contentB64,
+          branch: 'main'
+        };
+        if (sha) body.sha = sha;
+
+        const putResp = await fetch(apiBase, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (putResp.ok || putResp.status === 201) {
+          showToast(isEn
+            ? '✅ Deployed! All visitors will see your changes in ~1 minute (GitHub Pages rebuild).'
+            : '✅ Yayınlandı! Tüm ziyaretçiler değişiklikleri ~1 dakika içinde görecek (GitHub Pages yeniden derleniyor).');
+        } else {
+          const errData = await putResp.json().catch(() => ({}));
+          if (putResp.status === 401 || putResp.status === 403) {
+            sessionStorage.removeItem('gh_deploy_token');
+            showToast(isEn ? '❌ Invalid token. Please try again.' : '❌ Geçersiz token. Tekrar deneyin.');
+          } else {
+            showToast(isEn ? `❌ Deploy failed: ${errData.message || putResp.status}` : `❌ Yayınlama hatası: ${errData.message || putResp.status}`);
+          }
+        }
+      } catch (e) {
+        showToast(isEn ? '❌ Network error during deploy.' : '❌ Yayınlama sırasında ağ hatası.');
       }
     }
 
@@ -7997,7 +8086,37 @@
     // ════════════════════════════════════════════════════════════
     //  INIT
     // ════════════════════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Fetch shared site-config.json (applies to ALL visitors)
+      try {
+        const cfgResp = await fetch('site-config.json?t=' + Date.now());
+        if (cfgResp.ok) {
+          const siteConf = await cfgResp.json();
+          // Merge site config into defaults (site-config overrides hardcoded defaults)
+          if (siteConf.themeDark) Object.assign(DEFAULT_ADMIN_CONFIG.themeDark, siteConf.themeDark);
+          if (siteConf.themeLight) Object.assign(DEFAULT_ADMIN_CONFIG.themeLight, siteConf.themeLight);
+          if (siteConf.layout) Object.assign(DEFAULT_ADMIN_CONFIG.layout, siteConf.layout);
+          if (siteConf.texts) Object.assign(DEFAULT_ADMIN_CONFIG.texts, siteConf.texts);
+          if (siteConf.customTexts) DEFAULT_ADMIN_CONFIG.customTexts = siteConf.customTexts;
+          if (siteConf.algorithm) Object.assign(DEFAULT_ADMIN_CONFIG.algorithm, siteConf.algorithm);
+          if (siteConf.customPros) DEFAULT_ADMIN_CONFIG.customPros = siteConf.customPros;
+
+          // If user has NO local override in localStorage, use fresh site config
+          const hasLocal = localStorage.getItem('vecsens_admin_config');
+          if (!hasLocal) {
+            adminConfig = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
+          } else {
+            // Re-merge: local overrides site config
+            const parsed = JSON.parse(hasLocal);
+            adminConfig.themeDark = { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) };
+            adminConfig.themeLight = { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) };
+            adminConfig.layout = { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) };
+            adminConfig.texts = { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) };
+            adminConfig.algorithm = { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) };
+          }
+        }
+      } catch (e) { /* site-config.json not available, use hardcoded defaults */ }
+
       applyAdminConfig(adminConfig);
       renderQuestion(0);
       applyTheme();

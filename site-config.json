@@ -1,0 +1,7 @@
+{
+  "themeDark": { "bg": "#0a0e17", "card": "#0f1624", "border": "#232f46", "cyan": "#38bdf8", "blue": "#38bdf8", "vctRed": "#ff4655", "purple": "#a855f7", "green": "#10b981", "gbtnStart": "#38bdf8", "gbtnEnd": "#0284c7" },
+  "themeLight": { "bg": "#f8fafc", "card": "#ffffff", "border": "#e2e8f0", "cyan": "#1e3a8a", "blue": "#1e3a8a", "vctRed": "#e11d48", "purple": "#4338ca", "green": "#059669", "gbtnStart": "#1e40af", "gbtnEnd": "#1e3a8a" },
+  "layout": { "containerMaxWidth": 890, "cardPadding": 34, "borderRadius": 16, "boxGap": 20, "fontScale": 100, "cardBlur": 24, "glowIntensity": 30, "heroLogoSize": 84, "heroLogoOffsetY": 0, "heroLogoAlign": "center", "heroLogoGlass": false, "badgeLogoSize": 18, "navLogoSize": 26, "fontFamily": "Plus Jakarta Sans", "displayFont": "Space Grotesk", "hudFont": "JetBrains Mono" },
+  "texts": { "brandName": "VecSens" },
+  "algorithm": { "globalSensMultiplier": 1.0, "wristMultiplier": 1.0, "armMultiplier": 1.0 }
+}
