@@ -8608,6 +8608,13 @@
       if (page === 'admin') renderAdminPage();
     }
 
+    // Auto-render homepage immediately as fallback
+    try {
+      if (document.getElementById('page-home')) {
+        renderHomePage();
+      }
+    } catch(e) {}
+
     // ════════════════════════════════════════════════════════════
     //  SVG LINE-ART ICON MAP (replaces emojis with line drawings)
     // ════════════════════════════════════════════════════════════
@@ -12867,40 +12874,10 @@
     }
 
     // ════════════════════════════════════════════════════════════
-    //  INIT
+    //  INIT (BULLETPROOF SYNCHRONOUS + ASYNC CONFIG)
     // ════════════════════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Fetch shared site-config.json (applies to ALL visitors)
-      try {
-        const cfgResp = await fetch('site-config.json?t=' + Date.now());
-        if (cfgResp.ok) {
-          const siteConf = await cfgResp.json();
-          // Merge site config into defaults (site-config overrides hardcoded defaults)
-          if (siteConf.themeDark) Object.assign(DEFAULT_ADMIN_CONFIG.themeDark, siteConf.themeDark);
-          if (siteConf.themeLight) Object.assign(DEFAULT_ADMIN_CONFIG.themeLight, siteConf.themeLight);
-          if (siteConf.layout) Object.assign(DEFAULT_ADMIN_CONFIG.layout, siteConf.layout);
-          if (siteConf.texts) Object.assign(DEFAULT_ADMIN_CONFIG.texts, siteConf.texts);
-          if (siteConf.customTexts) DEFAULT_ADMIN_CONFIG.customTexts = siteConf.customTexts;
-          if (siteConf.algorithm) Object.assign(DEFAULT_ADMIN_CONFIG.algorithm, siteConf.algorithm);
-          if (siteConf.customPros) DEFAULT_ADMIN_CONFIG.customPros = siteConf.customPros;
-
-          // If user has NO local override in localStorage, use fresh site config
-          const hasLocal = localStorage.getItem('vecsens_admin_config');
-          if (!hasLocal) {
-            adminConfig = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
-          } else {
-            // Re-merge: local overrides site config
-            const parsed = JSON.parse(hasLocal);
-            adminConfig.themeDark = { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) };
-            adminConfig.themeLight = { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) };
-            adminConfig.layout = { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) };
-            adminConfig.texts = { ...DEFAULT_ADMIN_CONFIG.texts, ...(parsed.texts || {}) };
-            adminConfig.algorithm = { ...DEFAULT_ADMIN_CONFIG.algorithm, ...(parsed.algorithm || {}) };
-          }
-        }
-      } catch (e) { /* site-config.json not available, use hardcoded defaults */ }
-
-      // Purge any stale customTexts from localStorage to fix language desync permanently
+    function initVecSens() {
+      // 1. Purge any stale customTexts from localStorage immediately
       try {
         const stored = localStorage.getItem('vecsens_admin_config');
         if (stored) {
@@ -12913,14 +12890,39 @@
         }
       } catch (e) {}
 
+      // 2. Render UI immediately (Zero Blank Page Delay)
       applyAdminConfig(adminConfig);
       renderQuestion(0);
       applyTheme();
       applyLanguage();
-      
-      // Auto-load and display Homepage on initial startup
       state.currentPage = 'home';
       switchPage('home');
+
+      // 3. Fetch background site-config.json asynchronously
+      fetch('site-config.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).then(siteConf => {
+        if (siteConf) {
+          if (siteConf.themeDark) Object.assign(DEFAULT_ADMIN_CONFIG.themeDark, siteConf.themeDark);
+          if (siteConf.themeLight) Object.assign(DEFAULT_ADMIN_CONFIG.themeLight, siteConf.themeLight);
+          if (siteConf.layout) Object.assign(DEFAULT_ADMIN_CONFIG.layout, siteConf.layout);
+          if (siteConf.texts) Object.assign(DEFAULT_ADMIN_CONFIG.texts, siteConf.texts);
+          if (siteConf.algorithm) Object.assign(DEFAULT_ADMIN_CONFIG.algorithm, siteConf.algorithm);
+          if (siteConf.customPros) DEFAULT_ADMIN_CONFIG.customPros = siteConf.customPros;
+          const hasLocal = localStorage.getItem('vecsens_admin_config');
+          if (!hasLocal) {
+            adminConfig = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
+            applyAdminConfig(adminConfig);
+          }
+        }
+      }).catch(() => {});
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initVecSens);
+    } else {
+      initVecSens();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
 
       // Check URL Hash for secret admin (#admin) or shared profile
       if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
