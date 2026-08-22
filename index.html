@@ -9235,12 +9235,12 @@
           const arr = state.answers[q.id] || [];
           const sel = arr.includes(opt.value) ? 'selected' : '';
           h += `<button class="option-btn ${sel}" onclick="toggleMulti('${q.id}','${opt.value}')">
-        ${opt.icon && getLineIcon(opt.icon) ? `<span class="option-icon">${getLineIcon(opt.icon)}</span>` : ''}
+        
         <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
         });
         if (q.allowUnsure) {
           const us = state.answers[q.id + '_unsure'] ? 'selected unsure' : 'unsure';
-          h += `<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-icon">${getLineIcon('question')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${us}" onclick="toggleUnsure('${q.id}')"><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
         h += `</div>`;
       } else if (q.type === 'single') {
@@ -9249,12 +9249,12 @@
         q.options.forEach(opt => {
           const sel = state.answers[q.id] === opt.value ? 'selected' : '';
           h += `<button class="option-btn radio ${sel}" onclick="selectSingle('${q.id}','${opt.value}')">
-        ${opt.icon && getLineIcon(opt.icon) ? `<span class="option-icon">${getLineIcon(opt.icon)}</span>` : ''}
+        
         <span class="option-text">${opt.label}</span><span class="option-check"></span></button>`;
         });
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('question')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
         h += `</div>`;
       } else if (q.type === 'text') {
@@ -9264,7 +9264,7 @@
         if (q.datalistId) { h += `<datalist id="${q.datalistId}">${MOUSE_DB.map(m => `<option value="${m.brand} ${m.model}">`).join('')}</datalist>`; }
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('question')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
+          h += `<button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button>`;
         }
       } else if (q.type === 'inputs') {
         h += `<div class="inputs-row">`;
@@ -9303,7 +9303,7 @@
         h += `</div>`;
         if (q.allowUnsure) {
           const sel = state.answers[q.id] === '__unsure__' ? 'selected radio unsure' : 'radio unsure';
-          h += `<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-icon">${getLineIcon('question')}</span><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button></div>`;
+          h += `<div style="margin-top:10px"><button class="option-btn ${sel}" onclick="selectSingle('${q.id}','__unsure__')"><span class="option-text">${unsureLabel}</span><span class="option-check"></span></button></div>`;
         }
       }
 
@@ -9574,7 +9574,7 @@
 
         return `<div class="profile-card ${p.type}${isRec ? ' recommended' : ''}">
       <div class="profile-header">
-        <div class="profile-icon">${getLineIcon(p.icon) || p.icon}</div>
+        
         <div>
           <div class="profile-name">${profTitle} ${isRec ? `<span style="font-size:11px;background:var(--blue);color:#fff;padding:2px 8px;border-radius:10px;margin-left:6px;font-weight:700">${isEn ? 'RECOMMENDED' : 'ÖNERİLEN'}</span>` : ''}</div>
           <div class="profile-tagline">${profTag}</div>
@@ -10314,7 +10314,7 @@
           { v: 'no', l: isEn ? 'Not yet tested' : 'Henüz denemedim', i: 'hourglass' },
           { v: 'bad', l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i: '' },
         ].map(o => `<div class="fb-option${fbState.tried === o.v ? ' selected' : ''}" onclick="setTried('${o.v}')">
-          <span class="option-icon" style="width:20px;height:20px">${getLineIcon(o.i) || o.i}</span><span>${o.l}</span>
+          <span>${o.l}</span>
         </div>`).join('')}
       </div>
     </div>
