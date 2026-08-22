@@ -138,13 +138,22 @@
       box-shadow: 0 6px 24px color-mix(in srgb, var(--cyan) 20%, transparent);
     }
 
+    .nav-brand-logo,
+    .hero-main-logo,
+    .badge-logo-icon,
+    .footer-logo {
+      display: inline-block;
+      vertical-align: middle;
+      background: linear-gradient(135deg, var(--t1) 15%, var(--cyan) 100%);
+      -webkit-mask: url('logo.svg') no-repeat center / contain;
+      mask: url('logo.svg') no-repeat center / contain;
+      transition: transform 0.3s ease, filter 0.3s ease, background 0.3s ease;
+    }
+
     .nav-brand-logo {
       width: 26px;
       height: 26px;
-      object-fit: contain;
-      border-radius: 6px;
-      filter: drop-shadow(0 0 6px color-mix(in srgb, var(--cyan) 45%, transparent));
-      transition: transform 0.3s ease;
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--cyan) 45%, transparent));
     }
 
     .nav-brand:hover .nav-brand-logo {
@@ -264,10 +273,11 @@
       z-index: 1;
       width: clamp(72px, 10vw, 88px);
       height: clamp(72px, 10vw, 88px);
-      object-fit: contain;
-      background: transparent;
+      background: linear-gradient(135deg, var(--t1) 15%, var(--cyan) 100%);
+      -webkit-mask: url('logo.svg') no-repeat center / contain;
+      mask: url('logo.svg') no-repeat center / contain;
       padding: 0;
-      filter: drop-shadow(0 0 16px var(--cyan));
+      filter: drop-shadow(0 0 18px color-mix(in srgb, var(--cyan) 55%, transparent));
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -2402,53 +2412,53 @@
 
     html[data-theme="light"] .nav-brand-logo,
     body[data-theme="light"] .nav-brand-logo {
-      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 2px 6px rgba(30, 58, 138, 0.25)) !important;
+      background: linear-gradient(135deg, var(--t1) 20%, var(--cyan) 100%) !important;
+      filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--cyan) 30%, transparent)) !important;
     }
 
     html[data-theme="light"] .hero-main-logo,
     body[data-theme="light"] .hero-main-logo {
-      background: transparent !important;
+      background: linear-gradient(135deg, var(--t1) 20%, var(--cyan) 100%) !important;
       border: none !important;
       box-shadow: none !important;
-      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 6px 20px rgba(30, 58, 138, 0.35)) !important;
+      filter: drop-shadow(0 6px 20px color-mix(in srgb, var(--cyan) 35%, transparent)) !important;
     }
 
     html[data-theme="light"] .hero-main-logo.glass-box,
     body[data-theme="light"] .hero-main-logo.glass-box {
       background: linear-gradient(145deg, #ffffff, #f1f5f9) !important;
-      border: 1.5px solid rgba(30, 58, 138, 0.2) !important;
-      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.12), 0 0 16px rgba(30, 58, 138, 0.1) !important;
+      border: 1.5px solid color-mix(in srgb, var(--cyan) 25%, transparent) !important;
+      box-shadow: 0 12px 30px color-mix(in srgb, var(--cyan) 12%, transparent), 0 0 16px color-mix(in srgb, var(--cyan) 10%, transparent) !important;
       border-radius: 22px !important;
       padding: 12px !important;
-      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) !important;
     }
 
     html[data-theme="light"] .hero-logo-glow,
     body[data-theme="light"] .hero-logo-glow {
-      background: radial-gradient(circle, rgba(30, 58, 138, 0.16) 0%, rgba(30, 58, 138, 0.04) 60%, transparent 80%) !important;
+      background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 16%, transparent) 0%, color-mix(in srgb, var(--cyan) 4%, transparent) 60%, transparent 80%) !important;
     }
 
     html[data-theme="light"] .logo-badge,
     body[data-theme="light"] .logo-badge {
-      background: rgba(30, 58, 138, 0.08) !important;
-      border-color: rgba(30, 58, 138, 0.22) !important;
-      color: #1e3a8a !important;
+      background: color-mix(in srgb, var(--cyan) 9%, transparent) !important;
+      border-color: color-mix(in srgb, var(--cyan) 25%, transparent) !important;
+      color: var(--cyan) !important;
       font-weight: 700 !important;
     }
 
     html[data-theme="light"] .logo-badge .badge-logo-icon,
     body[data-theme="light"] .logo-badge .badge-logo-icon {
-      background: transparent !important;
+      background: linear-gradient(135deg, var(--t1) 20%, var(--cyan) 100%) !important;
       border: none !important;
       box-shadow: none !important;
       border-radius: 0 !important;
-      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 1px 3px rgba(30, 58, 138, 0.2)) !important;
+      filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--cyan) 25%, transparent)) !important;
     }
 
     html[data-theme="light"] .logo-badge .dot,
     body[data-theme="light"] .logo-badge .dot {
-      background: #1e3a8a !important;
-      box-shadow: 0 0 8px #1e3a8a !important;
+      background: var(--cyan) !important;
+      box-shadow: 0 0 8px var(--cyan) !important;
     }
 
     html[data-theme="light"] .nav-brand-title {
@@ -2456,8 +2466,8 @@
     }
 
     html[data-theme="light"] .nav-brand-accent {
-      color: #1e3a8a !important;
-      text-shadow: 0 0 10px rgba(30, 58, 138, 0.25) !important;
+      color: var(--cyan) !important;
+      text-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 25%, transparent) !important;
     }
 
     html[data-theme="light"] .theme-btn,
@@ -3960,7 +3970,7 @@
       <!-- TOP NAV -->
       <div class="topnav">
         <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
-          <img src="logo.svg" alt="VecSens" class="nav-brand-logo" onerror="this.onerror=null;this.src='logo.png'" />
+          <span class="nav-brand-logo" aria-label="VecSens Logo"></span>
           <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
         </div>
         <div class="nav-tabs">
@@ -3986,7 +3996,7 @@
         <div class="header">
           <div class="hero-logo-container" onclick="switchPage('home')" title="VecSens Precision Tactical Aim Engine">
             <div class="hero-logo-glow"></div>
-            <img src="logo.svg" alt="VecSens Logo" class="hero-main-logo" onerror="this.onerror=null;this.src='logo.png'" />
+            <span class="hero-main-logo" aria-label="VecSens Hero Logo"></span>
           </div>
           <div class="logo-badge" id="mainLogoBadge">
             <img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
@@ -9653,7 +9663,7 @@
 
       const html = `
     <div class="results-header">
-      <div class="logo-badge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${isEn ? 'Analysis Complete' : 'Analiz Tamamlandı'}</div>
+      <div class="logo-badge"><span class="badge-logo-icon"></span><span class="dot"></span>${isEn ? 'Analysis Complete' : 'Analiz Tamamlandı'}</div>
       <h2>${isEn ? 'Your Personalized Aim Profiles' : 'Kişisel Aim Profillerin'}</h2>
       <p style="color:var(--t2);font-size:14px">${isEn ? `${profiles.length} customized sensitivity profiles generated for ${gameName}` : `${gameName} için ${profiles.length} farklı profil hesaplandı`}</p>
       
@@ -11865,7 +11875,7 @@
       const hSub = document.getElementById('headerSub');
       if (hSub) hSub.textContent = dict.sub;
       const mainBadge = document.getElementById('mainLogoBadge');
-      if (mainBadge) mainBadge.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${isEn ? 'Aim Advisor' : 'Aim Danışmanı'}`;
+      if (mainBadge) mainBadge.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${isEn ? 'Aim Advisor' : 'Aim Danışmanı'}`;
 
       // Top Navbar Tabs
       const tHome = document.getElementById('ntab-home');
@@ -11883,7 +11893,7 @@
 
       const setBadge = (id, text) => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${text}`;
+        if (el) el.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${text}`;
       };
       
       setBadge('convBadge', dict.convBadge);
@@ -12232,9 +12242,10 @@
         .hero-main-logo {
           width: var(--hero-logo-size) !important;
           height: var(--hero-logo-size) !important;
-          ${heroGlass
-            ? `background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(8,12,20,0.98)) !important; border: 1.5px solid color-mix(in srgb, ${d.cyan} 35%, transparent) !important; border-radius: 22px !important; padding: 12px !important; box-shadow: 0 14px 36px rgba(0,0,0,0.55), 0 0 28px color-mix(in srgb, ${d.cyan} 35%, transparent) !important;`
-            : `background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; filter: drop-shadow(0 0 18px color-mix(in srgb, ${d.cyan} 60%, transparent)) !important;`}
+          background: linear-gradient(135deg, var(--t1) 15%, ${d.cyan} 100%) !important;
+          -webkit-mask: url('logo.svg') no-repeat center / contain !important;
+          mask: url('logo.svg') no-repeat center / contain !important;
+          filter: drop-shadow(0 0 18px color-mix(in srgb, ${d.cyan} 60%, transparent)) !important;
         }
         .hero-logo-glow {
           width: calc(var(--hero-logo-size) * 1.45) !important;
@@ -12244,13 +12255,16 @@
         .logo-badge .badge-logo-icon {
           width: var(--badge-logo-size) !important;
           height: var(--badge-logo-size) !important;
-          background: transparent !important;
-          border: none !important;
+          background: linear-gradient(135deg, var(--t1) 15%, ${d.cyan} 100%) !important;
+          -webkit-mask: url('logo.svg') no-repeat center / contain !important;
+          mask: url('logo.svg') no-repeat center / contain !important;
         }
         .nav-brand-logo {
           width: var(--nav-logo-size) !important;
           height: var(--nav-logo-size) !important;
-          background: transparent !important;
+          background: linear-gradient(135deg, var(--t1) 15%, ${d.cyan} 100%) !important;
+          -webkit-mask: url('logo.svg') no-repeat center / contain !important;
+          mask: url('logo.svg') no-repeat center / contain !important;
         }
         .question-card, .analysis-card, .conv-card, .feedback-card, .aimtest-container, .profile-card, .pro-table-wrap, .admin-card {
           padding: var(--card-padding) !important;
@@ -12317,7 +12331,8 @@
         body[data-theme="light"] .hero-main-logo,
         html[data-theme="light"] .badge-logo-icon,
         body[data-theme="light"] .badge-logo-icon {
-          filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 2px 8px rgba(30, 58, 138, 0.25)) !important;
+          background: linear-gradient(135deg, var(--t1) 20%, ${l.cyan} 100%) !important;
+          filter: drop-shadow(0 2px 6px color-mix(in srgb, ${l.cyan} 35%, transparent)) !important;
         }
       `;
 
@@ -12381,7 +12396,7 @@
 
       const mb = document.getElementById('mainLogoBadge');
       if (mb) {
-        mb.innerHTML = `<img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'"><span class="dot"></span>${txt.brandName || 'VecSens'}`;
+        mb.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${txt.brandName || 'VecSens'}`;
       }
     }
 
