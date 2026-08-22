@@ -12316,11 +12316,14 @@
       });
 
       if (conf.customTexts) {
+        const reservedI18nIds = ['headerTitle', 'headerSub', 'footerText', 'ntab-home', 'ntab-analysis', 'ntab-converter', 'ntab-aimtest', 'ntab-pros', 'ntab-feedback', 'aimTitle', 'aimSub', 'convTitle', 'convSub', 'prosTitle', 'prosSub', 'fbTitle', 'fbSub'];
         Object.entries(conf.customTexts).forEach(([key, htmlVal]) => {
           if (key.startsWith('id_')) {
             const targetId = key.replace('id_', '');
-            const targetEl = document.getElementById(targetId);
-            if (targetEl) targetEl.innerHTML = htmlVal;
+            if (!reservedI18nIds.includes(targetId)) {
+              const targetEl = document.getElementById(targetId);
+              if (targetEl) targetEl.innerHTML = htmlVal;
+            }
           }
         });
       }
@@ -12897,10 +12900,27 @@
         }
       } catch (e) { /* site-config.json not available, use hardcoded defaults */ }
 
+      // Purge any stale customTexts from localStorage to fix language desync permanently
+      try {
+        const stored = localStorage.getItem('vecsens_admin_config');
+        if (stored) {
+          const p = JSON.parse(stored);
+          if (p.customTexts && Object.keys(p.customTexts).length > 0) {
+            p.customTexts = {};
+            localStorage.setItem('vecsens_admin_config', JSON.stringify(p));
+            adminConfig.customTexts = {};
+          }
+        }
+      } catch (e) {}
+
       applyAdminConfig(adminConfig);
       renderQuestion(0);
       applyTheme();
       applyLanguage();
+      
+      // Auto-load and display Homepage on initial startup
+      state.currentPage = 'home';
+      switchPage('home');
 
       // Check URL Hash for secret admin (#admin) or shared profile
       if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
