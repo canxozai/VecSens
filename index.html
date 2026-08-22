@@ -2400,33 +2400,40 @@
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
     }
 
+    html[data-theme="light"] .nav-brand-logo,
+    body[data-theme="light"] .nav-brand-logo {
+      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 2px 6px rgba(30, 58, 138, 0.25)) !important;
+    }
+
     html[data-theme="light"] .hero-main-logo,
     body[data-theme="light"] .hero-main-logo {
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
-      filter: drop-shadow(0 0 14px color-mix(in srgb, var(--cyan) 45%, transparent)) !important;
+      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 6px 20px rgba(30, 58, 138, 0.35)) !important;
     }
 
     html[data-theme="light"] .hero-main-logo.glass-box,
     body[data-theme="light"] .hero-main-logo.glass-box {
-      background: linear-gradient(145deg, #ffffff, #f8fafc) !important;
-      border: 1.5px solid color-mix(in srgb, var(--cyan) 25%, transparent) !important;
-      box-shadow: 0 12px 30px color-mix(in srgb, var(--cyan) 10%, transparent), 0 0 16px color-mix(in srgb, var(--cyan) 12%, transparent) !important;
+      background: linear-gradient(145deg, #ffffff, #f1f5f9) !important;
+      border: 1.5px solid rgba(30, 58, 138, 0.2) !important;
+      box-shadow: 0 12px 30px rgba(30, 58, 138, 0.12), 0 0 16px rgba(30, 58, 138, 0.1) !important;
       border-radius: 22px !important;
       padding: 12px !important;
+      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) !important;
     }
 
     html[data-theme="light"] .hero-logo-glow,
     body[data-theme="light"] .hero-logo-glow {
-      background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 20%, transparent) 0%, color-mix(in srgb, var(--cyan) 4%, transparent) 60%, transparent 80%) !important;
+      background: radial-gradient(circle, rgba(30, 58, 138, 0.16) 0%, rgba(30, 58, 138, 0.04) 60%, transparent 80%) !important;
     }
 
     html[data-theme="light"] .logo-badge,
     body[data-theme="light"] .logo-badge {
-      background: color-mix(in srgb, var(--cyan) 7%, transparent) !important;
-      border-color: var(--border) !important;
-      color: var(--cyan) !important;
+      background: rgba(30, 58, 138, 0.08) !important;
+      border-color: rgba(30, 58, 138, 0.22) !important;
+      color: #1e3a8a !important;
+      font-weight: 700 !important;
     }
 
     html[data-theme="light"] .logo-badge .badge-logo-icon,
@@ -2435,12 +2442,22 @@
       border: none !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 1px 3px rgba(30, 58, 138, 0.2)) !important;
     }
 
     html[data-theme="light"] .logo-badge .dot,
     body[data-theme="light"] .logo-badge .dot {
-      background: var(--cyan) !important;
-      box-shadow: 0 0 8px var(--cyan) !important;
+      background: #1e3a8a !important;
+      box-shadow: 0 0 8px #1e3a8a !important;
+    }
+
+    html[data-theme="light"] .nav-brand-title {
+      color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .nav-brand-accent {
+      color: #1e3a8a !important;
+      text-shadow: 0 0 10px rgba(30, 58, 138, 0.25) !important;
     }
 
     html[data-theme="light"] .theme-btn,
@@ -12293,6 +12310,14 @@
           -webkit-background-clip: text !important;
           -webkit-text-fill-color: transparent !important;
           background-clip: text !important;
+        }
+        html[data-theme="light"] .nav-brand-logo,
+        body[data-theme="light"] .nav-brand-logo,
+        html[data-theme="light"] .hero-main-logo,
+        body[data-theme="light"] .hero-main-logo,
+        html[data-theme="light"] .badge-logo-icon,
+        body[data-theme="light"] .badge-logo-icon {
+          filter: brightness(0) saturate(100%) invert(18%) sepia(85%) saturate(2200%) hue-rotate(210deg) brightness(85%) contrast(110%) drop-shadow(0 2px 8px rgba(30, 58, 138, 0.25)) !important;
         }
       `;
 
