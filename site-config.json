@@ -24,7 +24,7 @@
     "gbtnEnd": "#0f172a"
   },
   "layout": {
-    "containerMaxWidth": 1000,
+    "containerMaxWidth": 1020,
     "cardPadding": 34,
     "borderRadius": 14,
     "boxGap": 20,

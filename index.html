@@ -98,7 +98,7 @@
     }
 
     .container {
-      max-width: var(--container-max-width, 890px);
+      max-width: var(--container-max-width, 1020px);
       margin: 0 auto;
       padding: 0 20px;
       transition: max-width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -109,18 +109,20 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 24px 0 0;
-      flex-wrap: wrap;
+      gap: 12px;
+      padding: 20px 0 0;
+      flex-wrap: nowrap !important;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .nav-brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
       user-select: none;
-      padding: 6px 14px 6px 8px;
+      padding: 6px 12px 6px 8px;
       border-radius: 14px;
       background: rgba(15, 22, 36, 0.75);
       border: 1px solid var(--border);
@@ -138,60 +140,82 @@
       box-shadow: 0 6px 24px color-mix(in srgb, var(--cyan) 20%, transparent);
     }
 
-    .nav-brand-logo,
-    .hero-main-logo,
-    .badge-logo-icon,
-    .footer-logo {
-      display: inline-block;
-      vertical-align: middle;
-      background: linear-gradient(135deg, var(--t1) 15%, var(--cyan) 100%);
-      -webkit-mask: url('logo.svg') no-repeat center / contain;
-      mask: url('logo.svg') no-repeat center / contain;
-      transition: transform 0.3s ease, filter 0.3s ease, background 0.3s ease;
-    }
-
     .nav-brand-logo {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       filter: drop-shadow(0 0 8px color-mix(in srgb, var(--cyan) 45%, transparent));
+      transition: transform 0.3s ease, filter 0.3s ease;
+      flex-shrink: 0;
     }
 
     .nav-brand:hover .nav-brand-logo {
-      transform: scale(1.1) rotate(-3deg);
+      transform: scale(1.12) rotate(-3deg);
+      filter: drop-shadow(0 0 14px var(--cyan));
+    }
+
+    .hero-main-logo {
+      width: clamp(72px, 10vw, 88px);
+      height: clamp(72px, 10vw, 88px);
+      filter: drop-shadow(0 0 20px color-mix(in srgb, var(--cyan) 55%, transparent));
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+      cursor: pointer;
+    }
+
+    .hero-logo-container:hover .hero-main-logo {
+      transform: translateY(-3px) scale(1.06);
+      filter: drop-shadow(0 0 28px var(--cyan));
+    }
+
+    .logo-badge .badge-logo-icon {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 0 4px color-mix(in srgb, var(--cyan) 35%, transparent));
     }
 
     .nav-brand-title {
       font-family: var(--display);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: -0.02em;
       color: var(--t1);
+      white-space: nowrap;
     }
 
     .nav-brand-accent {
       color: var(--cyan);
-      text-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 40%, transparent);
+      text-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 45%, transparent);
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
 
     .nav-tabs {
       display: flex;
-      gap: 4px;
+      align-items: center;
+      gap: 3px;
       background: rgba(15, 22, 36, 0.82);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: var(--r4);
-      padding: 5px;
+      padding: 4px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+      flex-shrink: 1;
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .nav-tab {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 8px 17px;
-      border-radius: 18px;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 16px;
       font-family: var(--display);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       letter-spacing: .01em;
       cursor: pointer;
@@ -200,11 +224,12 @@
       color: var(--t3);
       transition: var(--ease);
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .nav-tab:hover {
       color: var(--t1);
-      background: rgba(255, 255, 255, .05)
+      background: rgba(255, 255, 255, .05);
     }
 
     .nav-tab.active {
@@ -221,7 +246,86 @@
       padding: 1px 7px;
       font-size: 11px;
       font-weight: 700;
-      font-family: var(--mono)
+      font-family: var(--mono);
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .theme-btn {
+      padding: 6px 12px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--t2);
+      transition: var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .theme-btn:hover {
+      color: var(--t1);
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    }
+
+    .lang-btn {
+      padding: 6px 11px;
+      border-radius: 18px;
+      font-size: 11.5px;
+      font-weight: 800;
+      font-family: var(--hud);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--t2);
+      transition: var(--ease);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .lang-btn:hover {
+      color: var(--t1);
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 8%, transparent);
+    }
+
+    @media (max-width: 880px) {
+      .topnav {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 16px;
+      }
+      .nav-brand {
+        order: 1;
+      }
+      .top-controls {
+        order: 2;
+        margin-left: auto;
+      }
+      .nav-tabs {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px;
+        margin-top: 2px;
+      }
+      .nav-tab {
+        padding: 6px 11px;
+        font-size: 12px;
+      }
     }
 
     /* ── HEADER & HERO LOGO ── */
@@ -3090,27 +3194,6 @@
       color: #ffffff !important;
     }
 
-    .theme-btn {
-      padding: 7px 15px;
-      border-radius: 20px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--t2);
-      transition: var(--ease);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .theme-btn:hover {
-      color: var(--t1);
-      border-color: var(--cyan);
-      background: color-mix(in srgb, var(--cyan) 10%, transparent);
-    }
-
     /* ══════════════════════════════════════
        VECSENS LIVE ON-SCREEN VISUAL STUDIO
     ══════════════════════════════════════ */
@@ -3466,12 +3549,6 @@
       background: rgba(225, 29, 72, 0.08);
     }
 
-    .top-controls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
     /* ══════════════════════════════════════
        TOAST NOTIFICATION
     ══════════════════════════════════════ */
@@ -3679,6 +3756,7 @@
       background: linear-gradient(135deg, var(--t1) 40%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
       letter-spacing: -0.02em;
     }
     .home-hero-sub {
@@ -3970,13 +4048,31 @@
       <!-- TOP NAV -->
       <div class="topnav">
         <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
-          <span class="nav-brand-logo" aria-label="VecSens Logo"></span>
+          <span class="nav-brand-logo-wrap" id="navBrandLogoWrap">
+            <svg class="vecsens-dynamic-logo nav-brand-logo" viewBox="0 0 512 512" style="width:26px;height:26px;display:inline-block;vertical-align:middle;transition:all 0.3s ease">
+              <defs>
+                <linearGradient id="vNavGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--t1, #ffffff)" />
+                  <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
+                  <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+                </linearGradient>
+              </defs>
+              <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vNavGrad)" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
+              <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
+              <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
+              <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
+              <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+              <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+              <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+              <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+            </svg>
+          </span>
           <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
         </div>
         <div class="nav-tabs">
           <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
           <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
-          <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Sens & Scope Converter</button>
+          <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
           <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
           <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
@@ -3996,7 +4092,25 @@
         <div class="header">
           <div class="hero-logo-container" onclick="switchPage('home')" title="VecSens Precision Tactical Aim Engine">
             <div class="hero-logo-glow"></div>
-            <span class="hero-main-logo" aria-label="VecSens Hero Logo"></span>
+            <span class="hero-main-logo-wrap" id="heroLogoWrap">
+              <svg class="vecsens-dynamic-logo hero-main-logo" viewBox="0 0 512 512" style="width:clamp(72px, 10vw, 88px);height:clamp(72px, 10vw, 88px);display:inline-block;vertical-align:middle;transition:all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)">
+                <defs>
+                  <linearGradient id="vHeroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--t1, #ffffff)" />
+                    <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
+                    <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+                  </linearGradient>
+                </defs>
+                <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vHeroGrad)" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
+                <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
+                <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
+                <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+              </svg>
+            </span>
           </div>
           <div class="logo-badge" id="mainLogoBadge">
             <img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
@@ -8649,6 +8763,27 @@
     // ════════════════════════════════════════════════════════════
     //  SVG LINE-ART ICON MAP (replaces emojis with line drawings)
     // ════════════════════════════════════════════════════════════
+        // Dynamic Theme-Reactive SVG Logo Generator
+    function getVecSensLogoSvg(size = 26, extraClass = '') {
+      return `<svg class="vecsens-dynamic-logo ${extraClass}" viewBox="0 0 512 512" style="width:${size}px;height:${size}px;display:inline-block;vertical-align:middle;flex-shrink:0;transition:all 0.3s ease" aria-hidden="true">
+        <defs>
+          <linearGradient id="vThemeGrad_${size}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--t1, #ffffff)" />
+            <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
+            <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+          </linearGradient>
+        </defs>
+        <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vThemeGrad_${size})" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
+        <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
+        <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
+        <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
+        <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+        <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+        <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+        <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+      </svg>`;
+    }
+
     const LINE_ICONS = {};
     function getLineIcon(key) {
       return '';
@@ -11803,7 +11938,7 @@
         sub: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
         tabHome: 'Ana Sayfa',
         tabAnalysis: 'Analiz',
-        tabConverter: 'Sens & Scope Converter',
+        tabConverter: 'Dönüştürücü',
         tabAimtest: 'Aim Testi',
         tabPros: 'Pro Oyuncular',
         tabFeedback: 'Geri Bildirim',
@@ -11830,8 +11965,8 @@
         sub: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
         tabHome: 'Home',
         tabAnalysis: 'Analysis',
-        tabConverter: 'Sens & Scope Converter',
-        tabAimtest: 'Aim Test Lab',
+        tabConverter: 'Converter',
+        tabAimtest: 'Aim Test',
         tabPros: 'Pro Players',
         tabFeedback: 'Feedback',
         convBadge: 'Converter & Optimization',
@@ -11875,7 +12010,7 @@
       const hSub = document.getElementById('headerSub');
       if (hSub) hSub.textContent = dict.sub;
       const mainBadge = document.getElementById('mainLogoBadge');
-      if (mainBadge) mainBadge.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${isEn ? 'Aim Advisor' : 'Aim Danışmanı'}`;
+      if (mainBadge) mainBadge.innerHTML = getVecSensLogoSvg(18, 'badge-logo-icon') + `<span class="dot"></span>${isEn ? 'Aim Advisor' : 'Aim Danışmanı'}`;
 
       // Top Navbar Tabs
       const tHome = document.getElementById('ntab-home');
@@ -11893,7 +12028,7 @@
 
       const setBadge = (id, text) => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${text}`;
+        if (el) el.innerHTML = getVecSensLogoSvg(18, 'badge-logo-icon') + '<span class="dot"></span>' + text;
       };
       
       setBadge('convBadge', dict.convBadge);
