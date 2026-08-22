@@ -52,18 +52,7 @@
     "footerTr": "Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez",
     "footerEn": "All calculations are performed locally in your browser · No data is sent to external servers"
   },
-  "customTexts": {
-    "id_ntab-pros": "Pro Oyuncular",
-    "id_ntab-aimtest": "Aim Test Lab",
-    "id_ntab-converter": "Sens &amp; Scope Converter",
-    "id_ntab-analysis": "Analysis",
-    "id_ntab-feedback": "Geri Bildirim",
-    "id_aimSub": "Test your sensitivity directly in your browser with real-time feedback.",
-    "id_convSub": "Hipfire ve Dürbün hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle.",
-    "id_prosSub": "Profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları.",
-    "id_fbSub": "Geri bildiriminle uygulamayı daha iyi hale getirmemize yardımcı ol.",
-    "id_headerTitle": "VecSens<br><span class=\"header-sub-gradient\">Kişiselleştirilmiş Aim Analizi</span>"
-  },
+  "customTexts": {},
   "algorithm": {
     "globalSensMultiplier": 1,
     "wristMultiplier": 1,
