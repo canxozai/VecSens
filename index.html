@@ -1720,24 +1720,66 @@
 
     .stars-row {
       display: flex;
-      gap: 8px;
-      margin-bottom: 6px
+      gap: 10px;
+      margin-bottom: 6px;
+      align-items: center;
     }
 
     .star-btn {
-      font-size: 28px;
       cursor: pointer;
       border: none;
-      background: none;
-      transition: transform .15s;
+      background: transparent;
+      transition: transform .18s cubic-bezier(0.34, 1.56, 0.64, 1), color .18s ease, filter .18s ease;
       line-height: 1;
-      filter: grayscale(1) opacity(.4)
+      padding: 4px;
+      color: rgba(255, 255, 255, 0.22);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .star-btn.active,
     .star-btn:hover {
-      filter: none;
-      transform: scale(1.15)
+      color: rgba(255, 255, 255, 0.8);
+      transform: scale(1.18);
+    }
+
+    .star-btn.active {
+      color: #ffffff !important;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+      transform: scale(1.2);
+    }
+
+    html[data-theme="light"] .star-btn,
+    body[data-theme="light"] .star-btn {
+      color: #cbd5e1 !important;
+      filter: none !important;
+    }
+
+    html[data-theme="light"] .star-btn:hover,
+    body[data-theme="light"] .star-btn:hover {
+      color: #fbbf24 !important;
+      transform: scale(1.18);
+    }
+
+    html[data-theme="light"] .star-btn.active,
+    body[data-theme="light"] .star-btn.active {
+      color: #f59e0b !important;
+      filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.45)) !important;
+      transform: scale(1.2);
+    }
+
+    #ratingLabel {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+
+    html[data-theme="light"] #ratingLabel,
+    body[data-theme="light"] #ratingLabel {
+      color: var(--cyan) !important;
     }
 
     .fb-options {
@@ -10500,14 +10542,16 @@
       const likesList = isEn ? FB_LIKES_EN : FB_LIKES_TR;
       const improveList = isEn ? FB_IMPROVE_EN : FB_IMPROVE_TR;
 
+      const starSvg = `<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="pointer-events:none;display:block"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+
       const html = `
     <div class="feedback-card">
       <h3> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:10px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
       <div class="stars-row">
-        ${[1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">★</button>`).join('')}
+        ${[1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">${starSvg}</button>`).join('')}
       </div>
-      <p id="ratingLabel" style="font-size:13px;color:var(--blue);margin-top:8px;min-height:18px">${fbState.rating ? ratingLabel(fbState.rating) : ''}</p>
+      <p id="ratingLabel">${fbState.rating ? ratingLabel(fbState.rating) : ''}</p>
     </div>
 
     <div class="feedback-card">
@@ -12328,8 +12372,8 @@
       pinProtected: true,
       activeDrawer: null,
       inlineEditActive: false,
-      themeDark: { bg: '#0a0e17', card: '#0f1624', border: '#232f46', cyan: '#38bdf8', blue: '#38bdf8', vctRed: '#ff4655', purple: '#a855f7', green: '#10b981', gbtnStart: '#38bdf8', gbtnEnd: '#0284c7' },
-      themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#e2e8f0', cyan: '#1e3a8a', blue: '#1e3a8a', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#1e40af', gbtnEnd: '#1e3a8a' },
+      themeDark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', purple: '#a855f7', green: '#10b981', gbtnStart: '#475569', gbtnEnd: '#1e293b' },
+      themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#334155', gbtnEnd: '#0f172a' },
       layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, heroLogoSize: 84, heroLogoOffsetY: 0, heroLogoAlign: 'center', heroLogoGlass: false, badgeLogoSize: 18, navLogoSize: 26, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
       texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez', footerEn: 'All calculations are performed locally in your browser · No data is sent to external servers' },
       customTexts: {},
@@ -13291,6 +13335,7 @@
       let n;
       while ((n = walker.nextNode())) nodes.push(n);
       nodes.forEach(node => {
+        if (node.parentElement && (node.parentElement.classList.contains('star-btn') || node.parentElement.closest('.stars-row') || node.parentElement.closest('svg'))) return;
         const cleaned = node.textContent.replace(EMOJI_RE, '').replace(/\s{2,}/g, ' ');
         if (cleaned !== node.textContent) node.textContent = cleaned;
       });
@@ -13325,7 +13370,7 @@
       state.currentPage = 'home';
       switchPage('home');
 
-      // 3. Fetch background site-config.json asynchronously
+      // 3. Fetch background site-config.json asynchronously and apply to all visitors
       fetch('site-config.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).then(siteConf => {
         if (siteConf) {
           if (siteConf.themeDark) Object.assign(DEFAULT_ADMIN_CONFIG.themeDark, siteConf.themeDark);
@@ -13334,9 +13379,16 @@
           if (siteConf.texts) Object.assign(DEFAULT_ADMIN_CONFIG.texts, siteConf.texts);
           if (siteConf.algorithm) Object.assign(DEFAULT_ADMIN_CONFIG.algorithm, siteConf.algorithm);
           if (siteConf.customPros) DEFAULT_ADMIN_CONFIG.customPros = siteConf.customPros;
-          const hasLocal = localStorage.getItem('vecsens_admin_config');
-          if (!hasLocal) {
-            adminConfig = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG));
+          
+          // Apply published site config for all visitors
+          if (!adminConfig.unlocked) {
+            adminConfig = {
+              ...DEFAULT_ADMIN_CONFIG,
+              ...siteConf,
+              unlocked: false,
+              activeDrawer: null,
+              inlineEditActive: false
+            };
             applyAdminConfig(adminConfig);
           }
         }
