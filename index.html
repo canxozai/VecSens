@@ -2098,7 +2098,8 @@
     .aim-canvas-wrap {
       position: relative;
       width: 100%;
-      height: 430px;
+      height: 560px;
+      min-height: 480px;
       background: #04060b;
       border: 2px solid var(--border);
       border-radius: var(--r3);
@@ -2106,18 +2107,30 @@
       cursor: crosshair;
       user-select: none;
       box-shadow: inset 0 0 40px rgba(0, 0, 0, .8);
+      transition: height 0.3s ease;
+    }
+
+    .aim-canvas-wrap:fullscreen,
+    .aim-canvas-wrap:-webkit-full-screen {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
     }
 
     .aim-canvas-wrap:focus {
       outline: none;
       border-color: var(--cyan);
-      box-shadow: 0 0 25px color-mix(in srgb, var(--cyan) 25%, transparent)
+      box-shadow: 0 0 25px color-mix(in srgb, var(--cyan) 25%, transparent);
     }
 
     #aimCanvas {
       display: block;
       width: 100%;
-      height: 100%
+      height: 100%;
     }
 
     .aim-overlay {
@@ -2127,9 +2140,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(5, 7, 12, 0.88);
-      backdrop-filter: blur(6px);
-      z-index: 10
+      background: rgba(5, 7, 12, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .aim-overlay-card {
+      background: rgba(11, 17, 32, 0.95);
+      border: 1px solid var(--border);
+      border-radius: var(--r3);
+      padding: 24px 28px;
+      max-width: 600px;
+      width: 92%;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      max-height: 90%;
+      overflow-y: auto;
     }
 
     .aim-overlay h3 {
@@ -2137,7 +2165,7 @@
       font-size: 26px;
       font-weight: 800;
       color: var(--t1);
-      margin-bottom: 8px
+      margin-bottom: 8px;
     }
 
     .aim-overlay p {
@@ -2145,7 +2173,8 @@
       color: var(--t2);
       margin-bottom: 18px;
       text-align: center;
-      max-width: 400px
+      max-width: 480px;
+      line-height: 1.5;
     }
 
     .aim-hud {
@@ -11075,8 +11104,11 @@
           <span>cm/360: <b style="color:var(--cyan)" id="calibCm360Val">${curCm360Val} cm</b></span>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" onclick="loadAnalysisIntoCalib()"> ${isEn ? 'Load Analysis Sens' : 'Analiz Ayarımı Yükle'}</button>
+        <button class="btn btn-ghost btn-sm" id="aimFsBtn" onclick="toggleAimFullscreen()" style="display:inline-flex;align-items:center;gap:6px">
+          <span style="font-size:14px">⛶</span> ${isEn ? 'Fullscreen' : 'Tam Ekran'}
+        </button>
       </div>
     </div>
   `;
@@ -11097,13 +11129,17 @@
           <div class="hud-stat">${mode === 'calibrate' ? (isEn ? 'Round:' : 'Tur:') : (isEn ? 'Time:' : 'Süre:')} <span id="hudTime">30s</span></div>
           <div class="hud-stat">${isEn ? 'Score:' : 'Skor:'} <span id="hudScore">0</span></div>
           <div class="hud-stat">${mode === 'calibrate' ? (isEn ? 'Angle:' : 'Açı:') : (isEn ? 'Accuracy / Track:' : 'İsabet / Takip:')} <span id="hudAcc">100%</span></div>
+          <button onclick="toggleAimFullscreen()" style="background:rgba(7,9,14,0.85);border:1px solid rgba(255,255,255,.15);padding:5px 12px;border-radius:var(--r1);color:var(--cyan);font-family:var(--mono);font-size:12px;cursor:pointer;pointer-events:auto;transition:var(--ease);font-weight:700" title="${isEn ? 'Toggle Fullscreen' : 'Tam Ekran Yap / Çık'}">⛶ ${isEn ? 'Full' : 'Tam Ekran'}</button>
         </div>
 
         <div class="aim-overlay" id="aimOverlay">
-          <h3 id="overlayTitle">${mode === 'calibrate' ? (isEn ? '3D 180° Reflex Calibration' : '3D 180° Refleks Kalibrasyonu') : (isEn ? 'Start Aim Test' : 'Aim Testine Başla')}</h3>
-          <p id="overlayDesc">${modeDesc}</p>
-          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-            <button class="btn btn-primary" onclick="startAimTest()">${mode === 'calibrate' ? (isEn ? 'Start 180° Calibration (5 Rounds)' : '180° Kalibrasyonu Başlat (5 Tur)') : (isEn ? 'Start Test' : 'Testi Başlat')}</button>
+          <div class="aim-overlay-card" id="aimOverlayCard">
+            <h3 id="overlayTitle">${mode === 'calibrate' ? (isEn ? '3D 180° Reflex Calibration' : '3D 180° Refleks Kalibrasyonu') : (isEn ? 'Start Aim Test' : 'Aim Testine Başla')}</h3>
+            <p id="overlayDesc">${modeDesc}</p>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="startAimTest()">${mode === 'calibrate' ? (isEn ? 'Start 180° Calibration (5 Rounds)' : '180° Kalibrasyonu Başlat (5 Tur)') : (isEn ? 'Start Test' : 'Testi Başlat')}</button>
+              <button class="btn btn-secondary" onclick="toggleAimFullscreen()" style="display:inline-flex;align-items:center;gap:6px"><span>⛶</span> ${isEn ? 'Fullscreen' : 'Tam Ekran'}</button>
+            </div>
           </div>
         </div>
       </div>
@@ -11115,6 +11151,63 @@
       container.innerHTML = html;
       initAimCanvas();
     }
+
+    function toggleAimFullscreen() {
+      const wrap = document.getElementById('aimCanvasWrap');
+      if (!wrap) return;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (wrap.requestFullscreen) {
+          wrap.requestFullscreen();
+        } else if (wrap.webkitRequestFullscreen) {
+          wrap.webkitRequestFullscreen();
+        } else if (wrap.msRequestFullscreen) {
+          wrap.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    }
+
+    function handleAimFullscreenChange() {
+      const wrap = document.getElementById('aimCanvasWrap');
+      const canvas = document.getElementById('aimCanvas');
+      const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      aimTestState.isFullscreen = isFs;
+
+      const fsBtn = document.getElementById('aimFsBtn');
+      if (fsBtn) {
+        const isEn = currentLang === 'en';
+        fsBtn.innerHTML = isFs
+          ? `<span style="font-size:14px">🗗</span> ${isEn ? 'Exit Fullscreen' : 'Pencere Modu'}`
+          : `<span style="font-size:14px">⛶</span> ${isEn ? 'Fullscreen' : 'Tam Ekran'}`;
+      }
+
+      setTimeout(() => {
+        if (wrap && canvas) {
+          canvas.width = wrap.clientWidth || (isFs ? window.innerWidth : 800);
+          canvas.height = wrap.clientHeight || (isFs ? window.innerHeight : 560);
+          if (!aimTestState.running) {
+            aimTestState.crosshairX = canvas.width / 2;
+            aimTestState.crosshairY = canvas.height / 2;
+          }
+        }
+      }, 60);
+    }
+
+    document.addEventListener('fullscreenchange', handleAimFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleAimFullscreenChange);
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('aimCanvas');
+      const wrap = document.getElementById('aimCanvasWrap');
+      if (canvas && wrap && (!document.fullscreenElement && !document.webkitFullscreenElement)) {
+        canvas.width = wrap.clientWidth;
+        canvas.height = wrap.clientHeight;
+      }
+    });
 
     function setCalibGame(g) {
       aimTestState.calibGame = g;
@@ -11174,7 +11267,7 @@
       if (!canvas) return;
       const wrap = document.getElementById('aimCanvasWrap');
       canvas.width = wrap.clientWidth || 800;
-      canvas.height = wrap.clientHeight || 450;
+      canvas.height = wrap.clientHeight || 560;
 
       if (!aimTestState.crosshairX || isNaN(aimTestState.crosshairX)) aimTestState.crosshairX = canvas.width / 2;
       if (!aimTestState.crosshairY || isNaN(aimTestState.crosshairY)) aimTestState.crosshairY = canvas.height / 2;
@@ -11828,17 +11921,24 @@
     function show180CalibrationResult() {
       const isEn = currentLang === 'en';
       const overlay = document.getElementById('aimOverlay');
+      const overlayCard = document.getElementById('aimOverlayCard');
       if (overlay) overlay.classList.remove('hidden');
 
       const turns = aimTestState.calibTurns;
       const count = turns.length;
       const curSens = aimTestState.calibSens || 0.35;
       const gameId = aimTestState.calibGame || 'valorant';
+      const gameLabel = GAMES.find(g => g.id === gameId)?.label || gameId;
       const dpi = aimTestState.calibDpi || 800;
 
       if (count === 0) {
-        document.getElementById('overlayTitle').textContent = isEn ? 'Test Incomplete' : 'Test Tamamlanamadı';
-        document.getElementById('overlayDesc').innerHTML = `<p>${isEn ? 'No turns recorded. Please try again!' : 'Hiç dönüş kaydedilmedi. Lütfen tekrar deneyin!'}</p><button class="btn btn-primary" onclick="startAimTest()">${isEn ? 'Try Again' : 'Tekrar Dene'}</button>`;
+        if (overlayCard) {
+          overlayCard.innerHTML = `
+            <h3 style="color:var(--amber);margin-bottom:8px">${isEn ? 'Test Incomplete' : 'Test Tamamlanamadı'}</h3>
+            <p style="margin-bottom:16px">${isEn ? 'No turns recorded. Please try again!' : 'Hiç dönüş kaydedilmedi. Lütfen tekrar deneyin!'}</p>
+            <button class="btn btn-primary" onclick="startAimTest()">${isEn ? 'Try Again' : 'Tekrar Dene'}</button>
+          `;
+        }
         return;
       }
 
@@ -11864,12 +11964,12 @@
 
       if (isUndershoot) {
         feedbackText = isEn
-          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(avgError)}° short</b>). Your sensitivity is slightly slow. Adjusting sensitivity to <b>${suggestedSens}</b> will calibrate your natural swipe.`
-          : `Masadaki tek refleks hareketin ortalama 180° yerine <b>${avgAngle}°</b> döndü. Kolunu fazla zorlamadan tam 180° arkana dönmek için sensitivity değerini <b>${suggestedSens}</b> seviyesine yükseltmen önerilir.`;
+          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(avgError)}° short</b>). Your sensitivity is slightly slow. Adjusting sensitivity to <b>${suggestedSens}</b> (${gameLabel}) will calibrate your natural swipe.`
+          : `Masadaki tek refleks hareketin ortalama 180° yerine <b>${avgAngle}°</b> döndü. Kolunu fazla zorlamadan tam 180° arkana dönmek için sensitivity değerini <b>${suggestedSens}</b> (${gameLabel}) seviyesine yükseltmen önerilir.`;
       } else if (isOvershoot) {
         feedbackText = isEn
-          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(avgError)}° too far</b>). Your sensitivity is slightly too fast. Lowering sensitivity to <b>${suggestedSens}</b> will align your swipe.`
-          : `Masadaki refleks hareketin 180° hedefini aşıp ortalama <b>${avgAngle}°</b> döndü. Arkandan gelen rakipleri kaçırmamak için sensitivity değerini <b>${suggestedSens}</b> seviyesine düşürmen önerilir.`;
+          ? `Your natural arm swipe averaged <b>${avgAngle}°</b> (<b>${Math.abs(avgError)}° too far</b>). Your sensitivity is slightly too fast. Lowering sensitivity to <b>${suggestedSens}</b> (${gameLabel}) will align your swipe.`
+          : `Masadaki refleks hareketin 180° hedefini aşıp ortalama <b>${avgAngle}°</b> döndü. Arkandan gelen rakipleri kaçırmamak için sensitivity değerini <b>${suggestedSens}</b> (${gameLabel}) seviyesine düşürmen önerilir.`;
       }
 
       const tableRows = turns.map(t => {
@@ -11884,25 +11984,32 @@
         `;
       }).join('');
 
-      document.getElementById('overlayTitle').innerHTML = `<span style="color:${feedbackClass}">${feedbackTitle}</span>`;
-      document.getElementById('overlayDesc').innerHTML = `
-        <div style="margin-bottom:12px">${isEn ? 'Total Score:' : 'Toplam Puan:'} <b>${totalScore}</b> | ${isEn ? 'Avg Angle:' : 'Ort. Açı:'} <b>${avgAngle}°</b></div>
-        <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:10px;margin-bottom:14px">
-          <table style="width:100%;font-size:12px;text-align:center">
-            <thead><tr style="color:var(--t3)"><th>${isEn ? 'Round' : 'Tur'}</th><th>${isEn ? 'Turned' : 'Açı'}</th><th>${isEn ? 'Err' : 'Hata'}</th><th>${isEn ? 'Time' : 'Süre'}</th></tr></thead>
-            <tbody>${tableRows}</tbody>
-          </table>
-        </div>
-        <div style="padding:10px;font-size:13px">${feedbackText}</div>
-        <div style="margin-top:16px"><button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Retry' : 'Tekrar Oyna'}</button></div>
-      `;
+      if (overlayCard) {
+        overlayCard.innerHTML = `
+          <h3 style="font-family:var(--display);font-size:24px;font-weight:800;color:${feedbackClass};margin-bottom:6px">${feedbackTitle}</h3>
+          <div style="margin-bottom:12px;font-size:13px;color:var(--t2)">${isEn ? 'Total Score:' : 'Toplam Puan:'} <b style="color:var(--cyan)">${totalScore}</b> | ${isEn ? 'Avg Angle:' : 'Ort. Açı:'} <b>${avgAngle}°</b> | ${isEn ? 'Avg Time:' : 'Ort. Süre:'} <b>${avgMs} ms</b></div>
+          <div style="background:rgba(0,0,0,0.35);padding:10px;border-radius:10px;margin-bottom:14px;border:1px solid var(--border)">
+            <table style="width:100%;font-size:12px;text-align:center">
+              <thead><tr style="color:var(--t3)"><th>${isEn ? 'Round' : 'Tur'}</th><th>${isEn ? 'Turned' : 'Açı'}</th><th>${isEn ? 'Err' : 'Hata'}</th><th>${isEn ? 'Time' : 'Süre'}</th></tr></thead>
+              <tbody>${tableRows}</tbody>
+            </table>
+          </div>
+          <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;line-height:1.55;color:var(--t2);text-align:left;margin-bottom:16px">
+            ${feedbackText}
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Retry' : 'Tekrar Oyna'}</button>
+            <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
+          </div>
+        `;
+      }
     }
 
-    
     function showAimResults() {
       const isEn = currentLang === 'en';
       playAimSound('complete');
       const overlay = document.getElementById('aimOverlay');
+      const overlayCard = document.getElementById('aimOverlayCard');
       if (overlay) overlay.classList.remove('hidden');
 
       const isFlick = aimTestState.mode === 'flick';
@@ -11928,28 +12035,27 @@
         const avgRt = rts.length > 0 ? Math.round(rts.reduce((a, b) => a + b, 0) / rts.length) : 0;
         const overshoots = aimTestState.overshootCount || 0;
 
-        let rank = 'C';
-        if (score >= 2500 && acc >= 90) { rank = 'S'; badgeClass = 'var(--cyan)'; }
-        else if (score >= 1800 && acc >= 80) { rank = 'A'; badgeClass = 'var(--green)'; }
-        else if (score >= 1200 && acc >= 70) { rank = 'B'; badgeClass = '#63b3ed'; }
-        else { rank = 'C'; badgeClass = 'var(--amber)'; }
+        if (score >= 2500 && acc >= 90) { badgeClass = 'var(--cyan)'; }
+        else if (score >= 1800 && acc >= 80) { badgeClass = 'var(--green)'; }
+        else if (score >= 1200 && acc >= 70) { badgeClass = '#63b3ed'; }
+        else { badgeClass = 'var(--amber)'; }
 
         statsSummaryHtml = `
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Score' : 'Skor'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Score' : 'Skor'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan)">${score}</div>
             </div>
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Accuracy' : 'İsabet'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Accuracy' : 'İsabet'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:${acc >= 80 ? 'var(--green)' : 'var(--amber)'}">${acc}%</div>
             </div>
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Hits / Clicks' : 'İsabet / Tıklama'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Hits / Clicks' : 'İsabet / Tıklama'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--t1)">${hits} / ${totalClicks}</div>
             </div>
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Avg Reaction' : 'Ort. Tepki'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Avg Reaction' : 'Ort. Tepki'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan)">${avgRt > 0 ? avgRt + ' ms' : '—'}</div>
             </div>
           </div>
@@ -11981,16 +12087,16 @@
 
         statsSummaryHtml = `
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Score' : 'Skor'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Score' : 'Skor'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan)">${score}</div>
             </div>
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Time on Target' : 'Hedefte Kalma'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Time on Target' : 'Hedefte Kalma'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:${trackAcc >= 65 ? 'var(--green)' : 'var(--amber)'}">${trackAcc}%</div>
             </div>
-            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border)">
-              <div style="font-size:11px;color:var(--t3);text-transform:uppercase">${isEn ? 'Track Duration' : 'Takip Süresi'}</div>
+            <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;margin-bottom:2px">${isEn ? 'Track Duration' : 'Takip Süresi'}</div>
               <div style="font-family:var(--mono);font-size:18px;font-weight:800;color:var(--t1)">${onTargetSec}s / ${totalSec}s</div>
             </div>
           </div>
@@ -12007,20 +12113,22 @@
         }
       }
 
-      document.getElementById('overlayTitle').innerHTML = `<span style="color:${badgeClass}">${title}</span>`;
-      document.getElementById('overlayDesc').innerHTML = `
-        <div style="font-size:12px;color:var(--t3);margin-bottom:12px">
-          ${isEn ? 'Tested On:' : 'Test Edilen Ayar:'} <b>${gameLabel}</b> · Sens: <b>${curSens}</b> · DPI: <b>${curDpi}</b> · cm/360: <b>${cm360} cm</b>
-        </div>
-        ${statsSummaryHtml}
-        <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;line-height:1.55;color:var(--t2);text-align:left;margin-bottom:16px">
-          ${analysisText}
-        </div>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
-          <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
-        </div>
-      `;
+      if (overlayCard) {
+        overlayCard.innerHTML = `
+          <h3 style="font-family:var(--display);font-size:24px;font-weight:800;color:${badgeClass};margin-bottom:6px">${title}</h3>
+          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">
+            ${isEn ? 'Tested On:' : 'Test Edilen Ayar:'} <b>${gameLabel}</b> · Sens: <b>${curSens}</b> · DPI: <b>${curDpi}</b> · cm/360: <b>${cm360} cm</b>
+          </div>
+          ${statsSummaryHtml}
+          <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;line-height:1.55;color:var(--t2);text-align:left;margin-bottom:16px">
+            ${analysisText}
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
+            <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
+          </div>
+        `;
+      }
     }
 
     const I18N = {
