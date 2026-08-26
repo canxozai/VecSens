@@ -53,8 +53,8 @@
     "footerEn": "All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure"
   },
   "cloud": {
-    "supabaseUrl": "",
-    "supabaseAnonKey": ""
+    "supabaseUrl": "https://focusbneqlnxznppguhy.supabase.co",
+    "supabaseAnonKey": "sb_publishable_FhSgi2EgTmjqzmvy58RC1A_slBpzzK9"
   },
   "customTexts": {},
   "algorithm": {

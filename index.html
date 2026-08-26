@@ -11776,9 +11776,6 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 <button class="dropdown-item" onclick="openProfileModal()">
                   ${getVsSvg('user', 15)} <span>${isEn ? 'Profile & Settings' : 'Profil & Ayarlar'}</span>
                 </button>
-                <button class="dropdown-item" onclick="openCloudSettingsModal()">
-                  ${getVsSvg('settings', 15)} <span>${isEn ? 'Cloud Vault Settings' : 'Bulut Kasası Ayarları'}</span>
-                </button>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item danger" onclick="VecSensCloud.logout()">
                   ${getVsSvg('logout', 15)} <span>${isEn ? 'Log Out' : 'Çıkış Yap'}</span>
@@ -16348,7 +16345,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#334155', gbtnEnd: '#0f172a' },
       layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, heroLogoSize: 84, heroLogoOffsetY: 0, heroLogoAlign: 'center', heroLogoGlass: false, badgeLogoSize: 18, navLogoSize: 26, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
       texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli', footerEn: 'All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure' },
-      cloud: { supabaseUrl: '', supabaseAnonKey: '' },
+      cloud: { supabaseUrl: 'https://focusbneqlnxznppguhy.supabase.co', supabaseAnonKey: 'sb_publishable_FhSgi2EgTmjqzmvy58RC1A_slBpzzK9' },
       customTexts: {},
       algorithm: { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 },
       customPros: {}

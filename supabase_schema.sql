@@ -97,3 +97,27 @@ CREATE POLICY "Users can insert their own aim scores" ON public.vecsens_aim_scor
 -- Feedback Policy
 DROP POLICY IF EXISTS "Anyone can submit feedback" ON public.vecsens_feedback;
 CREATE POLICY "Anyone can submit feedback" ON public.vecsens_feedback FOR INSERT WITH CHECK (true);
+
+-- ==============================================================================
+-- ⚡ OTOMATİK PROFİL OLUŞTURMA TETİKLEYİCİSİ (TRIGGER)
+-- ==============================================================================
+-- Kullanıcı auth.users'a kaydolduğunda profili otomatik olarak oluşturulur.
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.vecsens_profiles (id, username, avatar)
+  VALUES (
+    NEW.id,
+    COALESCE(NEW.raw_user_meta_data->>'username', split_part(NEW.email, '@', 1)),
+    COALESCE(NEW.raw_user_meta_data->>'avatar', 'crosshair')
+  )
+  ON CONFLICT (id) DO UPDATE
+  SET username = EXCLUDED.username, avatar = EXCLUDED.avatar;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
