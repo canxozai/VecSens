@@ -10418,7 +10418,7 @@
       async register({ username, email, password, avatar, role, mainGame }) {
         const isEn = currentLang === 'en';
         if (!username || username.trim().length < 2) {
-          showToast(isEn ? 'Please enter a valid Gamer Tag (at least 2 chars)' : 'Lütfen geçerli bir Oyuncu Adı girin (en az 2 karakter)');
+          showToast(isEn ? 'Please enter a valid Username (at least 2 chars)' : 'Lütfen geçerli bir Kullanıcı Adı girin (en az 2 karakter)');
           return false;
         }
         if (!email || !email.includes('@')) {
@@ -10487,7 +10487,7 @@
             return false;
           }
           if (users.find(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
-            showToast(isEn ? 'This Gamer Tag is taken! Please choose another.' : 'Bu Oyuncu Adı kullanımda! Lütfen başka bir ad seçin.');
+            showToast(isEn ? 'This Username is taken! Please choose another.' : 'Bu Kullanıcı Adı kullanımda! Lütfen başka bir ad seçin.');
             return false;
           }
 
@@ -11238,7 +11238,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
             <div id="authTabLogin" class="${this.currentAuthTab === 'login' ? '' : 'hidden'}">
               <form onsubmit="event.preventDefault(); VecSensCloud.handleLoginFormSubmit();">
                 <div class="auth-form-group">
-                  <label class="auth-label">${isEn ? 'Email or Gamer Tag' : 'E-posta veya Oyuncu Adı'}</label>
+                  <label class="auth-label">${isEn ? 'Email or Username' : 'E-posta veya Kullanıcı Adı'}</label>
                   <div class="auth-input-wrap">
                     <span class="auth-input-icon">${getVsSvg('user', 15)}</span>
                     <input type="text" id="authLoginId" class="auth-input" placeholder="${isEn ? 'e.g. TenZ or player@mail.com' : 'Örn: TenZ veya oyuncu@mail.com'}" required />
@@ -11277,10 +11277,10 @@ create policy "Users can delete own history" on public.vecsens_history for delet
             <div id="authTabRegister" class="${this.currentAuthTab === 'register' ? '' : 'hidden'}">
               <form onsubmit="event.preventDefault(); VecSensCloud.handleRegisterFormSubmit();">
                 <div class="auth-form-group">
-                  <label class="auth-label">${isEn ? 'Gamer Tag / Username' : 'Oyuncu Adı (Gamer Tag)'}</label>
+                  <label class="auth-label">${isEn ? 'Username' : 'Kullanıcı Adı'}</label>
                   <div class="auth-input-wrap">
                     <span class="auth-input-icon">${getVsSvg('user', 15)}</span>
-                    <input type="text" id="authRegUsername" class="auth-input" placeholder="${isEn ? 'e.g. Vortex#1337' : 'Örn: Vortex#1337'}" required />
+                    <input type="text" id="authRegUsername" class="auth-input" placeholder="${isEn ? 'e.g. Vortex1337' : 'Örn: Vortex1337'}" required />
                   </div>
                 </div>
                 <div class="auth-form-group">
@@ -11401,7 +11401,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
 
             <form onsubmit="event.preventDefault(); VecSensCloud.handleProfileUpdateSubmit();">
               <div class="auth-form-group">
-                <label class="auth-label">${isEn ? 'Gamer Tag' : 'Oyuncu Adı'}</label>
+                <label class="auth-label">${isEn ? 'Username' : 'Kullanıcı Adı'}</label>
                 <div class="auth-input-wrap">
                   <span class="auth-input-icon">${getVsSvg('user', 14)}</span>
                   <input type="text" id="profEditUsername" class="auth-input" value="${u.username}" required />
