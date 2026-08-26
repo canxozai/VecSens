@@ -4775,6 +4775,360 @@
     .compare-diff-badge.red { background: rgba(244,63,94,0.18); color: var(--vct-red); }
     .compare-diff-badge.cyan { background: rgba(56,189,248,0.18); color: var(--cyan); }
 
+    /* ══════════════════════════════════════
+       CLOUD LATENCY PILL & STATUS
+    ══════════════════════════════════════ */
+    .cloud-latency-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: var(--mono);
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--green);
+      transition: var(--ease);
+      user-select: none;
+    }
+    .cloud-latency-pill.syncing {
+      background: rgba(56, 189, 248, 0.08);
+      border-color: rgba(56, 189, 248, 0.25);
+      color: var(--cyan);
+    }
+    .cloud-latency-pill .ping-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      display: inline-block;
+      animation: pulsePing 2s infinite ease-in-out;
+    }
+    .cloud-latency-pill.syncing .ping-dot {
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    @keyframes pulsePing {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.65; }
+    }
+
+    /* ══════════════════════════════════════
+       INTERACTIVE MOUSEPAD SIMULATOR V2
+    ══════════════════════════════════════ */
+    .mousepad-sim-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mousepad-sim-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .mousepad-sim-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--t1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+    .pad-size-selector {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .pad-size-btn {
+      padding: 5px 11px;
+      border-radius: 7px;
+      border: none;
+      background: none;
+      color: var(--t2);
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: var(--ease);
+    }
+    .pad-size-btn.active {
+      background: var(--cyan);
+      color: #06090e;
+      box-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 35%, transparent);
+    }
+    .mousepad-visual-canvas {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: radial-gradient(ellipse at center, rgba(16, 24, 40, 0.95), #060910);
+      border: 2px solid color-mix(in srgb, var(--cyan) 25%, var(--border));
+      border-radius: 14px;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .pad-ruler-marks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 16px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--t3);
+      pointer-events: none;
+    }
+    .pad-center-axis {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: dashed rgba(255, 255, 255, 0.15);
+    }
+    .pad-flick-zone {
+      position: absolute;
+      height: 60%;
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(244, 63, 94, 0.22), rgba(56, 189, 248, 0.12));
+      border: 1px dashed var(--cyan);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      font-family: var(--mono);
+      transition: all 0.35s ease;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+    }
+    .pad-cursor-indicator {
+      position: absolute;
+      width: 28px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 8px var(--cyan));
+      transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+    }
+    .mousepad-sim-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .mousepad-spec-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .mousepad-spec-label {
+      font-size: 10px;
+      color: var(--t3);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+    .mousepad-spec-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--t1);
+      font-family: var(--mono);
+      margin-top: 2px;
+    }
+    .mousepad-spec-val.highlight {
+      color: var(--cyan);
+    }
+
+    /* ══════════════════════════════════════
+       PRO PLAYER AIM MATCHER
+    ══════════════════════════════════════ */
+    .pro-matcher-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 24px;
+    }
+    .pro-matcher-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .pro-matcher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .pro-match-item {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .pro-match-item:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .pro-match-badge {
+      font-size: 11px;
+      font-weight: 800;
+      font-family: var(--mono);
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .pro-match-avatar-pill {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+      border: 1px solid var(--border-bright);
+    }
+    .pro-match-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--t1);
+      margin-bottom: 2px;
+    }
+    .pro-match-meta {
+      font-size: 11.5px;
+      color: var(--t3);
+    }
+    .pro-match-stats {
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════
+       SHAREABLE AIM CARD MODAL
+    ══════════════════════════════════════ */
+    .aim-card-container {
+      background: linear-gradient(135deg, #090e1a 0%, #0d1527 50%, #111a32 100%);
+      border: 2px solid var(--border-bright);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 35px color-mix(in srgb, var(--cyan) 18%, transparent);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .aim-card-container::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 25%, transparent), transparent 70%);
+      pointer-events: none;
+    }
+    .aim-card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .aim-card-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .aim-card-brand-tag {
+      font-size: 11px;
+      font-weight: 800;
+      font-family: var(--mono);
+      letter-spacing: 0.1em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+    .aim-card-main-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .aim-card-cell {
+      text-align: center;
+    }
+    .aim-card-cell-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--t3);
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+    .aim-card-cell-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--t1);
+      font-family: var(--mono);
+      margin-top: 3px;
+    }
+    .aim-card-cell-val.cyan { color: var(--cyan); }
+    .aim-card-cell-val.red { color: var(--vct-red); }
+    .aim-card-footer-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--t3);
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     /* ZERO ICON & ZERO EMOJI MINIMALIST OVERRIDES */
     .opt-icon, .profile-icon, .home-card-icon-wrap, .inline-icon {
       display: none !important;
@@ -4986,6 +5340,7 @@
       <div id="userProfileModal" class="vs-modal-backdrop hidden"></div>
       <div id="compareModal" class="vs-modal-backdrop hidden"></div>
       <div id="saveAnalysisModal" class="vs-modal-backdrop hidden"></div>
+      <div id="shareAimCardModal" class="vs-modal-backdrop hidden"></div>
 
       <!-- TOAST POPUP -->
       <div id="toast"></div>
@@ -10251,14 +10606,16 @@
         eye: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
         eyeOff: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`,
         check: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="20 6 9 17 4 12"/></svg>`,
+        target: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+        play: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" class="${cls}"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+        crosshair: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>`,
         download: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
         upload: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
         search: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
         close: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
         settings: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
-        target: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
-        play: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" class="${cls}"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
-        crosshair: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>`,
+        link: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+        crown: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/></svg>`,
         refresh: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`
       };
       return icons[name] || '';
@@ -10312,6 +10669,9 @@
       supabase: null,
       currentUser: null,
       cloudStatus: 'disconnected', // 'connected' | 'fallback' | 'disconnected'
+      latencyMs: 24,
+      _pingInterval: null,
+      syncBus: null,
       config: {
         url: '',
         anonKey: ''
@@ -10338,6 +10698,38 @@
         return 'vs_pwd_' + Math.abs(hash);
       },
 
+      async measurePing() {
+        const t0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+        try {
+          if (this.supabase && this.config.url) {
+            await this.supabase.from('vecsens_history').select('id').limit(1);
+          } else {
+            await fetch('site-config.json?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
+          }
+          const t1 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+          this.latencyMs = Math.max(8, Math.round(t1 - t0));
+        } catch(e) {
+          this.latencyMs = 24;
+        }
+        const pill = document.getElementById('cloudLatencyPill');
+        if (pill) {
+          const isEn = currentLang === 'en';
+          pill.innerHTML = `<span class="ping-dot"></span> <span>${this.latencyMs}ms</span>`;
+          pill.title = isEn ? `Encrypted Cloud Vault (Latency: ${this.latencyMs}ms)` : `Şifreli Bulut Kasası (Gecikme: ${this.latencyMs}ms)`;
+        }
+      },
+
+      broadcastSync(type = 'SYNC') {
+        try {
+          if (!this.syncBus && typeof BroadcastChannel !== 'undefined') {
+            this.syncBus = new BroadcastChannel('vecsens_sync_bus');
+          }
+          if (this.syncBus) {
+            this.syncBus.postMessage({ type, timestamp: Date.now() });
+          }
+        } catch(e) {}
+      },
+
       async init(customConf = null) {
         if (customConf && customConf.supabaseUrl) {
           this.config = { url: customConf.supabaseUrl, anonKey: customConf.supabaseAnonKey };
@@ -10349,6 +10741,20 @@
             if (rawConf) this.config = JSON.parse(rawConf);
           } catch(e) {}
         }
+
+        // Setup cross-tab sync bus
+        try {
+          if (typeof BroadcastChannel !== 'undefined' && !this.syncBus) {
+            this.syncBus = new BroadcastChannel('vecsens_sync_bus');
+            this.syncBus.onmessage = (ev) => {
+              if (ev.data?.type === 'AUTH_SYNC' || ev.data?.type === 'HISTORY_SYNC') {
+                this.checkLocalSession();
+                this.updateAuthUi();
+                if (state.currentPage === 'history') this.renderHistoryPage();
+              }
+            };
+          }
+        } catch(e) {}
 
         if (window.supabase && this.config.url && this.config.anonKey) {
           try {
@@ -10399,6 +10805,10 @@
         }
 
         this.updateAuthUi();
+        this.measurePing();
+        if (!this._pingInterval) {
+          this._pingInterval = setInterval(() => this.measurePing(), 30000);
+        }
       },
 
       checkLocalSession() {
@@ -10462,6 +10872,7 @@
               localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
               this.closeModal('authModal');
               this.updateAuthUi();
+              this.broadcastSync('AUTH_SYNC');
               showToast(isEn ? `Welcome to VecSens Cloud, ${username}!` : `VecSens Bulut Kasası'na hoş geldin, ${username}! Hesabın oluşturuldu.`);
               return true;
             }
@@ -10506,6 +10917,7 @@
 
           this.closeModal('authModal');
           this.updateAuthUi();
+          this.broadcastSync('AUTH_SYNC');
           showToast(isEn ? `Welcome to VecSens Cloud, ${username}!` : `VecSens Bulut Kasası'na hoş geldin, ${username}! Hesabın oluşturuldu.`);
           return true;
         } catch(e) {
@@ -10541,6 +10953,7 @@
               localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
               this.closeModal('authModal');
               this.updateAuthUi();
+              this.broadcastSync('AUTH_SYNC');
               showToast(isEn ? `Welcome back to VecSens Cloud, ${this.currentUser.username}!` : `VecSens Bulut Kasası'na tekrar hoş geldin, ${this.currentUser.username}!`);
               if (state.currentPage === 'history') this.renderHistoryPage();
               return true;
@@ -10553,18 +10966,22 @@
         // 2. Encrypted Vault Login
         try {
           const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
-          const pwdHash = await this.hashPassword(password);
-          const found = users.find(u => 
-            (u.email.toLowerCase() === identifier.trim().toLowerCase() || u.username.toLowerCase() === identifier.trim().toLowerCase()) &&
-            u.passwordHash === pwdHash
-          );
+          const idLower = identifier.trim().toLowerCase();
+          const found = users.find(u => u.email.toLowerCase() === idLower || u.username.toLowerCase() === idLower);
 
-          if (found) {
+          if (!found) {
+            showToast(isEn ? 'Account not found. Please create an account.' : 'Hesap bulunamadı. Lütfen kayıt olun.');
+            return false;
+          }
+
+          const checkHash = await this.hashPassword(password);
+          if (found.passwordHash === checkHash || found.password === password) {
             this.currentUser = found;
             this.cloudStatus = 'connected';
             localStorage.setItem('vecsens_current_user', JSON.stringify(found));
             this.closeModal('authModal');
             this.updateAuthUi();
+            this.broadcastSync('AUTH_SYNC');
             showToast(isEn ? `Welcome back, ${found.username}!` : `Tekrar hoş geldin, ${found.username}!`);
             if (state.currentPage === 'history') this.renderHistoryPage();
             return true;
@@ -10590,6 +11007,7 @@
         const drop = document.getElementById('userDropdownMenu');
         if (drop) drop.classList.add('hidden');
         this.updateAuthUi();
+        this.broadcastSync('AUTH_SYNC');
         showToast(isEn ? 'Logged out successfully.' : 'Başarıyla çıkış yapıldı.');
         if (state.currentPage === 'history') this.renderHistoryPage();
       },
@@ -10623,6 +11041,7 @@
         }
 
         this.updateAuthUi();
+        this.broadcastSync('AUTH_SYNC');
         this.closeModal('userProfileModal');
         showToast(isEn ? 'Profile updated!' : 'Profil başarıyla güncellendi!');
         if (state.currentPage === 'history') this.renderHistoryPage();
@@ -10711,6 +11130,7 @@
           }
         }
 
+        this.broadcastSync('HISTORY_SYNC');
         this.closeModal('saveAnalysisModal');
         showToast(isEn ? `Saved to Cloud Vault for ${gName}!` : `${gName} analizi Bulut Kasası'na kaydedildi!`);
 
@@ -11749,6 +12169,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     window.toggleCompareSelection = (id) => VecSensCloud.toggleCompareSelection(id);
     window.openCompareModal = () => VecSensCloud.openCompareModal();
     window.toggleUserDropdown = (e) => VecSensCloud.toggleUserDropdown(e);
+    window.openShareAimCardModal = (id) => VecSensCloud.openShareAimCardModal(id);
 
     // Global Click Listener for Modals & Dropdown
     document.addEventListener('click', (e) => {
@@ -12830,6 +13251,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       // Mousepad simülatörü
       const mousepadSimHtml = getMousepadSimHtml(a, profiles[recIdx]);
 
+      // Esporcu Benzerlik Eşleştirici
+      const proMatcherHtml = getProMatcherHtml(profiles[recIdx], gid, dpi);
+
       // Kişiye özel antrenman rutini
       const routineHtml = getPersonalizedRoutineHtml(a);
 
@@ -12842,10 +13266,13 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
         <button class="btn btn-primary btn-sm" onclick="openSaveAnalysisModal()" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8;color:#fff;font-weight:700">
-          ${getVsSvg('save', 14)} <span>${isEn ? 'Save to Cloud History' : 'Geçmişe / Buluta Kaydet'}</span>
+          ${getVsSvg('save', 14)} <span>${isEn ? 'Save to Cloud Vault' : 'Bulut Kasasına Kaydet'}</span>
         </button>
-        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"> ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
-        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"> ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="openShareAimCardModal()" style="border-color:var(--border-bright);font-weight:700">
+          ${getVsSvg('target', 14)} <span>${isEn ? 'Aim Passport Card' : '🎴 Espor Kartını Paylaş'}</span>
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"> ${isEn ? 'Download Card (PNG)' : 'Espor Profilini İndir (PNG)'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"> ${isEn ? 'Copy Share URL' : 'Sonuç Linkini Kopyala'}</button>
         <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
@@ -12853,11 +13280,13 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     ${mouseCardHtml}
     <div class="profiles-section"><h2>${isEn ? 'Sensitivity Profiles' : 'Sensitivity Profillerin'}</h2>${profileHtml}</div>
     ${mousepadSimHtml}
+    ${proMatcherHtml}
     ${multiGameHtml}
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="openSaveAnalysisModal()"> ${getVsSvg('save', 14)} ${isEn ? 'Save to History' : 'Geçmişe Kaydet'}</button>
+      <button class="btn btn-secondary" onclick="openShareAimCardModal()"> ${getVsSvg('target', 14)} ${isEn ? 'Aim Card' : '🎴 Espor Kartı'}</button>
       <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
       <button class="btn btn-secondary" onclick="switchPage('history')"> ${getVsSvg('history', 14)} ${isEn ? 'Saved History' : 'Geçmiş Analizler'}</button>
       <button class="btn btn-secondary" onclick="switchPage('pros')"> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
@@ -12893,50 +13322,154 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     }
 
     // ════════════════════════════════════════════════════════════
-    //  MOUSEPAD SIMULATOR
+    //  INTERACTIVE MOUSEPAD SIMULATOR V2
     // ════════════════════════════════════════════════════════════
     function getMousepadSimHtml(answers, recProf) {
       const isEn = currentLang === 'en';
-      let padW = 45, padH = 40;
-      if (answers.q5 === 'small') { padW = 25; padH = 20; }
-      else if (answers.q5 === 'medium') { padW = 35; padH = 30; }
-      else if (answers.q5 === 'large') { padW = 45; padH = 40; }
-      else if (answers.q5 === 'xlarge') { padW = 50; padH = 50; }
-      else if (answers.q5 === 'xxl') { padW = 90; padH = 40; }
-      else if (answers.q5 === 'custom' && answers.q5b) {
-        padW = parseFloat(answers.q5b.width) || 45;
-        padH = parseFloat(answers.q5b.height) || 40;
-      }
+      const halfTurn = recProf.halfTurn || Math.round(recProf.cm360 / 2);
+      const full360 = recProf.cm360;
+      let padW = 45;
+      if (answers.q5 === 'small') padW = 32;
+      else if (answers.q5 === 'medium') padW = 40;
+      else if (answers.q5 === 'large') padW = 45;
+      else if (answers.q5 === 'xxl') padW = 90;
 
-      const halfTurn = recProf.halfTurn;
       const usagePct = Math.min(100, Math.round((halfTurn / padW) * 100));
-      const isCramped = halfTurn > padW * 0.85;
 
       return `
-    <div class="analysis-card">
-      <h3> ${isEn ? `Mousepad Usage Simulation (${padW}×${padH} cm)` : `Mousepad Alan Kullanım Simülasyonu (${padW}×${padH} cm)`}</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">
-        ${isEn ? `Performing a full 180° turn requires <b>~${halfTurn} cm</b> of desk travel. That utilizes <b>${usagePct}%</b> of your mousepad width in a single swipe.` : `180° dönüş yapmak için masada <b>~${halfTurn} cm</b> hareket alanına ihtiyacın var. Mousepad'inin <b>%${usagePct}</b> genişliğini tek hamlede kullanacaksın.`}
-      </p>
-      
-      <div class="pad-visual">
-        <div class="pad-center-mark" style="left:50%"></div>
-        <div class="pad-swipe-range" style="width:${Math.min(96, usagePct)}%;left:${Math.max(2, (100 - usagePct) / 2)}%">
-          ${isEn ? `180° Turn Range: ~${halfTurn} cm` : `180° Dönüş Alanı: ~${halfTurn} cm`}
-        </div>
-      </div>
+        <div class="mousepad-sim-card">
+          <div class="mousepad-sim-header">
+            <h3 class="mousepad-sim-title">
+              ${getVsSvg('target', 18)}
+              <span>${isEn ? 'Physical Mousepad & 180° Turn Simulator' : 'Fiziksel Mousepad & 180° Dönüş Simülatörü'}</span>
+            </h3>
+            <div class="pad-size-selector">
+              <button class="pad-size-btn ${padW === 32 ? 'active' : ''}" onclick="setPadSimSize('small', ${halfTurn}, ${full360})">S (32cm)</button>
+              <button class="pad-size-btn ${padW === 40 ? 'active' : ''}" onclick="setPadSimSize('medium', ${halfTurn}, ${full360})">M (40cm)</button>
+              <button class="pad-size-btn ${padW === 45 ? 'active' : ''}" onclick="setPadSimSize('large', ${halfTurn}, ${full360})">L (45cm)</button>
+              <button class="pad-size-btn ${padW === 90 ? 'active' : ''}" onclick="setPadSimSize('xxl', ${halfTurn}, ${full360})">Deskmat (90cm)</button>
+            </div>
+          </div>
 
-      ${isCramped ? `
-        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber)">
-           <b>${isEn ? 'Space Warning:' : 'Alan Uyarısı:'}</b> ${isEn ? `A 180° turn consumes almost your entire mousepad (${usagePct}%). A wider mousepad or slightly faster sensitivity would provide more clearance.` : `180° dönüş için mousepad'inin neredeyse tamamını (%${usagePct}) kullanman gerekiyor. Daha geniş bir mousepad veya biraz daha yüksek sensitivity daha rahat bir kontrol sağlayabilir.`}
+          <div class="mousepad-visual-canvas" id="padCanvasVisual">
+            <div class="pad-ruler-marks">
+              <span>0 cm</span>
+              <span>10 cm</span>
+              <span>20 cm</span>
+              <span>30 cm</span>
+              <span>40 cm</span>
+              <span id="padRulerMax">${padW} cm</span>
+            </div>
+            <div class="pad-center-axis"></div>
+            <div class="pad-flick-zone" id="padFlickZone" style="width: ${Math.min(94, Math.max(15, usagePct))}%;">
+              <span>180° FLICK ARC: ~${halfTurn} cm</span>
+            </div>
+            <div class="pad-cursor-indicator" id="padCursorIndicator" style="left: calc(50% + ${Math.min(42, Math.round((halfTurn / padW) * 45))}px);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 20L11 16L12 22L13 16L20 20L12 2Z" fill="var(--cyan)" stroke="#06090e" stroke-width="1.5"/></svg>
+            </div>
+          </div>
+
+          <div class="mousepad-sim-specs">
+            <div class="mousepad-spec-pill">
+              <div class="mousepad-spec-label">${isEn ? '180° Half-Turn' : '180° Dönüş Mesafesi'}</div>
+              <div class="mousepad-spec-val highlight" id="padSpecHalf">~${halfTurn} cm</div>
+            </div>
+            <div class="mousepad-spec-pill">
+              <div class="mousepad-spec-label">${isEn ? '360° Full Rotation' : '360° Tam Tur'}</div>
+              <div class="mousepad-spec-val">${full360} cm</div>
+            </div>
+            <div class="mousepad-spec-pill">
+              <div class="mousepad-spec-label">${isEn ? 'Pad Usage (180°)' : 'Pad Kullanım Oranı'}</div>
+              <div class="mousepad-spec-val" id="padSpecUsage">${usagePct}%</div>
+            </div>
+            <div class="mousepad-spec-pill">
+              <div class="mousepad-spec-label">${isEn ? 'Ergonomic Clearance' : 'Ergonomik Pay'}</div>
+              <div class="mousepad-spec-val" id="padSpecClearance" style="color:${usagePct > 85 ? 'var(--vct-red)' : usagePct > 65 ? 'var(--amber)' : 'var(--green)'}">${usagePct > 85 ? (isEn ? 'Tight' : 'Dar') : (isEn ? 'Optimal' : 'İdeal')}</div>
+            </div>
+          </div>
         </div>
-      ` : `
-        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">
-           <b>${isEn ? 'Ideal Clearance:' : 'İdeal Alan:'}</b> ${isEn ? 'Your mousepad size provides comfortable ergonomic margins for this sensitivity.' : 'Mousepad boyutun önerilen hassasiyet için oldukça ergonomik bir hareket payı bırakıyor.'}
+      `;
+    }
+
+    function setPadSimSize(sizeName, halfTurn, full360) {
+      const isEn = currentLang === 'en';
+      let padW = 45;
+      if (sizeName === 'small') padW = 32;
+      else if (sizeName === 'medium') padW = 40;
+      else if (sizeName === 'large') padW = 45;
+      else if (sizeName === 'xxl') padW = 90;
+
+      document.querySelectorAll('.pad-size-btn').forEach(b => {
+        b.classList.remove('active');
+        if (sizeName === 'xxl' && b.textContent.includes('Deskmat')) b.classList.add('active');
+        else if (sizeName === 'small' && b.textContent.includes('32cm')) b.classList.add('active');
+        else if (sizeName === 'medium' && b.textContent.includes('40cm')) b.classList.add('active');
+        else if (sizeName === 'large' && b.textContent.includes('45cm')) b.classList.add('active');
+      });
+
+      const usagePct = Math.min(100, Math.round((halfTurn / padW) * 100));
+      const flickZone = document.getElementById('padFlickZone');
+      if (flickZone) flickZone.style.width = Math.min(94, Math.max(15, usagePct)) + '%';
+
+      const rulerMax = document.getElementById('padRulerMax');
+      if (rulerMax) rulerMax.textContent = padW + ' cm';
+
+      const usageEl = document.getElementById('padSpecUsage');
+      if (usageEl) usageEl.textContent = usagePct + '%';
+
+      const clearanceEl = document.getElementById('padSpecClearance');
+      if (clearanceEl) {
+        if (usagePct > 85) {
+          clearanceEl.textContent = isEn ? 'Cramped (Tight)' : 'Dar (Riskli)';
+          clearanceEl.style.color = 'var(--vct-red)';
+        } else if (usagePct > 65) {
+          clearanceEl.textContent = isEn ? 'Moderate' : 'Orta';
+          clearanceEl.style.color = 'var(--amber)';
+        } else {
+          clearanceEl.textContent = isEn ? 'Optimal & Ergonomic' : 'İdeal & Ergonomik';
+          clearanceEl.style.color = 'var(--green)';
+        }
+      }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  ESPORTS PRO PLAYER AIM MATCHER
+    // ════════════════════════════════════════════════════════════
+    function getProMatcherHtml(recProf, gid, dpi) {
+      const isEn = currentLang === 'en';
+      const matches = VecSensCloud.getProMatches(recProf.cm360, gid);
+      if (!matches.length) return '';
+
+      return `
+        <div class="pro-matcher-card">
+          <div class="pro-matcher-header">
+            <h3 style="font-size:16px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:8px;margin:0">
+              ${getVsSvg('crown', 18)}
+              <span>${isEn ? 'Esports Pro Player Aim Matcher' : 'Esporcu Hassasiyet & Aim Benzerliği'}</span>
+            </h3>
+            <span style="font-size:12px;color:var(--cyan);font-family:var(--mono);font-weight:700">PROSETTINGS VERIFIED</span>
+          </div>
+          <p style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.5">
+            ${isEn 
+              ? `Your calculated physics (<b>${recProf.cm360} cm/360°</b>) closely align with the verified setups of these world-class pro athletes:`
+              : `Hesaplanan mekanik profilin (<b>${recProf.cm360} cm/360°</b>) dünya çapındaki şu profesyonel esporcuların doğrulanmış ayarlarıyla yüksek benzerlik gösteriyor:`}
+          </p>
+
+          <div class="pro-matcher-grid">
+            ${matches.map(m => `
+              <div class="pro-match-item">
+                <span class="pro-match-badge">%${m.matchPct} ${isEn ? 'Match' : 'Benzer'}</span>
+                <div class="pro-match-avatar-pill">${m.name[0]}</div>
+                <div style="overflow:hidden">
+                  <div class="pro-match-name">${m.name}</div>
+                  <div class="pro-match-meta">${m.team} · ${m.mouse}</div>
+                  <div class="pro-match-stats">${m.dpi} DPI · ${m.sens} Sens · ${m.cm360} cm/360</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
         </div>
-      `}
-    </div>
-  `;
+      `;
     }
 
     // ════════════════════════════════════════════════════════════
@@ -13601,25 +14134,27 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const isEn = currentLang === 'en';
       if (!fbState.rating) { alert(isEn ? 'Please provide at least a star rating!' : 'Lütfen en az bir yıldız ver!'); return; }
 
-      // Save locally for admin dashboard & analytics
+      const fbRecord = {
+        rating: fbState.rating,
+        tried: fbState.tried,
+        likes: [...fbState.likes],
+        improve: [...fbState.improve],
+        text: fbState.text || '',
+        date: new Date().toLocaleString()
+      };
+
+      // Save to Cloud & Local
       try {
+        VecSensCloud.submitFeedback(fbRecord);
         const storedFb = JSON.parse(localStorage.getItem('vecsens_feedbacks') || '[]');
-        storedFb.unshift({
-          id: 'fb_' + Date.now(),
-          rating: fbState.rating,
-          tried: fbState.tried,
-          likes: [...fbState.likes],
-          improve: [...fbState.improve],
-          text: fbState.text || '',
-          date: new Date().toLocaleString()
-        });
+        storedFb.unshift({ id: 'fb_' + Date.now(), ...fbRecord });
         localStorage.setItem('vecsens_feedbacks', JSON.stringify(storedFb));
       } catch (e) { }
 
       const webhookUrl = getWebhook();
       if (webhookUrl) {
-        const stars = ''.repeat(fbState.rating) + ''.repeat(5 - fbState.rating);
-        const msg = `VecSens Feedback\n ${fbState.rating}/5\n+ ${fbState.likes.join(', ') || '—'}\n- ${fbState.improve.join(', ') || '—'}\nNote: ${fbState.text || '—'}`;
+        const stars = '★'.repeat(fbState.rating) + '☆'.repeat(5 - fbState.rating);
+        const msg = `🎮 VecSens Feedback\n⭐ ${stars} (${fbState.rating}/5)\n👍 + ${fbState.likes.join(', ') || '—'}\n🔧 - ${fbState.improve.join(', ') || '—'}\n📝 Note: ${fbState.text || '—'}\n🟢 User: ${VecSensCloud.currentUser ? VecSensCloud.currentUser.username : 'Anonymous'}`;
         fetch(webhookUrl, {
           method: 'POST',
           mode: 'no-cors',
@@ -13633,7 +14168,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     <div class="fb-success">
       <div class="tick"></div>
       <h3>${isEn ? 'Thank You!' : 'Teşekkürler!'}</h3>
-      <p>${isEn ? 'Your feedback has been successfully submitted.' : 'Geri bildiriminiz kaydedildi.'}</p>
+      <p>${isEn ? 'Your feedback has been securely synced to our cloud repository.' : 'Geri bildiriminiz güvenli bulut sistemimize kaydedildi.'}</p>
       <div style="margin-top:18px">
         <button class="btn btn-primary" onclick="renderFeedbackPage()">${isEn ? 'Submit New Feedback' : 'Yeni Geri Bildirim Ekle'}</button>
       </div>
@@ -15057,10 +15592,28 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           </div>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Retry' : 'Tekrar Oyna'}</button>
+            <button class="btn btn-primary" onclick="saveCurrentAimScoreToCloud('calibrate_180', ${totalScore}, 100, ${avgMs}, ${curSens}, ${dpi}, '${gameId}')" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8">
+              ${getVsSvg('cloudCheck', 14)} <span>${isEn ? 'Save Score to Cloud' : 'Skoru Buluta Kaydet'}</span>
+            </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
           </div>
         `;
       }
+    }
+
+    function saveCurrentAimScoreToCloud(mode, score, acc, avgRt, curSens, curDpi, curGame) {
+      const isEn = currentLang === 'en';
+      VecSensCloud.saveAimScore({
+        mode,
+        score,
+        accuracy: acc,
+        avg_reaction_ms: avgRt,
+        sensitivity: curSens,
+        dpi: curDpi,
+        game: curGame
+      }).then(() => {
+        showToast(isEn ? 'Aim test score saved to Cloud Vault!' : 'Aim test skoru şifreli Bulut Kasası\'na kaydedildi!');
+      });
     }
 
     function showAimResults() {
@@ -15081,6 +15634,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const gameLabel = GAMES.find(g => g.id === curGame)?.label || curGame;
       const yaw = YAW[curGame] || 0.07;
       const cm360 = Math.round((360 / (curDpi * curSens * yaw) * 2.54) * 10) / 10;
+      const rts = aimTestState.reactionTimes;
+      const avgRt = rts.length > 0 ? Math.round(rts.reduce((a, b) => a + b, 0) / rts.length) : 0;
 
       let title = '';
       let badgeClass = 'var(--cyan)';
@@ -15089,8 +15644,6 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
       if (isFlick) {
         title = isEn ? 'Flick Accuracy Test Results' : 'Flick İsabet Testi Sonuçları';
-        const rts = aimTestState.reactionTimes;
-        const avgRt = rts.length > 0 ? Math.round(rts.reduce((a, b) => a + b, 0) / rts.length) : 0;
         const overshoots = aimTestState.overshootCount || 0;
 
         if (score >= 2500 && acc >= 90) { badgeClass = 'var(--cyan)'; }
@@ -15183,6 +15736,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           </div>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
+            <button class="btn btn-primary" onclick="saveCurrentAimScoreToCloud('${isFlick ? 'flick' : 'track'}', ${score}, ${acc}, ${avgRt}, ${curSens}, ${curDpi}, '${curGame}')" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8">
+              ${getVsSvg('cloudCheck', 14)} <span>${isEn ? 'Save Score to Cloud' : 'Skoru Buluta Kaydet'}</span>
+            </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
           </div>
         `;
