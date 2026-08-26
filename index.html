@@ -16,6 +16,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
     rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg: #0a0e17;
@@ -4097,6 +4098,683 @@
     }
 
   
+    /* ════════════════════════════════════════════════════════════
+       VECSENS CLOUD AUTH, USER PROFILE & HISTORY STYLES
+       ════════════════════════════════════════════════════════════ */
+    .user-auth-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .btn-auth-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t1);
+      background: color-mix(in srgb, var(--cyan) 12%, transparent);
+      border: 1px solid var(--border-bright);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: var(--ease);
+      font-family: var(--sans);
+    }
+    .btn-auth-login:hover {
+      background: var(--cyan);
+      color: #080c14;
+      box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 40%, transparent);
+      border-color: var(--cyan);
+      transform: translateY(-1px);
+    }
+    .user-profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      cursor: pointer;
+      position: relative;
+      transition: var(--ease);
+      user-select: none;
+    }
+    .user-profile-badge:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 25%, transparent);
+    }
+    .user-avatar-pill {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .user-tag-pill {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t1);
+      max-width: 110px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-cloud-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      flex-shrink: 0;
+    }
+    .user-cloud-dot.fallback {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+    .user-cloud-dot.disconnected {
+      background: var(--t3);
+      box-shadow: none;
+    }
+
+    /* USER DROPDOWN MENU */
+    .user-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 250px;
+      background: var(--card-solid);
+      border: 1px solid var(--border-bright);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      padding: 8px;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      animation: vsModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .user-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dropdown-info {
+      overflow: hidden;
+    }
+    .dropdown-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--t1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dropdown-role {
+      font-size: 11px;
+      color: var(--cyan);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 0;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 12px;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      color: var(--t2);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--sans);
+      transition: var(--ease);
+    }
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--t1);
+    }
+    .dropdown-item.danger {
+      color: var(--vct-red);
+    }
+    .dropdown-item.danger:hover {
+      background: rgba(244, 63, 94, 0.1);
+      color: #ff4d6d;
+    }
+
+    /* MODALS GENERAL SYSTEM */
+    .vs-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(5, 8, 15, 0.82);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      animation: vsModalFadeIn 0.22s ease-out;
+    }
+    .vs-modal-backdrop.hidden {
+      display: none !important;
+    }
+    @keyframes vsModalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes vsModalScaleUp {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .vs-modal-card {
+      background: var(--card-solid);
+      border: 1px solid var(--border-bright);
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 490px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+      animation: vsModalScaleUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .vs-modal-card.wide {
+      max-width: 760px;
+    }
+    .vs-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .vs-modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--t1);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+    }
+    .vs-modal-close {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: var(--t2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--ease);
+    }
+    .vs-modal-close:hover {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--vct-red);
+      border-color: var(--vct-red);
+    }
+
+    /* AUTH MODAL TABS & FORMS */
+    .auth-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      border: 1px solid var(--border);
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      background: none;
+      color: var(--t2);
+      font-weight: 700;
+      font-size: 13.5px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: var(--ease);
+      font-family: var(--sans);
+    }
+    .auth-tab-btn.active {
+      background: var(--cyan);
+      color: #06090e;
+      box-shadow: 0 2px 12px color-mix(in srgb, var(--cyan) 35%, transparent);
+    }
+    .auth-form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .auth-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--t2);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .auth-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .auth-input-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--t3);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .auth-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px 10px 38px;
+      color: var(--t1);
+      font-family: var(--sans);
+      font-size: 13.5px;
+      box-sizing: border-box;
+      transition: var(--ease);
+    }
+    .auth-input:focus {
+      border-color: var(--cyan);
+      outline: none;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 25%, transparent);
+    }
+    .auth-toggle-pwd {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--t3);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .auth-toggle-pwd:hover {
+      color: var(--t1);
+    }
+    .auth-select {
+      width: 100%;
+      background: var(--card-solid);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--t1);
+      font-family: var(--sans);
+      font-size: 13.5px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .auth-select:focus {
+      border-color: var(--cyan);
+      outline: none;
+    }
+    .auth-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* AVATAR PICKER GRID */
+    .avatar-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .avatar-option-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 4px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: var(--ease);
+    }
+    .avatar-option-btn:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+    .avatar-option-btn.active {
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 14%, transparent);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 30%, transparent);
+    }
+    .avatar-option-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--t2);
+      text-transform: capitalize;
+    }
+
+    /* HISTORY PAGE STYLES */
+    .history-container {
+      margin-top: 10px;
+    }
+    .history-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .history-stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-sizing: border-box;
+      transition: var(--ease);
+    }
+    .history-stat-card:hover {
+      border-color: var(--border-bright);
+    }
+    .history-stat-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+    .history-stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--t1);
+      font-family: var(--display);
+      line-height: 1.2;
+    }
+    .history-stat-lbl {
+      font-size: 11px;
+      color: var(--t3);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .history-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+    .history-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .history-filter-btn {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--t2);
+      cursor: pointer;
+      transition: var(--ease);
+      font-family: var(--sans);
+    }
+    .history-filter-btn:hover {
+      border-color: var(--cyan);
+      color: var(--t1);
+    }
+    .history-filter-btn.active {
+      background: var(--cyan);
+      color: #06090e;
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 30%, transparent);
+    }
+    .history-tools-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .history-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      transition: var(--ease);
+      box-sizing: border-box;
+    }
+    .history-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    .history-card.selected-compare {
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 6%, var(--card));
+      box-shadow: 0 0 20px color-mix(in srgb, var(--cyan) 25%, transparent);
+    }
+    .history-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .history-game-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--t1);
+    }
+    .history-game-icon-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--cyan) 14%, transparent);
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .history-date-badge {
+      font-size: 11px;
+      color: var(--t3);
+      font-family: var(--mono);
+    }
+    .history-card-profile-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-block;
+    }
+    .history-card-profile-tag.balanced { background: rgba(56, 189, 248, 0.15); color: var(--cyan); border: 1px solid rgba(56,189,248,0.3); }
+    .history-card-profile-tag.speed { background: rgba(244, 63, 94, 0.15); color: var(--vct-red); border: 1px solid rgba(244,63,94,0.3); }
+    .history-card-profile-tag.precision { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+
+    .history-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+    }
+    .history-metric-box {
+      text-align: center;
+    }
+    .history-metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--t3);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .history-metric-value {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--t1);
+      font-family: var(--mono);
+      margin-top: 2px;
+    }
+    .history-metric-value.highlight {
+      color: var(--cyan);
+    }
+    .history-hardware-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .history-hw-pill {
+      font-size: 11px;
+      color: var(--t2);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
+    .history-user-note {
+      font-size: 12px;
+      color: var(--t2);
+      background: color-mix(in srgb, var(--cyan) 6%, transparent);
+      border-left: 3px solid var(--cyan);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .history-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .history-empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+    .history-empty-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent);
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* A/B COMPARISON TABLE */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13.5px;
+    }
+    .compare-table th {
+      padding: 12px 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--t3);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--t1);
+    }
+    .compare-diff-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: var(--mono);
+      margin-left: 6px;
+    }
+    .compare-diff-badge.green { background: rgba(16,185,129,0.18); color: var(--green); }
+    .compare-diff-badge.red { background: rgba(244,63,94,0.18); color: var(--vct-red); }
+    .compare-diff-badge.cyan { background: rgba(56,189,248,0.18); color: var(--cyan); }
+
     /* ZERO ICON & ZERO EMOJI MINIMALIST OVERRIDES */
     .opt-icon, .profile-icon, .home-card-icon-wrap, .inline-icon {
       display: none !important;
@@ -4143,12 +4821,14 @@
         <div class="nav-tabs">
           <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
           <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
+          <button class="nav-tab" id="ntab-history" onclick="switchPage('history')">Geçmiş</button>
           <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
           <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
           <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
         </div>
         <div class="top-controls">
+          <div id="userAuthContainer" class="user-auth-container"></div>
           <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
           <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)"
             title="Dili Değiştir / Change Language"> EN</button>
@@ -4252,6 +4932,16 @@
         <div id="feedbackContent"></div>
       </div>
 
+      <!-- SAVED HISTORY PAGE -->
+      <div id="page-history" class="hidden">
+        <div class="page-header">
+          <div class="logo-badge" id="histBadge"><img src="logo.svg" class="badge-logo-icon" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" /><span class="dot"></span>Bulut & Analiz Geçmişi</div>
+          <h2 id="histTitle">Geçmiş Analizlerim</h2>
+          <p id="histSub">Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin</p>
+        </div>
+        <div id="historyContent"></div>
+      </div>
+
       <!-- LIVE FLOATING VISUAL STUDIO TOOLBAR -->
       <div id="vecsensVisualStudio" class="visual-studio-toolbar hidden">
         <div class="vs-brand"> Visual Studio</div>
@@ -4290,6 +4980,13 @@
       <!-- ADMIN AUTH MODAL & FORM MODAL -->
       <div id="adminAuthModal" class="hidden"></div>
       <div id="adminFormModal" class="hidden"></div>
+
+      <!-- VECSENS CLOUD AUTH & HISTORY MODALS -->
+      <div id="authModal" class="vs-modal-backdrop hidden"></div>
+      <div id="userProfileModal" class="vs-modal-backdrop hidden"></div>
+      <div id="compareModal" class="vs-modal-backdrop hidden"></div>
+      <div id="saveAnalysisModal" class="vs-modal-backdrop hidden"></div>
+      <div id="cloudConfigModal" class="vs-modal-backdrop hidden"></div>
 
       <!-- TOAST POPUP -->
       <div id="toast"></div>
@@ -9417,6 +10114,7 @@
       analysisComplete: false,
       resAspect: '16:9',
     };
+    window.state = state;
 
     // ════════════════════════════════════════════════════════════
     //  APP STATE & I18N
@@ -9509,7 +10207,7 @@
         return;
       }
       state.currentPage = page;
-      ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'admin'].forEach(p => {
+      ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
         const tab = document.getElementById(`ntab-${p}`);
         if (el) el.classList.toggle('hidden', p !== page);
@@ -9522,6 +10220,7 @@
       }
       if (page === 'pros') renderProPage();
       if (page === 'feedback') renderFeedbackPage();
+      if (page === 'history') VecSensCloud.renderHistoryPage();
       if (page === 'converter') renderConverter();
       if (page === 'aimtest') renderAimTest();
       if (page === 'admin') renderAdminPage();
@@ -9533,6 +10232,1788 @@
         renderHomePage();
       }
     } catch(e) {}
+
+    // ════════════════════════════════════════════════════════════
+    //  SVG ICON & AVATAR HELPERS (100% Crisp Line-Art)
+    // ════════════════════════════════════════════════════════════
+    function getVsSvg(name, size = 16, cls = '') {
+      const s = size;
+      const icons = {
+        user: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+        history: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+        save: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+        cloud: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
+        cloudCheck: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="9 14 11 16 15 12"/></svg>`,
+        compare: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`,
+        trash: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+        copy: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
+        logout: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`,
+        lock: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+        eye: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+        eyeOff: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`,
+        check: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="20 6 9 17 4 12"/></svg>`,
+        download: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+        upload: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+        search: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+        close: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+        settings: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+        target: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+        play: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" class="${cls}"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+        crosshair: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>`,
+        refresh: `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls}"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`
+      };
+      return icons[name] || '';
+    }
+
+    function getAvatarSvg(avatarId = 'crosshair', size = 32) {
+      const avatars = {
+        crosshair: {
+          grad: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+          svg: `<circle cx="12" cy="12" r="6.5" fill="none" stroke="#ffffff" stroke-width="1.8"/><line x1="12" y1="2" x2="12" y2="6.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="17.5" x2="12" y2="22" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="6.5" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><line x1="17.5" y1="12" x2="22" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="1.5" fill="#ffffff"/>`
+        },
+        lightning: {
+          grad: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
+          svg: `<polygon points="13 2 4 13 11 13 10 22 20 11 13 11 13 2" fill="#ffffff"/>`
+        },
+        skull: {
+          grad: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)',
+          svg: `<path d="M12 3a7.5 7.5 0 0 0-7.5 7.5c0 2.8 1.5 5.2 3.7 6.4V19a1 1 0 0 0 1 1h5.6a1 1 0 0 0 1-1v-2.1c2.2-1.2 3.7-3.6 3.7-6.4A7.5 7.5 0 0 0 12 3z" fill="#ffffff"/><circle cx="9" cy="11" r="1.5" fill="#be123c"/><circle cx="15" cy="11" r="1.5" fill="#be123c"/><line x1="10" y1="18" x2="10" y2="20" stroke="#be123c" stroke-width="1.5"/><line x1="14" y1="18" x2="14" y2="20" stroke="#be123c" stroke-width="1.5"/>`
+        },
+        crown: {
+          grad: 'linear-gradient(135deg, #a855f7 0%, #6b21a8 100%)',
+          svg: `<path d="M3 7l4 8h10l4-8-5 4-4-6-4 6-5-4z" fill="#ffffff"/><rect x="5" y="17" width="14" height="3" rx="1" fill="#ffffff"/>`
+        },
+        shield: {
+          grad: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
+          svg: `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#ffffff"/><path d="M12 4.5v15c4.5-2.2 6.5-6.2 6.5-9.5V6.8L12 4.5z" fill="rgba(0,0,0,0.15)"/>`
+        },
+        flame: {
+          grad: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+          svg: `<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z" fill="#ffffff"/>`
+        },
+        target: {
+          grad: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+          svg: `<circle cx="12" cy="12" r="9" fill="none" stroke="#ffffff" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="#ffffff" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="#ffffff"/>`
+        },
+        cyber: {
+          grad: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+          svg: `<path d="M4 11a8 8 0 0 1 16 0v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6z" fill="#ffffff"/><path d="M7 12h10v3H7z" fill="#0891b2"/><circle cx="9.5" cy="8.5" r="1" fill="#0891b2"/><circle cx="14.5" cy="8.5" r="1" fill="#0891b2"/>`
+        }
+      };
+      const item = avatars[avatarId] || avatars.crosshair;
+      return `<div class="vs-avatar-circle" style="width:${size}px;height:${size}px;border-radius:50%;background:${item.grad};display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,0.3)">
+        <svg viewBox="0 0 24 24" style="width:${Math.round(size * 0.62)}px;height:${Math.round(size * 0.62)}px;display:block">${item.svg}</svg>
+      </div>`;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  VECSENS CLOUD AUTH & HISTORY ENGINE
+    // ════════════════════════════════════════════════════════════
+    const VecSensCloud = {
+      supabase: null,
+      currentUser: null,
+      cloudStatus: 'disconnected', // 'connected' | 'fallback' | 'disconnected'
+      config: {
+        url: '',
+        anonKey: ''
+      },
+      selectedForCompare: [],
+      currentAuthTab: 'login',
+      currentFilter: 'all',
+      searchQuery: '',
+      sortOrder: 'newest',
+
+      async hashPassword(password) {
+        try {
+          if (window.crypto && crypto.subtle) {
+            const enc = new TextEncoder().encode(password + '_vecsens_fps_vault_2026');
+            const buf = await crypto.subtle.digest('SHA-256', enc);
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          }
+        } catch(e) {}
+        let hash = 0;
+        for (let i = 0; i < password.length; i++) {
+          hash = ((hash << 5) - hash) + password.charCodeAt(i);
+          hash |= 0;
+        }
+        return 'vs_pwd_' + Math.abs(hash);
+      },
+
+      async init() {
+        try {
+          const rawConf = localStorage.getItem('vecsens_cloud_config');
+          if (rawConf) this.config = JSON.parse(rawConf);
+        } catch(e) {}
+
+        if (window.supabase && this.config.url && this.config.anonKey) {
+          try {
+            this.supabase = window.supabase.createClient(this.config.url, this.config.anonKey, {
+              auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+            });
+            
+            this.supabase.auth.onAuthStateChange(async (event, session) => {
+              if (session && session.user) {
+                this.currentUser = {
+                  id: session.user.id,
+                  email: session.user.email,
+                  username: session.user.user_metadata?.username || session.user.email.split('@')[0],
+                  avatar: session.user.user_metadata?.avatar || 'crosshair',
+                  role: session.user.user_metadata?.role || 'Duelist',
+                  mainGame: session.user.user_metadata?.mainGame || 'valorant',
+                  createdAt: session.user.created_at || new Date().toISOString(),
+                  isCloud: true
+                };
+                this.cloudStatus = 'connected';
+                this.fetchCloudHistory();
+              } else {
+                this.checkLocalSession();
+              }
+              this.updateAuthUi();
+              if (state.currentPage === 'history') this.renderHistoryPage();
+            });
+
+            const { data: { session } } = await this.supabase.auth.getSession();
+            if (session && session.user) {
+              this.currentUser = {
+                id: session.user.id,
+                email: session.user.email,
+                username: session.user.user_metadata?.username || session.user.email.split('@')[0],
+                avatar: session.user.user_metadata?.avatar || 'crosshair',
+                role: session.user.user_metadata?.role || 'Duelist',
+                mainGame: session.user.user_metadata?.mainGame || 'valorant',
+                createdAt: session.user.created_at || new Date().toISOString(),
+                isCloud: true
+              };
+              this.cloudStatus = 'connected';
+              this.fetchCloudHistory();
+            } else {
+              this.checkLocalSession();
+            }
+          } catch(err) {
+            console.warn('Supabase init fallback:', err);
+            this.checkLocalSession();
+          }
+        } else {
+          this.checkLocalSession();
+        }
+
+        this.updateAuthUi();
+      },
+
+      checkLocalSession() {
+        try {
+          const raw = localStorage.getItem('vecsens_current_user');
+          if (raw) {
+            this.currentUser = JSON.parse(raw);
+            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'fallback';
+          } else {
+            this.currentUser = null;
+            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'disconnected';
+          }
+        } catch(e) {
+          this.currentUser = null;
+        }
+      },
+
+      async register({ username, email, password, avatar, role, mainGame }) {
+        const isEn = currentLang === 'en';
+        if (!username || username.trim().length < 2) {
+          showToast(isEn ? 'Please enter a valid Gamer Tag (at least 2 chars)' : 'Lütfen geçerli bir Oyuncu Adı girin (en az 2 karakter)');
+          return false;
+        }
+        if (!email || !email.includes('@')) {
+          showToast(isEn ? 'Please enter a valid email address' : 'Lütfen geçerli bir e-posta adresi girin');
+          return false;
+        }
+        if (!password || password.length < 6) {
+          showToast(isEn ? 'Password must be at least 6 characters' : 'Şifre en az 6 karakter olmalıdır');
+          return false;
+        }
+
+        avatar = avatar || 'crosshair';
+        role = role || 'Duelist';
+        mainGame = mainGame || 'valorant';
+
+        if (this.supabase && this.config.url && this.config.anonKey) {
+          try {
+            const { data, error } = await this.supabase.auth.signUp({
+              email: email.trim(),
+              password: password,
+              options: {
+                data: {
+                  username: username.trim(),
+                  avatar: avatar,
+                  role: role,
+                  mainGame: mainGame
+                }
+              }
+            });
+            if (error) throw error;
+
+            if (data.user) {
+              this.currentUser = {
+                id: data.user.id,
+                email: data.user.email,
+                username: username.trim(),
+                avatar: avatar,
+                role: role,
+                mainGame: mainGame,
+                createdAt: new Date().toISOString(),
+                isCloud: true
+              };
+              this.cloudStatus = 'connected';
+              this.closeModal('authModal');
+              this.updateAuthUi();
+              showToast(isEn ? `Welcome to VecSens, ${username}!` : `VecSens'e hoş geldin, ${username}! Hesabın bulutta oluşturuldu.`);
+              
+              if (state.analysisComplete && state.computedProfiles) {
+                this.saveAnalysis('');
+              }
+              return true;
+            }
+          } catch(err) {
+            console.warn('Supabase signUp warning:', err.message);
+            if (err.message && (err.message.includes('already registered') || err.message.includes('User already exists'))) {
+              showToast(isEn ? 'This email is already registered! Please log in.' : 'Bu e-posta adresi zaten kayıtlı! Lütfen giriş yapın.');
+              return false;
+            }
+          }
+        }
+
+        try {
+          const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+          if (users.find(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
+            showToast(isEn ? 'This email is already registered locally!' : 'Bu e-posta adresi zaten kayıtlı!');
+            return false;
+          }
+          if (users.find(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
+            showToast(isEn ? 'This Gamer Tag is taken! Please choose another.' : 'Bu Oyuncu Adı kullanımda! Lütfen başka bir ad seçin.');
+            return false;
+          }
+
+          const passwordHash = await this.hashPassword(password);
+          const newUser = {
+            id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+            username: username.trim(),
+            email: email.trim(),
+            passwordHash: passwordHash,
+            avatar: avatar,
+            role: role,
+            mainGame: mainGame,
+            createdAt: new Date().toISOString(),
+            isCloud: false
+          };
+
+          users.push(newUser);
+          localStorage.setItem('vecsens_local_users', JSON.stringify(users));
+
+          this.currentUser = newUser;
+          this.cloudStatus = 'fallback';
+          localStorage.setItem('vecsens_current_user', JSON.stringify(newUser));
+
+          this.closeModal('authModal');
+          this.updateAuthUi();
+          showToast(isEn ? `Welcome, ${username}! Account created.` : `Hoş geldin, ${username}! Hesabın oluşturuldu.`);
+          
+          if (state.analysisComplete && state.computedProfiles) {
+            this.saveAnalysis('');
+          }
+          return true;
+        } catch(e) {
+          showToast(isEn ? 'Registration error. Please try again.' : 'Kayıt sırasında bir hata oluştu.');
+          return false;
+        }
+      },
+
+      async login({ identifier, password, rememberMe }) {
+        const isEn = currentLang === 'en';
+        if (!identifier || !password) {
+          showToast(isEn ? 'Please enter your email/username and password' : 'Lütfen e-posta/kullanıcı adı ve şifrenizi girin');
+          return false;
+        }
+
+        if (this.supabase && this.config.url && this.config.anonKey) {
+          try {
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+              email: identifier.trim(),
+              password: password
+            });
+            if (!error && data.user) {
+              this.currentUser = {
+                id: data.user.id,
+                email: data.user.email,
+                username: data.user.user_metadata?.username || data.user.email.split('@')[0],
+                avatar: data.user.user_metadata?.avatar || 'crosshair',
+                role: data.user.user_metadata?.role || 'Duelist',
+                mainGame: data.user.user_metadata?.mainGame || 'valorant',
+                createdAt: data.user.created_at || new Date().toISOString(),
+                isCloud: true
+              };
+              this.cloudStatus = 'connected';
+              this.closeModal('authModal');
+              this.updateAuthUi();
+              showToast(isEn ? `Welcome back, ${this.currentUser.username}!` : `Tekrar hoş geldin, ${this.currentUser.username}!`);
+              if (state.currentPage === 'history') this.renderHistoryPage();
+              return true;
+            }
+          } catch(err) {
+            console.warn('Supabase signIn notice:', err.message);
+          }
+        }
+
+        try {
+          const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+          const pwdHash = await this.hashPassword(password);
+          const found = users.find(u => 
+            (u.email.toLowerCase() === identifier.trim().toLowerCase() || u.username.toLowerCase() === identifier.trim().toLowerCase()) &&
+            u.passwordHash === pwdHash
+          );
+
+          if (found) {
+            this.currentUser = found;
+            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'fallback';
+            localStorage.setItem('vecsens_current_user', JSON.stringify(found));
+            this.closeModal('authModal');
+            this.updateAuthUi();
+            showToast(isEn ? `Welcome back, ${found.username}!` : `Tekrar hoş geldin, ${found.username}!`);
+            if (state.currentPage === 'history') this.renderHistoryPage();
+            return true;
+          } else {
+            showToast(isEn ? 'Invalid credentials! Please check your details.' : 'Hatalı kullanıcı bilgisi veya şifre!');
+            return false;
+          }
+        } catch(e) {
+          showToast(isEn ? 'Login error.' : 'Giriş yapılamadı.');
+          return false;
+        }
+      },
+
+      async logout() {
+        const isEn = currentLang === 'en';
+        if (this.supabase) {
+          try { await this.supabase.auth.signOut(); } catch(e) {}
+        }
+        localStorage.removeItem('vecsens_current_user');
+        this.currentUser = null;
+        this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'disconnected';
+        this.closeModal('userProfileModal');
+        const drop = document.getElementById('userDropdownMenu');
+        if (drop) drop.classList.add('hidden');
+        this.updateAuthUi();
+        showToast(isEn ? 'Logged out successfully.' : 'Başarıyla çıkış yapıldı.');
+        if (state.currentPage === 'history') this.renderHistoryPage();
+      },
+
+      async updateProfile({ username, avatar, role, mainGame }) {
+        const isEn = currentLang === 'en';
+        if (!this.currentUser) return;
+
+        this.currentUser.username = username || this.currentUser.username;
+        this.currentUser.avatar = avatar || this.currentUser.avatar;
+        this.currentUser.role = role || this.currentUser.role;
+        this.currentUser.mainGame = mainGame || this.currentUser.mainGame;
+
+        if (this.supabase && this.currentUser.isCloud) {
+          try {
+            await this.supabase.auth.updateUser({
+              data: {
+                username: this.currentUser.username,
+                avatar: this.currentUser.avatar,
+                role: this.currentUser.role,
+                mainGame: this.currentUser.mainGame
+              }
+            });
+          } catch(e) {}
+        } else {
+          try {
+            const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+            const idx = users.findIndex(u => u.id === this.currentUser.id);
+            if (idx !== -1) {
+              users[idx] = { ...users[idx], ...this.currentUser };
+              localStorage.setItem('vecsens_local_users', JSON.stringify(users));
+            }
+            localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
+          } catch(e) {}
+        }
+
+        this.updateAuthUi();
+        this.closeModal('userProfileModal');
+        showToast(isEn ? 'Profile updated!' : 'Profil başarıyla güncellendi!');
+        if (state.currentPage === 'history') this.renderHistoryPage();
+      },
+
+      // ── HISTORY DATA MANAGEMENT ──
+      getLocalHistoryList() {
+        const uid = this.currentUser ? this.currentUser.id : 'guest';
+        try {
+          return JSON.parse(localStorage.getItem(`vecsens_history_${uid}`) || '[]');
+        } catch(e) {
+          return [];
+        }
+      },
+
+      setLocalHistoryList(list) {
+        const uid = this.currentUser ? this.currentUser.id : 'guest';
+        try {
+          localStorage.setItem(`vecsens_history_${uid}`, JSON.stringify(list));
+        } catch(e) {}
+      },
+
+      async saveAnalysis(customNote = '') {
+        const isEn = currentLang === 'en';
+        if (!state.computedProfiles || !state.computedProfiles.length) {
+          showToast(isEn ? 'No completed analysis to save.' : 'Kaydedilecek tamamlanmış bir analiz bulunamadı.');
+          return false;
+        }
+
+        const a = state.answers || {};
+        const profiles = state.computedProfiles;
+        const recIdx = state.recIdx || 0;
+        const primaryProf = profiles[recIdx] || profiles[0];
+        const gName = getPrimaryGameName();
+        const gid = getPrimaryGameId();
+        const dpi = getTargetDPI();
+        const mouseObj = findMouse(a.q2);
+        const mouseName = mouseObj ? `${mouseObj.brand} ${mouseObj.model}` : (a.q2 || (isEn ? 'Custom Mouse' : 'Özel Mouse'));
+
+        const record = {
+          id: 'vs_rec_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          user_id: this.currentUser ? this.currentUser.id : 'guest',
+          user_name: this.currentUser ? this.currentUser.username : 'Misafir',
+          created_at: new Date().toISOString(),
+          game_id: gid,
+          game_name: gName,
+          dpi: dpi,
+          recommended_sens: primaryProf.sens,
+          edpi: primaryProf.edpi,
+          cm360: primaryProf.cm360,
+          half_turn: primaryProf.halfTurn,
+          profile_type: primaryProf.type,
+          profile_title: primaryProf.name,
+          profiles: JSON.parse(JSON.stringify(profiles)),
+          answers: JSON.parse(JSON.stringify(a)),
+          note: customNote.trim(),
+          mouse_model: mouseName,
+          grip_style: a.q11 || 'palm',
+          mousepad_size: a.q5 || 'large'
+        };
+
+        const list = this.getLocalHistoryList();
+        list.unshift(record);
+        this.setLocalHistoryList(list);
+
+        let cloudSaved = false;
+        if (this.supabase && this.currentUser?.isCloud) {
+          try {
+            const { error } = await this.supabase.from('vecsens_history').insert([{
+              user_id: this.currentUser.id,
+              game_id: record.game_id,
+              game_name: record.game_name,
+              dpi: record.dpi,
+              recommended_sens: record.recommended_sens,
+              edpi: record.edpi,
+              cm360: record.cm360,
+              half_turn: record.half_turn,
+              profile_type: record.profile_type,
+              profiles: record.profiles,
+              answers: record.answers,
+              note: record.note,
+              mouse_model: record.mouse_model,
+              grip_style: record.grip_style
+            }]);
+            if (!error) cloudSaved = true;
+          } catch(err) {
+            console.warn('Cloud save notice:', err);
+          }
+        }
+
+        this.closeModal('saveAnalysisModal');
+        showToast(
+          cloudSaved 
+            ? (isEn ? `Saved to Cloud History for ${gName}!` : `${gName} analizi buluta ve geçmişe kaydedildi!`) 
+            : (isEn ? `Saved to History for ${gName}!` : `${gName} analizi geçmişe kaydedildi!`)
+        );
+
+        if (state.currentPage === 'history') this.renderHistoryPage();
+        return true;
+      },
+
+      async fetchCloudHistory() {
+        if (!this.supabase || !this.currentUser?.isCloud) return null;
+        try {
+          const { data, error } = await this.supabase
+            .from('vecsens_history')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (!error && Array.isArray(data)) {
+            const formatted = data.map(d => ({
+              id: d.id,
+              user_id: d.user_id,
+              created_at: d.created_at,
+              game_id: d.game_id,
+              game_name: d.game_name,
+              dpi: d.dpi,
+              recommended_sens: d.recommended_sens,
+              edpi: d.edpi,
+              cm360: d.cm360,
+              half_turn: d.half_turn,
+              profile_type: d.profile_type,
+              profile_title: d.profile_type === 'speed' ? 'Speed' : d.profile_type === 'precision' ? 'Precision' : 'Balanced',
+              profiles: d.profiles,
+              answers: d.answers,
+              note: d.note || '',
+              mouse_model: d.mouse_model || '',
+              grip_style: d.grip_style || 'palm'
+            }));
+            this.setLocalHistoryList(formatted);
+            return formatted;
+          }
+        } catch(e) {}
+        return null;
+      },
+
+      async deleteAnalysis(id) {
+        const isEn = currentLang === 'en';
+        if (!confirm(isEn ? 'Are you sure you want to delete this analysis?' : 'Bu analizi silmek istediğinizden emin misiniz?')) return;
+
+        let list = this.getLocalHistoryList();
+        list = list.filter(item => item.id !== id);
+        this.setLocalHistoryList(list);
+
+        if (this.supabase && this.currentUser?.isCloud) {
+          try {
+            await this.supabase.from('vecsens_history').delete().eq('id', id);
+          } catch(e) {}
+        }
+
+        this.selectedForCompare = this.selectedForCompare.filter(itemId => itemId !== id);
+        showToast(isEn ? 'Analysis deleted.' : 'Analiz kaydı silindi.');
+        this.renderHistoryPage();
+      },
+
+      async clearAllHistory() {
+        const isEn = currentLang === 'en';
+        if (!confirm(isEn ? 'Warning: This will delete ALL your saved analyses. Continue?' : 'Uyarı: Tüm kayıtlı analizlerin silinecektir. Devam edilsin mi?')) return;
+
+        this.setLocalHistoryList([]);
+        if (this.supabase && this.currentUser?.isCloud) {
+          try {
+            await this.supabase.from('vecsens_history').delete().eq('user_id', this.currentUser.id);
+          } catch(e) {}
+        }
+
+        this.selectedForCompare = [];
+        showToast(isEn ? 'All history cleared.' : 'Tüm geçmiş temizlendi.');
+        this.renderHistoryPage();
+      },
+
+      loadSavedAnalysis(id) {
+        const isEn = currentLang === 'en';
+        const list = this.getLocalHistoryList();
+        const item = list.find(h => h.id === id);
+        if (!item) {
+          showToast(isEn ? 'Analysis not found' : 'Analiz bulunamadı');
+          return;
+        }
+
+        if (item.answers) {
+          state.answers = JSON.parse(JSON.stringify(item.answers));
+        }
+        if (item.profiles) {
+          state.computedProfiles = JSON.parse(JSON.stringify(item.profiles));
+          state.recIdx = item.profiles.findIndex(p => p.type === item.profile_type);
+          if (state.recIdx < 0) state.recIdx = 0;
+        }
+        state.analysisComplete = true;
+
+        switchPage('analysis');
+        showResults();
+        showToast(isEn ? `Loaded ${item.game_name} settings into active analysis!` : `${item.game_name} analiz ayarları başarıyla geri yüklendi!`);
+      },
+
+      testSavedAnalysisInLab(id) {
+        const isEn = currentLang === 'en';
+        const list = this.getLocalHistoryList();
+        const item = list.find(h => h.id === id);
+        if (!item) return;
+
+        if (item.answers) state.answers = JSON.parse(JSON.stringify(item.answers));
+        if (item.profiles) {
+          state.computedProfiles = JSON.parse(JSON.stringify(item.profiles));
+          state.recIdx = item.profiles.findIndex(p => p.type === item.profile_type);
+          if (state.recIdx < 0) state.recIdx = 0;
+        }
+        state.analysisComplete = true;
+
+        switchPage('aimtest');
+        showToast(isEn ? `Loaded ${item.game_name} sens (${item.recommended_sens}) into Aim Lab!` : `${item.game_name} hassasiyeti (${item.recommended_sens}) Aim Testine aktarıldı!`);
+      },
+
+      copyAnalysisSummary(id) {
+        const isEn = currentLang === 'en';
+        const list = this.getLocalHistoryList();
+        const item = list.find(h => h.id === id);
+        if (!item) return;
+
+        const text = `🎯 VecSens Aim Optimizasyon Kaydı
+🎮 Oyun: ${item.game_name}
+⚡ Hassasiyet: ${item.recommended_sens} @ ${item.dpi} DPI
+📊 eDPI: ${item.edpi} | cm/360: ${item.cm360} cm
+🖱️ Ekipman: ${item.mouse_model} (${item.grip_style})
+📅 Tarih: ${new Date(item.created_at).toLocaleDateString()}
+${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
+
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(isEn ? 'Analysis summary copied to clipboard!' : 'Analiz özeti panoya kopyalandı!');
+        }).catch(() => {
+          showToast(isEn ? 'Copy failed' : 'Kopyalanamadı');
+        });
+      },
+
+      exportHistoryJson() {
+        const isEn = currentLang === 'en';
+        const list = this.getLocalHistoryList();
+        if (!list.length) {
+          showToast(isEn ? 'No history to export' : 'Dışa aktarılacak analiz kaydı yok');
+          return;
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+          version: '1.0',
+          exportedAt: new Date().toISOString(),
+          user: this.currentUser ? this.currentUser.username : 'guest',
+          history: list
+        }, null, 2));
+        const dl = document.createElement('a');
+        dl.setAttribute("href", dataStr);
+        dl.setAttribute("download", `vecsens_history_backup_${Date.now()}.json`);
+        document.body.appendChild(dl);
+        dl.click();
+        dl.remove();
+        showToast(isEn ? 'History backup downloaded!' : 'Analiz geçmişi JSON olarak indirildi!');
+      },
+
+      importHistoryJson(event) {
+        const isEn = currentLang === 'en';
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const parsed = JSON.parse(e.target.result);
+            const importedList = Array.isArray(parsed) ? parsed : (parsed.history || []);
+            if (!Array.isArray(importedList)) throw new Error('Invalid format');
+
+            const currentList = this.getLocalHistoryList();
+            const existingIds = new Set(currentList.map(item => item.id));
+            let addedCount = 0;
+            importedList.forEach(item => {
+              if (item.id && !existingIds.has(item.id)) {
+                currentList.push(item);
+                existingIds.add(item.id);
+                addedCount++;
+              }
+            });
+            this.setLocalHistoryList(currentList);
+            showToast(isEn ? `Successfully imported ${addedCount} analyses!` : `${addedCount} adet geçmiş analiz başarıyla yüklendi!`);
+            this.renderHistoryPage();
+          } catch(err) {
+            showToast(isEn ? 'Invalid JSON backup file.' : 'Geçersiz JSON yedek dosyası.');
+          }
+        };
+        reader.readAsText(file);
+      },
+
+      toggleCompareSelection(id) {
+        const isEn = currentLang === 'en';
+        const idx = this.selectedForCompare.indexOf(id);
+        if (idx !== -1) {
+          this.selectedForCompare.splice(idx, 1);
+        } else {
+          if (this.selectedForCompare.length >= 2) {
+            this.selectedForCompare.shift();
+          }
+          this.selectedForCompare.push(id);
+        }
+        this.renderHistoryPage();
+        if (this.selectedForCompare.length === 2) {
+          showToast(isEn ? '2 analyses selected! Click "Compare A/B" to view.' : '2 analiz seçildi! Kıyaslamak için "A/B Karşılaştır" butonuna bas.');
+        }
+      },
+
+      // ── UI RENDERING METHODS ──
+      updateAuthUi() {
+        const isEn = currentLang === 'en';
+        const container = document.getElementById('userAuthContainer');
+        if (!container) return;
+
+        if (!this.currentUser) {
+          container.innerHTML = `
+            <button class="btn-auth-login" onclick="openAuthModal('login')">
+              ${getVsSvg('user', 14)}
+              <span>${isEn ? 'Sign In / Register' : 'Giriş Yap / Kayıt'}</span>
+            </button>
+          `;
+        } else {
+          const u = this.currentUser;
+          const avSvg = getAvatarSvg(u.avatar || 'crosshair', 26);
+          const dropAvSvg = getAvatarSvg(u.avatar || 'crosshair', 36);
+          const isCloud = this.cloudStatus === 'connected';
+
+          container.innerHTML = `
+            <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username} (${u.role || 'Player'})">
+              <span class="user-avatar-pill">${avSvg}</span>
+              <span class="user-tag-pill">${u.username}</span>
+              <span class="user-cloud-dot ${this.cloudStatus}" title="${isCloud ? (isEn ? 'Cloud Connected' : 'Bulut Aktif') : (isEn ? 'Local Storage' : 'Yerel Mod')}"></span>
+              
+              <div class="user-dropdown-menu hidden" id="userDropdownMenu" onclick="event.stopPropagation()">
+                <div class="user-dropdown-header">
+                  <div class="dropdown-avatar">${dropAvSvg}</div>
+                  <div class="dropdown-info">
+                    <div class="dropdown-name">${u.username}</div>
+                    <div class="dropdown-role">${u.role || 'Duelist'} · ${u.mainGame ? (GAMES.find(g => g.id === u.mainGame)?.label || u.mainGame) : 'Valorant'}</div>
+                  </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" onclick="switchPage('history')">
+                  ${getVsSvg('history', 15)} <span>${isEn ? 'My Saved Analyses' : 'Geçmiş Analizlerim'}</span>
+                </button>
+                <button class="dropdown-item" onclick="openProfileModal()">
+                  ${getVsSvg('user', 15)} <span>${isEn ? 'Profile & Settings' : 'Profil & Ayarlar'}</span>
+                </button>
+                <button class="dropdown-item" onclick="openCloudConfigModal()">
+                  ${getVsSvg('cloud', 15)} <span>${isEn ? 'Cloud Connection' : 'Bulut Ayarları'}</span>
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item danger" onclick="VecSensCloud.logout()">
+                  ${getVsSvg('logout', 15)} <span>${isEn ? 'Log Out' : 'Çıkış Yap'}</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      },
+
+      toggleUserDropdown(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        const menu = document.getElementById('userDropdownMenu');
+        if (menu) menu.classList.toggle('hidden');
+      },
+
+      switchAuthTab(tab) {
+        this.currentAuthTab = tab;
+        const isEn = currentLang === 'en';
+        document.querySelectorAll('.auth-tab-btn').forEach((b, i) => {
+          b.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+        });
+        const tLog = document.getElementById('authTabLogin');
+        const tReg = document.getElementById('authTabRegister');
+        if (tLog) tLog.classList.toggle('hidden', tab !== 'login');
+        if (tReg) tReg.classList.toggle('hidden', tab !== 'register');
+      },
+
+      togglePasswordVisibility(inputId, btn) {
+        const inp = document.getElementById(inputId);
+        if (!inp) return;
+        if (inp.type === 'password') {
+          inp.type = 'text';
+          btn.innerHTML = getVsSvg('eyeOff', 16);
+        } else {
+          inp.type = 'password';
+          btn.innerHTML = getVsSvg('eye', 16);
+        }
+      },
+
+      selectAvatarOption(btn, targetInputId = 'authRegAvatar') {
+        const grid = btn.parentElement;
+        if (grid) {
+          grid.querySelectorAll('.avatar-option-btn').forEach(b => b.classList.remove('active'));
+        }
+        btn.classList.add('active');
+        const av = btn.getAttribute('data-avatar');
+        const inp = document.getElementById(targetInputId);
+        if (inp) inp.value = av;
+      },
+
+      handleLoginFormSubmit() {
+        const idInp = document.getElementById('authLoginId');
+        const pwdInp = document.getElementById('authLoginPwd');
+        const remInp = document.getElementById('authRememberMe');
+        if (!idInp || !pwdInp) return;
+        this.login({
+          identifier: idInp.value,
+          password: pwdInp.value,
+          rememberMe: remInp ? remInp.checked : true
+        });
+      },
+
+      handleRegisterFormSubmit() {
+        const uInp = document.getElementById('authRegUsername');
+        const eInp = document.getElementById('authRegEmail');
+        const pInp = document.getElementById('authRegPwd');
+        const gInp = document.getElementById('authRegGame');
+        const rInp = document.getElementById('authRegRole');
+        const aInp = document.getElementById('authRegAvatar');
+        if (!uInp || !eInp || !pInp) return;
+        this.register({
+          username: uInp.value,
+          email: eInp.value,
+          password: pInp.value,
+          mainGame: gInp ? gInp.value : 'valorant',
+          role: rInp ? rInp.value : 'Duelist',
+          avatar: aInp ? aInp.value : 'crosshair'
+        });
+      },
+
+      handleProfileUpdateSubmit() {
+        const uInp = document.getElementById('profEditUsername');
+        const gInp = document.getElementById('profEditGame');
+        const rInp = document.getElementById('profEditRole');
+        const aInp = document.getElementById('profEditAvatar');
+        if (!uInp) return;
+        this.updateProfile({
+          username: uInp.value,
+          mainGame: gInp ? gInp.value : 'valorant',
+          role: rInp ? rInp.value : 'Duelist',
+          avatar: aInp ? aInp.value : 'crosshair'
+        });
+      },
+
+      handleSaveAnalysisSubmit() {
+        const nInp = document.getElementById('saveAnalysisNoteInput');
+        const note = nInp ? nInp.value : '';
+        this.saveAnalysis(note);
+      },
+
+      handleCloudConfigSubmit() {
+        const isEn = currentLang === 'en';
+        const urlInp = document.getElementById('cloudSupabaseUrl');
+        const keyInp = document.getElementById('cloudSupabaseAnonKey');
+        if (!urlInp || !keyInp) return;
+
+        const url = urlInp.value.trim();
+        const anonKey = keyInp.value.trim();
+
+        if (!url || !anonKey) {
+          showToast(isEn ? 'Please enter both Supabase URL and Anon Key' : 'Lütfen hem URL hem de Anon Key değerini girin');
+          return;
+        }
+
+        this.config = { url, anonKey };
+        localStorage.setItem('vecsens_cloud_config', JSON.stringify(this.config));
+
+        if (window.supabase) {
+          try {
+            this.supabase = window.supabase.createClient(url, anonKey);
+            this.cloudStatus = 'connected';
+            showToast(isEn ? 'Connected to Supabase Cloud!' : 'Supabase Bulut Bağlantısı Başarılı!');
+          } catch(e) {
+            showToast(isEn ? 'Connection failed: ' + e.message : 'Bağlantı hatası: ' + e.message);
+          }
+        } else {
+          showToast(isEn ? 'Cloud config saved!' : 'Bulut ayarları kaydedildi!');
+        }
+
+        this.updateAuthUi();
+        this.closeModal('cloudConfigModal');
+        if (state.currentPage === 'history') this.renderHistoryPage();
+      },
+
+      resetCloudConfig() {
+        const isEn = currentLang === 'en';
+        this.config = { url: '', anonKey: '' };
+        localStorage.removeItem('vecsens_cloud_config');
+        this.supabase = null;
+        this.cloudStatus = 'fallback';
+        const urlInp = document.getElementById('cloudSupabaseUrl');
+        const keyInp = document.getElementById('cloudSupabaseAnonKey');
+        if (urlInp) urlInp.value = '';
+        if (keyInp) keyInp.value = '';
+        this.updateAuthUi();
+        showToast(isEn ? 'Cloud configuration cleared. Running in Local Vault mode.' : 'Bulut ayarları temizlendi. Yerel hafıza moduna geçildi.');
+        this.closeModal('cloudConfigModal');
+      },
+
+      copySqlSchema() {
+        const isEn = currentLang === 'en';
+        const sql = `-- VecSens Supabase Cloud History Table Setup
+create table if not exists public.vecsens_history (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  game_id text not null,
+  game_name text not null,
+  dpi numeric not null,
+  recommended_sens numeric not null,
+  edpi numeric not null,
+  cm360 numeric not null,
+  half_turn numeric,
+  profile_type text,
+  profiles jsonb,
+  answers jsonb,
+  note text,
+  mouse_model text,
+  grip_style text
+);
+
+alter table public.vecsens_history enable row level security;
+
+create policy "Users can view own history" on public.vecsens_history for select using (auth.uid() = user_id);
+create policy "Users can insert own history" on public.vecsens_history for insert with check (auth.uid() = user_id);
+create policy "Users can delete own history" on public.vecsens_history for delete using (auth.uid() = user_id);
+`;
+        navigator.clipboard.writeText(sql).then(() => {
+          showToast(isEn ? 'SQL schema copied to clipboard!' : 'SQL Tablo Şeması panoya kopyalandı!');
+        });
+      },
+
+      handleForgotPassword() {
+        const isEn = currentLang === 'en';
+        const idInp = document.getElementById('authLoginId');
+        const email = idInp ? idInp.value.trim() : '';
+        if (!email || !email.includes('@')) {
+          showToast(isEn ? 'Please enter your email into the field above to reset password.' : 'Lütfen şifre sıfırlama için yukarıdaki alana e-postanızı girin.');
+          return;
+        }
+        if (this.supabase && this.config.url) {
+          this.supabase.auth.resetPasswordForEmail(email).then(({ error }) => {
+            if (error) showToast(isEn ? 'Error: ' + error.message : 'Hata: ' + error.message);
+            else showToast(isEn ? 'Password reset link sent to your email!' : 'Şifre sıfırlama bağlantısı e-postanıza gönderildi!');
+          });
+        } else {
+          showToast(isEn ? 'Local account: You can reset your password from Profile settings.' : 'Yerel hesap: Şifrenizi Profil Ayarları bölümünden değiştirebilirsiniz.');
+        }
+      },
+
+      setHistoryFilter(filter) {
+        this.currentFilter = filter;
+        this.renderHistoryPage();
+      },
+
+      handleSearchInput(val) {
+        this.searchQuery = val;
+        this.renderHistoryPage();
+      },
+
+      resetFilters() {
+        this.currentFilter = 'all';
+        this.searchQuery = '';
+        this.renderHistoryPage();
+      },
+
+      closeModal(modalId) {
+        const m = document.getElementById(modalId);
+        if (m) m.classList.add('hidden');
+      },
+
+      openAuthModal(initialTab = 'login') {
+        this.currentAuthTab = initialTab;
+        const isEn = currentLang === 'en';
+        const modal = document.getElementById('authModal');
+        if (!modal) return;
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <h3 class="vs-modal-title">
+                ${getVsSvg('user', 20)}
+                <span>${isEn ? 'VecSens Esports Account' : 'VecSens Espor Hesabı'}</span>
+              </h3>
+              <button class="vs-modal-close" onclick="closeVsModal('authModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <div class="auth-tabs">
+              <button class="auth-tab-btn ${this.currentAuthTab === 'login' ? 'active' : ''}" onclick="VecSensCloud.switchAuthTab('login')">
+                ${isEn ? 'Sign In' : 'Giriş Yap'}
+              </button>
+              <button class="auth-tab-btn ${this.currentAuthTab === 'register' ? 'active' : ''}" onclick="VecSensCloud.switchAuthTab('register')">
+                ${isEn ? 'Create Account' : 'Kayıt Ol'}
+              </button>
+            </div>
+
+            <div id="authTabLogin" class="${this.currentAuthTab === 'login' ? '' : 'hidden'}">
+              <form onsubmit="event.preventDefault(); VecSensCloud.handleLoginFormSubmit();">
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Email or Gamer Tag' : 'E-posta veya Oyuncu Adı'}</label>
+                  <div class="auth-input-wrap">
+                    <span class="auth-input-icon">${getVsSvg('user', 15)}</span>
+                    <input type="text" id="authLoginId" class="auth-input" placeholder="${isEn ? 'e.g. TenZ or player@mail.com' : 'Örn: TenZ veya oyuncu@mail.com'}" required />
+                  </div>
+                </div>
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Password' : 'Şifre'}</label>
+                  <div class="auth-input-wrap">
+                    <span class="auth-input-icon">${getVsSvg('lock', 15)}</span>
+                    <input type="password" id="authLoginPwd" class="auth-input" placeholder="••••••••" required />
+                    <button type="button" class="auth-toggle-pwd" onclick="VecSensCloud.togglePasswordVisibility('authLoginPwd', this)">
+                      ${getVsSvg('eye', 16)}
+                    </button>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:12.5px">
+                  <label style="display:flex;align-items:center;gap:6px;color:var(--t2);cursor:pointer">
+                    <input type="checkbox" id="authRememberMe" checked style="accent-color:var(--cyan)"/> ${isEn ? 'Remember Me' : 'Beni Hatırla'}
+                  </label>
+                  <a href="javascript:void(0)" onclick="VecSensCloud.handleForgotPassword()" style="color:var(--cyan);text-decoration:none;font-weight:600">
+                    ${isEn ? 'Forgot Password?' : 'Şifremi Unuttum'}
+                  </a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px">
+                  ${getVsSvg('play', 13)} ${isEn ? 'Sign In to Account' : 'Giriş Yap'}
+                </button>
+              </form>
+              <div style="text-align:center;margin-top:16px;font-size:12.5px;color:var(--t3)">
+                ${isEn ? "Don't have an account?" : 'Hesabın yok mu?'} 
+                <a href="javascript:void(0)" onclick="VecSensCloud.switchAuthTab('register')" style="color:var(--cyan);font-weight:700;text-decoration:none">
+                  ${isEn ? 'Register free' : 'Ücretsiz Kayıt Ol'}
+                </a>
+              </div>
+            </div>
+
+            <div id="authTabRegister" class="${this.currentAuthTab === 'register' ? '' : 'hidden'}">
+              <form onsubmit="event.preventDefault(); VecSensCloud.handleRegisterFormSubmit();">
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Gamer Tag / Username' : 'Oyuncu Adı (Gamer Tag)'}</label>
+                  <div class="auth-input-wrap">
+                    <span class="auth-input-icon">${getVsSvg('user', 15)}</span>
+                    <input type="text" id="authRegUsername" class="auth-input" placeholder="${isEn ? 'e.g. Vortex#1337' : 'Örn: Vortex#1337'}" required />
+                  </div>
+                </div>
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Email Address' : 'E-posta Adresi'}</label>
+                  <div class="auth-input-wrap">
+                    <span class="auth-input-icon">${getVsSvg('user', 15)}</span>
+                    <input type="email" id="authRegEmail" class="auth-input" placeholder="player@gmail.com" required />
+                  </div>
+                </div>
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Password (min. 6 characters)' : 'Şifre (en az 6 karakter)'}</label>
+                  <div class="auth-input-wrap">
+                    <span class="auth-input-icon">${getVsSvg('lock', 15)}</span>
+                    <input type="password" id="authRegPwd" class="auth-input" placeholder="••••••••" minlength="6" required />
+                    <button type="button" class="auth-toggle-pwd" onclick="VecSensCloud.togglePasswordVisibility('authRegPwd', this)">
+                      ${getVsSvg('eye', 16)}
+                    </button>
+                  </div>
+                </div>
+                <div class="auth-row-2">
+                  <div class="auth-form-group">
+                    <label class="auth-label">${isEn ? 'Primary FPS Game' : 'Ana FPS Oyunu'}</label>
+                    <select id="authRegGame" class="auth-select">
+                      <option value="valorant">Valorant</option>
+                      <option value="cs2">Counter-Strike 2</option>
+                      <option value="apex">Apex Legends</option>
+                      <option value="r6">Rainbow Six Siege</option>
+                      <option value="warzone">CoD Warzone</option>
+                      <option value="overwatch">Overwatch 2</option>
+                      <option value="fortnite">Fortnite</option>
+                      <option value="other">${isEn ? 'Other FPS' : 'Diğer FPS'}</option>
+                    </select>
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label">${isEn ? 'Esports Role' : 'Espor Rolü'}</label>
+                    <select id="authRegRole" class="auth-select">
+                      <option value="Duelist">${isEn ? 'Duelist / Entry' : 'Düellocu / Entry'}</option>
+                      <option value="Sniper">${isEn ? 'AWP / Sniper' : 'AWP / Keskin Nişancı'}</option>
+                      <option value="Controller">${isEn ? 'Controller / Smoke' : 'Controller / Destek'}</option>
+                      <option value="IGL">${isEn ? 'IGL / Captain' : 'IGL / Takım Kaptanı'}</option>
+                      <option value="Flex">${isEn ? 'Flex / Hybrid' : 'Flex / Joker Oyuncu'}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Choose Avatar' : 'Avatar Seç'}</label>
+                  <div class="avatar-picker-grid" id="authAvatarPicker">
+                    ${['crosshair', 'lightning', 'skull', 'crown', 'shield', 'flame', 'target', 'cyber'].map((av, i) => `
+                      <button type="button" class="avatar-option-btn ${i === 0 ? 'active' : ''}" data-avatar="${av}" onclick="VecSensCloud.selectAvatarOption(this)">
+                        ${getAvatarSvg(av, 34)}
+                        <span class="avatar-option-label">${av}</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <input type="hidden" id="authRegAvatar" value="crosshair" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:6px">
+                  ${getVsSvg('check', 14)} ${isEn ? 'Create Account & Sync' : 'Kayıt Ol ve Başla'}
+                </button>
+              </form>
+              <div style="text-align:center;margin-top:16px;font-size:12.5px;color:var(--t3)">
+                ${isEn ? 'Already have an account?' : 'Zaten hesabın var mı?'} 
+                <a href="javascript:void(0)" onclick="VecSensCloud.switchAuthTab('login')" style="color:var(--cyan);font-weight:700;text-decoration:none">
+                  ${isEn ? 'Sign In' : 'Giriş Yap'}
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      openProfileModal() {
+        const isEn = currentLang === 'en';
+        const u = this.currentUser;
+        if (!u) {
+          this.openAuthModal('login');
+          return;
+        }
+        const modal = document.getElementById('userProfileModal');
+        if (!modal) return;
+
+        const historyList = this.getLocalHistoryList();
+        const regDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString(isEn ? 'en-US' : 'tr-TR', { year: 'numeric', month: 'short', day: 'numeric' }) : (isEn ? 'Active' : 'Aktif');
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <h3 class="vs-modal-title">
+                ${getVsSvg('user', 20)}
+                <span>${isEn ? 'Esports Profile & Settings' : 'Espor Profili & Ayarlar'}</span>
+              </h3>
+              <button class="vs-modal-close" onclick="closeVsModal('userProfileModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:20px">
+              ${getAvatarSvg(u.avatar || 'crosshair', 54)}
+              <div style="overflow:hidden">
+                <div style="font-size:17px;font-weight:800;color:var(--t1)">${u.username}</div>
+                <div style="font-size:12.5px;color:var(--cyan);font-weight:700;margin-top:2px">${u.role || 'Duelist'} · ${u.mainGame ? (GAMES.find(g => g.id === u.mainGame)?.label || u.mainGame) : 'Valorant'}</div>
+                <div style="font-size:11px;color:var(--t3);margin-top:4px">${u.email} · ${isEn ? 'Member since' : 'Kayıt:'} ${regDate}</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+                <div style="font-size:10.5px;color:var(--t3);text-transform:uppercase;font-weight:700">${isEn ? 'Saved Analyses' : 'Kayıtlı Analizler'}</div>
+                <div style="font-size:18px;font-weight:800;color:var(--t1);font-family:var(--mono);margin-top:2px">${historyList.length}</div>
+              </div>
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+                <div style="font-size:10.5px;color:var(--t3);text-transform:uppercase;font-weight:700">${isEn ? 'Cloud Sync' : 'Bulut Durumu'}</div>
+                <div style="font-size:13px;font-weight:800;color:${this.cloudStatus === 'connected' ? 'var(--green)' : 'var(--amber)'};margin-top:4px;display:flex;align-items:center;justify-content:center;gap:5px">
+                  <span class="user-cloud-dot ${this.cloudStatus}"></span>
+                  ${this.cloudStatus === 'connected' ? (isEn ? 'Connected' : 'Bulut Aktif') : (isEn ? 'Local Storage' : 'Yerel Hafıza')}
+                </div>
+              </div>
+            </div>
+
+            <form onsubmit="event.preventDefault(); VecSensCloud.handleProfileUpdateSubmit();">
+              <div class="auth-form-group">
+                <label class="auth-label">${isEn ? 'Gamer Tag' : 'Oyuncu Adı'}</label>
+                <div class="auth-input-wrap">
+                  <span class="auth-input-icon">${getVsSvg('user', 14)}</span>
+                  <input type="text" id="profEditUsername" class="auth-input" value="${u.username}" required />
+                </div>
+              </div>
+              <div class="auth-row-2">
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Main FPS Game' : 'Ana FPS Oyunu'}</label>
+                  <select id="profEditGame" class="auth-select">
+                    <option value="valorant" ${u.mainGame === 'valorant' ? 'selected' : ''}>Valorant</option>
+                    <option value="cs2" ${u.mainGame === 'cs2' ? 'selected' : ''}>Counter-Strike 2</option>
+                    <option value="apex" ${u.mainGame === 'apex' ? 'selected' : ''}>Apex Legends</option>
+                    <option value="r6" ${u.mainGame === 'r6' ? 'selected' : ''}>Rainbow Six Siege</option>
+                    <option value="warzone" ${u.mainGame === 'warzone' ? 'selected' : ''}>CoD Warzone</option>
+                    <option value="overwatch" ${u.mainGame === 'overwatch' ? 'selected' : ''}>Overwatch 2</option>
+                    <option value="fortnite" ${u.mainGame === 'fortnite' ? 'selected' : ''}>Fortnite</option>
+                  </select>
+                </div>
+                <div class="auth-form-group">
+                  <label class="auth-label">${isEn ? 'Esports Role' : 'Espor Rolü'}</label>
+                  <select id="profEditRole" class="auth-select">
+                    <option value="Duelist" ${u.role === 'Duelist' ? 'selected' : ''}>${isEn ? 'Duelist / Entry' : 'Düellocu / Entry'}</option>
+                    <option value="Sniper" ${u.role === 'Sniper' ? 'selected' : ''}>${isEn ? 'AWP / Sniper' : 'AWP / Sniper'}</option>
+                    <option value="Controller" ${u.role === 'Controller' ? 'selected' : ''}>${isEn ? 'Controller / Smoke' : 'Controller / Destek'}</option>
+                    <option value="IGL" ${u.role === 'IGL' ? 'selected' : ''}>${isEn ? 'IGL / Captain' : 'IGL / Kaptan'}</option>
+                    <option value="Flex" ${u.role === 'Flex' ? 'selected' : ''}>${isEn ? 'Flex / Hybrid' : 'Flex / Joker'}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="auth-form-group">
+                <label class="auth-label">${isEn ? 'Avatar' : 'Avatar Değiştir'}</label>
+                <div class="avatar-picker-grid">
+                  ${['crosshair', 'lightning', 'skull', 'crown', 'shield', 'flame', 'target', 'cyber'].map(av => `
+                    <button type="button" class="avatar-option-btn ${(u.avatar || 'crosshair') === av ? 'active' : ''}" data-avatar="${av}" onclick="VecSensCloud.selectAvatarOption(this, 'profEditAvatar')">
+                      ${getAvatarSvg(av, 30)}
+                      <span class="avatar-option-label">${av}</span>
+                    </button>
+                  `).join('')}
+                </div>
+                <input type="hidden" id="profEditAvatar" value="${u.avatar || 'crosshair'}" />
+              </div>
+
+              <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+                <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+                  ${getVsSvg('check', 14)} ${isEn ? 'Save Profile' : 'Profili Kaydet'}
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="VecSensCloud.openCloudConfigModal()" style="flex:1;justify-content:center">
+                  ${getVsSvg('cloud', 14)} ${isEn ? 'Cloud Connection' : 'Bulut Ayarları'}
+                </button>
+              </div>
+            </form>
+
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.exportHistoryJson()">
+                ${getVsSvg('download', 14)} ${isEn ? 'Export Data (JSON)' : 'Verileri İndir (JSON)'}
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.logout()" style="color:var(--vct-red);border-color:rgba(244,63,94,0.3)">
+                ${getVsSvg('logout', 14)} ${isEn ? 'Log Out' : 'Çıkış Yap'}
+              </button>
+            </div>
+          </div>
+        `;
+      },
+
+      openSaveAnalysisModal() {
+        const isEn = currentLang === 'en';
+        const modal = document.getElementById('saveAnalysisModal');
+        if (!modal) return;
+
+        if (!state.computedProfiles || !state.computedProfiles.length) {
+          showToast(isEn ? 'Please complete an analysis first!' : 'Lütfen önce bir analiz tamamlayın!');
+          return;
+        }
+
+        const profiles = state.computedProfiles;
+        const recIdx = state.recIdx || 0;
+        const prof = profiles[recIdx] || profiles[0];
+        const gName = getPrimaryGameName();
+        const dpi = getTargetDPI();
+        const u = this.currentUser;
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <h3 class="vs-modal-title">
+                ${getVsSvg('save', 18)}
+                <span>${isEn ? 'Save Analysis to History' : 'Analizi Geçmişe Kaydet'}</span>
+              </h3>
+              <button class="vs-modal-close" onclick="closeVsModal('saveAnalysisModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border-bright);border-radius:14px;padding:16px;margin-bottom:18px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                <div style="font-size:16px;font-weight:800;color:var(--t1)">${gName}</div>
+                <span class="history-card-profile-tag ${prof.type}">${prof.name}</span>
+              </div>
+              <div class="history-metrics-grid">
+                <div class="history-metric-box">
+                  <div class="history-metric-label">DPI</div>
+                  <div class="history-metric-value">${dpi}</div>
+                </div>
+                <div class="history-metric-box">
+                  <div class="history-metric-label">${gName} SENS</div>
+                  <div class="history-metric-value highlight">${prof.sens}</div>
+                </div>
+                <div class="history-metric-box">
+                  <div class="history-metric-label">cm/360°</div>
+                  <div class="history-metric-value">${prof.cm360} cm</div>
+                </div>
+              </div>
+            </div>
+
+            ${!u ? `
+              <div style="background:color-mix(in srgb, var(--cyan) 10%, transparent);border:1px solid var(--border-bright);border-radius:12px;padding:12px;margin-bottom:16px;font-size:12.5px;color:var(--t2)">
+                💡 <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn 
+                  ? 'Sign in or create an account to synchronize this analysis with your cloud vault across all devices.' 
+                  : 'Giriş yaparak bu analizi bulutta saklayabilir ve tüm cihazlarından erişebilirsin.'}
+              </div>
+            ` : ''}
+
+            <div class="auth-form-group">
+              <label class="auth-label">${isEn ? 'Custom Note (Optional)' : 'Özel Not Ekle (İsteğe Bağlı)'}</label>
+              <textarea id="saveAnalysisNoteInput" class="auth-input" rows="3" style="resize:none;padding:10px 12px" placeholder="${isEn ? 'e.g. Tested with new glass pad & Artisan mousepad, feels snappier.' : 'Örn: Yeni cam mousepad ve skatezlerle denendi, micro-adjust çok rahat.'}"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="VecSensCloud.handleSaveAnalysisSubmit()">
+                ${getVsSvg('save', 15)} ${isEn ? 'Save to Cloud / Vault' : 'Geçmişe Kaydet'}
+              </button>
+              <button class="btn btn-secondary" onclick="closeVsModal('saveAnalysisModal')">
+                ${isEn ? 'Cancel' : 'İptal'}
+              </button>
+            </div>
+          </div>
+        `;
+      },
+
+      openCompareModal() {
+        const isEn = currentLang === 'en';
+        if (this.selectedForCompare.length !== 2) {
+          showToast(isEn ? 'Please select exactly 2 analyses to compare!' : 'Lütfen karşılaştırmak için 2 adet analiz seçin!');
+          return;
+        }
+
+        const list = this.getLocalHistoryList();
+        const itemA = list.find(h => h.id === this.selectedForCompare[0]);
+        const itemB = list.find(h => h.id === this.selectedForCompare[1]);
+        if (!itemA || !itemB) return;
+
+        const sensDiff = (itemB.recommended_sens - itemA.recommended_sens).toFixed(2);
+        const cmDiff = (itemB.cm360 - itemA.cm360).toFixed(1);
+        const sensPct = Math.round(((itemB.recommended_sens - itemA.recommended_sens) / itemA.recommended_sens) * 100);
+
+        const modal = document.getElementById('compareModal');
+        if (!modal) return;
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card wide" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <h3 class="vs-modal-title">
+                ${getVsSvg('compare', 20)}
+                <span>${isEn ? 'A/B Sensitivity & Aim Comparison' : 'A/B Hassasiyet & Aim Karşılaştırması'}</span>
+              </h3>
+              <button class="vs-modal-close" onclick="closeVsModal('compareModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <div style="overflow-x:auto">
+              <table class="compare-table">
+                <thead>
+                  <tr>
+                    <th>${isEn ? 'Metric / Property' : 'Özellik / Metrik'}</th>
+                    <th>${isEn ? 'Profile A' : 'Profil A'} (${itemA.game_name})</th>
+                    <th>${isEn ? 'Profile B' : 'Profil B'} (${itemB.game_name})</th>
+                    <th>${isEn ? 'Difference (A ➔ B)' : 'Fark (A ➔ B)'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>${isEn ? 'Game' : 'Oyun'}</b></td>
+                    <td>${itemA.game_name}</td>
+                    <td>${itemB.game_name}</td>
+                    <td>${itemA.game_id === itemB.game_id ? (isEn ? 'Same Game' : 'Aynı Oyun') : (isEn ? 'Cross-Title' : 'Farklı Oyun')}</td>
+                  </tr>
+                  <tr>
+                    <td><b>DPI</b></td>
+                    <td style="font-family:var(--mono)">${itemA.dpi}</td>
+                    <td style="font-family:var(--mono)">${itemB.dpi}</td>
+                    <td>${itemB.dpi !== itemA.dpi ? `${itemB.dpi - itemA.dpi} DPI` : '—'}</td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? 'Recommended Sens' : 'Önerilen Sens'}</b></td>
+                    <td style="font-family:var(--mono);font-weight:800;color:var(--cyan)">${itemA.recommended_sens}</td>
+                    <td style="font-family:var(--mono);font-weight:800;color:var(--cyan)">${itemB.recommended_sens}</td>
+                    <td>
+                      <span class="compare-diff-badge ${sensPct < 0 ? 'green' : 'red'}">
+                        ${sensPct > 0 ? '+' : ''}${sensPct}% (${sensDiff})
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>eDPI</b></td>
+                    <td style="font-family:var(--mono)">${itemA.edpi}</td>
+                    <td style="font-family:var(--mono)">${itemB.edpi}</td>
+                    <td>${(itemB.edpi - itemA.edpi).toFixed(1)}</td>
+                  </tr>
+                  <tr>
+                    <td><b>cm/360°</b></td>
+                    <td style="font-family:var(--mono)">${itemA.cm360} cm</td>
+                    <td style="font-family:var(--mono)">${itemB.cm360} cm</td>
+                    <td>
+                      <span class="compare-diff-badge ${cmDiff > 0 ? 'green' : 'cyan'}">
+                        ${cmDiff > 0 ? '+' : ''}${cmDiff} cm
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? '180° Turn Distance' : '180° Dönüş Mesafesi'}</b></td>
+                    <td style="font-family:var(--mono)">~${itemA.half_turn || Math.round(itemA.cm360 / 2)} cm</td>
+                    <td style="font-family:var(--mono)">~${itemB.half_turn || Math.round(itemB.cm360 / 2)} cm</td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? 'Profile Aim Style' : 'Profil Tarzı'}</b></td>
+                    <td><span class="history-card-profile-tag ${itemA.profile_type}">${itemA.profile_title || itemA.profile_type}</span></td>
+                    <td><span class="history-card-profile-tag ${itemB.profile_type}">${itemB.profile_title || itemB.profile_type}</span></td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? 'Mouse & Grip' : 'Mouse & Tutuş'}</b></td>
+                    <td>${itemA.mouse_model} (${itemA.grip_style})</td>
+                    <td>${itemB.mouse_model} (${itemB.grip_style})</td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? 'Date' : 'Tarih'}</b></td>
+                    <td>${new Date(itemA.created_at).toLocaleDateString()}</td>
+                    <td>${new Date(itemB.created_at).toLocaleDateString()}</td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td><b>${isEn ? 'Personal Note' : 'Kullanıcı Notu'}</b></td>
+                    <td style="font-size:12px;font-style:italic">${itemA.note || '—'}</td>
+                    <td style="font-size:12px;font-style:italic">${itemB.note || '—'}</td>
+                    <td>—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap">
+              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.loadSavedAnalysis('${itemA.id}');closeVsModal('compareModal')">
+                ${getVsSvg('refresh', 13)} ${isEn ? 'Load Profile A' : 'A Profilini Yükle'}
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.loadSavedAnalysis('${itemB.id}');closeVsModal('compareModal')">
+                ${getVsSvg('refresh', 13)} ${isEn ? 'Load Profile B' : 'B Profilini Yükle'}
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="closeVsModal('compareModal')">
+                ${isEn ? 'Close' : 'Kapat'}
+              </button>
+            </div>
+          </div>
+        `;
+      },
+
+      openCloudConfigModal() {
+        const isEn = currentLang === 'en';
+        const modal = document.getElementById('cloudConfigModal');
+        if (!modal) return;
+
+        const conf = this.config;
+        const isConnected = this.cloudStatus === 'connected';
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <h3 class="vs-modal-title">
+                ${getVsSvg('cloud', 20)}
+                <span>${isEn ? 'Supabase Cloud Database Connection' : 'Supabase Bulut Veritabanı Bağlantısı'}</span>
+              </h3>
+              <button class="vs-modal-close" onclick="closeVsModal('cloudConfigModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <p style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">
+              ${isEn 
+                ? 'Connect your free Supabase project to synchronize your sensitivity history and profiles across all your PCs, laptops, and mobile devices in real time.' 
+                : 'Ücretsiz Supabase projenin bağlantı bilgilerini girerek tüm analiz geçmişini bulutta şifreli saklayabilir ve istediğin cihazdan erişebilirsin.'}
+            </p>
+
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:13px;font-weight:700;color:var(--t1)">${isEn ? 'Current Status:' : 'Mevcut Durum:'}</span>
+              <span style="font-size:12.5px;font-weight:800;color:${isConnected ? 'var(--green)' : 'var(--amber)'};display:flex;align-items:center;gap:6px">
+                <span class="user-cloud-dot ${this.cloudStatus}"></span>
+                ${isConnected ? (isEn ? '🟢 Cloud Connected' : '🟢 Bulut Bağlı & Aktif') : (isEn ? '🟡 Local Storage Active' : '🟡 Yerel Hafıza (Offline Mod)')}
+              </span>
+            </div>
+
+            <form onsubmit="event.preventDefault(); VecSensCloud.handleCloudConfigSubmit();">
+              <div class="auth-form-group">
+                <label class="auth-label">${isEn ? 'Supabase Project URL' : 'Supabase Proje URL'}</label>
+                <div class="auth-input-wrap">
+                  <span class="auth-input-icon">${getVsSvg('cloud', 14)}</span>
+                  <input type="url" id="cloudSupabaseUrl" class="auth-input" placeholder="https://xyzproject.supabase.co" value="${conf.url || ''}" />
+                </div>
+              </div>
+
+              <div class="auth-form-group">
+                <label class="auth-label">${isEn ? 'Supabase Anon Public Key' : 'Supabase Anon Public API Key'}</label>
+                <div class="auth-input-wrap">
+                  <span class="auth-input-icon">${getVsSvg('lock', 14)}</span>
+                  <input type="password" id="cloudSupabaseAnonKey" class="auth-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." value="${conf.anonKey || ''}" />
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;margin-top:16px">
+                <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+                  ${getVsSvg('check', 14)} ${isEn ? 'Test & Save Connection' : 'Test Et & Bağlan'}
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="VecSensCloud.resetCloudConfig()">
+                  ${isEn ? 'Clear Keys' : 'Temizle'}
+                </button>
+              </div>
+            </form>
+
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);margin-bottom:8px">${isEn ? 'Supabase SQL Setup Query:' : 'Supabase SQL Tablo Kurulumu:'}</div>
+              <p style="font-size:11.5px;color:var(--t3);margin-bottom:8px">
+                ${isEn 
+                  ? 'Run this SQL in your Supabase Dashboard > SQL Editor to create the history table with Row Level Security (RLS).' 
+                  : 'Supabase Dashboard > SQL Editor bölümüne bu kodu yapıştırıp çalıştırarak tablonuzu anında oluşturabilirsiniz.'}
+              </p>
+              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.copySqlSchema()" style="width:100%;justify-content:center">
+                ${getVsSvg('copy', 13)} ${isEn ? 'Copy SQL Table Schema' : 'SQL Tablo Şemasını Kopyala'}
+              </button>
+            </div>
+          </div>
+        `;
+      },
+
+      renderHistoryPage() {
+        const isEn = currentLang === 'en';
+        const container = document.getElementById('historyContent');
+        if (!container) return;
+
+        const rawList = this.getLocalHistoryList();
+        const u = this.currentUser;
+
+        const totalAnalyses = rawList.length;
+        const gameCounts = {};
+        let totalCm = 0;
+        rawList.forEach(item => {
+          gameCounts[item.game_id] = (gameCounts[item.game_id] || 0) + 1;
+          totalCm += (parseFloat(item.cm360) || 0);
+        });
+
+        let topGameId = '-';
+        let maxC = 0;
+        for (const [gid, count] of Object.entries(gameCounts)) {
+          if (count > maxC) { maxC = count; topGameId = gid; }
+        }
+        const topGameName = topGameId !== '-' ? (GAMES.find(g => g.id === topGameId)?.label || topGameId) : '—';
+        const avgCm = totalAnalyses > 0 ? (totalCm / totalAnalyses).toFixed(1) : '—';
+        const lastRecordDate = rawList.length > 0 ? new Date(rawList[0].created_at).toLocaleDateString(isEn ? 'en-US' : 'tr-TR', { month: 'short', day: 'numeric' }) : '—';
+
+        let filtered = [...rawList];
+        if (this.currentFilter && this.currentFilter !== 'all') {
+          filtered = filtered.filter(item => item.game_id === this.currentFilter);
+        }
+        if (this.searchQuery && this.searchQuery.trim()) {
+          const q = this.searchQuery.trim().toLowerCase();
+          filtered = filtered.filter(item => 
+            (item.game_name && item.game_name.toLowerCase().includes(q)) ||
+            (item.note && item.note.toLowerCase().includes(q)) ||
+            (item.mouse_model && item.mouse_model.toLowerCase().includes(q))
+          );
+        }
+        if (this.sortOrder === 'newest') {
+          filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        } else if (this.sortOrder === 'oldest') {
+          filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        } else if (this.sortOrder === 'highest_sens') {
+          filtered.sort((a, b) => (b.recommended_sens || 0) - (a.recommended_sens || 0));
+        } else if (this.sortOrder === 'lowest_sens') {
+          filtered.sort((a, b) => (a.recommended_sens || 0) - (b.recommended_sens || 0));
+        }
+
+        const filterGames = ['all', 'valorant', 'cs2', 'apex', 'r6', 'warzone', 'other'];
+
+        container.innerHTML = `
+          <div class="history-container">
+            <div class="history-stats-grid">
+              <div class="history-stat-card">
+                <div class="history-stat-icon-wrap">${getVsSvg('history', 22)}</div>
+                <div>
+                  <div class="history-stat-val">${totalAnalyses}</div>
+                  <div class="history-stat-lbl">${isEn ? 'Total Analyses' : 'Toplam Analiz'}</div>
+                </div>
+              </div>
+              <div class="history-stat-card">
+                <div class="history-stat-icon-wrap" style="color:var(--vct-red);background:rgba(244,63,94,0.1)">${getVsSvg('target', 22)}</div>
+                <div>
+                  <div class="history-stat-val">${topGameName}</div>
+                  <div class="history-stat-lbl">${isEn ? 'Top Played Game' : 'En Çok Test Edilen'}</div>
+                </div>
+              </div>
+              <div class="history-stat-card">
+                <div class="history-stat-icon-wrap" style="color:var(--green);background:rgba(16,185,129,0.1)">${getVsSvg('crosshair', 22)}</div>
+                <div>
+                  <div class="history-stat-val">${avgCm !== '—' ? avgCm + ' cm' : '—'}</div>
+                  <div class="history-stat-lbl">${isEn ? 'Average cm/360°' : 'Ortalama cm/360°'}</div>
+                </div>
+              </div>
+              <div class="history-stat-card">
+                <div class="history-stat-icon-wrap" style="color:var(--purple);background:rgba(168,85,247,0.1)">${getVsSvg('cloudCheck', 22)}</div>
+                <div>
+                  <div class="history-stat-val">${lastRecordDate}</div>
+                  <div class="history-stat-lbl">${isEn ? 'Last Optimization' : 'Son Analiz Tarihi'}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="history-toolbar">
+              <div class="history-filters">
+                ${filterGames.map(fg => {
+                  const label = fg === 'all' ? (isEn ? 'All Games' : 'Tümü') : (GAMES.find(g => g.id === fg)?.label || fg);
+                  const isActive = this.currentFilter === fg;
+                  return `<button class="history-filter-btn ${isActive ? 'active' : ''}" onclick="VecSensCloud.setHistoryFilter('${fg}')">${label}</button>`;
+                }).join('')}
+              </div>
+
+              <div class="history-tools-right">
+                <div class="auth-input-wrap" style="width:180px">
+                  <span class="auth-input-icon">${getVsSvg('search', 13)}</span>
+                  <input type="text" class="auth-input" style="padding:6px 10px 6px 30px;font-size:12px" placeholder="${isEn ? 'Search...' : 'Ara (oyun, not)...'}" value="${this.searchQuery}" oninput="VecSensCloud.handleSearchInput(this.value)" />
+                </div>
+
+                <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.openCompareModal()" ${this.selectedForCompare.length === 2 ? 'style="border-color:var(--cyan);color:var(--cyan)"' : 'style="opacity:0.7"'}>
+                  ${getVsSvg('compare', 13)} <span>${isEn ? 'Compare A/B' : 'A/B Karşılaştır'} (${this.selectedForCompare.length}/2)</span>
+                </button>
+
+                <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.openCloudConfigModal()" title="${isEn ? 'Cloud Database Settings' : 'Bulut Veritabanı Ayarları'}">
+                  ${getVsSvg('cloud', 14)} <span class="user-cloud-dot ${this.cloudStatus}" style="display:inline-block"></span>
+                </button>
+
+                <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.exportHistoryJson()" title="${isEn ? 'Download Backup JSON' : 'Yedek JSON İndir'}">
+                  ${getVsSvg('download', 13)}
+                </button>
+
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;margin:0" title="${isEn ? 'Import Backup JSON' : 'Yedek JSON Yükle'}">
+                  ${getVsSvg('upload', 13)}
+                  <input type="file" accept=".json" style="display:none" onchange="VecSensCloud.importHistoryJson(event)" />
+                </label>
+
+                ${rawList.length > 0 ? `
+                  <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.clearAllHistory()" style="color:var(--vct-red);border-color:rgba(244,63,94,0.3)" title="${isEn ? 'Clear All History' : 'Tümünü Temizle'}">
+                    ${getVsSvg('trash', 13)}
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            ${!u && rawList.length === 0 ? `
+              <div class="history-empty-state">
+                <div class="history-empty-icon">${getVsSvg('user', 28)}</div>
+                <h3 style="font-size:18px;font-weight:800;color:var(--t1)">${isEn ? 'Sign in to access your Aim Vault' : 'Kişisel Aim Geçmişine Ulaşmak İçin Giriş Yap'}</h3>
+                <p style="font-size:13px;color:var(--t2);max-width:440px;line-height:1.5">
+                  ${isEn 
+                    ? 'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, and access your settings from any computer.' 
+                    : 'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et ve tüm bilgisayarlarından ayarlarını tek tıkla geri yükle.'}
+                </p>
+                <div style="display:flex;gap:10px;margin-top:8px">
+                  <button class="btn btn-primary" onclick="openAuthModal('register')">
+                    ${getVsSvg('user', 14)} ${isEn ? 'Create Free Account' : 'Ücretsiz Kayıt Ol'}
+                  </button>
+                  <button class="btn btn-secondary" onclick="openAuthModal('login')">
+                    ${isEn ? 'Sign In' : 'Giriş Yap'}
+                  </button>
+                </div>
+              </div>
+            ` : rawList.length === 0 ? `
+              <div class="history-empty-state">
+                <div class="history-empty-icon">${getVsSvg('target', 28)}</div>
+                <h3 style="font-size:18px;font-weight:800;color:var(--t1)">${isEn ? 'No Saved Analyses Yet' : 'Henüz Kaydedilmiş Analiz Yok'}</h3>
+                <p style="font-size:13px;color:var(--t2);max-width:420px;line-height:1.5">
+                  ${isEn 
+                    ? 'Complete a personalized aim test to calculate your ideal sensitivity and save it to your history vault.' 
+                    : 'Kişiselleştirilmiş aim analizini tamamlayarak ideal hassasiyetini hesapla ve "Geçmişe Kaydet" butonuyla buraya ekle.'}
+                </p>
+                <button class="btn btn-primary" onclick="switchPage('analysis')" style="margin-top:8px">
+                  ${getVsSvg('play', 13)} ${isEn ? 'Start Aim Analysis' : 'Hemen Analiz Yap'}
+                </button>
+              </div>
+            ` : filtered.length === 0 ? `
+              <div class="history-empty-state" style="padding:40px 20px">
+                <div style="font-size:14px;color:var(--t2)">${isEn ? 'No analyses match the current filter.' : 'Seçilen filtre veya aramaya uygun analiz bulunamadı.'}</div>
+                <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.resetFilters()" style="margin-top:10px">
+                  ${isEn ? 'Reset Filters' : 'Filtreleri Sıfırla'}
+                </button>
+              </div>
+            ` : `
+              <div class="history-grid">
+                ${filtered.map(item => {
+                  const isSelected = this.selectedForCompare.includes(item.id);
+                  const dateStr = new Date(item.created_at).toLocaleDateString(isEn ? 'en-US' : 'tr-TR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                  return `
+                    <div class="history-card ${isSelected ? 'selected-compare' : ''}">
+                      <div class="history-card-header">
+                        <div class="history-game-badge">
+                          <div class="history-game-icon-pill">${(item.game_name || 'G')[0]}</div>
+                          <div>
+                            <div>${item.game_name}</div>
+                            <div class="history-date-badge">${dateStr}</div>
+                          </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px">
+                          <span class="history-card-profile-tag ${item.profile_type}">${item.profile_title || item.profile_type}</span>
+                          <button class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:11px;${isSelected ? 'background:var(--cyan);color:#0a0e17;border-color:var(--cyan)' : ''}" onclick="VecSensCloud.toggleCompareSelection('${item.id}')" title="${isEn ? 'Toggle A/B Compare' : 'A/B Kıyaslamaya Ekle/Çıkar'}">
+                            ⚖️
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="history-metrics-grid">
+                        <div class="history-metric-box">
+                          <div class="history-metric-label">DPI</div>
+                          <div class="history-metric-value">${item.dpi}</div>
+                        </div>
+                        <div class="history-metric-box">
+                          <div class="history-metric-label">SENS</div>
+                          <div class="history-metric-value highlight">${item.recommended_sens}</div>
+                        </div>
+                        <div class="history-metric-box">
+                          <div class="history-metric-label">cm/360°</div>
+                          <div class="history-metric-value">${item.cm360} cm</div>
+                        </div>
+                      </div>
+
+                      <div class="history-hardware-tags">
+                        ${item.mouse_model ? `<span class="history-hw-pill">🖱️ ${item.mouse_model}</span>` : ''}
+                        ${item.grip_style ? `<span class="history-hw-pill">✋ ${item.grip_style}</span>` : ''}
+                        <span class="history-hw-pill">eDPI: ${item.edpi}</span>
+                      </div>
+
+                      ${item.note ? `
+                        <div class="history-user-note">
+                          "${item.note}"
+                        </div>
+                      ` : ''}
+
+                      <div class="history-card-actions">
+                        <button class="btn btn-primary btn-sm" onclick="VecSensCloud.loadSavedAnalysis('${item.id}')" title="${isEn ? 'Restore and view full analysis' : 'Ayarları geri yükle ve sonuç ekranını aç'}">
+                          ${getVsSvg('refresh', 13)} <span>${isEn ? 'Restore' : 'Geri Yükle'}</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.testSavedAnalysisInLab('${item.id}')" title="${isEn ? 'Test sens in Aim Lab' : 'Aim Testinde Canlı Dene'}">
+                          ${getVsSvg('target', 13)} <span>${isEn ? 'Aim Lab' : 'Laboratuvar'}</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.copyAnalysisSummary('${item.id}')" title="${isEn ? 'Copy summary' : 'Özeti Kopyala'}">
+                          ${getVsSvg('copy', 13)}
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.deleteAnalysis('${item.id}')" style="margin-left:auto;color:var(--vct-red)" title="${isEn ? 'Delete' : 'Sil'}">
+                          ${getVsSvg('trash', 13)}
+                        </button>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            `}
+          </div>
+        `;
+      }
+    };
+
+    // Global Modal & Hook Functions
+    window.VecSensCloud = VecSensCloud;
+    window.openAuthModal = (tab) => VecSensCloud.openAuthModal(tab);
+    window.openProfileModal = () => VecSensCloud.openProfileModal();
+    window.openCloudConfigModal = () => VecSensCloud.openCloudConfigModal();
+    window.openSaveAnalysisModal = () => VecSensCloud.openSaveAnalysisModal();
+    window.closeVsModal = (id) => VecSensCloud.closeModal(id);
+    window.loadSavedAnalysis = (id) => VecSensCloud.loadSavedAnalysis(id);
+    window.testSavedAnalysisInLab = (id) => VecSensCloud.testSavedAnalysisInLab(id);
+    window.copyAnalysisSummary = (id) => VecSensCloud.copyAnalysisSummary(id);
+    window.deleteSavedAnalysis = (id) => VecSensCloud.deleteAnalysis(id);
+    window.toggleCompareSelection = (id) => VecSensCloud.toggleCompareSelection(id);
+    window.openCompareModal = () => VecSensCloud.openCompareModal();
+    window.toggleUserDropdown = (e) => VecSensCloud.toggleUserDropdown(e);
+
+    // Global Click Listener for Modals & Dropdown
+    document.addEventListener('click', (e) => {
+      const badge = document.getElementById('userProfileBadge');
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu && !menu.classList.contains('hidden')) {
+        if (!badge || !badge.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      }
+      if (e.target.classList && e.target.classList.contains('vs-modal-backdrop')) {
+        e.target.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.vs-modal-backdrop').forEach(m => m.classList.add('hidden'));
+        const menu = document.getElementById('userDropdownMenu');
+        if (menu) menu.classList.add('hidden');
+      }
+    });
 
     // ════════════════════════════════════════════════════════════
     //  SVG LINE-ART ICON MAP (replaces emojis with line drawings)
@@ -9731,7 +12212,7 @@
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  
+                  ${getVsSvg('user', 24)}
                 </div>
                 <div class="home-card-badge">${isEn ? 'Community' : 'Topluluk'}</div>
               </div>
@@ -9748,7 +12229,32 @@
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Leave Feedback' : 'Geri Bildirim Bırak'}</span>
-              
+            </button>
+          </div>
+
+          <!-- Card 6: History & Cloud Vault -->
+          <div class="home-card" onclick="switchPage('history')">
+            <div>
+              <div class="home-card-top">
+                <div class="home-card-icon-wrap" style="color:var(--purple);background:rgba(168,85,247,0.12)">
+                  ${getVsSvg('history', 26)}
+                </div>
+                <div class="home-card-badge" style="color:var(--purple);border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.1)">${isEn ? 'Cloud Vault' : 'Bulut Kasası'}</div>
+              </div>
+              <h3 class="home-card-title">${isEn ? 'Analysis History & Cloud Profile' : 'Geçmiş Analizler & Bulut Profili'}</h3>
+              <p class="home-card-desc">${isEn 
+                ? 'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, compare settings A/B, and access your settings from any computer.'
+                : 'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et, 2 profili A/B kıyasla ve tüm cihazlarından tek tıkla geri yükle.'}
+              </p>
+              <div class="home-card-tags">
+                <span class="home-card-tag">${isEn ? 'Cloud Sync & Vault' : 'Bulut Senkronizasyonu'}</span>
+                <span class="home-card-tag">${isEn ? 'A/B Sens Comparison' : 'A/B Karşılaştırma'}</span>
+                <span class="home-card-tag">${isEn ? 'JSON Export / Backup' : 'JSON Yedekleme'}</span>
+              </div>
+            </div>
+            <button class="home-card-btn">
+              <span>${isEn ? 'Open History Vault' : 'Geçmişi & Profili Aç'}</span>
+              ${getVsSvg('history', 14)}
             </button>
           </div>
 
@@ -10578,6 +13084,9 @@
       
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="openSaveAnalysisModal()" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8;color:#fff;font-weight:700">
+          ${getVsSvg('save', 14)} <span>${isEn ? 'Save to Cloud History' : 'Geçmişe / Buluta Kaydet'}</span>
+        </button>
         <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"> ${isEn ? 'Download Player Card (PNG)' : 'Espor Profil Kartını İndir (PNG)'}</button>
         <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"> ${isEn ? 'Copy Shareable Link' : 'Sonuç Linkini Kopyala'}</button>
         <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
@@ -10591,7 +13100,9 @@
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="openSaveAnalysisModal()"> ${getVsSvg('save', 14)} ${isEn ? 'Save to History' : 'Geçmişe Kaydet'}</button>
       <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
+      <button class="btn btn-secondary" onclick="switchPage('history')"> ${getVsSvg('history', 14)} ${isEn ? 'Saved History' : 'Geçmiş Analizler'}</button>
       <button class="btn btn-secondary" onclick="switchPage('pros')"> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
       <button class="btn btn-secondary" onclick="location.reload()"> ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
     </div>`;
@@ -12933,6 +15444,7 @@
         tabAimtest: 'Aim Testi',
         tabPros: 'Pro Oyuncular',
         tabFeedback: 'Geri Bildirim',
+        tabHistory: 'Geçmiş',
         convBadge: 'Dönüştürücü & Optimizasyon',
         convTitle: 'Sensitivity & Scope Converter',
         convSub: 'Hipfire ve Dürbün hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle',
@@ -12946,8 +15458,11 @@
         fbBadge: 'Geri Bildirim',
         fbTitle: 'Deneyimini Paylaş',
         fbSub: 'Geri bildiriminle uygulamayı daha iyi hale getirmemize yardımcı ol',
+        histBadge: 'Bulut & Analiz Geçmişi',
+        histTitle: 'Geçmiş Analizlerim',
+        histSub: 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin',
         phases: ['Profil', 'Ekipman', 'Oyun Tarzı', 'Mevcut Durum', 'Analiz'],
-        footer: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez'
+        footer: 'Hesap ve analiz geçmişi güvenli bulut ve yerel kasada saklanır · 100% Güvenli & Şifreli'
       },
       en: {
         docTitle: 'VecSens — Personalized FPS Aim Optimizer',
@@ -12960,6 +15475,7 @@
         tabAimtest: 'Aim Test',
         tabPros: 'Pro Players',
         tabFeedback: 'Feedback',
+        tabHistory: 'History',
         convBadge: 'Converter & Optimization',
         convTitle: 'Sensitivity & Scope Converter',
         convSub: 'Synchronize Hipfire and Scope/Zoom sensitivities across all FPS titles with 1:1 muscle memory.',
@@ -12973,8 +15489,11 @@
         fbBadge: 'Feedback',
         fbTitle: 'Share Your Experience',
         fbSub: 'Help us improve VecSens with your valuable feedback.',
+        histBadge: 'Cloud & Analysis History',
+        histTitle: 'Saved Analyses Vault',
+        histSub: 'Your cloud aim optimization records, sensitivity journey and saved profiles',
         phases: ['Profile', 'Hardware', 'Playstyle', 'Current State', 'Analysis'],
-        footer: 'All calculations are performed locally in your browser · No data is sent to external servers'
+        footer: 'Account and analysis history stored securely with cloud & local sync · 100% Secure'
       }
     };
 
@@ -13016,6 +15535,8 @@
       if (tPros) tPros.textContent = dict.tabPros;
       const tFb = document.getElementById('ntab-feedback');
       if (tFb) tFb.textContent = dict.tabFeedback;
+      const tHist = document.getElementById('ntab-history');
+      if (tHist) tHist.textContent = dict.tabHistory || (isEn ? 'History' : 'Geçmiş');
 
       const setBadge = (id, text) => {
         const el = document.getElementById(id);
@@ -13045,6 +15566,12 @@
       if (fbTitle) fbTitle.textContent = dict.fbTitle;
       const fbSub = document.getElementById('fbSub');
       if (fbSub) fbSub.textContent = dict.fbSub;
+
+      setBadge('histBadge', dict.histBadge || (isEn ? 'Cloud & Analysis History' : 'Bulut & Analiz Geçmişi'));
+      const histTitle = document.getElementById('histTitle');
+      if (histTitle) histTitle.textContent = dict.histTitle || (isEn ? 'Saved Analyses Vault' : 'Geçmiş Analizlerim');
+      const histSub = document.getElementById('histSub');
+      if (histSub) histSub.textContent = dict.histSub || (isEn ? 'Your cloud aim optimization records' : 'Kişisel aim optimizasyon kayıtların');
       
       const foot = document.getElementById('footerText');
       if (foot) foot.textContent = dict.footer;
@@ -13054,6 +15581,11 @@
         if (el) el.textContent = dict.phases[idx];
       });
 
+      // Update auth widget state
+      if (typeof VecSensCloud !== 'undefined' && VecSensCloud.updateAuthUi) {
+        VecSensCloud.updateAuthUi();
+      }
+
       // Always re-render current view with current language
       if (state.currentPage === 'home') renderHomePage();
       else if (state.currentPage === 'analysis') state.analysisComplete ? showResults() : renderQuestion(state.currentQ);
@@ -13061,6 +15593,7 @@
       else if (state.currentPage === 'aimtest') renderAimTest();
       else if (state.currentPage === 'pros') renderProPage();
       else if (state.currentPage === 'feedback') renderFeedbackPage();
+      else if (state.currentPage === 'history') VecSensCloud.renderHistoryPage();
     }
 
     const MASTER_ADMIN_PIN = 'scan0909x';
@@ -13506,18 +16039,19 @@
       }
 
       const isEn = currentLang === 'en';
+      const dict = (typeof I18N !== 'undefined' && I18N[currentLang]) ? I18N[currentLang] : (I18N?.tr || {});
       const txt = conf.texts || DEFAULT_ADMIN_CONFIG.texts;
       const hTitle = document.getElementById('headerTitle');
       if (hTitle && (!conf.customTexts || !conf.customTexts['id_headerTitle'])) {
-        hTitle.innerHTML = dict.title;
+        hTitle.innerHTML = isEn ? (txt.headerTitleEn || dict.title || '') : (txt.headerTitleTr || dict.title || '');
       }
       const hSub = document.getElementById('headerSub');
       if (hSub && (!conf.customTexts || !conf.customTexts['id_headerSub'])) {
-        hSub.textContent = dict.sub;
+        hSub.textContent = isEn ? (txt.headerSubEn || dict.sub || '') : (txt.headerSubTr || dict.sub || '');
       }
       const fText = document.getElementById('footerText');
       if (fText && (!conf.customTexts || !conf.customTexts['id_footerText'])) {
-        fText.textContent = isEn ? (txt.footerEn || txt.footerTr) : txt.footerTr;
+        fText.textContent = isEn ? (txt.footerEn || txt.footerTr || dict.footer || '') : (txt.footerTr || dict.footer || '');
       }
 
       const mb = document.getElementById('mainLogoBadge');
@@ -14034,7 +16568,15 @@
       let n;
       while ((n = walker.nextNode())) nodes.push(n);
       nodes.forEach(node => {
-        if (node.parentElement && (node.parentElement.classList.contains('star-btn') || node.parentElement.closest('.stars-row') || node.parentElement.closest('svg'))) return;
+        if (node.parentElement && (
+          node.parentElement.classList.contains('star-btn') || 
+          node.parentElement.closest('.stars-row') || 
+          node.parentElement.closest('svg') ||
+          node.parentElement.closest('.vs-avatar-circle') ||
+          node.parentElement.closest('.history-card') ||
+          node.parentElement.closest('.history-hw-pill') ||
+          node.parentElement.closest('.vs-modal-card')
+        )) return;
         const cleaned = node.textContent.replace(EMOJI_RE, '').replace(/\s{2,}/g, ' ');
         if (cleaned !== node.textContent) node.textContent = cleaned;
       });
@@ -14065,6 +16607,9 @@
       applyAdminConfig(adminConfig);
       renderQuestion(0);
       applyTheme();
+      if (typeof VecSensCloud !== 'undefined' && VecSensCloud.init) {
+        VecSensCloud.init();
+      }
       applyLanguage();
       state.currentPage = 'home';
       switchPage('home');
