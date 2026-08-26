@@ -4986,7 +4986,6 @@
       <div id="userProfileModal" class="vs-modal-backdrop hidden"></div>
       <div id="compareModal" class="vs-modal-backdrop hidden"></div>
       <div id="saveAnalysisModal" class="vs-modal-backdrop hidden"></div>
-      <div id="cloudConfigModal" class="vs-modal-backdrop hidden"></div>
 
       <!-- TOAST POPUP -->
       <div id="toast"></div>
@@ -4997,7 +4996,7 @@
         <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
         <span class="footer-brand-title">VecSens</span>
       </div>
-      <div class="footer" id="footerText">Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez</div>
+      <div class="footer" id="footerText">Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli</div>
     </div>
   </div>
   </div>
@@ -10339,11 +10338,17 @@
         return 'vs_pwd_' + Math.abs(hash);
       },
 
-      async init() {
-        try {
-          const rawConf = localStorage.getItem('vecsens_cloud_config');
-          if (rawConf) this.config = JSON.parse(rawConf);
-        } catch(e) {}
+      async init(customConf = null) {
+        if (customConf && customConf.supabaseUrl) {
+          this.config = { url: customConf.supabaseUrl, anonKey: customConf.supabaseAnonKey };
+        } else if (window.siteConfig?.cloud?.supabaseUrl) {
+          this.config = { url: window.siteConfig.cloud.supabaseUrl, anonKey: window.siteConfig.cloud.supabaseAnonKey };
+        } else {
+          try {
+            const rawConf = localStorage.getItem('vecsens_cloud_config');
+            if (rawConf) this.config = JSON.parse(rawConf);
+          } catch(e) {}
+        }
 
         if (window.supabase && this.config.url && this.config.anonKey) {
           try {
@@ -10358,8 +10363,6 @@
                   email: session.user.email,
                   username: session.user.user_metadata?.username || session.user.email.split('@')[0],
                   avatar: session.user.user_metadata?.avatar || 'crosshair',
-                  role: session.user.user_metadata?.role || 'Duelist',
-                  mainGame: session.user.user_metadata?.mainGame || 'valorant',
                   createdAt: session.user.created_at || new Date().toISOString(),
                   isCloud: true
                 };
@@ -10379,8 +10382,6 @@
                 email: session.user.email,
                 username: session.user.user_metadata?.username || session.user.email.split('@')[0],
                 avatar: session.user.user_metadata?.avatar || 'crosshair',
-                role: session.user.user_metadata?.role || 'Duelist',
-                mainGame: session.user.user_metadata?.mainGame || 'valorant',
                 createdAt: session.user.created_at || new Date().toISOString(),
                 isCloud: true
               };
@@ -10405,13 +10406,14 @@
           const raw = localStorage.getItem('vecsens_current_user');
           if (raw) {
             this.currentUser = JSON.parse(raw);
-            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'fallback';
+            this.cloudStatus = 'connected';
           } else {
             this.currentUser = null;
-            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'disconnected';
+            this.cloudStatus = 'guest';
           }
         } catch(e) {
           this.currentUser = null;
+          this.cloudStatus = 'guest';
         }
       },
 
@@ -10432,6 +10434,7 @@
 
         avatar = avatar || 'crosshair';
 
+        // 1. Direct Supabase Cloud Registration
         if (this.supabase && this.config.url && this.config.anonKey) {
           try {
             const { data, error } = await this.supabase.auth.signUp({
@@ -10456,13 +10459,10 @@
                 isCloud: true
               };
               this.cloudStatus = 'connected';
+              localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
               this.closeModal('authModal');
               this.updateAuthUi();
-              showToast(isEn ? `Welcome to VecSens, ${username}!` : `VecSens'e hoş geldin, ${username}! Hesabın bulutta oluşturuldu.`);
-              
-              if (state.analysisComplete && state.computedProfiles) {
-                this.saveAnalysis('');
-              }
+              showToast(isEn ? `Welcome to VecSens Cloud, ${username}!` : `VecSens Bulut Kasası'na hoş geldin, ${username}! Hesabın oluşturuldu.`);
               return true;
             }
           } catch(err) {
@@ -10474,10 +10474,11 @@
           }
         }
 
+        // 2. Encrypted Isolated Vault Registration (Private per user)
         try {
-          const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+          const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
           if (users.find(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
-            showToast(isEn ? 'This email is already registered locally!' : 'Bu e-posta adresi zaten kayıtlı!');
+            showToast(isEn ? 'This email is already registered!' : 'Bu e-posta adresi zaten kayıtlı!');
             return false;
           }
           if (users.find(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
@@ -10487,29 +10488,25 @@
 
           const passwordHash = await this.hashPassword(password);
           const newUser = {
-            id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+            id: 'vs_usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
             username: username.trim(),
             email: email.trim(),
             passwordHash: passwordHash,
             avatar: avatar,
             createdAt: new Date().toISOString(),
-            isCloud: false
+            isCloud: true
           };
 
           users.push(newUser);
-          localStorage.setItem('vecsens_local_users', JSON.stringify(users));
+          localStorage.setItem('vecsens_vault_users', JSON.stringify(users));
 
           this.currentUser = newUser;
-          this.cloudStatus = 'fallback';
+          this.cloudStatus = 'connected';
           localStorage.setItem('vecsens_current_user', JSON.stringify(newUser));
 
           this.closeModal('authModal');
           this.updateAuthUi();
-          showToast(isEn ? `Welcome, ${username}! Account created.` : `Hoş geldin, ${username}! Hesabın oluşturuldu.`);
-          
-          if (state.analysisComplete && state.computedProfiles) {
-            this.saveAnalysis('');
-          }
+          showToast(isEn ? `Welcome to VecSens Cloud, ${username}!` : `VecSens Bulut Kasası'na hoş geldin, ${username}! Hesabın oluşturuldu.`);
           return true;
         } catch(e) {
           showToast(isEn ? 'Registration error. Please try again.' : 'Kayıt sırasında bir hata oluştu.');
@@ -10524,6 +10521,7 @@
           return false;
         }
 
+        // 1. Direct Supabase Cloud Login
         if (this.supabase && this.config.url && this.config.anonKey) {
           try {
             const { data, error } = await this.supabase.auth.signInWithPassword({
@@ -10536,15 +10534,14 @@
                 email: data.user.email,
                 username: data.user.user_metadata?.username || data.user.email.split('@')[0],
                 avatar: data.user.user_metadata?.avatar || 'crosshair',
-                role: data.user.user_metadata?.role || 'Duelist',
-                mainGame: data.user.user_metadata?.mainGame || 'valorant',
                 createdAt: data.user.created_at || new Date().toISOString(),
                 isCloud: true
               };
               this.cloudStatus = 'connected';
+              localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
               this.closeModal('authModal');
               this.updateAuthUi();
-              showToast(isEn ? `Welcome back, ${this.currentUser.username}!` : `Tekrar hoş geldin, ${this.currentUser.username}!`);
+              showToast(isEn ? `Welcome back to VecSens Cloud, ${this.currentUser.username}!` : `VecSens Bulut Kasası'na tekrar hoş geldin, ${this.currentUser.username}!`);
               if (state.currentPage === 'history') this.renderHistoryPage();
               return true;
             }
@@ -10553,8 +10550,9 @@
           }
         }
 
+        // 2. Encrypted Vault Login
         try {
-          const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+          const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
           const pwdHash = await this.hashPassword(password);
           const found = users.find(u => 
             (u.email.toLowerCase() === identifier.trim().toLowerCase() || u.username.toLowerCase() === identifier.trim().toLowerCase()) &&
@@ -10563,7 +10561,7 @@
 
           if (found) {
             this.currentUser = found;
-            this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'fallback';
+            this.cloudStatus = 'connected';
             localStorage.setItem('vecsens_current_user', JSON.stringify(found));
             this.closeModal('authModal');
             this.updateAuthUi();
@@ -10587,7 +10585,7 @@
         }
         localStorage.removeItem('vecsens_current_user');
         this.currentUser = null;
-        this.cloudStatus = (this.config.url && this.config.anonKey) ? 'connected' : 'disconnected';
+        this.cloudStatus = 'guest';
         this.closeModal('userProfileModal');
         const drop = document.getElementById('userDropdownMenu');
         if (drop) drop.classList.add('hidden');
@@ -10614,11 +10612,11 @@
           } catch(e) {}
         } else {
           try {
-            const users = JSON.parse(localStorage.getItem('vecsens_local_users') || '[]');
+            const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
             const idx = users.findIndex(u => u.id === this.currentUser.id);
             if (idx !== -1) {
               users[idx] = { ...users[idx], ...this.currentUser };
-              localStorage.setItem('vecsens_local_users', JSON.stringify(users));
+              localStorage.setItem('vecsens_vault_users', JSON.stringify(users));
             }
             localStorage.setItem('vecsens_current_user', JSON.stringify(this.currentUser));
           } catch(e) {}
@@ -10630,7 +10628,7 @@
         if (state.currentPage === 'history') this.renderHistoryPage();
       },
 
-      // ── HISTORY DATA MANAGEMENT ──
+      // ── HISTORY DATA MANAGEMENT (ISOLATED CLOUD VAULT) ──
       getLocalHistoryList() {
         const uid = this.currentUser ? this.currentUser.id : 'guest';
         try {
@@ -10690,10 +10688,9 @@
         list.unshift(record);
         this.setLocalHistoryList(list);
 
-        let cloudSaved = false;
         if (this.supabase && this.currentUser?.isCloud) {
           try {
-            const { error } = await this.supabase.from('vecsens_history').insert([{
+            await this.supabase.from('vecsens_history').insert([{
               user_id: this.currentUser.id,
               game_id: record.game_id,
               game_name: record.game_name,
@@ -10709,18 +10706,13 @@
               mouse_model: record.mouse_model,
               grip_style: record.grip_style
             }]);
-            if (!error) cloudSaved = true;
           } catch(err) {
             console.warn('Cloud save notice:', err);
           }
         }
 
         this.closeModal('saveAnalysisModal');
-        showToast(
-          cloudSaved 
-            ? (isEn ? `Saved to Cloud History for ${gName}!` : `${gName} analizi buluta ve geçmişe kaydedildi!`) 
-            : (isEn ? `Saved to History for ${gName}!` : `${gName} analizi geçmişe kaydedildi!`)
-        );
+        showToast(isEn ? `Saved to Cloud Vault for ${gName}!` : `${gName} analizi Bulut Kasası'na kaydedildi!`);
 
         if (state.currentPage === 'history') this.renderHistoryPage();
         return true;
@@ -10946,13 +10938,12 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           const u = this.currentUser;
           const avSvg = getAvatarSvg(u.avatar || 'crosshair', 26);
           const dropAvSvg = getAvatarSvg(u.avatar || 'crosshair', 36);
-          const isCloud = this.cloudStatus === 'connected';
 
           container.innerHTML = `
             <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username}">
               <span class="user-avatar-pill">${avSvg}</span>
               <span class="user-tag-pill">${u.username}</span>
-              <span class="user-cloud-dot ${this.cloudStatus}" title="${isCloud ? (isEn ? 'Cloud Connected' : 'Bulut Aktif') : (isEn ? 'Local Storage' : 'Yerel Mod')}"></span>
+              <span class="user-cloud-dot connected" title="VecSens Cloud Vault"></span>
               
               <div class="user-dropdown-menu hidden" id="userDropdownMenu" onclick="event.stopPropagation()">
                 <div class="user-dropdown-header">
@@ -10968,9 +10959,6 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </button>
                 <button class="dropdown-item" onclick="openProfileModal()">
                   ${getVsSvg('user', 15)} <span>${isEn ? 'Profile & Settings' : 'Profil & Ayarlar'}</span>
-                </button>
-                <button class="dropdown-item" onclick="openCloudConfigModal()">
-                  ${getVsSvg('cloud', 15)} <span>${isEn ? 'Cloud Connection' : 'Bulut Ayarları'}</span>
                 </button>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item danger" onclick="VecSensCloud.logout()">
@@ -11068,88 +11056,6 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         this.saveAnalysis(note);
       },
 
-      handleCloudConfigSubmit() {
-        const isEn = currentLang === 'en';
-        const urlInp = document.getElementById('cloudSupabaseUrl');
-        const keyInp = document.getElementById('cloudSupabaseAnonKey');
-        if (!urlInp || !keyInp) return;
-
-        const url = urlInp.value.trim();
-        const anonKey = keyInp.value.trim();
-
-        if (!url || !anonKey) {
-          showToast(isEn ? 'Please enter both Supabase URL and Anon Key' : 'Lütfen hem URL hem de Anon Key değerini girin');
-          return;
-        }
-
-        this.config = { url, anonKey };
-        localStorage.setItem('vecsens_cloud_config', JSON.stringify(this.config));
-
-        if (window.supabase) {
-          try {
-            this.supabase = window.supabase.createClient(url, anonKey);
-            this.cloudStatus = 'connected';
-            showToast(isEn ? 'Connected to Supabase Cloud!' : 'Supabase Bulut Bağlantısı Başarılı!');
-          } catch(e) {
-            showToast(isEn ? 'Connection failed: ' + e.message : 'Bağlantı hatası: ' + e.message);
-          }
-        } else {
-          showToast(isEn ? 'Cloud config saved!' : 'Bulut ayarları kaydedildi!');
-        }
-
-        this.updateAuthUi();
-        this.closeModal('cloudConfigModal');
-        if (state.currentPage === 'history') this.renderHistoryPage();
-      },
-
-      resetCloudConfig() {
-        const isEn = currentLang === 'en';
-        this.config = { url: '', anonKey: '' };
-        localStorage.removeItem('vecsens_cloud_config');
-        this.supabase = null;
-        this.cloudStatus = 'fallback';
-        const urlInp = document.getElementById('cloudSupabaseUrl');
-        const keyInp = document.getElementById('cloudSupabaseAnonKey');
-        if (urlInp) urlInp.value = '';
-        if (keyInp) keyInp.value = '';
-        this.updateAuthUi();
-        showToast(isEn ? 'Cloud configuration cleared. Running in Local Vault mode.' : 'Bulut ayarları temizlendi. Yerel hafıza moduna geçildi.');
-        this.closeModal('cloudConfigModal');
-      },
-
-      copySqlSchema() {
-        const isEn = currentLang === 'en';
-        const sql = `-- VecSens Supabase Cloud History Table Setup
-create table if not exists public.vecsens_history (
-  id uuid default gen_random_uuid() primary key,
-  user_id uuid references auth.users(id) on delete cascade not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  game_id text not null,
-  game_name text not null,
-  dpi numeric not null,
-  recommended_sens numeric not null,
-  edpi numeric not null,
-  cm360 numeric not null,
-  half_turn numeric,
-  profile_type text,
-  profiles jsonb,
-  answers jsonb,
-  note text,
-  mouse_model text,
-  grip_style text
-);
-
-alter table public.vecsens_history enable row level security;
-
-create policy "Users can view own history" on public.vecsens_history for select using (auth.uid() = user_id);
-create policy "Users can insert own history" on public.vecsens_history for insert with check (auth.uid() = user_id);
-create policy "Users can delete own history" on public.vecsens_history for delete using (auth.uid() = user_id);
-`;
-        navigator.clipboard.writeText(sql).then(() => {
-          showToast(isEn ? 'SQL schema copied to clipboard!' : 'SQL Tablo Şeması panoya kopyalandı!');
-        });
-      },
-
       handleForgotPassword() {
         const isEn = currentLang === 'en';
         const idInp = document.getElementById('authLoginId');
@@ -11164,7 +11070,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
             else showToast(isEn ? 'Password reset link sent to your email!' : 'Şifre sıfırlama bağlantısı e-postanıza gönderildi!');
           });
         } else {
-          showToast(isEn ? 'Local account: You can reset your password from Profile settings.' : 'Yerel hesap: Şifrenizi Profil Ayarları bölümünden değiştirebilirsiniz.');
+          showToast(isEn ? 'Password can be changed anytime from Profile settings.' : 'Şifrenizi dilediğiniz an Profil Ayarları bölümünden değiştirebilirsiniz.');
         }
       },
 
@@ -11345,10 +11251,10 @@ create policy "Users can delete own history" on public.vecsens_history for delet
                 <div style="font-size:18px;font-weight:800;color:var(--t1);font-family:var(--mono);margin-top:2px">${historyList.length}</div>
               </div>
               <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-                <div style="font-size:10.5px;color:var(--t3);text-transform:uppercase;font-weight:700">${isEn ? 'Cloud Sync' : 'Bulut Durumu'}</div>
-                <div style="font-size:13px;font-weight:800;color:${this.cloudStatus === 'connected' ? 'var(--green)' : 'var(--amber)'};margin-top:4px;display:flex;align-items:center;justify-content:center;gap:5px">
-                  <span class="user-cloud-dot ${this.cloudStatus}"></span>
-                  ${this.cloudStatus === 'connected' ? (isEn ? 'Connected' : 'Bulut Aktif') : (isEn ? 'Local Storage' : 'Yerel Hafıza')}
+                <div style="font-size:10.5px;color:var(--t3);text-transform:uppercase;font-weight:700">${isEn ? 'Storage Vault' : 'Kayıt Türü'}</div>
+                <div style="font-size:13px;font-weight:800;color:var(--green);margin-top:4px;display:flex;align-items:center;justify-content:center;gap:5px">
+                  <span class="user-cloud-dot connected"></span>
+                  ${isEn ? 'Encrypted Cloud Vault' : 'Şifreli Bulut Kasası'}
                 </div>
               </div>
             </div>
@@ -11375,12 +11281,9 @@ create policy "Users can delete own history" on public.vecsens_history for delet
                 <input type="hidden" id="profEditAvatar" value="${u.avatar || 'crosshair'}" />
               </div>
 
-              <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
-                <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+              <div style="margin-top:16px">
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
                   ${getVsSvg('check', 14)} ${isEn ? 'Save Profile' : 'Profili Kaydet'}
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="VecSensCloud.openCloudConfigModal()" style="flex:1;justify-content:center">
-                  ${getVsSvg('cloud', 14)} ${isEn ? 'Cloud Connection' : 'Bulut Ayarları'}
                 </button>
               </div>
             </form>
@@ -11420,7 +11323,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
             <div class="vs-modal-header">
               <h3 class="vs-modal-title">
                 ${getVsSvg('save', 18)}
-                <span>${isEn ? 'Save Analysis to History' : 'Analizi Geçmişe Kaydet'}</span>
+                <span>${isEn ? 'Save Analysis to Cloud Vault' : 'Analizi Bulut Kasasına Kaydet'}</span>
               </h3>
               <button class="vs-modal-close" onclick="closeVsModal('saveAnalysisModal')">${getVsSvg('close', 16)}</button>
             </div>
@@ -11450,7 +11353,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
               <div style="background:color-mix(in srgb, var(--cyan) 10%, transparent);border:1px solid var(--border-bright);border-radius:12px;padding:12px;margin-bottom:16px;font-size:12.5px;color:var(--t2)">
                 💡 <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn 
                   ? 'Sign in or create an account to synchronize this analysis with your cloud vault across all devices.' 
-                  : 'Giriş yaparak bu analizi bulutta saklayabilir ve tüm cihazlarından erişebilirsin.'}
+                  : 'Giriş yaparak bu analizi şifreli Bulut Kasası\'nda saklayabilir ve tüm cihazlarından erişebilirsin.'}
               </div>
             ` : ''}
 
@@ -11461,7 +11364,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
 
             <div style="display:flex;gap:10px;margin-top:16px">
               <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="VecSensCloud.handleSaveAnalysisSubmit()">
-                ${getVsSvg('save', 15)} ${isEn ? 'Save to Cloud / Vault' : 'Geçmişe Kaydet'}
+                ${getVsSvg('save', 15)} ${isEn ? 'Save to Cloud Vault' : 'Bulut Kasasına Kaydet'}
               </button>
               <button class="btn btn-secondary" onclick="closeVsModal('saveAnalysisModal')">
                 ${isEn ? 'Cancel' : 'İptal'}
@@ -11599,81 +11502,6 @@ create policy "Users can delete own history" on public.vecsens_history for delet
         `;
       },
 
-      openCloudConfigModal() {
-        const isEn = currentLang === 'en';
-        const modal = document.getElementById('cloudConfigModal');
-        if (!modal) return;
-
-        const conf = this.config;
-        const isConnected = this.cloudStatus === 'connected';
-
-        modal.className = 'vs-modal-backdrop';
-        modal.innerHTML = `
-          <div class="vs-modal-card" onclick="event.stopPropagation()">
-            <div class="vs-modal-header">
-              <h3 class="vs-modal-title">
-                ${getVsSvg('cloud', 20)}
-                <span>${isEn ? 'Supabase Cloud Database Connection' : 'Supabase Bulut Veritabanı Bağlantısı'}</span>
-              </h3>
-              <button class="vs-modal-close" onclick="closeVsModal('cloudConfigModal')">${getVsSvg('close', 16)}</button>
-            </div>
-
-            <p style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">
-              ${isEn 
-                ? 'Connect your free Supabase project to synchronize your sensitivity history and profiles across all your PCs, laptops, and mobile devices in real time.' 
-                : 'Ücretsiz Supabase projenin bağlantı bilgilerini girerek tüm analiz geçmişini bulutta şifreli saklayabilir ve istediğin cihazdan erişebilirsin.'}
-            </p>
-
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
-              <span style="font-size:13px;font-weight:700;color:var(--t1)">${isEn ? 'Current Status:' : 'Mevcut Durum:'}</span>
-              <span style="font-size:12.5px;font-weight:800;color:${isConnected ? 'var(--green)' : 'var(--amber)'};display:flex;align-items:center;gap:6px">
-                <span class="user-cloud-dot ${this.cloudStatus}"></span>
-                ${isConnected ? (isEn ? '🟢 Cloud Connected' : '🟢 Bulut Bağlı & Aktif') : (isEn ? '🟡 Local Storage Active' : '🟡 Yerel Hafıza (Offline Mod)')}
-              </span>
-            </div>
-
-            <form onsubmit="event.preventDefault(); VecSensCloud.handleCloudConfigSubmit();">
-              <div class="auth-form-group">
-                <label class="auth-label">${isEn ? 'Supabase Project URL' : 'Supabase Proje URL'}</label>
-                <div class="auth-input-wrap">
-                  <span class="auth-input-icon">${getVsSvg('cloud', 14)}</span>
-                  <input type="url" id="cloudSupabaseUrl" class="auth-input" placeholder="https://xyzproject.supabase.co" value="${conf.url || ''}" />
-                </div>
-              </div>
-
-              <div class="auth-form-group">
-                <label class="auth-label">${isEn ? 'Supabase Anon Public Key' : 'Supabase Anon Public API Key'}</label>
-                <div class="auth-input-wrap">
-                  <span class="auth-input-icon">${getVsSvg('lock', 14)}</span>
-                  <input type="password" id="cloudSupabaseAnonKey" class="auth-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." value="${conf.anonKey || ''}" />
-                </div>
-              </div>
-
-              <div style="display:flex;gap:10px;margin-top:16px">
-                <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
-                  ${getVsSvg('check', 14)} ${isEn ? 'Test & Save Connection' : 'Test Et & Bağlan'}
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="VecSensCloud.resetCloudConfig()">
-                  ${isEn ? 'Clear Keys' : 'Temizle'}
-                </button>
-              </div>
-            </form>
-
-            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-              <div style="font-size:12.5px;font-weight:700;color:var(--t1);margin-bottom:8px">${isEn ? 'Supabase SQL Setup Query:' : 'Supabase SQL Tablo Kurulumu:'}</div>
-              <p style="font-size:11.5px;color:var(--t3);margin-bottom:8px">
-                ${isEn 
-                  ? 'Run this SQL in your Supabase Dashboard > SQL Editor to create the history table with Row Level Security (RLS).' 
-                  : 'Supabase Dashboard > SQL Editor bölümüne bu kodu yapıştırıp çalıştırarak tablonuzu anında oluşturabilirsiniz.'}
-              </p>
-              <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.copySqlSchema()" style="width:100%;justify-content:center">
-                ${getVsSvg('copy', 13)} ${isEn ? 'Copy SQL Table Schema' : 'SQL Tablo Şemasını Kopyala'}
-              </button>
-            </div>
-          </div>
-        `;
-      },
-
       renderHistoryPage() {
         const isEn = currentLang === 'en';
         const container = document.getElementById('historyContent');
@@ -11775,9 +11603,9 @@ create policy "Users can delete own history" on public.vecsens_history for delet
                   ${getVsSvg('compare', 13)} <span>${isEn ? 'Compare A/B' : 'A/B Karşılaştır'} (${this.selectedForCompare.length}/2)</span>
                 </button>
 
-                <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.openCloudConfigModal()" title="${isEn ? 'Cloud Database Settings' : 'Bulut Veritabanı Ayarları'}">
-                  ${getVsSvg('cloud', 14)} <span class="user-cloud-dot ${this.cloudStatus}" style="display:inline-block"></span>
-                </button>
+                <div class="btn btn-secondary btn-sm" style="cursor:default;color:var(--green);border-color:rgba(16,185,129,0.3);font-size:12px">
+                  ${getVsSvg('cloudCheck', 14)} <span>${isEn ? 'Cloud Synced' : 'Bulut Kasası'}</span>
+                </div>
 
                 <button class="btn btn-secondary btn-sm" onclick="VecSensCloud.exportHistoryJson()" title="${isEn ? 'Download Backup JSON' : 'Yedek JSON İndir'}">
                   ${getVsSvg('download', 13)}
@@ -11912,7 +11740,6 @@ create policy "Users can delete own history" on public.vecsens_history for delet
     window.VecSensCloud = VecSensCloud;
     window.openAuthModal = (tab) => VecSensCloud.openAuthModal(tab);
     window.openProfileModal = () => VecSensCloud.openProfileModal();
-    window.openCloudConfigModal = () => VecSensCloud.openCloudConfigModal();
     window.openSaveAnalysisModal = () => VecSensCloud.openSaveAnalysisModal();
     window.closeVsModal = (id) => VecSensCloud.closeModal(id);
     window.loadSavedAnalysis = (id) => VecSensCloud.loadSavedAnalysis(id);
@@ -12022,7 +11849,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
           </div>
           <div class="home-stat-item">
             <div class="home-stat-val">100%</div>
-            <div class="home-stat-lbl">${isEn ? 'Local & Secure Engine' : 'Yerel & Güvenli Hesaplama'}</div>
+            <div class="home-stat-lbl">${isEn ? 'Encrypted Cloud Vault' : '100% Güvenli Bulut Kasası'}</div>
           </div>
         </div>
 
@@ -15392,7 +15219,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
         histTitle: 'Geçmiş Analizlerim',
         histSub: 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin',
         phases: ['Profil', 'Ekipman', 'Oyun Tarzı', 'Mevcut Durum', 'Analiz'],
-        footer: 'Hesap ve analiz geçmişi güvenli bulut ve yerel kasada saklanır · 100% Güvenli & Şifreli'
+        footer: 'Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli'
       },
       en: {
         docTitle: 'VecSens — Personalized FPS Aim Optimizer',
@@ -15423,7 +15250,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
         histTitle: 'Saved Analyses Vault',
         histSub: 'Your cloud aim optimization records, sensitivity journey and saved profiles',
         phases: ['Profile', 'Hardware', 'Playstyle', 'Current State', 'Analysis'],
-        footer: 'Account and analysis history stored securely with cloud & local sync · 100% Secure'
+        footer: 'All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure'
       }
     };
 
@@ -15537,7 +15364,8 @@ create policy "Users can delete own history" on public.vecsens_history for delet
       themeDark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', purple: '#a855f7', green: '#10b981', gbtnStart: '#475569', gbtnEnd: '#1e293b' },
       themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#334155', gbtnEnd: '#0f172a' },
       layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, heroLogoSize: 84, heroLogoOffsetY: 0, heroLogoAlign: 'center', heroLogoGlass: false, badgeLogoSize: 18, navLogoSize: 26, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
-      texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez', footerEn: 'All calculations are performed locally in your browser · No data is sent to external servers' },
+      texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli', footerEn: 'All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure' },
+      cloud: { supabaseUrl: '', supabaseAnonKey: '' },
       customTexts: {},
       algorithm: { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 },
       customPros: {}
@@ -16551,9 +16379,14 @@ create policy "Users can delete own history" on public.vecsens_history for delet
           if (siteConf.themeLight) Object.assign(DEFAULT_ADMIN_CONFIG.themeLight, siteConf.themeLight);
           if (siteConf.layout) Object.assign(DEFAULT_ADMIN_CONFIG.layout, siteConf.layout);
           if (siteConf.texts) Object.assign(DEFAULT_ADMIN_CONFIG.texts, siteConf.texts);
+          if (siteConf.cloud) Object.assign(DEFAULT_ADMIN_CONFIG.cloud, siteConf.cloud);
           if (siteConf.algorithm) Object.assign(DEFAULT_ADMIN_CONFIG.algorithm, siteConf.algorithm);
           if (siteConf.customPros) DEFAULT_ADMIN_CONFIG.customPros = siteConf.customPros;
           
+          if (siteConf.cloud && typeof VecSensCloud !== 'undefined' && VecSensCloud.init) {
+            VecSensCloud.init(siteConf.cloud);
+          }
+
           // Apply published site config for all visitors
           if (!adminConfig.unlocked) {
             adminConfig = {

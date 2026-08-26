@@ -138,8 +138,32 @@ async function runTests() {
   console.log('   Login result:', loginOk ? 'SUCCESS' : 'FAILED');
   console.log('   Restored User:', VecSensCloud.currentUser ? VecSensCloud.currentUser.username : null);
 
-  // Test 9: SVG Generators
-  console.log('8. Testing SVG Generators...');
+  // Test 9: Data Isolation (User A vs User B)
+  console.log('8. Testing Data Isolation between User Accounts...');
+  await VecSensCloud.logout();
+  const regUserB = await VecSensCloud.register({
+    username: 'Shroud_Aim',
+    email: 'shroud@vecsens.com',
+    password: 'secretpassword456',
+    avatar: 'target'
+  });
+  console.log('   Registered User B:', regUserB ? 'SUCCESS' : 'FAILED');
+  const userBHistory = VecSensCloud.getLocalHistoryList();
+  console.log('   User B history count (must be 0, isolated from User A):', userBHistory.length);
+  if (userBHistory.length !== 0) throw new Error('Isolation failed: User B saw User A history');
+
+  // Switch back to User A
+  await VecSensCloud.logout();
+  await VecSensCloud.login({
+    identifier: 'tenz@vecsens.com',
+    password: 'superpassword123'
+  });
+  const restoredUserAHistory = VecSensCloud.getLocalHistoryList();
+  console.log('   Switched back to User A, history count (must be 2):', restoredUserAHistory.length);
+  if (restoredUserAHistory.length !== 2) throw new Error('Isolation failed: User A history lost');
+
+  // Test 10: SVG Generators
+  console.log('9. Testing SVG Generators...');
   const testSvgUser = getVsSvg('user', 20);
   const testSvgAvatar = getAvatarSvg('lightning', 40);
   if (!testSvgUser.includes('<svg') || !testSvgAvatar.includes('<svg')) {
@@ -148,7 +172,7 @@ async function runTests() {
   console.log('   SVG User length:', testSvgUser.length, '| Avatar SVG length:', testSvgAvatar.length);
 
   console.log('\n======================================================');
-  console.log('🎉 ALL 9 ADVANCED LOGIC TESTS PASSED WITH 100% SUCCESS!');
+  console.log('🎉 ALL 10 ADVANCED LOGIC & ISOLATION TESTS PASSED WITH 100% SUCCESS!');
   console.log('======================================================');
 }
 

@@ -10,7 +10,7 @@ const checks = [
   { name: 'User Profile Modal (#userProfileModal) present', ok: html.includes('id="userProfileModal"') },
   { name: 'Compare Modal (#compareModal) present', ok: html.includes('id="compareModal"') },
   { name: 'Save Analysis Modal (#saveAnalysisModal) present', ok: html.includes('id="saveAnalysisModal"') },
-  { name: 'Cloud Config Modal (#cloudConfigModal) present', ok: html.includes('id="cloudConfigModal"') },
+  { name: 'Encrypted Cloud Vault (zero user configuration friction)', ok: !html.includes('id="cloudConfigModal"') && html.includes('Encrypted Cloud Vault') },
   { name: 'VecSensCloud object defined', ok: html.includes('const VecSensCloud = {') },
   { name: 'VecSensCloud.init called in initVecSens', ok: html.includes('VecSensCloud.init();') },
   { name: 'switchPage router includes history', ok: html.includes("page === 'history'") },

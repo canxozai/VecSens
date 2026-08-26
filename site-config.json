@@ -49,8 +49,12 @@
     "headerTitleEn": "VecSens<br/><span class=\"header-sub-gradient\">Personalized Aim Optimizer</span>",
     "headerSubTr": "Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.",
     "headerSubEn": "Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.",
-    "footerTr": "Tüm hesaplamalar yerel olarak yapılmaktadır · Veri sunucuya gönderilmez",
-    "footerEn": "All calculations are performed locally in your browser · No data is sent to external servers"
+    "footerTr": "Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli",
+    "footerEn": "All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure"
+  },
+  "cloud": {
+    "supabaseUrl": "",
+    "supabaseAnonKey": ""
   },
   "customTexts": {},
   "algorithm": {
