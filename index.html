@@ -107,14 +107,42 @@
 
     /* ── TOP NAV ── */
     .topnav {
+      position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      padding: 20px 0 0;
-      flex-wrap: nowrap !important;
+      gap: 16px;
+      padding: 16px 0 0;
       width: 100%;
       box-sizing: border-box;
+      min-height: 80px;
+    }
+
+    .nav-left-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .nav-sub-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tabs-center-wrap {
+      position: absolute;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
     }
 
     .nav-brand {
@@ -251,20 +279,21 @@
     }
 
     .theme-btn {
-      padding: 6px 12px;
-      border-radius: 18px;
-      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--t2);
       transition: var(--ease);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       white-space: nowrap;
       flex-shrink: 0;
+      height: 28px;
     }
 
     .theme-btn:hover {
@@ -274,9 +303,9 @@
     }
 
     .lang-btn {
-      padding: 6px 11px;
-      border-radius: 18px;
-      font-size: 11.5px;
+      padding: 4px 9px;
+      border-radius: 14px;
+      font-size: 11px;
       font-weight: 800;
       font-family: var(--hud);
       cursor: pointer;
@@ -286,6 +315,7 @@
       transition: var(--ease);
       white-space: nowrap;
       flex-shrink: 0;
+      height: 28px;
     }
 
     .lang-btn:hover {
@@ -294,18 +324,27 @@
       background: color-mix(in srgb, var(--cyan) 8%, transparent);
     }
 
-    @media (max-width: 880px) {
+    @media (max-width: 1100px) {
       .topnav {
-        flex-wrap: wrap;
-        gap: 12px;
-        padding-top: 16px;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        min-height: auto;
+        padding-top: 14px;
+      }
+      .nav-left-zone {
+        align-items: center;
+        width: 100%;
+      }
+      .nav-sub-controls {
         justify-content: center;
       }
-      .nav-brand {
-        order: 1;
+      .nav-tabs-center-wrap {
+        position: static;
+        transform: none;
+        width: 100%;
       }
       .nav-tabs {
-        order: 2;
         width: 100%;
         justify-content: flex-start;
         overflow-x: auto;
@@ -3784,55 +3823,13 @@
 
     .footer-wrap {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 36px 0 32px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 36px 0 28px;
       border-top: 1px solid var(--border);
       margin-top: 50px;
-      flex-wrap: wrap;
-    }
-
-    .footer-left {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .footer-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .footer-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      text-align: right;
-      max-width: 520px;
-    }
-
-    @media (max-width: 768px) {
-      .footer-wrap {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-      }
-      .footer-left {
-        align-items: center;
-      }
-      .footer-controls {
-        justify-content: center;
-      }
-      .footer-right {
-        align-items: center;
-        text-align: center;
-      }
     }
 
     .footer-brand {
@@ -3840,7 +3837,7 @@
       align-items: center;
       gap: 8px;
       cursor: pointer;
-      opacity: 0.95;
+      opacity: 0.9;
       transition: all 0.2s ease;
       user-select: none;
     }
@@ -3851,29 +3848,28 @@
     }
 
     .footer-logo {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       object-fit: contain;
       filter: drop-shadow(0 0 6px color-mix(in srgb, var(--cyan) 40%, transparent));
-      border-radius: 6px;
+      border-radius: 4px;
     }
 
     .footer-brand-title {
       font-family: var(--display);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       color: var(--t1);
       letter-spacing: -0.01em;
     }
 
     .footer {
-      text-align: right;
+      text-align: center;
       padding: 0;
       color: var(--t3);
       font-size: 12px;
       font-family: var(--hud);
-      letter-spacing: .03em;
-      line-height: 1.5;
+      letter-spacing: .04em;
     }
 
     .logo-badge img {
@@ -4321,15 +4317,15 @@
     /* USER DROPDOWN MENU */
     .user-dropdown-menu {
       position: absolute;
-      bottom: calc(100% + 8px);
+      top: calc(100% + 8px);
       left: 0;
-      top: auto;
+      bottom: auto;
       right: auto;
       width: 250px;
       background: var(--card-solid);
       border: 1px solid var(--border-bright);
       border-radius: 14px;
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.65);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.65);
       padding: 8px;
       z-index: 1000;
       backdrop-filter: blur(20px);
@@ -5290,36 +5286,46 @@
 
       <!-- TOP NAV -->
       <div class="topnav">
-        <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
-          <span class="nav-brand-logo-wrap" id="navBrandLogoWrap">
-            <svg class="vecsens-dynamic-logo nav-brand-logo" viewBox="0 0 512 512" style="width:26px;height:26px;display:inline-block;vertical-align:middle;transition:all 0.3s ease">
-              <defs>
-                <linearGradient id="vNavGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="var(--t1, #ffffff)" />
-                  <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
-                  <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
-                </linearGradient>
-              </defs>
-              <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vNavGrad)" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
-              <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
-              <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
-              <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
-              <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-              <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-              <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-              <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-            </svg>
-          </span>
-          <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
+        <div class="nav-left-zone">
+          <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
+            <span class="nav-brand-logo-wrap" id="navBrandLogoWrap">
+              <svg class="vecsens-dynamic-logo nav-brand-logo" viewBox="0 0 512 512" style="width:26px;height:26px;display:inline-block;vertical-align:middle;transition:all 0.3s ease">
+                <defs>
+                  <linearGradient id="vNavGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--t1, #ffffff)" />
+                    <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
+                    <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+                  </linearGradient>
+                </defs>
+                <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vNavGrad)" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
+                <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
+                <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
+                <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
+          </div>
+          <div class="nav-sub-controls" id="navSubControls">
+            <div id="userAuthContainer" class="user-auth-container"></div>
+            <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
+            <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language"> EN</button>
+          </div>
         </div>
-        <div class="nav-tabs">
-          <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
-          <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
-          <button class="nav-tab" id="ntab-history" onclick="switchPage('history')">Geçmiş</button>
-          <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
-          <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
-          <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
-          <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
+
+        <div class="nav-tabs-center-wrap">
+          <div class="nav-tabs">
+            <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
+            <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
+            <button class="nav-tab" id="ntab-history" onclick="switchPage('history')">Geçmiş</button>
+            <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
+            <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
+            <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
+            <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
+          </div>
         </div>
       </div>
 
@@ -5481,21 +5487,11 @@
     </div>
 
     <div class="footer-wrap">
-      <div class="footer-left">
-        <div class="footer-brand" onclick="switchPage('home')" title="VecSens Precision Tactical Aim Engine">
-          <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
-          <span class="footer-brand-title">VecSens</span>
-        </div>
-        <div class="footer-controls" id="footerControls">
-          <div id="userAuthContainer" class="user-auth-container"></div>
-          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
-          <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language"> EN</button>
-        </div>
+      <div class="footer-brand" onclick="switchPage('home')" title="VecSens">
+        <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
+        <span class="footer-brand-title">VecSens</span>
       </div>
-      <div class="footer-right">
-        <div class="footer" id="footerText">Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli</div>
-        <div style="font-size:11.5px;color:var(--t3);font-family:var(--hud);letter-spacing:0.04em">VecSens Precision Tactical Aim Engine · Zero-Friction Cloud Vault</div>
-      </div>
+      <div class="footer" id="footerText">Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli</div>
     </div>
   </div>
   </div>
