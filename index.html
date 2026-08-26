@@ -5481,6 +5481,7 @@
       <div id="compareModal" class="vs-modal-backdrop hidden"></div>
       <div id="saveAnalysisModal" class="vs-modal-backdrop hidden"></div>
       <div id="shareAimCardModal" class="vs-modal-backdrop hidden"></div>
+      <div id="cloudSettingsModal" class="vs-modal-backdrop hidden"></div>
 
       <!-- TOAST POPUP -->
       <div id="toast"></div>
@@ -10812,6 +10813,8 @@
       latencyMs: 24,
       _pingInterval: null,
       syncBus: null,
+      serverApiOnline: false,
+      cloudProvider: 'VecSens Cloud Engine',
       config: {
         url: '',
         anonKey: ''
@@ -10838,16 +10841,32 @@
         return 'vs_pwd_' + Math.abs(hash);
       },
 
+      async checkServerApi() {
+        try {
+          const res = await fetch('/api/status', { method: 'GET', cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            this.serverApiOnline = true;
+            this.cloudProvider = data.provider || 'VecSens Server Vault';
+            return true;
+          }
+        } catch(e) {}
+        this.serverApiOnline = false;
+        return false;
+      },
+
       async measurePing() {
         const t0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
         try {
           if (this.supabase && this.config.url) {
             await this.supabase.from('vecsens_history').select('id').limit(1);
+          } else if (this.serverApiOnline) {
+            await fetch('/api/ping?_p=' + Date.now(), { method: 'GET', cache: 'no-store' });
           } else {
             await fetch('site-config.json?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
           }
           const t1 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-          this.latencyMs = Math.max(8, Math.round(t1 - t0));
+          this.latencyMs = Math.max(6, Math.round(t1 - t0));
         } catch(e) {
           this.latencyMs = 24;
         }
@@ -10855,7 +10874,7 @@
         if (pill) {
           const isEn = currentLang === 'en';
           pill.innerHTML = `<span class="ping-dot"></span> <span>${this.latencyMs}ms</span>`;
-          pill.title = isEn ? `Encrypted Cloud Vault (Latency: ${this.latencyMs}ms)` : `Şifreli Bulut Kasası (Gecikme: ${this.latencyMs}ms)`;
+          pill.title = isEn ? `Encrypted Cloud Vault (${this.cloudProvider} - ${this.latencyMs}ms)` : `Şifreli Bulut Kasası (${this.cloudProvider} - ${this.latencyMs}ms)`;
         }
       },
 
@@ -10896,11 +10915,15 @@
           }
         } catch(e) {}
 
+        // Check backend server availability
+        await this.checkServerApi();
+
         if (window.supabase && this.config.url && this.config.anonKey) {
           try {
             this.supabase = window.supabase.createClient(this.config.url, this.config.anonKey, {
               auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
             });
+            this.cloudProvider = 'Supabase PostgreSQL Cloud';
             
             this.supabase.auth.onAuthStateChange(async (event, session) => {
               if (session && session.user) {
@@ -10942,6 +10965,10 @@
           }
         } else {
           this.checkLocalSession();
+        }
+
+        if (this.serverApiOnline || this.supabase) {
+          this.cloudStatus = 'connected';
         }
 
         this.updateAuthUi();
@@ -11017,7 +11044,7 @@
               return true;
             }
           } catch(err) {
-            console.warn('Supabase signUp warning:', err.message);
+            console.warn('Supabase signUp notice:', err.message);
             if (err.message && (err.message.includes('already registered') || err.message.includes('User already exists'))) {
               showToast(isEn ? 'This email is already registered! Please log in.' : 'Bu e-posta adresi zaten kayıtlı! Lütfen giriş yapın.');
               return false;
@@ -11025,7 +11052,34 @@
           }
         }
 
-        // 2. Encrypted Isolated Vault Registration (Private per user)
+        // 2. Multi-Device Server REST API Registration
+        if (this.serverApiOnline) {
+          try {
+            const res = await fetch('/api/auth/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, email, password, avatar })
+            });
+            const data = await res.json();
+            if (res.ok && data.user) {
+              this.currentUser = data.user;
+              this.cloudStatus = 'connected';
+              localStorage.setItem('vecsens_current_user', JSON.stringify(data.user));
+              this.closeModal('authModal');
+              this.updateAuthUi();
+              this.broadcastSync('AUTH_SYNC');
+              showToast(isEn ? `Welcome to VecSens Cloud, ${username}!` : `VecSens Bulut Kasası'na hoş geldin, ${username}! Hesabın oluşturuldu.`);
+              return true;
+            } else if (data.error) {
+              showToast(data.error);
+              return false;
+            }
+          } catch(e) {
+            console.warn('Server API register fallback:', e);
+          }
+        }
+
+        // 3. Encrypted Isolated Vault Registration (Private per user fallback)
         try {
           const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
           if (users.find(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
@@ -11094,6 +11148,7 @@
               this.closeModal('authModal');
               this.updateAuthUi();
               this.broadcastSync('AUTH_SYNC');
+              await this.fetchCloudHistory();
               showToast(isEn ? `Welcome back to VecSens Cloud, ${this.currentUser.username}!` : `VecSens Bulut Kasası'na tekrar hoş geldin, ${this.currentUser.username}!`);
               if (state.currentPage === 'history') this.renderHistoryPage();
               return true;
@@ -11103,7 +11158,36 @@
           }
         }
 
-        // 2. Encrypted Vault Login
+        // 2. Multi-Device Server REST API Login
+        if (this.serverApiOnline) {
+          try {
+            const res = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ identifier, password })
+            });
+            const data = await res.json();
+            if (res.ok && data.user) {
+              this.currentUser = data.user;
+              this.cloudStatus = 'connected';
+              localStorage.setItem('vecsens_current_user', JSON.stringify(data.user));
+              this.closeModal('authModal');
+              this.updateAuthUi();
+              this.broadcastSync('AUTH_SYNC');
+              await this.fetchCloudHistory();
+              showToast(isEn ? `Welcome back to VecSens Cloud, ${data.user.username}!` : `VecSens Bulut Kasası'na tekrar hoş geldin, ${data.user.username}!`);
+              if (state.currentPage === 'history') this.renderHistoryPage();
+              return true;
+            } else if (data.error) {
+              showToast(data.error);
+              return false;
+            }
+          } catch(e) {
+            console.warn('Server API login fallback:', e);
+          }
+        }
+
+        // 3. Encrypted Vault Login Fallback
         try {
           const users = JSON.parse(localStorage.getItem('vecsens_vault_users') || localStorage.getItem('vecsens_local_users') || '[]');
           const idLower = identifier.trim().toLowerCase();
@@ -11166,6 +11250,14 @@
                 username: this.currentUser.username,
                 avatar: this.currentUser.avatar
               }
+            });
+          } catch(e) {}
+        } else if (this.serverApiOnline) {
+          try {
+            await fetch('/api/auth/profile', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userId: this.currentUser.id, username: this.currentUser.username, avatar: this.currentUser.avatar })
             });
           } catch(e) {}
         } else {
@@ -11250,6 +11342,7 @@
         if (this.supabase && this.currentUser?.isCloud) {
           try {
             await this.supabase.from('vecsens_history').insert([{
+              id: record.id,
               user_id: this.currentUser.id,
               game_id: record.game_id,
               game_name: record.game_name,
@@ -11268,6 +11361,14 @@
           } catch(err) {
             console.warn('Cloud save notice:', err);
           }
+        } else if (this.serverApiOnline) {
+          try {
+            fetch('/api/history', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ record })
+            }).catch(() => {});
+          } catch(e) {}
         }
 
         this.broadcastSync('HISTORY_SYNC');
@@ -11279,37 +11380,50 @@
       },
 
       async fetchCloudHistory() {
-        if (!this.supabase || !this.currentUser?.isCloud) return null;
-        try {
-          const { data, error } = await this.supabase
-            .from('vecsens_history')
-            .select('*')
-            .order('created_at', { ascending: false });
-          if (!error && Array.isArray(data)) {
-            const formatted = data.map(d => ({
-              id: d.id,
-              user_id: d.user_id,
-              created_at: d.created_at,
-              game_id: d.game_id,
-              game_name: d.game_name,
-              dpi: d.dpi,
-              recommended_sens: d.recommended_sens,
-              edpi: d.edpi,
-              cm360: d.cm360,
-              half_turn: d.half_turn,
-              profile_type: d.profile_type,
-              profile_title: d.profile_type === 'speed' ? 'Speed' : d.profile_type === 'precision' ? 'Precision' : 'Balanced',
-              profiles: d.profiles,
-              answers: d.answers,
-              note: d.note || '',
-              mouse_model: d.mouse_model || '',
-              grip_style: d.grip_style || 'palm'
-            }));
-            this.setLocalHistoryList(formatted);
-            return formatted;
-          }
-        } catch(e) {}
-        return null;
+        if (!this.currentUser) return null;
+        if (this.supabase && this.currentUser?.isCloud) {
+          try {
+            const { data, error } = await this.supabase
+              .from('vecsens_history')
+              .select('*')
+              .order('created_at', { ascending: false });
+            if (!error && Array.isArray(data)) {
+              const formatted = data.map(d => ({
+                id: d.id,
+                user_id: d.user_id,
+                created_at: d.created_at,
+                game_id: d.game_id,
+                game_name: d.game_name,
+                dpi: d.dpi,
+                recommended_sens: d.recommended_sens,
+                edpi: d.edpi,
+                cm360: d.cm360,
+                half_turn: d.half_turn,
+                profile_type: d.profile_type,
+                profile_title: d.profile_type === 'speed' ? 'Speed' : d.profile_type === 'precision' ? 'Precision' : 'Balanced',
+                profiles: d.profiles,
+                answers: d.answers,
+                note: d.note || '',
+                mouse_model: d.mouse_model || '',
+                grip_style: d.grip_style || 'palm'
+              }));
+              this.setLocalHistoryList(formatted);
+              return formatted;
+            }
+          } catch(e) {}
+        } else if (this.serverApiOnline) {
+          try {
+            const res = await fetch(`/api/history?userId=${encodeURIComponent(this.currentUser.id)}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (Array.isArray(data.history)) {
+                this.setLocalHistoryList(data.history);
+                return data.history;
+              }
+            }
+          } catch(e) {}
+        }
+        return this.getLocalHistoryList();
       },
 
       async deleteAnalysis(id) {
@@ -11323,6 +11437,10 @@
         if (this.supabase && this.currentUser?.isCloud) {
           try {
             await this.supabase.from('vecsens_history').delete().eq('id', id);
+          } catch(e) {}
+        } else if (this.serverApiOnline) {
+          try {
+            fetch(`/api/history?id=${encodeURIComponent(id)}`, { method: 'DELETE' }).catch(() => {});
           } catch(e) {}
         }
 
@@ -11339,6 +11457,10 @@
         if (this.supabase && this.currentUser?.isCloud) {
           try {
             await this.supabase.from('vecsens_history').delete().eq('user_id', this.currentUser.id);
+          } catch(e) {}
+        } else if (this.serverApiOnline && this.currentUser) {
+          try {
+            fetch(`/api/history?userId=${encodeURIComponent(this.currentUser.id)}`, { method: 'DELETE' }).catch(() => {});
           } catch(e) {}
         }
 
@@ -11481,13 +11603,143 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         }
       },
 
+      async saveAimScore(scoreData) {
+        const uid = this.currentUser ? this.currentUser.id : 'guest';
+        const payload = {
+          id: 'aim_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          user_id: uid,
+          created_at: new Date().toISOString(),
+          ...scoreData
+        };
+
+        try {
+          const key = `vecsens_aim_scores_${uid}`;
+          const current = JSON.parse(localStorage.getItem(key) || '[]');
+          current.unshift(payload);
+          localStorage.setItem(key, JSON.stringify(current.slice(0, 50)));
+        } catch(e) {}
+
+        if (this.supabase && this.currentUser?.isCloud) {
+          try {
+            await this.supabase.from('vecsens_aim_scores').insert([payload]);
+          } catch(e) {}
+        } else if (this.serverApiOnline) {
+          try {
+            await fetch('/api/aim-scores', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ score: payload })
+            });
+          } catch(e) {}
+        }
+        return payload;
+      },
+
+      async submitFeedback(fbData) {
+        const uid = this.currentUser ? this.currentUser.id : null;
+        const payload = {
+          id: 'fb_' + Date.now(),
+          user_id: uid,
+          created_at: new Date().toISOString(),
+          ...fbData
+        };
+
+        if (this.supabase) {
+          try {
+            await this.supabase.from('vecsens_feedback').insert([payload]);
+          } catch(e) {}
+        } else if (this.serverApiOnline) {
+          try {
+            await fetch('/api/feedback', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ feedback: payload })
+            });
+          } catch(e) {}
+        }
+        return payload;
+      },
+
+      openCloudSettingsModal() {
+        const isEn = currentLang === 'en';
+        const c = this.config || {};
+        const isConnected = this.supabase || this.serverApiOnline;
+        const statusText = this.supabase ? (isEn ? 'Supabase PostgreSQL Cloud' : 'Supabase Bulut Veritabanı') : (this.serverApiOnline ? (isEn ? 'VecSens Server Cloud Engine' : 'VecSens Sunucu Bulut Motoru') : (isEn ? 'Offline Local Storage' : 'Yerel Hafıza'));
+        const statusColor = isConnected ? 'var(--green)' : 'var(--amber)';
+
+        const modal = document.getElementById('cloudSettingsModal');
+        if (!modal) return;
+
+        modal.className = 'vs-modal-backdrop';
+        modal.innerHTML = `
+          <div class="vs-modal-card" style="max-width:520px" onclick="event.stopPropagation()">
+            <div class="vs-modal-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="color:var(--cyan)">${getVsSvg('settings', 20)}</span>
+                <h3 style="margin:0;font-size:17px;font-family:var(--display);color:var(--t1)">${isEn ? 'Cloud Vault & Database Settings' : 'Bulut Kasası & Veritabanı Ayarları'}</h3>
+              </div>
+              <button class="vs-modal-close" onclick="closeVsModal('cloudSettingsModal')">${getVsSvg('close', 16)}</button>
+            </div>
+
+            <div class="vs-modal-body" style="display:flex;flex-direction:column;gap:14px;padding:16px 20px 20px">
+              <div style="padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:11px;color:var(--t3);text-transform:uppercase;font-weight:700;letter-spacing:0.04em">${isEn ? 'Active Cloud Engine' : 'Aktif Bulut Motoru'}</div>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+                    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusColor};box-shadow:0 0 8px ${statusColor}"></span>
+                    <span style="color:${statusColor};font-weight:700;font-size:13.5px">${statusText}</span>
+                  </div>
+                </div>
+                <div class="cloud-latency-pill" style="margin:0"><span class="ping-dot"></span> <span>${this.latencyMs}ms</span></div>
+              </div>
+
+              <div>
+                <label style="font-size:12px;font-weight:700;color:var(--t1);display:block;margin-bottom:5px">Supabase Project URL</label>
+                <input type="text" id="cfgSupabaseUrl" class="input-field" placeholder="https://yourproject.supabase.co" value="${c.url || ''}" style="width:100%;box-sizing:border-box;font-family:var(--mono);font-size:12px;padding:9px 12px" />
+              </div>
+
+              <div>
+                <label style="font-size:12px;font-weight:700;color:var(--t1);display:block;margin-bottom:5px">Supabase Anon Key (Public Key)</label>
+                <textarea id="cfgSupabaseKey" class="input-field" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width:100%;height:68px;box-sizing:border-box;font-family:var(--mono);font-size:11px;resize:none;padding:9px 12px">${c.anonKey || ''}</textarea>
+              </div>
+
+              <div style="font-size:11.5px;color:var(--t3);line-height:1.5;background:rgba(56,189,248,0.05);border:1px solid rgba(56,189,248,0.2);padding:10px 12px;border-radius:8px">
+                💡 ${isEn ? 'Multi-device sync: Create a free project on <b>supabase.com</b>, run <code>supabase_schema.sql</code>, and paste your URL/Key above to sync across any PC, phone, or laptop worldwide!' : 'Tüm cihazlardan (telefon, bilgisayar, tablet) erişmek için <b>supabase.com</b>\'da ücretsiz proje açıp projenizdeki <code>supabase_schema.sql</code> kodunu çalıştırmanız ve bilgileri buraya yapıştırmanız yeterlidir!'}
+              </div>
+
+              <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px">
+                <button class="btn btn-secondary btn-sm" onclick="closeVsModal('cloudSettingsModal')">${isEn ? 'Cancel' : 'İptal'}</button>
+                <button class="btn btn-primary btn-sm" onclick="VecSensCloud.saveCloudConfigModal()">${getVsSvg('check', 14)} <span>${isEn ? 'Save & Connect Cloud' : 'Bulutu Kaydet & Bağlan'}</span></button>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      async saveCloudConfigModal() {
+        const isEn = currentLang === 'en';
+        const url = document.getElementById('cfgSupabaseUrl')?.value.trim() || '';
+        const anonKey = document.getElementById('cfgSupabaseKey')?.value.trim() || '';
+
+        const newConf = { supabaseUrl: url, supabaseAnonKey: anonKey };
+        localStorage.setItem('vecsens_cloud_config', JSON.stringify(newConf));
+        if (window.siteConfig && window.siteConfig.cloud) {
+          window.siteConfig.cloud.supabaseUrl = url;
+          window.siteConfig.cloud.supabaseAnonKey = anonKey;
+        }
+
+        await this.init(newConf);
+        this.closeModal('cloudSettingsModal');
+        showToast(isEn ? 'Cloud configuration saved & connected!' : 'Bulut yapılandırması kaydedildi ve bağlandı!');
+      },
+
       // ── UI RENDERING METHODS ──
       updateAuthUi() {
         const isEn = currentLang === 'en';
         const container = document.getElementById('userAuthContainer');
         if (!container) return;
 
-        const pingHtml = `<div class="cloud-latency-pill" id="cloudLatencyPill" title="${isEn ? 'Encrypted Cloud Vault (Latency: ' + this.latencyMs + 'ms)' : 'Şifreli Bulut Kasası (Gecikme: ' + this.latencyMs + 'ms)'}"><span class="ping-dot"></span> <span>${this.latencyMs}ms</span></div>`;
+        const pingHtml = `<div class="cloud-latency-pill" id="cloudLatencyPill" title="${isEn ? 'Encrypted Cloud Vault (' + this.cloudProvider + ' - ' + this.latencyMs + 'ms)' : 'Şifreli Bulut Kasası (' + this.cloudProvider + ' - ' + this.latencyMs + 'ms)'}"><span class="ping-dot"></span> <span>${this.latencyMs}ms</span></div>`;
 
         if (!this.currentUser) {
           container.innerHTML = `
@@ -11507,7 +11759,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username}">
               <span class="user-avatar-pill">${avSvg}</span>
               <span class="user-tag-pill">${u.username}</span>
-              <span class="user-cloud-dot connected" title="VecSens Cloud Vault"></span>
+              <span class="user-cloud-dot connected" title="${this.cloudProvider}"></span>
               
               <div class="user-dropdown-menu hidden" id="userDropdownMenu" onclick="event.stopPropagation()">
                 <div class="user-dropdown-header">
@@ -11523,6 +11775,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </button>
                 <button class="dropdown-item" onclick="openProfileModal()">
                   ${getVsSvg('user', 15)} <span>${isEn ? 'Profile & Settings' : 'Profil & Ayarlar'}</span>
+                </button>
+                <button class="dropdown-item" onclick="openCloudSettingsModal()">
+                  ${getVsSvg('settings', 15)} <span>${isEn ? 'Cloud Vault Settings' : 'Bulut Kasası Ayarları'}</span>
                 </button>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item danger" onclick="VecSensCloud.logout()">
@@ -12314,6 +12569,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     window.openCompareModal = () => VecSensCloud.openCompareModal();
     window.toggleUserDropdown = (e) => VecSensCloud.toggleUserDropdown(e);
     window.openShareAimCardModal = (id) => VecSensCloud.openShareAimCardModal(id);
+    window.openCloudSettingsModal = () => VecSensCloud.openCloudSettingsModal();
 
     // Global Click Listener for Modals & Dropdown
     document.addEventListener('click', (e) => {
