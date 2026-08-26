@@ -10415,7 +10415,7 @@
         }
       },
 
-      async register({ username, email, password, avatar, role, mainGame }) {
+      async register({ username, email, password, avatar }) {
         const isEn = currentLang === 'en';
         if (!username || username.trim().length < 2) {
           showToast(isEn ? 'Please enter a valid Username (at least 2 chars)' : 'Lütfen geçerli bir Kullanıcı Adı girin (en az 2 karakter)');
@@ -10431,8 +10431,6 @@
         }
 
         avatar = avatar || 'crosshair';
-        role = role || 'Duelist';
-        mainGame = mainGame || 'valorant';
 
         if (this.supabase && this.config.url && this.config.anonKey) {
           try {
@@ -10442,9 +10440,7 @@
               options: {
                 data: {
                   username: username.trim(),
-                  avatar: avatar,
-                  role: role,
-                  mainGame: mainGame
+                  avatar: avatar
                 }
               }
             });
@@ -10456,8 +10452,6 @@
                 email: data.user.email,
                 username: username.trim(),
                 avatar: avatar,
-                role: role,
-                mainGame: mainGame,
                 createdAt: new Date().toISOString(),
                 isCloud: true
               };
@@ -10498,8 +10492,6 @@
             email: email.trim(),
             passwordHash: passwordHash,
             avatar: avatar,
-            role: role,
-            mainGame: mainGame,
             createdAt: new Date().toISOString(),
             isCloud: false
           };
@@ -10604,23 +10596,19 @@
         if (state.currentPage === 'history') this.renderHistoryPage();
       },
 
-      async updateProfile({ username, avatar, role, mainGame }) {
+      async updateProfile({ username, avatar }) {
         const isEn = currentLang === 'en';
         if (!this.currentUser) return;
 
         this.currentUser.username = username || this.currentUser.username;
         this.currentUser.avatar = avatar || this.currentUser.avatar;
-        this.currentUser.role = role || this.currentUser.role;
-        this.currentUser.mainGame = mainGame || this.currentUser.mainGame;
 
         if (this.supabase && this.currentUser.isCloud) {
           try {
             await this.supabase.auth.updateUser({
               data: {
                 username: this.currentUser.username,
-                avatar: this.currentUser.avatar,
-                role: this.currentUser.role,
-                mainGame: this.currentUser.mainGame
+                avatar: this.currentUser.avatar
               }
             });
           } catch(e) {}
@@ -10961,7 +10949,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           const isCloud = this.cloudStatus === 'connected';
 
           container.innerHTML = `
-            <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username} (${u.role || 'Player'})">
+            <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username}">
               <span class="user-avatar-pill">${avSvg}</span>
               <span class="user-tag-pill">${u.username}</span>
               <span class="user-cloud-dot ${this.cloudStatus}" title="${isCloud ? (isEn ? 'Cloud Connected' : 'Bulut Aktif') : (isEn ? 'Local Storage' : 'Yerel Mod')}"></span>
@@ -10971,7 +10959,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                   <div class="dropdown-avatar">${dropAvSvg}</div>
                   <div class="dropdown-info">
                     <div class="dropdown-name">${u.username}</div>
-                    <div class="dropdown-role">${u.role || 'Duelist'} · ${u.mainGame ? (GAMES.find(g => g.id === u.mainGame)?.label || u.mainGame) : 'Valorant'}</div>
+                    <div class="dropdown-role" style="color:var(--t3);font-size:11.5px">${u.email}</div>
                   </div>
                 </div>
                 <div class="dropdown-divider"></div>
@@ -11054,30 +11042,22 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         const uInp = document.getElementById('authRegUsername');
         const eInp = document.getElementById('authRegEmail');
         const pInp = document.getElementById('authRegPwd');
-        const gInp = document.getElementById('authRegGame');
-        const rInp = document.getElementById('authRegRole');
         const aInp = document.getElementById('authRegAvatar');
         if (!uInp || !eInp || !pInp) return;
         this.register({
           username: uInp.value,
           email: eInp.value,
           password: pInp.value,
-          mainGame: gInp ? gInp.value : 'valorant',
-          role: rInp ? rInp.value : 'Duelist',
           avatar: aInp ? aInp.value : 'crosshair'
         });
       },
 
       handleProfileUpdateSubmit() {
         const uInp = document.getElementById('profEditUsername');
-        const gInp = document.getElementById('profEditGame');
-        const rInp = document.getElementById('profEditRole');
         const aInp = document.getElementById('profEditAvatar');
         if (!uInp) return;
         this.updateProfile({
           username: uInp.value,
-          mainGame: gInp ? gInp.value : 'valorant',
-          role: rInp ? rInp.value : 'Duelist',
           avatar: aInp ? aInp.value : 'crosshair'
         });
       },
@@ -11300,31 +11280,6 @@ create policy "Users can delete own history" on public.vecsens_history for delet
                     </button>
                   </div>
                 </div>
-                <div class="auth-row-2">
-                  <div class="auth-form-group">
-                    <label class="auth-label">${isEn ? 'Primary FPS Game' : 'Ana FPS Oyunu'}</label>
-                    <select id="authRegGame" class="auth-select">
-                      <option value="valorant">Valorant</option>
-                      <option value="cs2">Counter-Strike 2</option>
-                      <option value="apex">Apex Legends</option>
-                      <option value="r6">Rainbow Six Siege</option>
-                      <option value="warzone">CoD Warzone</option>
-                      <option value="overwatch">Overwatch 2</option>
-                      <option value="fortnite">Fortnite</option>
-                      <option value="other">${isEn ? 'Other FPS' : 'Diğer FPS'}</option>
-                    </select>
-                  </div>
-                  <div class="auth-form-group">
-                    <label class="auth-label">${isEn ? 'Esports Role' : 'Espor Rolü'}</label>
-                    <select id="authRegRole" class="auth-select">
-                      <option value="Duelist">${isEn ? 'Duelist / Entry' : 'Düellocu / Entry'}</option>
-                      <option value="Sniper">${isEn ? 'AWP / Sniper' : 'AWP / Keskin Nişancı'}</option>
-                      <option value="Controller">${isEn ? 'Controller / Smoke' : 'Controller / Destek'}</option>
-                      <option value="IGL">${isEn ? 'IGL / Captain' : 'IGL / Takım Kaptanı'}</option>
-                      <option value="Flex">${isEn ? 'Flex / Hybrid' : 'Flex / Joker Oyuncu'}</option>
-                    </select>
-                  </div>
-                </div>
                 <div class="auth-form-group">
                   <label class="auth-label">${isEn ? 'Choose Avatar' : 'Avatar Seç'}</label>
                   <div class="avatar-picker-grid" id="authAvatarPicker">
@@ -11371,7 +11326,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
             <div class="vs-modal-header">
               <h3 class="vs-modal-title">
                 ${getVsSvg('user', 20)}
-                <span>${isEn ? 'Esports Profile & Settings' : 'Espor Profili & Ayarlar'}</span>
+                <span>${isEn ? 'Account Profile & Settings' : 'Kullanıcı Profili & Ayarlar'}</span>
               </h3>
               <button class="vs-modal-close" onclick="closeVsModal('userProfileModal')">${getVsSvg('close', 16)}</button>
             </div>
@@ -11380,8 +11335,7 @@ create policy "Users can delete own history" on public.vecsens_history for delet
               ${getAvatarSvg(u.avatar || 'crosshair', 54)}
               <div style="overflow:hidden">
                 <div style="font-size:17px;font-weight:800;color:var(--t1)">${u.username}</div>
-                <div style="font-size:12.5px;color:var(--cyan);font-weight:700;margin-top:2px">${u.role || 'Duelist'} · ${u.mainGame ? (GAMES.find(g => g.id === u.mainGame)?.label || u.mainGame) : 'Valorant'}</div>
-                <div style="font-size:11px;color:var(--t3);margin-top:4px">${u.email} · ${isEn ? 'Member since' : 'Kayıt:'} ${regDate}</div>
+                <div style="font-size:12px;color:var(--t3);margin-top:3px">${u.email} · ${isEn ? 'Member since' : 'Kayıt:'} ${regDate}</div>
               </div>
             </div>
 
@@ -11405,30 +11359,6 @@ create policy "Users can delete own history" on public.vecsens_history for delet
                 <div class="auth-input-wrap">
                   <span class="auth-input-icon">${getVsSvg('user', 14)}</span>
                   <input type="text" id="profEditUsername" class="auth-input" value="${u.username}" required />
-                </div>
-              </div>
-              <div class="auth-row-2">
-                <div class="auth-form-group">
-                  <label class="auth-label">${isEn ? 'Main FPS Game' : 'Ana FPS Oyunu'}</label>
-                  <select id="profEditGame" class="auth-select">
-                    <option value="valorant" ${u.mainGame === 'valorant' ? 'selected' : ''}>Valorant</option>
-                    <option value="cs2" ${u.mainGame === 'cs2' ? 'selected' : ''}>Counter-Strike 2</option>
-                    <option value="apex" ${u.mainGame === 'apex' ? 'selected' : ''}>Apex Legends</option>
-                    <option value="r6" ${u.mainGame === 'r6' ? 'selected' : ''}>Rainbow Six Siege</option>
-                    <option value="warzone" ${u.mainGame === 'warzone' ? 'selected' : ''}>CoD Warzone</option>
-                    <option value="overwatch" ${u.mainGame === 'overwatch' ? 'selected' : ''}>Overwatch 2</option>
-                    <option value="fortnite" ${u.mainGame === 'fortnite' ? 'selected' : ''}>Fortnite</option>
-                  </select>
-                </div>
-                <div class="auth-form-group">
-                  <label class="auth-label">${isEn ? 'Esports Role' : 'Espor Rolü'}</label>
-                  <select id="profEditRole" class="auth-select">
-                    <option value="Duelist" ${u.role === 'Duelist' ? 'selected' : ''}>${isEn ? 'Duelist / Entry' : 'Düellocu / Entry'}</option>
-                    <option value="Sniper" ${u.role === 'Sniper' ? 'selected' : ''}>${isEn ? 'AWP / Sniper' : 'AWP / Sniper'}</option>
-                    <option value="Controller" ${u.role === 'Controller' ? 'selected' : ''}>${isEn ? 'Controller / Smoke' : 'Controller / Destek'}</option>
-                    <option value="IGL" ${u.role === 'IGL' ? 'selected' : ''}>${isEn ? 'IGL / Captain' : 'IGL / Kaptan'}</option>
-                    <option value="Flex" ${u.role === 'Flex' ? 'selected' : ''}>${isEn ? 'Flex / Hybrid' : 'Flex / Joker'}</option>
-                  </select>
                 </div>
               </div>
 
