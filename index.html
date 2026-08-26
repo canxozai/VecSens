@@ -250,13 +250,6 @@
       font-family: var(--mono);
     }
 
-    .top-controls {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
     .theme-btn {
       padding: 6px 12px;
       border-radius: 18px;
@@ -304,24 +297,20 @@
     @media (max-width: 880px) {
       .topnav {
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
         padding-top: 16px;
+        justify-content: center;
       }
       .nav-brand {
         order: 1;
       }
-      .top-controls {
-        order: 2;
-        margin-left: auto;
-      }
       .nav-tabs {
-        order: 3;
+        order: 2;
         width: 100%;
         justify-content: flex-start;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         padding: 4px;
-        margin-top: 2px;
       }
       .nav-tab {
         padding: 6px 11px;
@@ -1698,31 +1687,181 @@
     /* ══════════════════════════════════════
        FEEDBACK PAGE
     ══════════════════════════════════════ */
-    .feedback-card {
+    /* ── COMPACT TACTICAL FEEDBACK STUDIO ── */
+    .feedback-studio-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .feedback-studio-card {
       background: var(--card);
       backdrop-filter: blur(24px);
       border: 1px solid var(--border);
-      border-radius: var(--r4);
-      padding: 30px;
+      border-radius: var(--r3);
+      padding: 22px 26px;
+      box-shadow: var(--shadow);
       margin-bottom: 20px;
-      box-shadow: var(--shadow)
     }
 
-    .feedback-card h3 {
-      font-family: var(--display);
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--cyan);
+    .fb-top-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
       margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .fb-top-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    .fb-section-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--cyan);
       display: flex;
       align-items: center;
-      gap: 8px
+      gap: 6px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-family: var(--display);
+    }
+
+    .fb-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .fb-pill-btn {
+      padding: 6px 11px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--t2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .fb-pill-btn:hover {
+      border-color: var(--border-bright);
+      color: var(--t1);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .fb-pill-btn.selected {
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 14%, transparent);
+      color: var(--t1);
+      font-weight: 700;
+      box-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 25%, transparent);
+    }
+
+    .fb-mid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .fb-mid-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    .fb-tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .fb-tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--t2);
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: var(--ease);
+      user-select: none;
+    }
+
+    .fb-tag-chip:hover {
+      border-color: var(--border-bright);
+      color: var(--t1);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .fb-tag-chip.selected {
+      border-color: var(--cyan);
+      background: color-mix(in srgb, var(--cyan) 14%, transparent);
+      color: var(--t1);
+      font-weight: 600;
+    }
+
+    .fb-tag-chip.improve.selected {
+      border-color: var(--amber);
+      background: rgba(245, 158, 11, 0.14);
+      color: #fff;
+    }
+
+    .fb-bottom-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .fb-bottom-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .fb-compact-textarea {
+      flex: 1;
+      height: 42px;
+      min-height: 42px;
+      max-height: 100px;
+      resize: vertical;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      color: var(--t1);
+      font-family: inherit;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .fb-compact-textarea:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 25%, transparent);
     }
 
     .stars-row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 6px;
+      gap: 6px;
       align-items: center;
     }
 
@@ -1732,7 +1871,7 @@
       background: transparent;
       transition: transform .18s cubic-bezier(0.34, 1.56, 0.64, 1), color .18s ease, filter .18s ease;
       line-height: 1;
-      padding: 4px;
+      padding: 2px;
       color: rgba(255, 255, 255, 0.22);
       user-select: none;
       display: inline-flex;
@@ -1748,7 +1887,7 @@
     .star-btn.active {
       color: #ffffff !important;
       filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
-      transform: scale(1.2);
+      transform: scale(1.15);
     }
 
     html[data-theme="light"] .star-btn,
@@ -1767,91 +1906,45 @@
     body[data-theme="light"] .star-btn.active {
       color: #f59e0b !important;
       filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.45)) !important;
-      transform: scale(1.2);
-    }
-
-    #ratingLabel {
-      font-size: 14px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-top: 8px;
-      min-height: 20px;
-    }
-
-    html[data-theme="light"] #ratingLabel,
-    body[data-theme="light"] #ratingLabel {
-      color: var(--cyan) !important;
-    }
-
-    .fb-options {
-      display: grid;
-      gap: 8px;
-      grid-template-columns: 1fr
-    }
-
-    .fb-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      border: 1px solid var(--border);
-      border-radius: var(--r2);
-      cursor: pointer;
-      color: var(--t2);
-      font-size: 14px;
-      transition: var(--ease);
-      user-select: none
-    }
-
-    .fb-option:hover {
-      border-color: color-mix(in srgb, var(--cyan) 35%, transparent);
-      color: var(--t1)
-    }
-
-    .fb-option.selected {
-      border-color: var(--cyan);
-      background: color-mix(in srgb, var(--cyan) 8%, transparent);
-      color: var(--t1);
-      font-weight: 600
+      transform: scale(1.15);
     }
 
     .fb-checkbox {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border);
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid var(--border);
       border-radius: 3px;
       flex-shrink: 0;
       transition: var(--ease);
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center
+      justify-content: center;
     }
 
-    .fb-option.selected .fb-checkbox {
+    .fb-tag-chip.selected .fb-checkbox {
       background: var(--cyan);
-      border-color: var(--cyan)
+      border-color: var(--cyan);
+    }
+
+    .fb-tag-chip.improve.selected .fb-checkbox {
+      background: var(--amber);
+      border-color: var(--amber);
     }
 
     .fb-checkbox::after {
       content: '';
-      width: 4px;
-      height: 8px;
-      border: 2px solid #0a0e17;
+      width: 3px;
+      height: 6px;
+      border: 1.5px solid #0a0e17;
       border-top: none;
       border-left: none;
       transform: rotate(45deg) translateY(-1px);
       opacity: 0;
-      transition: opacity .15s
+      transition: opacity .15s;
     }
 
-    .fb-option.selected .fb-checkbox::after {
-      opacity: 1
-    }
-
-    textarea.input-field {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.6
+    .fb-tag-chip.selected .fb-checkbox::after {
+      opacity: 1;
     }
 
     .fb-success {
@@ -1860,12 +1953,12 @@
       border-radius: var(--r4);
       padding: 38px;
       text-align: center;
-      animation: slideIn .35s ease
+      animation: slideIn .35s ease;
     }
 
     .fb-success .tick {
       font-size: 48px;
-      margin-bottom: 12px
+      margin-bottom: 12px;
     }
 
     .fb-success h3 {
@@ -1873,12 +1966,12 @@
       font-size: 22px;
       font-weight: 700;
       color: var(--green);
-      margin-bottom: 8px
+      margin-bottom: 8px;
     }
 
     .fb-success p {
       font-size: 14px;
-      color: var(--t2)
+      color: var(--t2);
     }
 
     .prev-feedbacks {
@@ -3691,11 +3784,55 @@
 
     .footer-wrap {
       display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 36px 0 32px;
+      border-top: 1px solid var(--border);
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+
+    .footer-left {
+      display: flex;
       flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .footer-controls {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 36px 0 28px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      text-align: right;
+      max-width: 520px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-wrap {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+      }
+      .footer-left {
+        align-items: center;
+      }
+      .footer-controls {
+        justify-content: center;
+      }
+      .footer-right {
+        align-items: center;
+        text-align: center;
+      }
     }
 
     .footer-brand {
@@ -3703,7 +3840,7 @@
       align-items: center;
       gap: 8px;
       cursor: pointer;
-      opacity: 0.85;
+      opacity: 0.95;
       transition: all 0.2s ease;
       user-select: none;
     }
@@ -3714,28 +3851,29 @@
     }
 
     .footer-logo {
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
       filter: drop-shadow(0 0 6px color-mix(in srgb, var(--cyan) 40%, transparent));
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
     .footer-brand-title {
       font-family: var(--display);
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 800;
       color: var(--t1);
       letter-spacing: -0.01em;
     }
 
     .footer {
-      text-align: center;
+      text-align: right;
       padding: 0;
       color: var(--t3);
       font-size: 12px;
       font-family: var(--hud);
-      letter-spacing: .04em;
+      letter-spacing: .03em;
+      line-height: 1.5;
     }
 
     .logo-badge img {
@@ -4183,13 +4321,15 @@
     /* USER DROPDOWN MENU */
     .user-dropdown-menu {
       position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
+      bottom: calc(100% + 8px);
+      left: 0;
+      top: auto;
+      right: auto;
       width: 250px;
       background: var(--card-solid);
       border: 1px solid var(--border-bright);
       border-radius: 14px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.65);
       padding: 8px;
       z-index: 1000;
       backdrop-filter: blur(20px);
@@ -5181,12 +5321,6 @@
           <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
           <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
         </div>
-        <div class="top-controls">
-          <div id="userAuthContainer" class="user-auth-container"></div>
-          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
-          <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)"
-            title="Dili Değiştir / Change Language"> EN</button>
-        </div>
       </div>
 
       <!-- HOMEPAGE (PORTAL & FEATURE HUB) -->
@@ -5347,11 +5481,21 @@
     </div>
 
     <div class="footer-wrap">
-      <div class="footer-brand" onclick="switchPage('home')" title="VecSens">
-        <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
-        <span class="footer-brand-title">VecSens</span>
+      <div class="footer-left">
+        <div class="footer-brand" onclick="switchPage('home')" title="VecSens Precision Tactical Aim Engine">
+          <img src="logo.svg" class="footer-logo" alt="VecSens" onerror="this.onerror=null;this.src='logo.png'" />
+          <span class="footer-brand-title">VecSens</span>
+        </div>
+        <div class="footer-controls" id="footerControls">
+          <div id="userAuthContainer" class="user-auth-container"></div>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
+          <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language"> EN</button>
+        </div>
       </div>
-      <div class="footer" id="footerText">Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli</div>
+      <div class="footer-right">
+        <div class="footer" id="footerText">Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli</div>
+        <div style="font-size:11.5px;color:var(--t3);font-family:var(--hud);letter-spacing:0.04em">VecSens Precision Tactical Aim Engine · Zero-Friction Cloud Vault</div>
+      </div>
     </div>
   </div>
   </div>
@@ -11347,8 +11491,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         const container = document.getElementById('userAuthContainer');
         if (!container) return;
 
+        const pingHtml = `<div class="cloud-latency-pill" id="cloudLatencyPill" title="${isEn ? 'Encrypted Cloud Vault (Latency: ' + this.latencyMs + 'ms)' : 'Şifreli Bulut Kasası (Gecikme: ' + this.latencyMs + 'ms)'}"><span class="ping-dot"></span> <span>${this.latencyMs}ms</span></div>`;
+
         if (!this.currentUser) {
           container.innerHTML = `
+            ${pingHtml}
             <button class="btn-auth-login" onclick="openAuthModal('login')">
               ${getVsSvg('user', 14)}
               <span>${isEn ? 'Sign In / Register' : 'Giriş Yap / Kayıt'}</span>
@@ -11360,6 +11507,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           const dropAvSvg = getAvatarSvg(u.avatar || 'crosshair', 36);
 
           container.innerHTML = `
+            ${pingHtml}
             <div class="user-profile-badge" id="userProfileBadge" onclick="VecSensCloud.toggleUserDropdown(event)" title="${u.username}">
               <span class="user-avatar-pill">${avSvg}</span>
               <span class="user-tag-pill">${u.username}</span>
@@ -14042,58 +14190,89 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const likesList = isEn ? FB_LIKES_EN : FB_LIKES_TR;
       const improveList = isEn ? FB_IMPROVE_EN : FB_IMPROVE_TR;
 
-      const starSvg = `<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="pointer-events:none;display:block"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+      const starSvg = `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="pointer-events:none;display:block"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+
+      const triedOptions = [
+        { v: 'yes', l: isEn ? 'Very accurate' : 'Çok faydalı / tam oturdu', i: 'check' },
+        { v: 'partial', l: isEn ? 'Slightly tweaked' : 'Biraz ince ayar gerekti', i: 'settings' },
+        { v: 'no', l: isEn ? 'Not tested yet' : 'Henüz denemedim', i: 'clock' },
+        { v: 'bad', l: isEn ? 'Uncomfortable' : 'Alışamadım / uygun değildi', i: 'close' },
+      ];
 
       const html = `
-    <div class="feedback-card">
-      <h3> ${isEn ? 'Overall Rating' : 'Genel Değerlendirme'}</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn ? 'How would you rate the experience?' : 'Uygulama genel olarak nasıldı?'}</p>
-      <div class="stars-row">
-        ${[1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">${starSvg}</button>`).join('')}
-      </div>
-      <p id="ratingLabel">${fbState.rating ? ratingLabel(fbState.rating) : ''}</p>
-    </div>
+    <div class="feedback-studio-wrap">
+      <div class="feedback-studio-card">
+        <!-- TOP ROW: OVERALL RATING & IN-GAME TRIAL -->
+        <div class="fb-top-row">
+          <div>
+            <div class="fb-section-title">
+              ${getVsSvg('crown', 14)} <span>${isEn ? 'Overall Satisfaction' : 'Genel Memnuniyet'}</span>
+            </div>
+            <div class="stars-row">
+              ${[1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn ${fbState.rating >= n ? 'active' : ''}" onclick="setRating(${n})" title="${n} ${isEn ? 'stars' : 'yıldız'}">${starSvg}</button>`).join('')}
+              <span id="ratingLabel" style="margin-left:6px;font-size:12.5px;font-weight:700;color:var(--cyan)">${fbState.rating ? ratingLabel(fbState.rating) : (isEn ? 'Select rating' : 'Puan seç')}</span>
+            </div>
+          </div>
+          <div>
+            <div class="fb-section-title">
+              ${getVsSvg('aim', 14)} <span>${isEn ? 'Tested In-Game?' : 'Önerilen Değeri Denedin mi?'}</span>
+            </div>
+            <div class="fb-pills-row">
+              ${triedOptions.map(o => `
+                <button type="button" class="fb-pill-btn${fbState.tried === o.v ? ' selected' : ''}" onclick="setTried('${o.v}')">
+                  ${getVsSvg(o.i === 'check' ? 'check' : o.i === 'close' ? 'close' : 'sparkle', 12)}
+                  <span>${o.l}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
 
-    <div class="feedback-card">
-      <h3>${isEn ? 'Recommendation Experience' : 'Öneri Deneyimi'}</h3>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">${isEn ? 'Did you test the recommended sensitivity in-game?' : 'Önerilen sensitivity değerini denedin mi?'}</p>
-      <div class="fb-options">
-        ${[
-          { v: 'yes', l: isEn ? 'Yes, tested and found it very accurate' : 'Evet, denedim ve faydalı buldum', i: '' },
-          { v: 'partial', l: isEn ? 'Yes, but required slight fine-tuning' : 'Evet, denedim ama biraz ayarlama gerekti', i: 'wrench' },
-          { v: 'no', l: isEn ? 'Not yet tested' : 'Henüz denemedim', i: 'hourglass' },
-          { v: 'bad', l: isEn ? 'Tested, but felt uncomfortable' : 'Denedim ama uygun değildi', i: '' },
-        ].map(o => `<div class="fb-option${fbState.tried === o.v ? ' selected' : ''}" onclick="setTried('${o.v}')">
-          <span>${o.l}</span>
-        </div>`).join('')}
-      </div>
-    </div>
+        <!-- MID GRID: LIKES & IMPROVEMENTS (2-COL CHIPS) -->
+        <div class="fb-mid-grid">
+          <div>
+            <div class="fb-section-title" style="color:var(--green)">
+              ${getVsSvg('check', 14)} <span>${isEn ? 'What Did You Like?' : 'Neleri Beğendin?'}</span>
+            </div>
+            <div class="fb-tags-cloud">
+              ${likesList.map(l => {
+                const sel = fbState.likes.includes(l);
+                return `
+                  <button type="button" class="fb-tag-chip${sel ? ' selected' : ''}" onclick="toggleFbLike('${l.replace(/'/g, "\\'")}')">
+                    <span class="fb-checkbox"></span>
+                    <span>${l}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+          <div>
+            <div class="fb-section-title" style="color:var(--amber)">
+              ${getVsSvg('settings', 14)} <span>${isEn ? 'What Should We Improve?' : 'Neler Geliştirilmeli?'}</span>
+            </div>
+            <div class="fb-tags-cloud">
+              ${improveList.map(l => {
+                const sel = fbState.improve.includes(l);
+                return `
+                  <button type="button" class="fb-tag-chip improve${sel ? ' selected' : ''}" onclick="toggleFbImprove('${l.replace(/'/g, "\\'")}')">
+                    <span class="fb-checkbox"></span>
+                    <span>${l}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
 
-    <div class="feedback-card">
-      <h3> ${isEn ? 'What Did You Like?' : 'Neyi Beğendin?'}</h3>
-      <div class="fb-options">
-        ${likesList.map(l => `<div class="fb-option${fbState.likes.includes(l) ? ' selected' : ''}" onclick="toggleFbLike('${l}')">
-          <span class="fb-checkbox"></span><span>${l}</span>
-        </div>`).join('')}
-      </div>
-    </div>
-
-    <div class="feedback-card">
-      <h3> ${isEn ? 'What Should We Improve?' : 'Neyin Geliştirilmesini İsterdin?'}</h3>
-      <div class="fb-options">
-        ${improveList.map(l => `<div class="fb-option${fbState.improve.includes(l) ? ' selected' : ''}" onclick="toggleFbImprove('${l}')">
-          <span class="fb-checkbox"></span><span>${l}</span>
-        </div>`).join('')}
-      </div>
-    </div>
-
-    <div class="feedback-card">
-      <h3> ${isEn ? 'Additional Comments' : 'Ek Yorum'}</h3>
-      <div class="input-group">
-        <textarea class="input-field" id="fbText" placeholder="${isEn ? 'Write your thoughts or suggestions here...' : 'Düşüncelerini buraya yaz...'}" oninput="fbState.text=this.value">${fbState.text}</textarea>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
-        <button class="btn btn-primary" onclick="submitFeedback()"> ${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</button>
+        <!-- BOTTOM ROW: COMPACT NOTE & SUBMIT -->
+        <div class="fb-bottom-row">
+          <div style="flex:1">
+            <textarea class="fb-compact-textarea" id="fbText" placeholder="${isEn ? 'Optional: Write additional notes or requests...' : 'İsteğe bağlı: Eklemek istediğin fikir veya oyun önerisi...'}" oninput="fbState.text=this.value">${fbState.text || ''}</textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitFeedback()" style="padding:9px 18px;font-size:12.5px;height:42px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 16px color-mix(in srgb, var(--cyan) 25%, transparent)">
+            ${getVsSvg('upload', 13)} <span>${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</span>
+          </button>
+        </div>
       </div>
     </div>
   `;
@@ -14109,15 +14288,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
     function setRating(n) {
       fbState.rating = n;
-      document.querySelectorAll('.star-btn').forEach((b, i) => b.classList.toggle('active', i < n));
-      const lbl = document.getElementById('ratingLabel'); if (lbl) lbl.textContent = ratingLabel(n);
+      renderFeedbackPage();
     }
     function setTried(v) {
-      fbState.tried = v;
-      document.querySelectorAll('.fb-option').forEach(el => {
-        if (el.getAttribute('onclick') === `setTried('${v}')`) el.classList.add('selected');
-        else if (el.getAttribute('onclick')?.startsWith('setTried')) el.classList.remove('selected');
-      });
+      fbState.tried = fbState.tried === v ? null : v;
+      renderFeedbackPage();
     }
     function toggleFbLike(l) {
       const i = fbState.likes.indexOf(l);
