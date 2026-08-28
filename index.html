@@ -1881,42 +1881,52 @@
       color: #fff;
     }
 
-    .fb-bottom-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding-top: 14px;
+    .fb-note-section {
+      width: 100%;
+      margin-top: 16px;
+      padding-top: 16px;
       border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 640px) {
-      .fb-bottom-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      box-sizing: border-box;
     }
 
     .fb-compact-textarea {
-      flex: 1;
-      height: 42px;
-      min-height: 42px;
-      max-height: 100px;
+      width: 100% !important;
+      min-height: 90px;
+      max-height: 220px;
       resize: vertical;
-      padding: 8px 12px;
-      font-size: 12.5px;
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.3);
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.55;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border);
       color: var(--t1);
       font-family: inherit;
       box-sizing: border-box;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      display: block;
     }
 
     .fb-compact-textarea:focus {
       outline: none;
       border-color: var(--cyan);
-      box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 25%, transparent);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 25%, transparent);
+    }
+
+    .fb-submit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      .fb-submit-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
     }
 
     .stars-row {
@@ -14540,14 +14550,21 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           </div>
         </div>
 
-        <!-- BOTTOM ROW: COMPACT NOTE & SUBMIT -->
-        <div class="fb-bottom-row">
-          <div style="flex:1">
-            <textarea class="fb-compact-textarea" id="fbText" placeholder="${isEn ? 'Optional: Write additional notes or requests...' : 'İsteğe bağlı: Eklemek istediğin fikir veya oyun önerisi...'}" oninput="fbState.text=this.value">${fbState.text || ''}</textarea>
+        <!-- FULL-WIDTH EXTENDED NOTE & SUGGESTIONS SECTION -->
+        <div class="fb-note-section">
+          <div class="fb-section-title" style="color:var(--t1);margin-bottom:10px">
+            ${getVsSvg('edit', 14)} <span>${isEn ? 'Additional Notes, Requests & Suggestions' : 'Eklemek İstedikleriniz (Not, Fikir veya Yeni Mouse/Oyun Talebi)'}</span>
           </div>
-          <button class="btn btn-primary" onclick="submitFeedback()" style="padding:9px 18px;font-size:12.5px;height:42px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 16px color-mix(in srgb, var(--cyan) 25%, transparent)">
-            ${getVsSvg('upload', 13)} <span>${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</span>
-          </button>
+          <textarea class="fb-compact-textarea" id="fbText" placeholder="${isEn ? 'Write your detailed notes, feature requests, missing mouse models, or algorithm suggestions here...' : 'Eklemek istediğin detaylı notlar, yeni fare modeli talepleri, oyun önerileri veya geri bildirimlerin...'}" oninput="fbState.text=this.value">${fbState.text || ''}</textarea>
+          
+          <div class="fb-submit-row">
+            <div style="font-size:12px;color:var(--t3);display:flex;align-items:center;gap:6px">
+              ${getVsSvg('sparkle', 12)} <span>${isEn ? 'Feedback directly shapes future VecSens updates' : 'Geri bildirimler algoritmaların gelişimine doğrudan aktarılır'}</span>
+            </div>
+            <button class="btn btn-primary" onclick="submitFeedback()" style="padding:10px 22px;font-size:13px;height:42px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 16px color-mix(in srgb, var(--cyan) 25%, transparent)">
+              ${getVsSvg('upload', 14)} <span>${isEn ? 'Submit Feedback' : 'Geri Bildirimi Gönder'}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
