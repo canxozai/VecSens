@@ -11344,7 +11344,7 @@
         } catch(e) {}
       },
 
-      async saveAnalysis(customNote = '') {
+      async saveAnalysis(customNote = '', selectedProfileIdx = null) {
         const isEn = currentLang === 'en';
         if (!state.computedProfiles || !state.computedProfiles.length) {
           showToast(isEn ? 'No completed analysis to save.' : 'Kaydedilecek tamamlanmış bir analiz bulunamadı.');
@@ -11354,7 +11354,8 @@
         const a = state.answers || {};
         const profiles = state.computedProfiles;
         const recIdx = state.recIdx || 0;
-        const primaryProf = profiles[recIdx] || profiles[0];
+        const chosenIdx = (selectedProfileIdx !== null && selectedProfileIdx !== undefined && profiles[selectedProfileIdx]) ? selectedProfileIdx : recIdx;
+        const primaryProf = profiles[chosenIdx] || profiles[0];
         const gName = getPrimaryGameName();
         const gid = getPrimaryGameId();
         const dpi = getTargetDPI();
@@ -11421,7 +11422,7 @@
 
         this.broadcastSync('HISTORY_SYNC');
         this.closeModal('saveAnalysisModal');
-        showToast(isEn ? `Saved to Cloud Vault for ${gName}!` : `${gName} analizi Bulut Kasası'na kaydedildi!`);
+        showToast(isEn ? `Profile "${primaryProf.name}" saved for ${gName}!` : `${gName} için "${primaryProf.name}" profili başarıyla kaydedildi!`);
 
         if (state.currentPage === 'history') this.renderHistoryPage();
         return true;
@@ -11917,7 +11918,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       handleSaveAnalysisSubmit() {
         const nInp = document.getElementById('saveAnalysisNoteInput');
         const note = nInp ? nInp.value : '';
-        this.saveAnalysis(note);
+        const pInp = document.getElementById('saveAnalysisProfileIdx');
+        const pIdx = pInp ? parseInt(pInp.value) : null;
+        this.saveAnalysis(note, pIdx);
       },
 
       handleForgotPassword() {
@@ -12164,7 +12167,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         `;
       },
 
-      openSaveAnalysisModal() {
+      openSaveAnalysisModal(selectedIdx = null) {
         const isEn = currentLang === 'en';
         const modal = document.getElementById('saveAnalysisModal');
         if (!modal) return;
@@ -12176,7 +12179,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
         const profiles = state.computedProfiles;
         const recIdx = state.recIdx || 0;
-        const prof = profiles[recIdx] || profiles[0];
+        const activeIdx = (selectedIdx !== null && selectedIdx !== undefined && selectedIdx >= 0 && selectedIdx < profiles.length) ? selectedIdx : recIdx;
+        const prof = profiles[activeIdx] || profiles[0];
         const gName = getPrimaryGameName();
         const dpi = getTargetDPI();
         const u = this.currentUser;
@@ -12187,15 +12191,29 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div class="vs-modal-header">
               <h3 class="vs-modal-title">
                 ${getVsSvg('save', 18)}
-                <span>${isEn ? 'Save Analysis to Cloud Vault' : 'Analizi Bulut Kasasına Kaydet'}</span>
+                <span>${isEn ? 'Save Aim Profile' : 'Analiz Profilini Kaydet'}</span>
               </h3>
               <button class="vs-modal-close" onclick="closeVsModal('saveAnalysisModal')">${getVsSvg('close', 16)}</button>
             </div>
 
-            <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border-bright);border-radius:14px;padding:16px;margin-bottom:18px">
+            <!-- Profile Selector Tabs -->
+            <label class="auth-label" style="margin-bottom:8px">${isEn ? 'Choose Profile to Save' : 'Kaydedilecek Profili Seçin'}</label>
+            <div class="save-profile-selector" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:14px">
+              ${profiles.map((p, idx) => `
+                <button type="button" class="save-profile-tab-btn" id="saveProfBtn_${idx}" onclick="VecSensCloud.selectSaveProfile(${idx})" style="padding:10px 8px;border-radius:10px;border:1px solid ${idx === activeIdx ? 'var(--cyan)' : 'var(--border)'};background:${idx === activeIdx ? 'color-mix(in srgb, var(--cyan) 14%, transparent)' : 'rgba(255,255,255,0.03)'};color:var(--t1);cursor:pointer;text-align:center;transition:all 0.2s ease">
+                  <div style="font-weight:700;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+                  <div style="font-family:var(--mono);font-size:13px;color:var(--cyan);font-weight:800;margin-top:2px">${p.sens}</div>
+                  <div style="font-size:10.5px;color:var(--t3);margin-top:1px">${p.cm360} cm</div>
+                </button>
+              `).join('')}
+            </div>
+            <input type="hidden" id="saveAnalysisProfileIdx" value="${activeIdx}" />
+
+            <!-- Metrics Preview Box -->
+            <div id="saveModalMetricsBox" style="background:rgba(0,0,0,0.25);border:1px solid var(--border-bright);border-radius:14px;padding:14px;margin-bottom:16px">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-                <div style="font-size:16px;font-weight:800;color:var(--t1)">${gName}</div>
-                <span class="history-card-profile-tag ${prof.type}">${prof.name}</span>
+                <div style="font-size:15px;font-weight:800;color:var(--t1)">${gName}</div>
+                <span id="saveModalProfileTag" class="history-card-profile-tag ${prof.type}">${prof.name}</span>
               </div>
               <div class="history-metrics-grid">
                 <div class="history-metric-box">
@@ -12204,11 +12222,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="history-metric-box">
                   <div class="history-metric-label">${gName} SENS</div>
-                  <div class="history-metric-value highlight">${prof.sens}</div>
+                  <div class="history-metric-value highlight" id="saveModalSensVal">${prof.sens}</div>
                 </div>
                 <div class="history-metric-box">
                   <div class="history-metric-label">cm/360°</div>
-                  <div class="history-metric-value">${prof.cm360} cm</div>
+                  <div class="history-metric-value" id="saveModalCmVal">${prof.cm360} cm</div>
                 </div>
               </div>
             </div>
@@ -12216,19 +12234,19 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             ${!u ? `
               <div style="background:color-mix(in srgb, var(--cyan) 10%, transparent);border:1px solid var(--border-bright);border-radius:12px;padding:12px;margin-bottom:16px;font-size:12.5px;color:var(--t2)">
                 💡 <b>${isEn ? 'Pro Tip:' : 'İpucu:'}</b> ${isEn 
-                  ? 'Sign in or create an account to synchronize this analysis with your cloud vault across all devices.' 
-                  : 'Giriş yaparak bu analizi şifreli Bulut Kasası\'nda saklayabilir ve tüm cihazlarından erişebilirsin.'}
+                  ? 'Sign in or create an account to synchronize your profile across all your devices.' 
+                  : 'Giriş yaparak bu profili hesabınıza senkronize edebilir ve tüm cihazlarınızdan erişebilirsiniz.'}
               </div>
             ` : ''}
 
             <div class="auth-form-group">
-              <label class="auth-label">${isEn ? 'Custom Note (Optional)' : 'Özel Not Ekle (İsteğe Bağlı)'}</label>
-              <textarea id="saveAnalysisNoteInput" class="auth-input" rows="3" style="resize:none;padding:10px 12px" placeholder="${isEn ? 'e.g. Tested with new glass pad & Artisan mousepad, feels snappier.' : 'Örn: Yeni cam mousepad ve skatezlerle denendi, micro-adjust çok rahat.'}"></textarea>
+              <label class="auth-label">${isEn ? 'Custom Note (Optional)' : 'Özel Not (İsteğe Bağlı)'}</label>
+              <textarea id="saveAnalysisNoteInput" class="auth-input" rows="2" style="resize:none;padding:10px 12px;font-size:12.5px" placeholder="${isEn ? 'e.g. Tested on high refresh monitor & Artisan mousepad.' : 'Örn: Ana silahlar ve espor antrenmanında test edildi.'}"></textarea>
             </div>
 
             <div style="display:flex;gap:10px;margin-top:16px">
               <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="VecSensCloud.handleSaveAnalysisSubmit()">
-                ${getVsSvg('save', 15)} ${isEn ? 'Save to Cloud Vault' : 'Bulut Kasasına Kaydet'}
+                ${getVsSvg('save', 15)} ${isEn ? 'Save Profile' : 'Profili Kaydet'}
               </button>
               <button class="btn btn-secondary" onclick="closeVsModal('saveAnalysisModal')">
                 ${isEn ? 'Cancel' : 'İptal'}
@@ -12236,6 +12254,32 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             </div>
           </div>
         `;
+      },
+
+      selectSaveProfile(idx) {
+        const profiles = state.computedProfiles;
+        if (!profiles || !profiles[idx]) return;
+        const prof = profiles[idx];
+        const activeInp = document.getElementById('saveAnalysisProfileIdx');
+        if (activeInp) activeInp.value = idx;
+
+        profiles.forEach((_, i) => {
+          const btn = document.getElementById(`saveProfBtn_${i}`);
+          if (btn) {
+            btn.style.borderColor = i === idx ? 'var(--cyan)' : 'var(--border)';
+            btn.style.background = i === idx ? 'color-mix(in srgb, var(--cyan) 14%, transparent)' : 'rgba(255,255,255,0.03)';
+          }
+        });
+
+        const tag = document.getElementById('saveModalProfileTag');
+        if (tag) {
+          tag.className = `history-card-profile-tag ${prof.type}`;
+          tag.textContent = prof.name;
+        }
+        const sVal = document.getElementById('saveModalSensVal');
+        if (sVal) sVal.textContent = prof.sens;
+        const cmVal = document.getElementById('saveModalCmVal');
+        if (cmVal) cmVal.textContent = `${prof.cm360} cm`;
       },
 
       openCompareModal() {
@@ -12643,7 +12687,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     window.VecSensCloud = VecSensCloud;
     window.openAuthModal = (tab) => VecSensCloud.openAuthModal(tab);
     window.openProfileModal = () => VecSensCloud.openProfileModal();
-    window.openSaveAnalysisModal = () => VecSensCloud.openSaveAnalysisModal();
+    window.openSaveAnalysisModal = (idx) => VecSensCloud.openSaveAnalysisModal(idx);
     window.closeVsModal = (id) => VecSensCloud.closeModal(id);
     window.loadSavedAnalysis = (id) => VecSensCloud.loadSavedAnalysis(id);
     window.testSavedAnalysisInLab = (id) => VecSensCloud.testSavedAnalysisInLab(id);
@@ -13708,6 +13752,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         <div class="pros"><h4> ${isEn ? 'ADVANTAGES' : 'AVANTAJLAR'}</h4><ul>${prosText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
         <div class="cons"><h4> ${isEn ? 'DISADVANTAGES' : 'DEZAVANTAJLAR'}</h4><ul>${consText[p.type].map(t => `<li>${t}</li>`).join('')}</ul></div>
       </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px">
+        <button class="btn btn-primary btn-sm" onclick="openSaveAnalysisModal(${i})" style="flex:1;justify-content:center;font-size:12.5px;padding:8px 14px">
+          ${getVsSvg('save', 14)} <span>${isEn ? 'Save This Profile' : 'Bu Profili Kaydet'}</span>
+        </button>
+      </div>
     </div>`;
       }).join('');
 
@@ -13750,7 +13799,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       <!-- Quick Action Buttons -->
       <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
         <button class="btn btn-primary btn-sm" onclick="openSaveAnalysisModal()" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8;color:#fff;font-weight:700">
-          ${getVsSvg('save', 14)} <span>${isEn ? 'Save to Cloud Vault' : 'Bulut Kasasına Kaydet'}</span>
+          ${getVsSvg('save', 14)} <span>${isEn ? 'Save Profile' : 'Profili Kaydet'}</span>
         </button>
         <button class="btn btn-secondary btn-sm" onclick="openShareAimCardModal()" style="border-color:var(--border-bright);font-weight:700">
           ${getVsSvg('target', 14)} <span>${isEn ? 'Aim Passport Card' : '🎴 Espor Kartını Paylaş'}</span>
@@ -13769,7 +13818,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     ${routineHtml}
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="openSaveAnalysisModal()"> ${getVsSvg('save', 14)} ${isEn ? 'Save to History' : 'Geçmişe Kaydet'}</button>
+      <button class="btn btn-primary" onclick="openSaveAnalysisModal()"> ${getVsSvg('save', 14)} ${isEn ? 'Save Profile' : 'Profili Kaydet'}</button>
       <button class="btn btn-secondary" onclick="openShareAimCardModal()"> ${getVsSvg('target', 14)} ${isEn ? 'Aim Card' : '🎴 Espor Kartı'}</button>
       <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
       <button class="btn btn-secondary" onclick="switchPage('history')"> ${getVsSvg('history', 14)} ${isEn ? 'Saved History' : 'Geçmiş Analizler'}</button>
@@ -16111,7 +16160,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Retry' : 'Tekrar Oyna'}</button>
             <button class="btn btn-primary" onclick="saveCurrentAimScoreToCloud('calibrate_180', ${totalScore}, 100, ${avgMs}, ${curSens}, ${dpi}, '${gameId}')" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8">
-              ${getVsSvg('cloudCheck', 14)} <span>${isEn ? 'Save Score to Cloud' : 'Skoru Buluta Kaydet'}</span>
+              ${getVsSvg('save', 14)} <span>${isEn ? 'Save Score' : 'Skoru Kaydet'}</span>
             </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
           </div>
@@ -16255,7 +16304,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="startAimTest()"> ${isEn ? 'Test Again' : 'Tekrar Oyna'}</button>
             <button class="btn btn-primary" onclick="saveCurrentAimScoreToCloud('${isFlick ? 'flick' : 'track'}', ${score}, ${acc}, ${avgRt}, ${curSens}, ${curDpi}, '${curGame}')" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8">
-              ${getVsSvg('cloudCheck', 14)} <span>${isEn ? 'Save Score to Cloud' : 'Skoru Buluta Kaydet'}</span>
+              ${getVsSvg('save', 14)} <span>${isEn ? 'Save Score' : 'Skoru Kaydet'}</span>
             </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')"> ${isEn ? 'Go to Converter' : 'Dönüştürücüye Git'}</button>
           </div>
