@@ -1,20 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
     <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="var(--t1, #f8fafc)" />
-      <stop offset="60%" stop-color="var(--cyan, #38bdf8)" />
-      <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+    <linearGradient id="vReticleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#cbd5e1" />
     </linearGradient>
   </defs>
   <!-- Outer 'V' Precision Tactical Frame -->
-  <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vGrad)" stroke="var(--border, #232f46)" stroke-width="3" stroke-linejoin="round" />
+  <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vGrad)" stroke="#334155" stroke-width="3" stroke-linejoin="round" />
   <!-- Center Reticle Circle -->
-  <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
-  <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3" opacity="0.6" />
-  <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
+  <circle cx="256" cy="230" r="68" fill="none" stroke="url(#vReticleGrad)" stroke-width="9" />
+  <circle cx="256" cy="230" r="26" fill="none" stroke="#e2e8f0" stroke-width="3" opacity="0.75" />
+  <circle cx="256" cy="230" r="5" fill="#ffffff" />
   <!-- Crosshairs -->
-  <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-  <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-  <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-  <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+  <line x1="256" y1="120" x2="256" y2="200" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+  <line x1="256" y1="260" x2="256" y2="340" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+  <line x1="146" y1="230" x2="226" y2="230" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+  <line x1="286" y1="230" x2="366" y2="230" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
 </svg>
