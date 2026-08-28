@@ -12597,6 +12597,45 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             `}
           </div>
         `;
+      },
+
+      getProMatches(targetCm360, gameId = 'valorant') {
+        const gid = (gameId && PRO_DATA && PRO_DATA[gameId]) ? gameId : (PRO_DATA && PRO_DATA['valorant'] ? 'valorant' : (PRO_DATA ? Object.keys(PRO_DATA)[0] : 'valorant'));
+        const pros = (PRO_DATA && PRO_DATA[gid]) ? PRO_DATA[gid] : [];
+        if (!pros || !pros.length) return [];
+
+        const calcCm = (dpi, sens, g) => {
+          const yawMap = { valorant: 0.07, cs2: 0.022, apex: 0.022, overwatch: 0.0066, fortnite: 0.0055, r6: 0.00383, pubg: 0.002 };
+          const yaw = yawMap[g] || 0.07;
+          return Math.round((360 / (dpi * sens * yaw) * 2.54) * 10) / 10;
+        };
+
+        const list = pros.map(p => {
+          const proCm = calcCm(p.dpi, p.sens, gid);
+          const delta = Math.abs(proCm - targetCm360);
+          const matchPct = Math.max(45, Math.min(99, Math.round(100 - (delta / Math.max(proCm, targetCm360, 1)) * 65)));
+          return {
+            name: p.name,
+            team: p.team,
+            mouse: p.mouse,
+            dpi: p.dpi,
+            sens: p.sens,
+            proCm,
+            matchPct
+          };
+        });
+
+        list.sort((a, b) => b.matchPct - a.matchPct);
+        return list.slice(0, 3);
+      },
+
+      openShareAimCardModal() {
+        downloadPlayerCard();
+      },
+
+      closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.classList.add('hidden');
       }
     };
 
