@@ -611,13 +611,16 @@
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
-      animation: slideIn .35s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .question-card.anim-slide {
+      animation: slideIn .32s cubic-bezier(.4, 0, .2, 1);
     }
 
     @keyframes slideIn {
       from {
         opacity: 0;
-        transform: translateY(14px)
+        transform: translateY(12px)
       }
 
       to {
@@ -723,7 +726,6 @@
       border-color: color-mix(in srgb, var(--cyan) 30%, transparent);
       color: var(--t1);
       background: color-mix(in srgb, var(--cyan) 3%, transparent);
-      transform: translateY(-1px);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
@@ -13393,10 +13395,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     // ════════════════════════════════════════════════════════════
     //  RENDER QUESTION
     // ════════════════════════════════════════════════════════════
-    function renderQuestion(idx) {
+    function renderQuestion(idx, isTransition = null) {
       const visible = getVisibleQuestions();
       if (idx >= visible.length) { showLoading(); return; }
       const q = visible[idx];
+      const isNewQuestion = isTransition !== null ? isTransition : (state.currentQ !== idx);
       state.currentQ = idx;
       const isEn = currentLang === 'en';
 
@@ -13516,7 +13519,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
   </div>`;
 
       const qArea = document.getElementById('questionArea');
-      if (qArea) qArea.innerHTML = `<div class="question-card">${h}</div>`;
+      if (qArea) qArea.innerHTML = `<div class="question-card ${isNewQuestion ? 'anim-slide' : ''}">${h}</div>`;
     }
 
     function toggleMulti(qId, val) {
@@ -13525,26 +13528,26 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       if (i > -1) arr.splice(i, 1); else arr.push(val);
       state.answers[qId] = arr;
       delete state.answers[qId + '_unsure'];
-      renderQuestion(state.currentQ);
+      renderQuestion(state.currentQ, false);
     }
     function toggleUnsure(qId) {
       state.answers[qId + '_unsure'] = !state.answers[qId + '_unsure'];
       state.answers[qId] = [];
-      renderQuestion(state.currentQ);
+      renderQuestion(state.currentQ, false);
     }
     function selectSingle(qId, val) {
       state.answers[qId] = val;
-      renderQuestion(state.currentQ);
+      renderQuestion(state.currentQ, false);
     }
     function setResAspect(qId, ar) {
       state.resAspect = ar;
-      renderQuestion(state.currentQ);
+      renderQuestion(state.currentQ, false);
     }
     function pickRes(qId, fKey, val) {
       const obj = typeof state.answers[qId] === 'object' ? { ...(state.answers[qId] || {}) } : {};
       obj[fKey] = val;
       state.answers[qId] = obj;
-      renderQuestion(state.currentQ);
+      renderQuestion(state.currentQ, false);
     }
     function saveTextInputs() {
       const visible = getVisibleQuestions();
@@ -13566,11 +13569,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       saveTextInputs();
       const visible = getVisibleQuestions();
       const next = state.currentQ + 1;
-      if (next >= visible.length) showLoading(); else renderQuestion(next);
+      if (next >= visible.length) showLoading(); else renderQuestion(next, true);
     }
     function goBack() {
       saveTextInputs();
-      if (state.currentQ > 0) renderQuestion(state.currentQ - 1);
+      if (state.currentQ > 0) renderQuestion(state.currentQ - 1, true);
     }
 
     // ════════════════════════════════════════════════════════════
