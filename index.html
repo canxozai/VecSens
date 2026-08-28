@@ -107,42 +107,47 @@
 
     /* ── TOP NAV ── */
     .topnav {
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px 0 0;
-      width: 100%;
-      box-sizing: border-box;
-      min-height: 80px;
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 16px 0 10px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      z-index: 1000 !important;
+      pointer-events: auto !important;
     }
 
-    .nav-left-zone {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 7px;
-      z-index: 10;
-      flex-shrink: 0;
+    .nav-top-bar {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+      z-index: 1001 !important;
+      pointer-events: auto !important;
     }
 
     .nav-sub-controls {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-wrap: wrap;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      flex-wrap: wrap !important;
+      justify-content: flex-end !important;
+      z-index: 1002 !important;
+      pointer-events: auto !important;
     }
 
     .nav-tabs-center-wrap {
-      position: absolute;
-      left: 50%;
-      top: 16px;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 5;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      z-index: 1003 !important;
+      pointer-events: auto !important;
+      position: relative !important;
     }
 
     .nav-brand {
@@ -217,43 +222,51 @@
     }
 
     .nav-tabs {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      background: rgba(15, 22, 36, 0.82);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: var(--r4);
-      padding: 4px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
-      flex-shrink: 1;
-      min-width: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 4px !important;
+      background: rgba(15, 22, 36, 0.88) !important;
+      backdrop-filter: blur(16px) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--r4) !important;
+      padding: 4px !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .35) !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      -webkit-overflow-scrolling: touch !important;
+      z-index: 1005 !important;
+      pointer-events: auto !important;
+      position: relative !important;
     }
     .nav-tabs::-webkit-scrollbar {
       display: none;
     }
 
     .nav-tab {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-family: var(--display);
-      font-size: 12.5px;
-      font-weight: 600;
-      letter-spacing: .01em;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: var(--t3);
-      transition: var(--ease);
-      white-space: nowrap;
-      flex-shrink: 0;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      padding: 7px 14px !important;
+      border-radius: 16px !important;
+      font-family: var(--display) !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      letter-spacing: .01em !important;
+      cursor: pointer !important;
+      border: none !important;
+      background: transparent !important;
+      color: var(--t3) !important;
+      transition: var(--ease) !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+      user-select: none !important;
+      z-index: 1006 !important;
+      pointer-events: auto !important;
+      position: relative !important;
     }
 
     .nav-tab:hover {
@@ -326,22 +339,10 @@
 
     @media (max-width: 1100px) {
       .topnav {
-        flex-direction: column;
-        align-items: center;
-        gap: 14px;
-        min-height: auto;
-        padding-top: 14px;
+        padding-top: 12px;
+        gap: 10px;
       }
-      .nav-left-zone {
-        align-items: center;
-        width: 100%;
-      }
-      .nav-sub-controls {
-        justify-content: center;
-      }
-      .nav-tabs-center-wrap {
-        position: static;
-        transform: none;
+      .nav-top-bar {
         width: 100%;
       }
       .nav-tabs {
@@ -5286,7 +5287,7 @@
 
       <!-- TOP NAV -->
       <div class="topnav">
-        <div class="nav-left-zone">
+        <div class="nav-top-bar">
           <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
             <span class="nav-brand-logo-wrap" id="navBrandLogoWrap">
               <svg class="vecsens-dynamic-logo nav-brand-logo" viewBox="0 0 512 512" style="width:26px;height:26px;display:inline-block;vertical-align:middle;transition:all 0.3s ease">
@@ -5309,6 +5310,7 @@
             </span>
             <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
           </div>
+
           <div class="nav-sub-controls" id="navSubControls">
             <div id="userAuthContainer" class="user-auth-container"></div>
             <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
@@ -10708,6 +10710,7 @@
         if (el) el.classList.toggle('hidden', p !== page);
         if (tab) tab.classList.toggle('active', p === page);
       });
+      try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch(e) {}
       if (page === 'home') renderHomePage();
       if (page === 'analysis') {
         if (state.analysisComplete) showResults();
@@ -12641,11 +12644,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           </p>
           <div class="home-hero-actions">
             <button class="btn btn-primary" onclick="switchPage('analysis')">
-              
+              ${getVsSvg('play', 14)}
               <span>${isEn ? 'Start Aim Analysis' : 'Aim Analizini Başlat'}</span>
             </button>
             <button class="btn btn-secondary" onclick="switchPage('converter')">
-              
+              ${getVsSvg('refresh', 14)}
               <span>${isEn ? 'Sens Converter' : 'Sens Dönüştürücü'}</span>
             </button>
           </div>
@@ -12679,7 +12682,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  
+                  ${getVsSvg('crosshair', 24)}
                 </div>
                 <div class="home-card-badge">${isEn ? 'Core Feature · 5 Phases' : 'Ana Özellik · 5 Aşamalı'}</div>
               </div>
@@ -12698,7 +12701,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Start 5-Phase Analysis' : 'Analizi Başlat'}</span>
-              
+              ${getVsSvg('play', 14)}
             </button>
           </div>
 
@@ -12707,7 +12710,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  
+                  ${getVsSvg('refresh', 24)}
                 </div>
                 <div class="home-card-badge">${isEn ? '1:1 Motor Conversion' : '1:1 Motor Çevrimi'}</div>
               </div>
@@ -12725,7 +12728,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Open Converter' : 'Dönüştürücüye Git'}</span>
-              
+              ${getVsSvg('link', 14)}
             </button>
           </div>
 
@@ -12734,7 +12737,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  
+                  ${getVsSvg('target', 24)}
                 </div>
                 <div class="home-card-badge">${isEn ? 'Interactive Lab' : 'Canlı Laboratuvar'}</div>
               </div>
@@ -12751,7 +12754,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Launch Aim Lab' : 'Aim Testini Başlat'}</span>
-              
+              ${getVsSvg('play', 14)}
             </button>
           </div>
 
@@ -12760,7 +12763,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
-                  
+                  ${getVsSvg('crown', 24)}
                 </div>
                 <div class="home-card-badge">${isEn ? 'Esports DB' : 'Espor Veritabanı'}</div>
               </div>
@@ -12778,7 +12781,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             </div>
             <button class="home-card-btn">
               <span>${isEn ? 'Explore Pro DB' : 'Pro Ayarlarını İncele'}</span>
-              
+              ${getVsSvg('search', 14)}
             </button>
           </div>
 
@@ -17351,6 +17354,24 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       applyLanguage();
       state.currentPage = 'home';
       switchPage('home');
+
+      // Explicit navigation tab click bindings (100% resilient)
+      ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history'].forEach(p => {
+        const btn = document.getElementById(`ntab-${p}`);
+        if (btn) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchPage(p);
+          });
+        }
+      });
+      const navBrand = document.querySelector('.nav-brand');
+      if (navBrand) {
+        navBrand.addEventListener('click', (e) => {
+          e.preventDefault();
+          switchPage('home');
+        });
+      }
 
       // 3. Fetch background site-config.json asynchronously and apply to all visitors
       fetch('site-config.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).then(siteConf => {
