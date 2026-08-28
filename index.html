@@ -10732,7 +10732,7 @@
       }
     }
 
-    function switchPage(page) {
+    function switchPage(page, updateHash = true) {
       if (page === 'admin' && adminConfig && adminConfig.pinProtected && !adminConfig.unlocked) {
         showAdminAuthModal();
         return;
@@ -10745,6 +10745,19 @@
         if (tab) tab.classList.toggle('active', p === page);
       });
       try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch(e) {}
+
+      // Update URL hash cleanly (e.g. #/home, #/analysis, #/converter, #/aimtest, #/pros, #/history, #/feedback)
+      if (updateHash && page !== 'admin') {
+        const targetHash = `#/${page}`;
+        if (window.location.hash !== targetHash && window.location.hash !== `#${page}`) {
+          try {
+            history.pushState(null, '', targetHash);
+          } catch(e) {
+            window.location.hash = targetHash;
+          }
+        }
+      }
+
       if (page === 'home') renderHomePage();
       if (page === 'analysis') {
         if (state.analysisComplete) showResults();
@@ -10757,6 +10770,33 @@
       if (page === 'aimtest') renderAimTest();
       if (page === 'admin') renderAdminPage();
     }
+
+    function resetAndStartNewAnalysis() {
+      const isEn = currentLang === 'en';
+      state.answers = {};
+      state.currentQ = 0;
+      state.analysisComplete = false;
+      state.computedProfiles = null;
+      state.recIdx = 0;
+
+      // Clean up results & progress UI
+      const rArea = document.getElementById('resultsArea');
+      if (rArea) {
+        rArea.classList.add('hidden');
+        rArea.innerHTML = '';
+      }
+      const pWrap = document.getElementById('progressWrapper');
+      if (pWrap) pWrap.classList.remove('hidden');
+      const pInd = document.getElementById('phaseIndicator');
+      if (pInd) pInd.classList.remove('hidden');
+      const qArea = document.getElementById('questionArea');
+      if (qArea) qArea.innerHTML = '';
+
+      switchPage('analysis');
+      renderQuestion(0);
+      showToast(isEn ? 'Analysis reset! Starting a new test.' : 'Analiz sıfırlandı! Yeni analize başlayabilirsiniz.');
+    }
+    window.resetAndStartNewAnalysis = resetAndStartNewAnalysis;
 
     // Auto-render homepage immediately as fallback
     try {
@@ -13801,6 +13841,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         <button class="btn btn-primary btn-sm" onclick="openSaveAnalysisModal()" style="background:linear-gradient(135deg, #0ea5e9, #0284c7);border-color:#38bdf8;color:#fff;font-weight:700">
           ${getVsSvg('save', 14)} <span>${isEn ? 'Save Profile' : 'Profili Kaydet'}</span>
         </button>
+        <button class="btn btn-secondary btn-sm" onclick="resetAndStartNewAnalysis()" style="border-color:var(--cyan);color:var(--cyan);font-weight:700">
+          ${getVsSvg('refresh', 14)} <span>${isEn ? 'New Analysis' : 'Yeni Analiz'}</span>
+        </button>
         <button class="btn btn-secondary btn-sm" onclick="openShareAimCardModal()" style="border-color:var(--border-bright);font-weight:700">
           ${getVsSvg('target', 14)} <span>${isEn ? 'Aim Passport Card' : '🎴 Espor Kartını Paylaş'}</span>
         </button>
@@ -13819,11 +13862,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     <div id="fineTuneSection"></div>
     <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="openSaveAnalysisModal()"> ${getVsSvg('save', 14)} ${isEn ? 'Save Profile' : 'Profili Kaydet'}</button>
+      <button class="btn btn-primary" onclick="resetAndStartNewAnalysis()" style="background:linear-gradient(135deg, #0284c7, #0369a1);border-color:#38bdf8;color:#fff;font-weight:700"> ${getVsSvg('refresh', 14)} ${isEn ? 'Reset & Start New Analysis' : 'Sıfırla & Yeni Analiz Başlat'}</button>
       <button class="btn btn-secondary" onclick="openShareAimCardModal()"> ${getVsSvg('target', 14)} ${isEn ? 'Aim Card' : '🎴 Espor Kartı'}</button>
       <button class="btn btn-ghost" onclick="startFineTune()" id="ftBtn"> ${isEn ? 'Fine-Tune Sensitivity' : 'İnce Ayar Başlat'}</button>
       <button class="btn btn-secondary" onclick="switchPage('history')"> ${getVsSvg('history', 14)} ${isEn ? 'Saved History' : 'Geçmiş Analizler'}</button>
       <button class="btn btn-secondary" onclick="switchPage('pros')"> ${isEn ? 'View Pro Players' : 'Pro Oyuncuları Gör'}</button>
-      <button class="btn btn-secondary" onclick="location.reload()"> ${isEn ? 'Start Over' : 'Baştan Başla'}</button>
     </div>`;
 
       const rArea = document.getElementById('resultsArea');
@@ -17432,13 +17475,36 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       }
     }
 
-    // ── THE SINGLE SECRET ADMIN ENTRYPOINT: URL HASH (#admin) ──
-    function checkAdminUrlHash() {
-      if (window.location.hash === '#admin' || window.location.hash.startsWith('#admin')) {
+    // ── HASH ROUTING HANDLER (#/home, #/analysis, #/converter, #/aimtest, #/pros, #/feedback, #/history, #admin) ──
+    function handleRouteHash() {
+      const hash = window.location.hash || '';
+      if (hash === '#admin' || hash.startsWith('#admin')) {
         openSecretVisualStudio();
+        return;
+      }
+      if (hash.startsWith('#share=')) {
+        try {
+          const payload = JSON.parse(atob(hash.replace('#share=', '')));
+          if (payload && payload.d && payload.s) {
+            state.answers.q1 = [payload.g || 'valorant'];
+            state.answers.q3 = `${payload.d}`;
+            state.answers.q2 = payload.m || '';
+            state.answers.q11 = payload.gr || 'palm';
+            switchPage('analysis', false);
+            showResults();
+            showToast(currentLang === 'en' ? 'Shared profile loaded!' : 'Paylaşılan profil yüklendi!');
+            return;
+          }
+        } catch (e) { }
+      }
+      const clean = hash.replace(/^#\/?/, '').toLowerCase();
+      const validPages = ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history'];
+      if (validPages.includes(clean)) {
+        switchPage(clean, false);
       }
     }
-    window.addEventListener('hashchange', checkAdminUrlHash);
+    window.addEventListener('hashchange', handleRouteHash);
+    window.addEventListener('popstate', handleRouteHash);
 
     // ════════════════════════════════════════════════════════════
     const EMOJI_RE = /(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}|[\u2600-\u27BF]|[\uFE00-\uFE0F]|\uFE0F|\u20E3|[\u2300-\u23FF]|\u200D)/gu;
@@ -17492,8 +17558,17 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         VecSensCloud.init();
       }
       applyLanguage();
-      state.currentPage = 'home';
-      switchPage('home');
+
+      // Check initial URL hash
+      const initialHash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase();
+      const validPages = ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history'];
+      if (validPages.includes(initialHash)) {
+        state.currentPage = initialHash;
+        switchPage(initialHash, false);
+      } else {
+        state.currentPage = 'home';
+        switchPage('home', false);
+      }
 
       // Explicit navigation tab click bindings (100% resilient)
       ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history'].forEach(p => {
