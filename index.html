@@ -129,9 +129,15 @@
     .nav-tabs-wrap {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
       flex: 1;
       min-width: 0;
+    }
+
+    .nav-right-spacer {
+      min-width: 120px;
+      flex-shrink: 0;
+      pointer-events: none;
     }
 
     .nav-sub-bar {
@@ -339,6 +345,9 @@
     }
 
     @media (max-width: 1100px) {
+      .nav-right-spacer {
+        display: none;
+      }
       .topnav {
         padding-top: 12px;
         gap: 10px;
@@ -5333,6 +5342,8 @@
               <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
             </div>
           </div>
+
+          <div class="nav-right-spacer" aria-hidden="true"></div>
         </div>
 
         <div class="nav-sub-bar">
