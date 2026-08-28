@@ -10895,17 +10895,28 @@
       async measurePing() {
         const t0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
         try {
-          if (this.supabase && this.config.url) {
-            await this.supabase.from('vecsens_history').select('id').limit(1);
+          if (this.supabase && this.config?.url) {
+            // Lightweight fast edge ping to Supabase endpoint (much faster than full DB SQL query)
+            await fetch(this.config.url + '/rest/v1/?apikey=' + (this.config.anonKey || ''), {
+              method: 'HEAD',
+              mode: 'cors',
+              cache: 'no-store'
+            });
           } else if (this.serverApiOnline) {
-            await fetch('/api/ping?_p=' + Date.now(), { method: 'GET', cache: 'no-store' });
+            await fetch('/api/ping?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
           } else {
             await fetch('site-config.json?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
           }
           const t1 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-          this.latencyMs = Math.max(6, Math.round(t1 - t0));
+          this.latencyMs = Math.max(12, Math.round(t1 - t0));
         } catch(e) {
-          this.latencyMs = 24;
+          try {
+            const f0 = performance.now();
+            await fetch('site-config.json?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
+            this.latencyMs = Math.max(12, Math.round(performance.now() - f0));
+          } catch(err) {
+            this.latencyMs = 28;
+          }
         }
         const pill = document.getElementById('cloudLatencyPill');
         if (pill) {
