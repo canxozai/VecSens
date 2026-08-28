@@ -13610,6 +13610,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     // ════════════════════════════════════════════════════════════
     //  ANALYSIS ENGINE
     // ════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
+    //  ANALYSIS ENGINE
+    // ════════════════════════════════════════════════════════════
     function computeRecommendedCm360() {
       const a = state.answers;
       let base = 40;
@@ -13634,7 +13637,24 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
       const pad = a.q5;
       if (pad === 'small') base = Math.min(base, 30);
-      if (pad === 'medium') base = Math.min(base, 42);
+      else if (pad === 'medium') base = Math.min(base, 42);
+      else if (pad === 'custom' && a.q5b && a.q5b.width) {
+        const customW = parseFloat(a.q5b.width);
+        if (customW && !isNaN(customW) && customW > 10) base = Math.min(base, customW * 0.90);
+      }
+
+      // Masa alanı kısıtı (Desk Space Clamping): Dar masalarda klavyeye çarpmayı önlemek için güvenli limit
+      if (a.q14 === 'no') {
+        base = Math.min(base, 35);
+      }
+
+      // FOV (Görüş alanı) ölçeklemesi: Yüksek FOV (110+) hedefleri ekranda küçülttüğü ve görsel hızı artırdığı için mikro kompanzasyon
+      const fov = parseFloat(a.q7);
+      if (fov && !isNaN(fov)) {
+        if (fov >= 115) base *= 0.94;
+        else if (fov >= 105) base *= 0.98;
+        else if (fov <= 85) base *= 1.05;
+      }
 
       if (a.q24 === 'beginner') base *= 0.92;
       if (a.q24 === 'competitive') base *= 1.05;
@@ -13711,6 +13731,93 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     function getPrimaryGameId() { return (state.answers.q1 || ['other'])[0] || 'other'; }
 
     // ════════════════════════════════════════════════════════════
+    //  CURRENT VS RECOMMENDED COMPARISON CARD (DELTA REPORT)
+    // ════════════════════════════════════════════════════════════
+    function getCurrentComparisonHtml(a, recProf, gid, targetDpi) {
+      const isEn = currentLang === 'en';
+      const currData = a.q20;
+      if (!currData) return '';
+      
+      const cSens = parseFloat(typeof currData === 'object' ? currData.sens : currData);
+      const cDpi = parseFloat(typeof currData === 'object' ? currData.dpi : 800) || targetDpi || 800;
+      
+      if (!cSens || isNaN(cSens) || cSens <= 0) return '';
+      
+      const currCm = calcCm360(cDpi, cSens, gid);
+      const currEdpi = Math.round(cDpi * cSens);
+      const recCm = recProf.cm360;
+      const recSens = recProf.sens;
+      const recEdpi = recProf.edpi;
+      
+      const diffCm = Math.round((recCm - currCm) * 10) / 10;
+      const diffPct = Math.round(((recCm - currCm) / currCm) * 100);
+      
+      let badgeHtml = '';
+      let insightText = '';
+      
+      if (Math.abs(diffPct) < 8) {
+        badgeHtml = `<span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:var(--green);padding:4px 10px;border-radius:10px;font-size:12px;font-weight:700">${isEn ? 'Near Perfect Match' : 'Mevcut Ayarın İdeale Çok Yakın'}</span>`;
+        insightText = isEn 
+          ? 'Your current sensitivity is already well-calibrated. VecSens fine-tunes your consistency by a subtle margin.' 
+          : 'Mevcut ayarın ideal mekanik aralığa oldukça yakın. VecSens ile mikro titreşimleri minimuma indirip tutarlılığı sabitleyeceksin.';
+      } else if (diffPct > 0) {
+        badgeHtml = `<span style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);color:var(--cyan);padding:4px 10px;border-radius:10px;font-size:12px;font-weight:700">${isEn ? `+${diffPct}% More Precision & Control` : `+${diffPct}% Daha Fazla Mikro İsabet & Kontrol`}</span>`;
+        insightText = isEn
+          ? `Your previous sensitivity (${currCm} cm/360) was on the faster side, which likely caused overshooting on micro-shots. Moving to <b>${recCm} cm/360</b> expands your error margin and stabilizes long-range crosshair placement.`
+          : `Eski ayarın (${currCm} cm/360) hedeflerde ani aşmaya (overshoot) ve mikro titreşime yol açacak kadar hızlıydı. <b>${recCm} cm/360</b> değerine geçerek hata payını genişletecek ve uzun menzilli mikro düzeltmeleri çok daha rahat yapacaksın.`;
+      } else {
+        badgeHtml = `<span style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:var(--purple);padding:4px 10px;border-radius:10px;font-size:12px;font-weight:700">${isEn ? `${Math.abs(diffPct)}% Faster Agility & 180° Swipes` : `%${Math.abs(diffPct)} Daha Hızlı 180° Dönüş & Çeviklik`}</span>`;
+        insightText = isEn
+          ? `Your previous setup (${currCm} cm/360) was sluggish for fast 180° turns. The new recommendation boosts reaction speed and close-quarters snapping without losing stability.`
+          : `Eski ayarın (${currCm} cm/360) 180° dönüşlerde ve yakın temaslarda kolunu gereksiz yoruyordu. Yeni öneri ile çevikliğini ve tepki hızını artıracaksın.`;
+      }
+
+      return `
+        <div class="analysis-card" style="border:1px solid color-mix(in srgb, var(--cyan) 30%, var(--border));background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(56,189,248,0.04));margin-bottom:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:8px">
+              ${getVsSvg('compare', 18)}
+              <span>${isEn ? 'Current Setup vs. VecSens Optimization' : 'Mevcut Ayarın vs. VecSens Optimizasyonu'}</span>
+            </h3>
+            ${badgeHtml}
+          </div>
+          
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-bottom:14px">
+            <!-- Eski Ayar -->
+            <div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:14px">
+              <div style="font-size:11px;color:var(--t3);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px">${isEn ? 'CURRENT SETTING (BEFORE)' : 'ESKİ AYARIN (ÖNCE)'}</div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:var(--mono);font-size:22px;font-weight:800;color:var(--t2)">${cSens}</span>
+                <span style="font-size:12px;color:var(--t3)">(${cDpi} DPI)</span>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;font-size:12px;color:var(--t3)">
+                <span>cm/360: <b style="color:var(--t1);font-family:var(--mono)">${currCm} cm</b></span>
+                <span>eDPI: <b style="color:var(--t1);font-family:var(--mono)">${currEdpi}</b></span>
+              </div>
+            </div>
+
+            <!-- Yeni Öneri -->
+            <div style="background:color-mix(in srgb, var(--cyan) 8%, rgba(0,0,0,0.3));border:1px solid var(--cyan);border-radius:12px;padding:14px;box-shadow:0 0 20px color-mix(in srgb, var(--cyan) 12%, transparent)">
+              <div style="font-size:11px;color:var(--cyan);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px">${isEn ? 'VECSENS RECOMMENDED (AFTER)' : 'VECSENS ÖNERİSİ (YENİ)'}</div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:var(--mono);font-size:22px;font-weight:800;color:var(--cyan)">${recSens}</span>
+                <span style="font-size:12px;color:var(--t3)">(${recProf.dpi} DPI)</span>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;font-size:12px;color:var(--t3)">
+                <span>cm/360: <b style="color:var(--cyan);font-family:var(--mono)">${recCm} cm</b></span>
+                <span>eDPI: <b style="color:var(--cyan);font-family:var(--mono)">${recEdpi}</b></span>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:13px;color:var(--t2);line-height:1.55;margin:0">
+            ${insightText}
+          </p>
+        </div>
+      `;
+    }
+
+    // ════════════════════════════════════════════════════════════
     //  SHOW RESULTS
     // ════════════════════════════════════════════════════════════
     function showResults() {
@@ -13730,15 +13837,32 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const gid = getPrimaryGameId();
       const dpi = getTargetDPI();
 
-      // Uyarılar
+      // Uyarılar ve Donanım Optimizasyon Tavsiyeleri
       const alerts = [];
       if (a.q19 === 'on') alerts.push({ c: 'red', m: isEn ? '<b>"Enhance Pointer Precision" (EPP) is enabled.</b> Disabling it will drastically improve aim consistency.' : '<b>"İşaretçi hassasiyetini artır" (EPP) açık.</b> Kapatman aim tutarlılığını önemli ölçüde artıracak.' });
       if (a.q16 === 'on') alerts.push({ c: 'amber', m: isEn ? '<b>Mouse Acceleration is enabled.</b> Turning it OFF makes building muscle memory much easier.' : '<b>Fare İvmesi (Mouse Acceleration) açık.</b> Kapatman kas hafızası geliştirmeyi kolaylaştırır.' });
       if (a.q18 && a.q18 !== '6' && a.q18 !== '__unsure__') alerts.push({ c: 'blue', m: isEn ? `Windows pointer speed is set to <b>${a.q18}/11</b>. Recommended default is <b>6/11</b> (1:1 ratio).` : `Windows işaretçi hızın <b>${a.q18}/11</b>. Önerilen değer <b>6/11</b>.` });
       if (a.q17 === 'off') alerts.push({ c: 'amber', m: isEn ? '<b>Raw Input is disabled.</b> We strongly recommend enabling it in game settings.' : '<b>Ham Girdi (Raw Input) kapalı.</b> Oyun ayarlarından açmanı öneririz.' });
+      
+      // Polling Rate uyarısı & 4K/8K DPI doygunluğu (q4)
+      if (a.q4 === '125' || a.q4 === '250') {
+        alerts.push({ c: 'amber', m: isEn ? `<b>${a.q4} Hz Polling Rate</b> introduces noticeable input latency (~${a.q4 === '125' ? '8ms' : '4ms'}). Switching your mouse to <b>1000 Hz</b> is strongly recommended for competitive FPS.` : `<b>${a.q4} Hz Yoklama Hızı (Polling Rate)</b> yüksek girdi gecikmesine (~${a.q4 === '125' ? '8ms' : '4ms'}) yol açar. Espor standartlarında en az <b>1000 Hz</b> kullanman önerilir.` });
+      } else if ((a.q4 === '4000' || a.q4 === '8000') && dpi < 1600) {
+        alerts.push({ c: 'blue', m: isEn ? `<b>High Polling Rate Tip (${a.q4} Hz):</b> To fully saturate the 4K/8K polling packets and prevent sensor starvation/micro-stutter, using <b>1600 or 3200 DPI</b> (with converted lower in-game sens) is recommended.` : `<b>Yüksek Polling Rate İpucu (${a.q4} Hz):</b> 4000Hz/8000Hz veri paketlerini tam doyurmak ve mikro takılmaları önlemek için mouse'unuzu <b>1600 veya 3200 DPI</b>'a alıp oyun içi sens'i orantılı düşürmeniz önerilir.` });
+      }
+
+      // FPS ve Girdi Gecikmesi (q15)
+      if (a.q15 === 'low') {
+        alerts.push({ c: 'amber', m: isEn ? '<b>Low Frame Rate (&lt;60 FPS):</b> Inconsistent frame times hurt tracking accuracy. Lowering graphics settings to achieve steady 120+ FPS will immediately sharpen your aim reaction.' : '<b>Düşük FPS (60 altı):</b> Dalgalı kare hızları nişan takibinde mikro gecikmeye neden olur. Grafik ayarlarını optimize ederek 120+ FPS elde etmeniz aim tutarlılığınızı doğrudan artırır.' });
+      }
+
+      // Masa Alanı Uyarısı (q14)
+      if (a.q14 === 'no') {
+        alerts.push({ c: 'blue', m: isEn ? '<b>Limited Desk Space:</b> Your sensitivity has been ergonomically clamped so your mouse never collides with your keyboard or desk edges during wide swipes.' : '<b>Kısıtlı Masa Alanı:</b> Geniş savurmalarda klavyeye veya masa kenarına çarpmamanız için önerilen hassasiyet ergonomik olarak güvenli bir sınırda tutuldu.' });
+      }
 
       const alertHtml = alerts.length ? `<div class="analysis-card">
-    <h3> ${isEn ? 'System Warnings' : 'Sistem Uyarıları'}</h3>
+    <h3> ${isEn ? 'System Warnings & Optimization' : 'Sistem & Donanım Optimizasyonu'}</h3>
     ${alerts.map(al => `<div style="background:rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.07);border:1px solid rgba(${al.c === 'red' ? '239,68,68' : al.c === 'amber' ? '245,158,11' : '99,179,237'},.2);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14px;color:var(--t2)">${al.m}</div>`).join('')}
   </div>`: '';
 
@@ -13757,6 +13881,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       ${!ma.warnings.length && !ma.tips.length ? `<div style="font-size:13px;color:var(--green)">${isEn ? 'Your mouse matches well with your current setup.' : 'Mouse\'un mevcut ayarlarınla uyumlu görünüyor.'}</div>` : ''}
     </div>`;
       }
+
+      // Mevcut Sens vs Önerilen Kıyaslama Kartı (q20)
+      const comparisonCardHtml = getCurrentComparisonHtml(a, profiles[recIdx], gid, dpi);
 
       const prosText = {
         precision: isEn ? ['High precision on micro-shots', 'Easier recoil control', 'Advantage at long range'] : ['Yüksek isabet oranı', 'Recoil kontrolü kolay', 'Uzun menzil avantajı'],
@@ -13856,6 +13983,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       </div>
     </div>
     ${alertHtml}
+    ${comparisonCardHtml}
     ${mouseCardHtml}
     <div class="profiles-section"><h2>${isEn ? 'Sensitivity Profiles' : 'Sensitivity Profillerin'}</h2>${profileHtml}</div>
     ${mousepadSimHtml}
@@ -13908,10 +14036,18 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const halfTurn = recProf.halfTurn || Math.round(recProf.cm360 / 2);
       const full360 = recProf.cm360;
       let padW = 45;
+      let isCustom = false;
       if (answers.q5 === 'small') padW = 32;
       else if (answers.q5 === 'medium') padW = 40;
       else if (answers.q5 === 'large') padW = 45;
       else if (answers.q5 === 'xxl') padW = 90;
+      else if (answers.q5 === 'custom' && answers.q5b && answers.q5b.width) {
+        const cw = parseFloat(answers.q5b.width);
+        if (cw && !isNaN(cw) && cw > 15) {
+          padW = cw;
+          isCustom = true;
+        }
+      }
 
       const usagePct = Math.min(100, Math.round((halfTurn / padW) * 100));
 
@@ -13927,6 +14063,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
               <button class="pad-size-btn ${padW === 40 ? 'active' : ''}" onclick="setPadSimSize('medium', ${halfTurn}, ${full360})">M (40cm)</button>
               <button class="pad-size-btn ${padW === 45 ? 'active' : ''}" onclick="setPadSimSize('large', ${halfTurn}, ${full360})">L (45cm)</button>
               <button class="pad-size-btn ${padW === 90 ? 'active' : ''}" onclick="setPadSimSize('xxl', ${halfTurn}, ${full360})">Deskmat (90cm)</button>
+              ${isCustom ? `<button class="pad-size-btn active" onclick="setPadSimSize('custom', ${halfTurn}, ${full360})">${padW} cm</button>` : ''}
             </div>
           </div>
 
@@ -13936,34 +14073,33 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
               <span>10 cm</span>
               <span>20 cm</span>
               <span>30 cm</span>
-              <span>40 cm</span>
               <span id="padRulerMax">${padW} cm</span>
             </div>
-            <div class="pad-center-axis"></div>
-            <div class="pad-flick-zone" id="padFlickZone" style="width: ${Math.min(94, Math.max(15, usagePct))}%;">
-              <span>180° FLICK ARC: ~${halfTurn} cm</span>
-            </div>
-            <div class="pad-cursor-indicator" id="padCursorIndicator" style="left: calc(50% + ${Math.min(42, Math.round((halfTurn / padW) * 45))}px);">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 20L11 16L12 22L13 16L20 20L12 2Z" fill="var(--cyan)" stroke="#06090e" stroke-width="1.5"/></svg>
+
+            <!-- Dynamic Swipe Zone -->
+            <div class="pad-swipe-overlay" id="padFlickZone" style="width:${Math.min(94, Math.max(15, usagePct))}%">
+              <span class="pad-swipe-label">${isEn ? `180° Turn Area (~${halfTurn} cm)` : `180° Dönüş Alanı (~${halfTurn} cm)`}</span>
             </div>
           </div>
 
-          <div class="mousepad-sim-specs">
-            <div class="mousepad-spec-pill">
-              <div class="mousepad-spec-label">${isEn ? '180° Half-Turn' : '180° Dönüş Mesafesi'}</div>
-              <div class="mousepad-spec-val highlight" id="padSpecHalf">~${halfTurn} cm</div>
+          <div class="mousepad-specs-row">
+            <div class="mousepad-spec-box">
+              <div class="spec-label">${isEn ? 'PAD COVERAGE' : 'PAD KULLANIM ORANI'}</div>
+              <div class="spec-value" id="padSpecUsage">${usagePct}%</div>
             </div>
-            <div class="mousepad-spec-pill">
-              <div class="mousepad-spec-label">${isEn ? '360° Full Rotation' : '360° Tam Tur'}</div>
-              <div class="mousepad-spec-val">${full360} cm</div>
+            <div class="mousepad-spec-box">
+              <div class="spec-label">${isEn ? '180° SWIPE DISTANCE' : '180° DÖNÜŞ MESAFESİ'}</div>
+              <div class="spec-value">${halfTurn} cm</div>
             </div>
-            <div class="mousepad-spec-pill">
-              <div class="mousepad-spec-label">${isEn ? 'Pad Usage (180°)' : 'Pad Kullanım Oranı'}</div>
-              <div class="mousepad-spec-val" id="padSpecUsage">${usagePct}%</div>
+            <div class="mousepad-spec-box">
+              <div class="spec-label">${isEn ? '360° FULL TURN' : '360° TAM TUR'}</div>
+              <div class="spec-value">${full360} cm</div>
             </div>
-            <div class="mousepad-spec-pill">
-              <div class="mousepad-spec-label">${isEn ? 'Ergonomic Clearance' : 'Ergonomik Pay'}</div>
-              <div class="mousepad-spec-val" id="padSpecClearance" style="color:${usagePct > 85 ? 'var(--vct-red)' : usagePct > 65 ? 'var(--amber)' : 'var(--green)'}">${usagePct > 85 ? (isEn ? 'Tight' : 'Dar') : (isEn ? 'Optimal' : 'İdeal')}</div>
+            <div class="mousepad-spec-box">
+              <div class="spec-label">${isEn ? 'PHYSICAL CLEARANCE' : 'FİZİKSEL HAREKET ALANI'}</div>
+              <div class="spec-value" id="padSpecClearance" style="color:${usagePct > 85 ? 'var(--vct-red)' : usagePct > 65 ? 'var(--amber)' : 'var(--green)'}">
+                ${usagePct > 85 ? (isEn ? 'Cramped (Tight)' : 'Dar (Riskli)') : usagePct > 65 ? (isEn ? 'Moderate' : 'Orta') : (isEn ? 'Optimal & Ergonomic' : 'İdeal & Ergonomik')}
+              </div>
             </div>
           </div>
         </div>
