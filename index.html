@@ -107,47 +107,48 @@
 
     /* ── TOP NAV ── */
     .topnav {
-      position: relative !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 12px !important;
-      padding: 16px 0 10px !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-      z-index: 1000 !important;
-      pointer-events: auto !important;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 14px 0 10px;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 200;
     }
 
-    .nav-top-bar {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      width: 100% !important;
-      gap: 12px !important;
-      box-sizing: border-box !important;
-      z-index: 1001 !important;
-      pointer-events: auto !important;
+    .nav-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nav-tabs-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav-sub-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      position: relative;
+      z-index: 300;
     }
 
     .nav-sub-controls {
-      display: flex !important;
-      align-items: center !important;
-      gap: 6px !important;
-      flex-wrap: wrap !important;
-      justify-content: flex-end !important;
-      z-index: 1002 !important;
-      pointer-events: auto !important;
-    }
-
-    .nav-tabs-center-wrap {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      width: 100% !important;
-      z-index: 1003 !important;
-      pointer-events: auto !important;
-      position: relative !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      position: relative;
     }
 
     .nav-brand {
@@ -342,8 +343,14 @@
         padding-top: 12px;
         gap: 10px;
       }
-      .nav-top-bar {
+      .nav-main-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .nav-tabs-wrap {
         width: 100%;
+        justify-content: flex-start;
       }
       .nav-tabs {
         width: 100%;
@@ -351,6 +358,10 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         padding: 4px;
+      }
+      .nav-sub-bar {
+        width: 100%;
+        justify-content: flex-start;
       }
       .nav-tab {
         padding: 6px 11px;
@@ -4323,13 +4334,13 @@
       bottom: auto;
       right: auto;
       width: 250px;
-      background: var(--card-solid);
-      border: 1px solid var(--border-bright);
+      background: var(--card-solid, #0b1120);
+      border: 1px solid var(--border-bright, rgba(56, 189, 248, 0.35));
       border-radius: 14px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.65);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
       padding: 8px;
-      z-index: 1000;
-      backdrop-filter: blur(20px);
+      z-index: 99999 !important;
+      backdrop-filter: blur(24px);
       animation: vsModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .user-dropdown-header {
@@ -5287,46 +5298,48 @@
 
       <!-- TOP NAV -->
       <div class="topnav">
-        <div class="nav-top-bar">
+        <div class="nav-main-row">
           <div class="nav-brand" onclick="switchPage('home')" title="VecSens Precision Aim Advisor">
             <span class="nav-brand-logo-wrap" id="navBrandLogoWrap">
               <svg class="vecsens-dynamic-logo nav-brand-logo" viewBox="0 0 512 512" style="width:26px;height:26px;display:inline-block;vertical-align:middle;transition:all 0.3s ease">
                 <defs>
                   <linearGradient id="vNavGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="var(--t1, #ffffff)" />
-                    <stop offset="70%" stop-color="var(--cyan, #38bdf8)" />
-                    <stop offset="100%" stop-color="var(--cyan, #38bdf8)" />
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="50%" stop-color="#e2e8f0" />
+                    <stop offset="100%" stop-color="#94a3b8" />
                   </linearGradient>
                 </defs>
-                <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vNavGrad)" stroke="var(--border, rgba(255,255,255,0.15))" stroke-width="4" stroke-linejoin="round" />
-                <circle cx="256" cy="230" r="68" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="9" />
-                <circle cx="256" cy="230" r="26" fill="none" stroke="var(--cyan, #38bdf8)" stroke-width="3.5" opacity="0.65" />
-                <circle cx="256" cy="230" r="5" fill="var(--cyan, #38bdf8)" />
-                <line x1="256" y1="120" x2="256" y2="200" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-                <line x1="256" y1="260" x2="256" y2="340" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-                <line x1="146" y1="230" x2="226" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
-                <line x1="286" y1="230" x2="366" y2="230" stroke="var(--cyan, #38bdf8)" stroke-width="8" stroke-linecap="round" />
+                <path d="M 100 135 L 195 135 L 215 175 L 145 175 L 256 395 L 367 175 L 297 175 L 317 135 L 412 135 L 256 445 Z" fill="url(#vNavGrad)" stroke="#334155" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="256" cy="230" r="68" fill="none" stroke="#ffffff" stroke-width="9" />
+                <circle cx="256" cy="230" r="26" fill="none" stroke="#e2e8f0" stroke-width="3.5" opacity="0.65" />
+                <circle cx="256" cy="230" r="5" fill="#ffffff" />
+                <line x1="256" y1="120" x2="256" y2="200" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+                <line x1="256" y1="260" x2="256" y2="340" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+                <line x1="146" y1="230" x2="226" y2="230" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
+                <line x1="286" y1="230" x2="366" y2="230" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" />
               </svg>
             </span>
             <span class="nav-brand-title">Vec<span class="nav-brand-accent">Sens</span></span>
           </div>
 
+          <div class="nav-tabs-wrap">
+            <div class="nav-tabs">
+              <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
+              <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
+              <button class="nav-tab" id="ntab-history" onclick="switchPage('history')">Geçmiş</button>
+              <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
+              <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
+              <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
+              <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-sub-bar">
           <div class="nav-sub-controls" id="navSubControls">
             <div id="userAuthContainer" class="user-auth-container"></div>
             <button class="theme-btn" id="themeBtn" onclick="toggleTheme(event)" title="Temayı Değiştir / Toggle Theme"> Açık Mod</button>
             <button class="lang-btn" id="langBtn" onclick="toggleLanguage(event)" title="Dili Değiştir / Change Language"> EN</button>
-          </div>
-        </div>
-
-        <div class="nav-tabs-center-wrap">
-          <div class="nav-tabs">
-            <button class="nav-tab active" id="ntab-home" onclick="switchPage('home')">Ana Sayfa</button>
-            <button class="nav-tab" id="ntab-analysis" onclick="switchPage('analysis')">Analiz</button>
-            <button class="nav-tab" id="ntab-history" onclick="switchPage('history')">Geçmiş</button>
-            <button class="nav-tab" id="ntab-converter" onclick="switchPage('converter')">Dönüştürücü</button>
-            <button class="nav-tab" id="ntab-aimtest" onclick="switchPage('aimtest')">Aim Testi</button>
-            <button class="nav-tab" id="ntab-pros" onclick="switchPage('pros')">Pro Oyuncular</button>
-            <button class="nav-tab" id="ntab-feedback" onclick="switchPage('feedback')">Geri Bildirim</button>
           </div>
         </div>
       </div>
