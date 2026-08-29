@@ -12690,11 +12690,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         const pros = (PRO_DATA && PRO_DATA[gid]) ? PRO_DATA[gid] : [];
         if (!pros || !pros.length) return [];
 
-        const calcCm = (dpi, sens, g) => {
-          const yawMap = { valorant: 0.07, cs2: 0.022, apex: 0.022, overwatch: 0.0066, fortnite: 0.0055, r6: 0.00383, pubg: 0.002 };
-          const yaw = yawMap[g] || 0.07;
-          return Math.round((360 / (dpi * sens * yaw) * 2.54) * 10) / 10;
-        };
+        const calcCm = (dpi, sens, g) => calcCm360(dpi, sens, g);
 
         const list = pros.map(p => {
           const proCm = calcCm(p.dpi, p.sens, gid);
@@ -15595,12 +15591,14 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             const deltaDeg = deltaX * yaw * sens;
             aimTestState.calibPlayerYaw = (aimTestState.calibPlayerYaw + deltaDeg + 360) % 360;
           } else {
-            // 2D Tactical Aim: 1:1 In-Game 1080p Physical Screen Space Movement
-            // Standard 1080p focal length: f_1080 = (1920 / 2) / tan(FOV_H / 2) = 763.62 px for 103° FOV (Valorant)
-            // Displacement per mouse count = f_1080 * (sens * yaw * PI / 180)
+            // 2D Tactical Aim: Angular-correct In-Game Screen Space Movement
+            // Focal length scales with canvas width so sensitivity feels identical to in-game
+            // regardless of canvas size (windowed or fullscreen).
+            // f = (canvasWidth / 2) / tan(FOV_H / 2)
+            // Displacement per mouse count = f * (sens * yaw * PI / 180)
             const gameFov = (gid === 'cs2' || gid === 'source') ? 106.26 : 103.0;
             const fovHalfRad = (gameFov / 2) * (Math.PI / 180);
-            const refFocalLength = 960 / Math.tan(fovHalfRad); // 763.62 px for Valorant, 720 px for CS2
+            const refFocalLength = (canvas.width / 2) / Math.tan(fovHalfRad);
             const radPerCount = (sens * yaw) * (Math.PI / 180);
             const pxPerCount = refFocalLength * radPerCount;
 
@@ -15697,12 +15695,16 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         aimTestState.targets = [];
         for (let i = 0; i < 3; i++) spawnFlickTarget(w, h);
       } else if (isTrack) {
+        const initAngle = Math.random() * Math.PI * 2;
         aimTestState.trackOrb = {
           x: w / 2,
           y: h / 2,
-          vx: (Math.random() > 0.5 ? 3.5 : -3.5),
-          vy: (Math.random() > 0.5 ? 2.5 : -2.5),
-          r: 28
+          vx: Math.cos(initAngle) * 3.0,
+          vy: Math.sin(initAngle) * 3.0,
+          r: 28,
+          angle: initAngle,
+          speed: 3.0,
+          turnRate: 0
         };
       }
 
@@ -15827,13 +15829,29 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         for (let y = startY; y < h; y += gridSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
         const orb = aimTestState.trackOrb;
+
+        // Smooth direction change: gradually rotate the movement angle
+        if (orb.angle === undefined) orb.angle = Math.atan2(orb.vy, orb.vx);
+        if (!orb.speed) orb.speed = 3.0;
+        if (orb.turnRate === undefined) orb.turnRate = 0;
+
+        // Smoothly adjust turn rate — gives organic curved paths
+        orb.turnRate += (Math.random() - 0.5) * 0.04;
+        orb.turnRate *= 0.97; // dampen to prevent wild spinning
+        orb.turnRate = Math.max(-0.06, Math.min(0.06, orb.turnRate));
+
+        orb.angle += orb.turnRate;
+        orb.vx = Math.cos(orb.angle) * orb.speed;
+        orb.vy = Math.sin(orb.angle) * orb.speed;
+
         orb.x += orb.vx;
         orb.y += orb.vy;
-        if (orb.x < orb.r + 20 || orb.x > w - orb.r - 20) orb.vx *= -1;
-        if (orb.y < orb.r + 20 || orb.y > h - orb.r - 20) orb.vy *= -1;
 
-        if (Math.random() < 0.03) orb.vx = (Math.random() - 0.5) * 7;
-        if (Math.random() < 0.03) orb.vy = (Math.random() - 0.5) * 7;
+        // Wall bouncing with smooth angle reflection
+        if (orb.x < orb.r + 20) { orb.x = orb.r + 20; orb.angle = Math.PI - orb.angle; orb.turnRate *= -0.5; }
+        if (orb.x > w - orb.r - 20) { orb.x = w - orb.r - 20; orb.angle = Math.PI - orb.angle; orb.turnRate *= -0.5; }
+        if (orb.y < orb.r + 20) { orb.y = orb.r + 20; orb.angle = -orb.angle; orb.turnRate *= -0.5; }
+        if (orb.y > h - orb.r - 20) { orb.y = h - orb.r - 20; orb.angle = -orb.angle; orb.turnRate *= -0.5; }
 
         const d = Math.hypot(aimTestState.crosshairX - orb.x, aimTestState.crosshairY - orb.y);
         const onTarget = d <= orb.r + 4;
