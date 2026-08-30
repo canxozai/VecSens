@@ -15699,11 +15699,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         aimTestState.trackOrb = {
           x: w / 2,
           y: h / 2,
-          vx: Math.cos(initAngle) * 3.0,
-          vy: Math.sin(initAngle) * 3.0,
+          vx: Math.cos(initAngle) * 1.8,
+          vy: Math.sin(initAngle) * 1.8,
           r: 28,
           angle: initAngle,
-          speed: 3.0,
+          speed: 1.8,
           turnRate: 0
         };
       }
@@ -15832,13 +15832,13 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
         // Smooth direction change: gradually rotate the movement angle
         if (orb.angle === undefined) orb.angle = Math.atan2(orb.vy, orb.vx);
-        if (!orb.speed) orb.speed = 3.0;
+        if (!orb.speed) orb.speed = 1.8;
         if (orb.turnRate === undefined) orb.turnRate = 0;
 
         // Smoothly adjust turn rate — gives organic curved paths
-        orb.turnRate += (Math.random() - 0.5) * 0.04;
-        orb.turnRate *= 0.97; // dampen to prevent wild spinning
-        orb.turnRate = Math.max(-0.06, Math.min(0.06, orb.turnRate));
+        orb.turnRate += (Math.random() - 0.5) * 0.03;
+        orb.turnRate *= 0.96; // dampen to prevent wild spinning
+        orb.turnRate = Math.max(-0.04, Math.min(0.04, orb.turnRate));
 
         orb.angle += orb.turnRate;
         orb.vx = Math.cos(orb.angle) * orb.speed;
