@@ -12888,41 +12888,68 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const txt = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.texts) ? adminConfig.texts : DEFAULT_ADMIN_CONFIG.texts;
       const custom = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.customTexts) ? adminConfig.customTexts : {};
 
-      const heroBadgeText = custom['id_homeHeroBadge'] || (isEn ? 'VecSens Precision Tactical Aim Engine' : 'VecSens Taktiksel Aım & Hassasiyet Mimarisi');
-      const heroTitleText = custom['id_homeHeroTitle'] || (isEn ? (txt.homeHeroTitleEn || 'Elevate Your Tactical FPS Aim & Performance') : (txt.homeHeroTitleTr || 'FPS Performansını & Aim Yeteneğini Zirveye Taşı'));
-      const heroSubText = custom['id_homeHeroSub'] || (isEn 
-        ? (txt.homeHeroSubEn || 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.') 
-        : (txt.homeHeroSubTr || '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.'));
+      const heroBadgeText = (isEn 
+        ? custom['id_homeHeroBadge_en'] 
+        : (custom['id_homeHeroBadge_tr'] || custom['id_homeHeroBadge'])) 
+        || (isEn ? 'VecSens Precision Tactical Aim Engine' : 'VecSens Taktiksel Aim & Hassasiyet Mimarisi');
 
-      const c1Title = custom['id_homeCardTitle_analysis'] || (isEn ? 'Personalized Aim & Sensitivity Advisor' : 'Kişiselleştirilmiş Aim & Hassasiyet Analizi');
-      const c1Desc = custom['id_homeCardDesc_analysis'] || (isEn 
-        ? 'Analyzes your specific mouse model, DPI, polling rate, mousepad dimensions, hand size, grip style (Palm/Claw/Fingertip), arm/wrist biomechanics, and main in-game roles to compute 3 tailored profiles (Balanced, Speed Flick, Precision Tracking) with custom Esports Player Card export.' 
-        : 'Kullandığın mouse modeli (224+ veritabanı), DPI, polling rate, mousepad ölçün, el boyutun, tutuş şeklin (Palm/Claw/Fingertip), nişan mekaniğin ve oyun rollerine göre sana özel 3 profil (Dengeli, Hızlı Flick, Hassas Tracking) hesaplar ve Esporcu Kartı oluşturur.');
+      const heroTitleText = (isEn 
+        ? (custom['id_homeHeroTitle_en'] || txt.homeHeroTitleEn) 
+        : (custom['id_homeHeroTitle_tr'] || custom['id_homeHeroTitle'] || txt.homeHeroTitleTr)) 
+        || (isEn ? 'Elevate Your Tactical FPS Aim & Performance' : 'FPS Performansını & Aim Yeteneğini Zirveye Taşı');
 
-      const c2Title = custom['id_homeCardTitle_converter'] || (isEn ? 'Cross-Game Sens & Scope Converter' : 'Sens & Scope / ADS Dönüştürücü');
-      const c2Desc = custom['id_homeCardDesc_converter'] || (isEn 
-        ? 'Lossless cm/360 and eDPI conversion across Valorant, CS2, Apex Legends, R6, Call of Duty, PUBG, Fortnite, Overwatch 2, The Finals, and more. Includes 1:1 Monitor Match Scope/ADS multipliers.' 
-        : 'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.');
+      const heroSubText = (isEn 
+        ? (custom['id_homeHeroSub_en'] || txt.homeHeroSubEn) 
+        : (custom['id_homeHeroSub_tr'] || custom['id_homeHeroSub'] || txt.homeHeroSubTr)) 
+        || (isEn 
+          ? 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.' 
+          : '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.');
 
-      const c3Title = custom['id_homeCardTitle_aimtest'] || (isEn ? 'Interactive Aim & 180° Calibration' : 'Aim & 180° Kalibrasyon Testi');
-      const c3Desc = custom['id_homeCardDesc_aimtest'] || (isEn 
-        ? 'Test your reflex turning, muscle memory, and angular accuracy directly inside the browser using Pointer Lock. Measures your 180° turn error and provides live recommendations.' 
-        : 'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.');
+      const getCardTitle = (key, trDef, enDef) => {
+        if (isEn) return custom['id_homeCardTitle_' + key + '_en'] || enDef;
+        return custom['id_homeCardTitle_' + key + '_tr'] || custom['id_homeCardTitle_' + key] || trDef;
+      };
 
-      const c4Title = custom['id_homeCardTitle_pros'] || (isEn ? 'Pro Player Settings & Hardware DB' : 'Pro Oyuncular & Ekipman Veritabanı');
-      const c4Desc = custom['id_homeCardDesc_pros'] || (isEn 
-        ? 'Verified DPI, sensitivity, eDPI, cm/360, and mouse gear used by Tier-1 professionals across Valorant, CS2, Apex Legends, R6, and Fortnite. Compare your settings directly against pro benchmarks.' 
-        : 'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.');
+      const getCardDesc = (key, trDef, enDef) => {
+        if (isEn) return custom['id_homeCardDesc_' + key + '_en'] || enDef;
+        return custom['id_homeCardDesc_' + key + '_tr'] || custom['id_homeCardDesc_' + key] || trDef;
+      };
 
-      const c5Title = custom['id_homeCardTitle_feedback'] || (isEn ? 'Feedback & Mouse Wishlist' : 'Geri Bildirim & Fare İstek Kutusu');
-      const c5Desc = custom['id_homeCardDesc_feedback'] || (isEn 
-        ? 'Request new mouse models to be added to the engine, rate your calculation results, and help improve the VecSens tactical algorithm.' 
-        : 'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.');
+      const c1Title = getCardTitle('analysis', 'Kişiselleştirilmiş Aim & Hassasiyet Analizi', 'Personalized Aim & Sensitivity Advisor');
+      const c1Desc = getCardDesc('analysis', 
+        'Kullandığın mouse modeli (224+ veritabanı), DPI, polling rate, mousepad ölçün, el boyutun, tutuş şeklin (Palm/Claw/Fingertip), nişan mekaniğin ve oyun rollerine göre sana özel 3 profil (Dengeli, Hızlı Flick, Hassas Tracking) hesaplar ve Esporcu Kartı oluşturur.',
+        'Analyzes your specific mouse model, DPI, polling rate, mousepad dimensions, hand size, grip style (Palm/Claw/Fingertip), arm/wrist biomechanics, and main in-game roles to compute 3 tailored profiles (Balanced, Speed Flick, Precision Tracking) with custom Esports Player Card export.'
+      );
 
-      const c6Title = custom['id_homeCardTitle_history'] || (isEn ? 'Analysis History & Cloud Profile' : 'Geçmiş Analizler & Bulut Profili');
-      const c6Desc = custom['id_homeCardDesc_history'] || (isEn 
-        ? 'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, compare settings A/B, and access your settings from any computer.' 
-        : 'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et, 2 profili A/B kıyasla ve tüm cihazlarından tek tıkla geri yükle.');
+      const c2Title = getCardTitle('converter', 'Sens & Scope / ADS Dönüştürücü', 'Cross-Game Sens & Scope Converter');
+      const c2Desc = getCardDesc('converter',
+        'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.',
+        'Lossless cm/360 and eDPI conversion across Valorant, CS2, Apex Legends, R6, Call of Duty, PUBG, Fortnite, Overwatch 2, The Finals, and more. Includes 1:1 Monitor Match Scope/ADS multipliers.'
+      );
+
+      const c3Title = getCardTitle('aimtest', 'Aim & 180° Kalibrasyon Testi', 'Interactive Aim & 180° Calibration');
+      const c3Desc = getCardDesc('aimtest',
+        'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.',
+        'Test your reflex turning, muscle memory, and angular accuracy directly inside the browser using Pointer Lock. Measures your 180° turn error and provides live recommendations.'
+      );
+
+      const c4Title = getCardTitle('pros', 'Pro Oyuncular & Ekipman Veritabanı', 'Pro Player Settings & Hardware DB');
+      const c4Desc = getCardDesc('pros',
+        'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.',
+        'Verified DPI, sensitivity, eDPI, cm/360, and mouse gear used by Tier-1 professionals across Valorant, CS2, Apex Legends, R6, and Fortnite. Compare your settings directly against pro benchmarks.'
+      );
+
+      const c5Title = getCardTitle('feedback', 'Geri Bildirim & Fare İstek Kutusu', 'Feedback & Mouse Wishlist');
+      const c5Desc = getCardDesc('feedback',
+        'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.',
+        'Request new mouse models to be added to the engine, rate your calculation results, and help improve the VecSens tactical algorithm.'
+      );
+
+      const c6Title = getCardTitle('history', 'Geçmiş Analizler & Bulut Profili', 'Analysis History & Cloud Profile');
+      const c6Desc = getCardDesc('history',
+        'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et, 2 profili A/B kıyasla ve tüm cihazlarından tek tıkla geri yükle.',
+        'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, compare settings A/B, and access your settings from any computer.'
+      );
 
       container.innerHTML = `
         <div class="home-hero">
@@ -16695,6 +16722,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     function toggleLanguage(e) {
       if (e) e.stopPropagation();
       currentLang = currentLang === 'tr' ? 'en' : 'tr';
+      try { localStorage.setItem('vecsens_lang', currentLang); } catch(e) {}
       applyLanguage();
     }
 
@@ -16712,11 +16740,22 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const cfgTxt = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.texts) ? adminConfig.texts : DEFAULT_ADMIN_CONFIG.texts;
       const cfgCustom = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.customTexts) ? adminConfig.customTexts : {};
 
+      // Robust bilingual text resolver:
+      // Priority:
+      // 1. Language-specific custom override (e.g. cfgCustom['id_convSub_en'] or cfgCustom['id_convSub_tr'])
+      // 2. Admin config bilingual text (cfgTxt[fieldEn] or cfgTxt[fieldTr])
+      // 3. Built-in I18N dictionary fallback
       const getText = (id, fieldTr, fieldEn, dictFallback) => {
-        if (cfgCustom['id_' + id]) return cfgCustom['id_' + id];
-        if (isEn && cfgTxt && cfgTxt[fieldEn]) return cfgTxt[fieldEn];
-        if (!isEn && cfgTxt && cfgTxt[fieldTr]) return cfgTxt[fieldTr];
-        return dictFallback || '';
+        if (isEn) {
+          if (cfgCustom['id_' + id + '_en']) return cfgCustom['id_' + id + '_en'];
+          if (cfgTxt && cfgTxt[fieldEn]) return cfgTxt[fieldEn];
+          return dictFallback || '';
+        } else {
+          if (cfgCustom['id_' + id + '_tr']) return cfgCustom['id_' + id + '_tr'];
+          if (cfgTxt && cfgTxt[fieldTr]) return cfgTxt[fieldTr];
+          if (cfgCustom['id_' + id]) return cfgCustom['id_' + id];
+          return dictFallback || '';
+        }
       };
       
       // Header Brand, Title, and Sub
@@ -16728,51 +16767,58 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       if (mainBadge) mainBadge.innerHTML = getVecSensLogoSvg(18, 'badge-logo-icon') + `<span class="dot"></span>${cfgTxt.brandName || 'VecSens'}`;
 
       // Top Navbar Tabs
+      const getTab = (id, trText, enText) => {
+        if (isEn) return cfgCustom['id_' + id + '_en'] || enText;
+        return cfgCustom['id_' + id + '_tr'] || cfgCustom['id_' + id] || trText;
+      };
       const tHome = document.getElementById('ntab-home');
-      if (tHome) tHome.textContent = cfgCustom['id_ntab-home'] || dict.tabHome || (isEn ? 'Home' : 'Ana Sayfa');
+      if (tHome) tHome.textContent = getTab('ntab-home', dict.tabHome || 'Ana Sayfa', 'Home');
       const tAna = document.getElementById('ntab-analysis');
-      if (tAna) tAna.textContent = cfgCustom['id_ntab-analysis'] || dict.tabAnalysis;
+      if (tAna) tAna.textContent = getTab('ntab-analysis', dict.tabAnalysis || 'Analiz', 'Analysis');
       const tConv = document.getElementById('ntab-converter');
-      if (tConv) tConv.textContent = cfgCustom['id_ntab-converter'] || dict.tabConverter;
+      if (tConv) tConv.textContent = getTab('ntab-converter', dict.tabConverter || 'Dönüştürücü', 'Converter');
       const tAim = document.getElementById('ntab-aimtest');
-      if (tAim) tAim.textContent = cfgCustom['id_ntab-aimtest'] || dict.tabAimtest;
+      if (tAim) tAim.textContent = getTab('ntab-aimtest', dict.tabAimtest || 'Aim Testi', 'Aim Test');
       const tPros = document.getElementById('ntab-pros');
-      if (tPros) tPros.textContent = cfgCustom['id_ntab-pros'] || dict.tabPros;
+      if (tPros) tPros.textContent = getTab('ntab-pros', dict.tabPros || 'Pro Oyuncular', 'Pro Players');
       const tFb = document.getElementById('ntab-feedback');
-      if (tFb) tFb.textContent = cfgCustom['id_ntab-feedback'] || dict.tabFeedback;
+      if (tFb) tFb.textContent = getTab('ntab-feedback', dict.tabFeedback || 'Geri Bildirim', 'Feedback');
       const tHist = document.getElementById('ntab-history');
-      if (tHist) tHist.textContent = cfgCustom['id_ntab-history'] || dict.tabHistory || (isEn ? 'History' : 'Geçmiş');
+      if (tHist) tHist.textContent = getTab('ntab-history', dict.tabHistory || 'Geçmiş', 'History');
 
-      const setBadge = (id, text) => {
+      const setBadge = (id, textTr, textEn) => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = getVecSensLogoSvg(18, 'badge-logo-icon') + '<span class="dot"></span>' + (cfgCustom['id_' + id] || text);
+        const text = isEn 
+          ? (cfgCustom['id_' + id + '_en'] || textEn) 
+          : (cfgCustom['id_' + id + '_tr'] || cfgCustom['id_' + id] || textTr);
+        if (el) el.innerHTML = getVecSensLogoSvg(18, 'badge-logo-icon') + '<span class="dot"></span>' + text;
       };
       
-      setBadge('convBadge', dict.convBadge);
+      setBadge('convBadge', I18N.tr.convBadge, I18N.en.convBadge);
       const convTitle = document.getElementById('convTitle');
       if (convTitle) convTitle.textContent = getText('convTitle', 'convTitleTr', 'convTitleEn', dict.convTitle);
       const convSub = document.getElementById('convSub');
       if (convSub) convSub.textContent = getText('convSub', 'convSubTr', 'convSubEn', dict.convSub);
       
-      setBadge('aimBadge', dict.aimBadge);
+      setBadge('aimBadge', I18N.tr.aimBadge, I18N.en.aimBadge);
       const aimTitle = document.getElementById('aimTitle');
       if (aimTitle) aimTitle.textContent = getText('aimTitle', 'aimTitleTr', 'aimTitleEn', dict.aimTitle);
       const aimSub = document.getElementById('aimSub');
       if (aimSub) aimSub.textContent = getText('aimSub', 'aimSubTr', 'aimSubEn', dict.aimSub);
       
-      setBadge('prosBadge', dict.prosBadge);
+      setBadge('prosBadge', I18N.tr.prosBadge, I18N.en.prosBadge);
       const prosTitle = document.getElementById('prosTitle');
       if (prosTitle) prosTitle.textContent = getText('prosTitle', 'prosTitleTr', 'prosTitleEn', dict.prosTitle);
       const prosSub = document.getElementById('prosSub');
       if (prosSub) prosSub.textContent = getText('prosSub', 'prosSubTr', 'prosSubEn', dict.prosSub);
       
-      setBadge('fbBadge', dict.fbBadge);
+      setBadge('fbBadge', I18N.tr.fbBadge, I18N.en.fbBadge);
       const fbTitle = document.getElementById('fbTitle');
       if (fbTitle) fbTitle.textContent = getText('fbTitle', 'fbTitleTr', 'fbTitleEn', dict.fbTitle);
       const fbSub = document.getElementById('fbSub');
       if (fbSub) fbSub.textContent = getText('fbSub', 'fbSubTr', 'fbSubEn', dict.fbSub);
 
-      setBadge('histBadge', dict.histBadge || (isEn ? 'Cloud & Analysis History' : 'Bulut & Analiz Geçmişi'));
+      setBadge('histBadge', I18N.tr.histBadge, I18N.en.histBadge);
       const histTitle = document.getElementById('histTitle');
       if (histTitle) {
         histTitle.innerHTML = getText('histTitle', 'histTitleTr', 'histTitleEn', dict.histTitle || 'Geçmiş Analizlerim');
@@ -16785,18 +16831,45 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const foot = document.getElementById('footerText');
       if (foot) foot.textContent = getText('footerText', 'footerTr', 'footerEn', dict.footer);
 
-      // Also apply any other customTexts with id_
+      // Known bilingual IDs that must never be trampled by raw customTexts
+      const BILINGUAL_IDS = new Set([
+        'headerTitle', 'headerSub', 'mainLogoBadge',
+        'convBadge', 'convTitle', 'convSub',
+        'aimBadge', 'aimTitle', 'aimSub',
+        'prosBadge', 'prosTitle', 'prosSub',
+        'fbBadge', 'fbTitle', 'fbSub',
+        'histBadge', 'histTitle', 'histSub',
+        'footerText',
+        'ntab-home', 'ntab-analysis', 'ntab-converter', 'ntab-aimtest', 'ntab-pros', 'ntab-feedback', 'ntab-history',
+        'homeHeroTitle', 'homeHeroSub', 'homeHeroBadge'
+      ]);
+
+      // Only apply other arbitrary customTexts that are not managed bilingual fields
       Object.entries(cfgCustom).forEach(([key, htmlVal]) => {
-        if (key.startsWith('id_')) {
+        if (key.startsWith('id_') && !key.endsWith('_tr') && !key.endsWith('_en')) {
           const targetId = key.replace('id_', '');
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) targetEl.innerHTML = htmlVal;
+          if (!BILINGUAL_IDS.has(targetId)) {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.innerHTML = htmlVal;
+          }
+        } else if (isEn && key.startsWith('id_') && key.endsWith('_en')) {
+          const targetId = key.replace('id_', '').replace(/_en$/, '');
+          if (!BILINGUAL_IDS.has(targetId)) {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.innerHTML = htmlVal;
+          }
+        } else if (!isEn && key.startsWith('id_') && key.endsWith('_tr')) {
+          const targetId = key.replace('id_', '').replace(/_tr$/, '');
+          if (!BILINGUAL_IDS.has(targetId)) {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.innerHTML = htmlVal;
+          }
         }
       });
 
       [1, 2, 3, 4, 5].forEach((p, idx) => {
         const el = document.getElementById(`phase${p}`);
-        if (el) el.textContent = dict.phases[idx];
+        if (el) el.textContent = `${idx + 1}.  ${dict.phases[idx]}`;
       });
 
       // Update auth widget state
@@ -17287,86 +17360,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         el.style.height = navSize + 'px';
       });
 
-      if (conf.customTexts) {
-        Object.entries(conf.customTexts).forEach(([key, htmlVal]) => {
-          if (key.startsWith('id_')) {
-            const targetId = key.replace('id_', '');
-            const targetEl = document.getElementById(targetId);
-            if (targetEl) targetEl.innerHTML = htmlVal;
-          }
-        });
-      }
-
-      const isEn = currentLang === 'en';
-      const dict = (typeof I18N !== 'undefined' && I18N[currentLang]) ? I18N[currentLang] : (I18N?.tr || {});
-      const txt = conf.texts || DEFAULT_ADMIN_CONFIG.texts;
-      const custom = conf.customTexts || {};
-
-      const hTitle = document.getElementById('headerTitle');
-      if (hTitle && !custom['id_headerTitle']) {
-        hTitle.innerHTML = isEn ? (txt.headerTitleEn || dict.title || '') : (txt.headerTitleTr || dict.title || '');
-      }
-      const hSub = document.getElementById('headerSub');
-      if (hSub && !custom['id_headerSub']) {
-        hSub.textContent = isEn ? (txt.headerSubEn || dict.sub || '') : (txt.headerSubTr || dict.sub || '');
-      }
-      const homeTitle = document.getElementById('homeHeroTitle');
-      if (homeTitle && !custom['id_homeHeroTitle']) {
-        homeTitle.innerHTML = isEn ? (txt.homeHeroTitleEn || '') : (txt.homeHeroTitleTr || '');
-      }
-      const homeSub = document.getElementById('homeHeroSub');
-      if (homeSub && !custom['id_homeHeroSub']) {
-        homeSub.innerHTML = isEn ? (txt.homeHeroSubEn || '') : (txt.homeHeroSubTr || '');
-      }
-      const convTitle = document.getElementById('convTitle');
-      if (convTitle && !custom['id_convTitle']) {
-        convTitle.textContent = isEn ? (txt.convTitleEn || dict.convTitle || '') : (txt.convTitleTr || dict.convTitle || '');
-      }
-      const convSub = document.getElementById('convSub');
-      if (convSub && !custom['id_convSub']) {
-        convSub.textContent = isEn ? (txt.convSubEn || dict.convSub || '') : (txt.convSubTr || dict.convSub || '');
-      }
-      const aimTitle = document.getElementById('aimTitle');
-      if (aimTitle && !custom['id_aimTitle']) {
-        aimTitle.textContent = isEn ? (txt.aimTitleEn || dict.aimTitle || '') : (txt.aimTitleTr || dict.aimTitle || '');
-      }
-      const aimSub = document.getElementById('aimSub');
-      if (aimSub && !custom['id_aimSub']) {
-        aimSub.textContent = isEn ? (txt.aimSubEn || dict.aimSub || '') : (txt.aimSubTr || dict.aimSub || '');
-      }
-      const prosTitle = document.getElementById('prosTitle');
-      if (prosTitle && !custom['id_prosTitle']) {
-        prosTitle.textContent = isEn ? (txt.prosTitleEn || dict.prosTitle || '') : (txt.prosTitleTr || dict.prosTitle || '');
-      }
-      const prosSub = document.getElementById('prosSub');
-      if (prosSub && !custom['id_prosSub']) {
-        prosSub.textContent = isEn ? (txt.prosSubEn || dict.prosSub || '') : (txt.prosSubTr || dict.prosSub || '');
-      }
-      const fbTitle = document.getElementById('fbTitle');
-      if (fbTitle && !custom['id_fbTitle']) {
-        fbTitle.textContent = isEn ? (txt.fbTitleEn || dict.fbTitle || '') : (txt.fbTitleTr || dict.fbTitle || '');
-      }
-      const fbSub = document.getElementById('fbSub');
-      if (fbSub && !custom['id_fbSub']) {
-        fbSub.textContent = isEn ? (txt.fbSubEn || dict.fbSub || '') : (txt.fbSubTr || dict.fbSub || '');
-      }
-      const histTitle = document.getElementById('histTitle');
-      if (histTitle && !custom['id_histTitle']) {
-        histTitle.innerHTML = isEn ? (txt.histTitleEn || dict.histTitle || '') : (txt.histTitleTr || dict.histTitle || '');
-      }
-      const histSub = document.getElementById('histSub');
-      if (histSub && !custom['id_histSub']) {
-        histSub.innerHTML = isEn ? (txt.histSubEn || dict.histSub || '') : (txt.histSubTr || dict.histSub || '');
-      }
-      const fText = document.getElementById('footerText');
-      if (fText && !custom['id_footerText']) {
-        fText.textContent = isEn ? (txt.footerEn || txt.footerTr || dict.footer || '') : (txt.footerTr || dict.footer || '');
-      }
-
-      const mb = document.getElementById('mainLogoBadge');
-      if (mb) {
-        mb.innerHTML = `<span class="badge-logo-icon"></span><span class="dot"></span>${txt.brandName || 'VecSens'}`;
-      }
+      // Apply language and text updates cleanly across all headers and active views
+      applyLanguage();
     }
 
     // ── INLINE LIVE TEXT EDITOR ──
@@ -17405,15 +17400,15 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           };
 
           el.onblur = function () {
+            const isCurEn = currentLang === 'en';
             const key = el.id ? `id_${el.id}` : `txt_${el.textContent.trim().slice(0, 30)}`;
             adminConfig.customTexts = adminConfig.customTexts || {};
-            adminConfig.customTexts[key] = el.innerHTML;
-
-            // Also keep bilingual adminConfig.texts in sync for primary fields
             adminConfig.texts = adminConfig.texts || {};
+
             const mapSync = (trKey, enKey) => {
-              if (isEn) adminConfig.texts[enKey] = el.innerHTML;
+              if (isCurEn) adminConfig.texts[enKey] = el.innerHTML;
               else adminConfig.texts[trKey] = el.innerHTML;
+              delete adminConfig.customTexts[key];
             };
             if (el.id === 'homeHeroTitle') mapSync('homeHeroTitleTr', 'homeHeroTitleEn');
             else if (el.id === 'homeHeroSub') mapSync('homeHeroSubTr', 'homeHeroSubEn');
@@ -17430,6 +17425,10 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             else if (el.id === 'fbTitle') mapSync('fbTitleTr', 'fbTitleEn');
             else if (el.id === 'fbSub') mapSync('fbSubTr', 'fbSubEn');
             else if (el.id === 'footerText') mapSync('footerTr', 'footerEn');
+            else {
+              adminConfig.customTexts[key + (isCurEn ? '_en' : '_tr')] = el.innerHTML;
+              if (!isCurEn) adminConfig.customTexts[key] = el.innerHTML;
+            }
           };
         });
 
@@ -17929,11 +17928,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
                 <div>
                   <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Description Subtitle (TR)' : 'Geçmiş Açıklama Yazısı (TR)'}</label>
-                  <textarea class="input-field" id="adv_histSubTr" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubTr || 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin.')}</textarea>
+                  <textarea class="input-field" id="adv_histSubTr" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubTr || 'Kişisel aim optimizasyon kayıtlarını, hassasiyet evrimini ve kayıtlı profillerini gör.')}</textarea>
                 </div>
                 <div>
                   <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Description Subtitle (EN)' : 'Geçmiş Açıklama Yazısı (EN)'}</label>
-                  <textarea class="input-field" id="adv_histSubEn" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubEn || 'Your cloud aim optimization records, sensitivity evolution, and saved profiles.')}</textarea>
+                  <textarea class="input-field" id="adv_histSubEn" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubEn || 'View your personalized aim optimization records, sensitivity evolution, and saved profiles.')}</textarea>
                 </div>
               </div>
             </div>
@@ -18301,6 +18300,19 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     //  INIT (BULLETPROOF SYNCHRONOUS + ASYNC CONFIG)
     // ════════════════════════════════════════════════════════════
     function initVecSens() {
+      // 0. Clean legacy unilingual override keys from customTexts so bilingual translations take full effect
+      const sanitizeCustomTexts = (obj) => {
+        if (!obj || !obj.customTexts) return;
+        const legacyKeys = [
+          'id_convTitle', 'id_convSub', 'id_aimTitle', 'id_aimSub',
+          'id_prosTitle', 'id_prosSub', 'id_fbTitle', 'id_fbSub',
+          'id_histTitle', 'id_histSub', 'id_headerTitle', 'id_headerSub',
+          'id_homeHeroTitle', 'id_homeHeroSub', 'id_footerText'
+        ];
+        legacyKeys.forEach(k => delete obj.customTexts[k]);
+      };
+      sanitizeCustomTexts(adminConfig);
+
       // 1. Render UI immediately (Zero Blank Page Delay)
       applyAdminConfig(adminConfig);
       renderQuestion(0);
@@ -18342,6 +18354,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       // 3. Fetch background site-config.json asynchronously and apply to all visitors
       fetch('site-config.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).then(siteConf => {
         if (siteConf) {
+          sanitizeCustomTexts(siteConf);
           if (siteConf.themeDark) Object.assign(DEFAULT_ADMIN_CONFIG.themeDark, siteConf.themeDark);
           if (siteConf.themeLight) Object.assign(DEFAULT_ADMIN_CONFIG.themeLight, siteConf.themeLight);
           if (siteConf.layout) Object.assign(DEFAULT_ADMIN_CONFIG.layout, siteConf.layout);
@@ -18357,7 +18370,10 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           let savedLocal = null;
           try {
             const raw = localStorage.getItem('vecsens_admin_config');
-            if (raw) savedLocal = JSON.parse(raw);
+            if (raw) {
+              savedLocal = JSON.parse(raw);
+              sanitizeCustomTexts(savedLocal);
+            }
           } catch (e) {}
 
           // Merge site-config with user's saved local config (local config has precedence for admin edits)

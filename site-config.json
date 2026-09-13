@@ -76,13 +76,7 @@
     "footerTr": "Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli",
     "footerEn": "All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure"
   },
-  "customTexts": {
-    "id_convSub": "Hipfire ve Dürbün (Scope/Zoom) hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle.",
-    "id_aimSub": "Önerilen veya mevcut hassasiyetini tarayıcıdan çıkmadan canlı test et ve anlık geri bildirim al.",
-    "id_prosSub": "Dünya genelindeki profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları.",
-    "id_fbSub": "Geri bildiriminle uygulamayı daha iyi hale getirmeye yardımcı ol.",
-    "id_histSub": "Kişisel aim optimizasyon kayıtlarını, hassasiyet evrimini ve kayıtlı profillerini gör."
-  },
+  "customTexts": {},
   "algorithm": {
     "globalSensMultiplier": 1,
     "wristMultiplier": 1,
