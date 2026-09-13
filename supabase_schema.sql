@@ -84,6 +84,9 @@ CREATE POLICY "Users can view their own history" ON public.vecsens_history FOR S
 DROP POLICY IF EXISTS "Users can insert their own history" ON public.vecsens_history;
 CREATE POLICY "Users can insert their own history" ON public.vecsens_history FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update their own history" ON public.vecsens_history;
+CREATE POLICY "Users can update their own history" ON public.vecsens_history FOR UPDATE USING (auth.uid() = user_id);
+
 DROP POLICY IF EXISTS "Users can delete their own history" ON public.vecsens_history;
 CREATE POLICY "Users can delete their own history" ON public.vecsens_history FOR DELETE USING (auth.uid() = user_id);
 
@@ -94,9 +97,23 @@ CREATE POLICY "Users can view their own aim scores" ON public.vecsens_aim_scores
 DROP POLICY IF EXISTS "Users can insert their own aim scores" ON public.vecsens_aim_scores;
 CREATE POLICY "Users can insert their own aim scores" ON public.vecsens_aim_scores FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete their own aim scores" ON public.vecsens_aim_scores;
+CREATE POLICY "Users can delete their own aim scores" ON public.vecsens_aim_scores FOR DELETE USING (auth.uid() = user_id);
+
 -- Feedback Policy
 DROP POLICY IF EXISTS "Anyone can submit feedback" ON public.vecsens_feedback;
 CREATE POLICY "Anyone can submit feedback" ON public.vecsens_feedback FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Users can view their own feedback" ON public.vecsens_feedback;
+CREATE POLICY "Users can view their own feedback" ON public.vecsens_feedback FOR SELECT USING (auth.uid() = user_id);
+
+-- ==============================================================================
+-- ⚡ PERFORMANS İNDEKSLERİ
+-- ==============================================================================
+CREATE INDEX IF NOT EXISTS idx_history_user_id ON public.vecsens_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_aim_scores_user_id ON public.vecsens_aim_scores(user_id);
+CREATE INDEX IF NOT EXISTS idx_feedback_user_id ON public.vecsens_feedback(user_id);
+
 
 -- ==============================================================================
 -- ⚡ OTOMATİK PROFİL OLUŞTURMA TETİKLEYİCİSİ (TRIGGER)

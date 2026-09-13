@@ -7,34 +7,91 @@
   <title>VecSens — Kişiselleştirilmiş Aim Analizi</title>
   <meta name="description"
     content="VecSens: Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse DPI ve sensitivity ayarlarını hesapla." />
+  <meta name="theme-color" content="#0a0e17" />
+  <link rel="canonical" href="https://canxozai.github.io/VecSens/" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="alternate icon" type="image/png" href="logo.png" />
   <link rel="apple-touch-icon" href="logo.png" />
-  <meta property="og:image" content="logo-banner.jpg" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://canxozai.github.io/VecSens/" />
+  <meta property="og:title" content="VecSens — Kişiselleştirilmiş Aim Analizi & Sens Optimizer" />
+  <meta property="og:description"
+    content="224+ mouse modeli, el ve tutuş ergonomisi, 1:1 oyunlar arası sens ve scope dönüştürücü ve esporcu ayarlarıyla kişisel aim optimizasyonu." />
+  <meta property="og:image" content="https://canxozai.github.io/VecSens/logo.png" />
+  <meta property="og:site_name" content="VecSens" />
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://canxozai.github.io/VecSens/" />
+  <meta name="twitter:title" content="VecSens — Kişiselleştirilmiş Aim Analizi" />
+  <meta name="twitter:description" content="Kişiselleştirilmiş FPS mouse DPI & sens analizi, 1:1 dönüştürücü ve pro ayarları." />
+  <meta name="twitter:image" content="https://canxozai.github.io/VecSens/logo.png" />
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "VecSens",
+    "url": "https://canxozai.github.io/VecSens/",
+    "description": "Kişiselleştirilmiş FPS mouse DPI, sensitivity optimizasyonu, 1:1 cross-game sens ve scope dönüştürücü.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All"
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ZERO-FLASH EARLY PRE-INIT: Synchronously applies saved theme & initial route before body renders */
+    (function() {
+      try {
+        var raw = localStorage.getItem('vecsens_admin_config');
+        if (raw) {
+          var conf = JSON.parse(raw);
+          var d = conf.themeDark;
+          if (d) {
+            var root = document.documentElement;
+            if (d.bg) root.style.setProperty('--bg', d.bg);
+            if (d.card) { root.style.setProperty('--card', d.card); root.style.setProperty('--card-solid', d.card); }
+            if (d.border) root.style.setProperty('--border', d.border);
+            if (d.cyan) root.style.setProperty('--cyan', d.cyan);
+            if (d.blue) root.style.setProperty('--blue', d.blue);
+            if (d.gbtnStart && d.gbtnEnd) {
+              root.style.setProperty('--gbtn', 'linear-gradient(135deg, ' + d.gbtnStart + ' 0%, ' + d.gbtnEnd + ' 100%)');
+            }
+          }
+        }
+      } catch (e) {}
+
+      var hash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase();
+      var validPages = ['analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history'];
+      if (validPages.indexOf(hash) !== -1) {
+        document.documentElement.setAttribute('data-initial-page', hash);
+      }
+    })();
+  </script>
   <style>
     :root {
-      --bg: #0a0e17;
+      --bg: #0b0f19;
       --bg2: #0f1422;
-      --card: rgba(15, 22, 36, 0.72);
-      --card-solid: #0f1422;
+      --card: #111827;
+      --card-solid: #111827;
       --glass: rgba(255, 255, 255, 0.025);
-      --border: rgba(255, 255, 255, 0.07);
+      --border: #1f2937;
       --border-bright: color-mix(in srgb, var(--cyan) 35%, transparent);
       --bactive: color-mix(in srgb, var(--cyan) 60%, transparent);
-      --cyan: #38bdf8;
-      --blue: #38bdf8;
+      --cyan: #94a3b8;
+      --blue: #64748b;
       --vct-red: #f43f5e;
-      --purple: #818cf8;
+      --purple: #a855f7;
       --green: #10b981;
       --red: #f43f5e;
       --amber: #fbbf24;
-      --gbtn: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      --gbtn: linear-gradient(135deg, #475569 0%, #1e293b 100%);
       --gbtn-vct: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
       --t1: #f8fafc;
       --t2: #94a3b8;
@@ -51,6 +108,34 @@
       --glow: 0 0 30px color-mix(in srgb, var(--cyan) 15%, transparent);
       --glow-vct: 0 0 30px rgba(244, 63, 94, 0.15);
       --ease: all .22s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* ZERO-FLASH INITIAL ROUTE OVERRIDES */
+    html[data-initial-page] #page-home {
+      display: none !important;
+    }
+    html[data-initial-page] #ntab-home {
+      background: transparent !important;
+      color: var(--t2) !important;
+      border-color: transparent !important;
+    }
+    html[data-initial-page="analysis"] #page-analysis,
+    html[data-initial-page="converter"] #page-converter,
+    html[data-initial-page="aimtest"] #page-aimtest,
+    html[data-initial-page="pros"] #page-pros,
+    html[data-initial-page="feedback"] #page-feedback,
+    html[data-initial-page="history"] #page-history {
+      display: block !important;
+    }
+    html[data-initial-page="analysis"] #ntab-analysis,
+    html[data-initial-page="converter"] #ntab-converter,
+    html[data-initial-page="aimtest"] #ntab-aimtest,
+    html[data-initial-page="pros"] #ntab-pros,
+    html[data-initial-page="feedback"] #ntab-feedback,
+    html[data-initial-page="history"] #ntab-history {
+      color: var(--t1) !important;
+      border-color: var(--cyan) !important;
+      background: color-mix(in srgb, var(--cyan) 10%, transparent) !important;
     }
 
     *,
@@ -2527,9 +2612,9 @@
 
     .pad-center-mark {
       position: absolute;
-      width: 2px;
+      width: 0;
       height: 100%;
-      background: dashed rgba(255, 255, 255, .12)
+      border-left: 2px dashed rgba(255, 255, 255, .25);
     }
 
     .pad-swipe-range {
@@ -2624,25 +2709,6 @@
       color: var(--t1);
       font-family: var(--sans);
       font-size: 14px
-    }
-
-    .lang-btn {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      font-family: var(--hud);
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--t2);
-      transition: var(--ease);
-    }
-
-    .lang-btn:hover {
-      color: var(--t1);
-      border-color: var(--cyan);
-      background: color-mix(in srgb, var(--cyan) 8%, transparent)
     }
 
     /* ── SELECT & DROPDOWNS FIX FOR DARK & LIGHT MODES ── */
@@ -4063,6 +4129,13 @@
       .home-cards-grid {
         grid-template-columns: 1fr;
       }
+      /* MOBILE AIM TEST RESTRICTION: Disabled & completely hidden on mobile devices */
+      #ntab-aimtest,
+      #page-aimtest,
+      .card-aimtest,
+      .btn-aimtest-desktop {
+        display: none !important;
+      }
     }
     .home-card {
       background: var(--card);
@@ -5073,8 +5146,8 @@
       top: 0;
       bottom: 0;
       left: 50%;
-      width: 1px;
-      background: dashed rgba(255, 255, 255, 0.15);
+      width: 0;
+      border-left: 1px dashed rgba(255, 255, 255, 0.25);
     }
     .pad-flick-zone {
       position: absolute;
@@ -5561,10 +5634,23 @@
       battlefield: 0.0066, thefinals: 0.0066, destiny: 0.0066, other: 0.07,
     };
 
+    // Constants & Utilities
+    const INCH_TO_CM_REV_FACTOR = 914.4; // 360 * 2.54
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // cm/360 = 914.4 / (DPI × sens × yaw)
     function calcCm360(dpi, sens, gameId) {
       const y = YAW[gameId] || 0.07;
-      return Math.round((914.4 / (dpi * sens * y)) * 10) / 10;
+      return Math.round((INCH_TO_CM_REV_FACTOR / (dpi * sens * y)) * 10) / 10;
     }
     // sens = 914.4 / (DPI × cm360 × yaw)
     function calcSens(cm360, dpi, gameId) {
@@ -10647,7 +10733,6 @@
       analysisComplete: false,
       resAspect: '16:9',
     };
-    window.state = state;
 
     // ════════════════════════════════════════════════════════════
     //  APP STATE & I18N
@@ -10735,11 +10820,21 @@
     }
 
     function switchPage(page, updateHash = true) {
+      if (page === 'aimtest') {
+        const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024);
+        if (isMobile) {
+          const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
+          showToast(isEn ? 'Aim Test is available only on desktop with a physical mouse.' : 'Aim Testi yalnızca masaüstü ve fiziksel mouse ile kullanılabilir.');
+          if (state.currentPage !== 'home') switchPage('home', updateHash);
+          return;
+        }
+      }
       if (page === 'admin' && adminConfig && adminConfig.pinProtected && !adminConfig.unlocked) {
         showAdminAuthModal();
         return;
       }
       state.currentPage = page;
+      document.documentElement.removeAttribute('data-initial-page');
       ['home', 'analysis', 'converter', 'aimtest', 'pros', 'feedback', 'history', 'admin'].forEach(p => {
         const el = document.getElementById(`page-${p}`);
         const tab = document.getElementById(`ntab-${p}`);
@@ -10771,6 +10866,7 @@
       if (page === 'converter') renderConverter();
       if (page === 'aimtest') renderAimTest();
       if (page === 'admin') renderAdminPage();
+      setTimeout(stripAll, 0);
     }
 
     function resetAndStartNewAnalysis() {
@@ -10905,33 +11001,24 @@
       sortOrder: 'newest',
 
       async hashPassword(password) {
-        try {
-          if (window.crypto && crypto.subtle) {
+        if (window.crypto && crypto.subtle) {
+          try {
             const enc = new TextEncoder().encode(password + '_vecsens_fps_vault_2026');
             const buf = await crypto.subtle.digest('SHA-256', enc);
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          } catch(e) {
+            console.error('Password cryptographic hashing failed:', e);
+            throw new Error('Cryptographic hashing error');
           }
-        } catch(e) {}
-        let hash = 0;
-        for (let i = 0; i < password.length; i++) {
-          hash = ((hash << 5) - hash) + password.charCodeAt(i);
-          hash |= 0;
         }
-        return 'vs_pwd_' + Math.abs(hash);
+        throw new Error('Web Crypto API is not available on this connection.');
       },
 
       async checkServerApi() {
-        try {
-          const res = await fetch('/api/status', { method: 'GET', cache: 'no-store' });
-          if (res.ok) {
-            const data = await res.json();
-            this.serverApiOnline = true;
-            this.cloudProvider = data.provider || 'VecSens Server Vault';
-            return true;
-          }
-        } catch(e) {}
-        this.serverApiOnline = false;
-        return false;
+        // Static GitHub Pages deployment: Supabase acts as the primary cloud vault
+        this.serverApiOnline = !!(this.supabase && this.config?.url);
+        this.cloudProvider = 'VecSens Supabase Vault';
+        return this.serverApiOnline;
       },
 
       async measurePing() {
@@ -12899,7 +12986,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           </div>
 
           <!-- Card 3: Aim Test Lab -->
-          <div class="home-card" onclick="switchPage('aimtest')">
+          <div class="home-card card-aimtest" onclick="switchPage('aimtest')">
             <div>
               <div class="home-card-top">
                 <div class="home-card-icon-wrap">
@@ -13515,7 +13602,10 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
   </div>`;
 
       const qArea = document.getElementById('questionArea');
-      if (qArea) qArea.innerHTML = `<div class="question-card ${isNewQuestion ? 'anim-slide' : ''}">${h}</div>`;
+      if (qArea) {
+        qArea.innerHTML = `<div class="question-card ${isNewQuestion ? 'anim-slide' : ''}">${h}</div>`;
+        setTimeout(stripAll, 0);
+      }
     }
 
     function toggleMulti(qId, val) {
@@ -13975,7 +14065,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         </button>
         <button class="btn btn-primary btn-sm" onclick="downloadPlayerCard()"> ${isEn ? 'Download Card (PNG)' : 'Espor Profilini İndir (PNG)'}</button>
         <button class="btn btn-secondary btn-sm" onclick="copyShareableLink()"> ${isEn ? 'Copy Share URL' : 'Sonuç Linkini Kopyala'}</button>
-        <button class="btn btn-secondary btn-sm" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
+        <button class="btn btn-secondary btn-sm btn-aimtest-desktop" onclick="switchPage('aimtest')">${isEn ? 'Test Sens in Aim Lab' : 'Sens\'i Canlı Test Et'}</button>
       </div>
     </div>
     ${alertHtml}
@@ -14341,7 +14431,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="applyProfile(${state.recIdx}); closePlayerCardModal();">${isEn ? 'Use & Apply This Profile' : 'Bu Profili Kullan & Uygula'}</button>
             <button class="btn btn-secondary" onclick="downloadPlayerCard()">${isEn ? 'Download PNG Card' : 'PNG Kartını İndir'}</button>
-            <button class="btn btn-ghost" onclick="switchPage('aimtest'); closePlayerCardModal();">${isEn ? 'Test in Aim Lab' : 'Aim Testinde Dene'}</button>
+            <button class="btn btn-ghost btn-aimtest-desktop" onclick="switchPage('aimtest'); closePlayerCardModal();">${isEn ? 'Test in Aim Lab' : 'Aim Testinde Dene'}</button>
           </div>
         </div>
       `;
@@ -14744,8 +14834,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     let fbState = { rating: 0, tried: null, likes: [], improve: [], text: '' };
 
     function getWebhook() {
-      return localStorage.getItem('discord_webhook') ||
-        'https://discord.com/api/webhooks/1534553232628514939/xNy1K1qiV6OVCg6L2DA65WvROZW70kkUU_QCHCuWaHXLrVJB3cdDFvpkTrLiOoQVij8r';
+      return localStorage.getItem('discord_webhook') || '';
     }
 
     function renderFeedbackPage() {
@@ -14875,9 +14964,16 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       renderFeedbackPage();
     }
 
+    let lastFeedbackSubmitTime = 0;
     function submitFeedback() {
       const isEn = currentLang === 'en';
+      const now = Date.now();
+      if (now - lastFeedbackSubmitTime < 15000) {
+        showToast(isEn ? 'Please wait a few moments before submitting again.' : 'Yeni geri bildirim göndermeden önce lütfen biraz bekleyin.');
+        return;
+      }
       if (!fbState.rating) { alert(isEn ? 'Please provide at least a star rating!' : 'Lütfen en az bir yıldız ver!'); return; }
+      lastFeedbackSubmitTime = now;
 
       const fbRecord = {
         rating: fbState.rating,
@@ -15077,9 +15173,9 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const fromDpiNum = parseInt(convState.fromDpi, 10);
       const toDpiNum = parseInt(convState.toDpi, 10);
 
-      const validSens = (!isNaN(sensNum) && sensNum > 0) ? sensNum : 0;
-      const validFromDpi = (!isNaN(fromDpiNum) && fromDpiNum > 0) ? fromDpiNum : 800;
-      const validToDpi = (!isNaN(toDpiNum) && toDpiNum > 0) ? toDpiNum : 800;
+      const validSens = (!isNaN(sensNum) && sensNum > 0 && sensNum <= 500) ? sensNum : 0;
+      const validFromDpi = (!isNaN(fromDpiNum) && fromDpiNum >= 50 && fromDpiNum <= 64000) ? fromDpiNum : 800;
+      const validToDpi = (!isNaN(toDpiNum) && toDpiNum >= 50 && toDpiNum <= 64000) ? toDpiNum : 800;
 
       const toGame = GAMES.find(g => g.id === convState.toGame) || GAMES[1];
       let targetSens = 0, cm360 = 0, toEdpi = 0, in360 = 0;
@@ -16676,11 +16772,10 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       else if (state.currentPage === 'history') VecSensCloud.renderHistoryPage();
     }
 
-    const MASTER_ADMIN_PIN = 'scan0909x';
+    const MASTER_ADMIN_PIN_HASH = '7d1516d3907f1f21315f6f56ae125974067fec6cecc61598d0c5b6b05eac647b';
 
     const DEFAULT_ADMIN_CONFIG = {
       unlocked: false,
-      pin: MASTER_ADMIN_PIN,
       pinProtected: true,
       activeDrawer: null,
       inlineEditActive: false,
@@ -16712,7 +16807,6 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           return {
             ...DEFAULT_ADMIN_CONFIG,
             ...parsed,
-            pin: MASTER_ADMIN_PIN,
             themeDark: { ...DEFAULT_ADMIN_CONFIG.themeDark, ...(parsed.themeDark || {}) },
             themeLight: { ...DEFAULT_ADMIN_CONFIG.themeLight, ...(parsed.themeLight || {}) },
             layout: { ...DEFAULT_ADMIN_CONFIG.layout, ...(parsed.layout || {}) },
@@ -16784,11 +16878,23 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       `;
     }
 
-    function verifyAdminPin() {
+    async function verifyAdminPin() {
       const isEn = currentLang === 'en';
       const inp = document.getElementById('adminPinInput');
       const val = inp ? inp.value.trim() : '';
-      if (val === MASTER_ADMIN_PIN) {
+      let isMatch = false;
+      try {
+        if (window.crypto && crypto.subtle) {
+          const enc = new TextEncoder().encode(val);
+          const buf = await crypto.subtle.digest('SHA-256', enc);
+          const hashHex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          isMatch = (hashHex === MASTER_ADMIN_PIN_HASH);
+        }
+      } catch (e) {
+        console.error('Error verifying PIN:', e);
+      }
+
+      if (isMatch) {
         adminConfig.unlocked = true;
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.className = 'hidden';
@@ -17813,26 +17919,14 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         }
       });
 
-      // Emoji temizleyici — her render sonrası çalıştır
-      const origRenderQ = renderQuestion;
-      const origShowLoad = showLoading;
-      const origRenderPro = renderProPage;
-      const origRenderFb = renderFeedbackPage;
-      const origShowResult = showResults;
-      const origRenderConv = renderConverter;
-      const origRenderAim = renderAimTest;
-      const origRenderAdmin = renderAdminPage;
-
-      renderQuestion = (...a) => { origRenderQ(...a); setTimeout(stripAll, 0); };
-      showLoading = (...a) => { origShowLoad(...a); setTimeout(stripAll, 0); };
-      renderProPage = (...a) => { origRenderPro(...a); setTimeout(stripAll, 0); };
-      renderFeedbackPage = (...a) => { origRenderFb(...a); setTimeout(stripAll, 0); };
-      renderConverter = (...a) => { origRenderConv(...a); setTimeout(stripAll, 0); };
-      renderAdminPage = (...a) => { origRenderAdmin(...a); setTimeout(stripAll, 0); };
-      if (typeof renderAimTest === 'function')
-        renderAimTest = (...a) => { origRenderAim(...a); setTimeout(stripAll, 0); };
-      if (typeof showResults === 'function')
-        showResults = (...a) => { origShowResult(...a); setTimeout(stripAll, 0); };
+      // Register PWA Service Worker for offline performance and caching
+      if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(err => {
+            console.warn('ServiceWorker registration error:', err);
+          });
+        });
+      }
 
       setTimeout(stripAll, 100);
     });

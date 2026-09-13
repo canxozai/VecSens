@@ -1,0 +1,25 @@
+{
+  "name": "VecSens — Kişiselleştirilmiş Aim Analizi",
+  "short_name": "VecSens",
+  "description": "Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse DPI ve sensitivity ayarlarını hesapla.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "games", "productivity"]
+}
