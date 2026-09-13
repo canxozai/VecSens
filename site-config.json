@@ -52,11 +52,18 @@
     "footerTr": "Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli",
     "footerEn": "All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure"
   },
-  "cloud": {
-    "supabaseUrl": "https://focusbneqlnxznppguhy.supabase.co",
-    "supabaseAnonKey": "sb_publishable_FhSgi2EgTmjqzmvy58RC1A_slBpzzK9"
+  "customTexts": {
+    "id_convSub": "Hipfire ve Dürbün hassasiyetlerini tüm oyunlar arasında 1:1 kas hafızasıyla eşle.",
+    "id_ntab-analysis": "Analiz",
+    "id_ntab-home": "Ana Sayfa",
+    "id_ntab-history": "Geçmiş",
+    "id_ntab-aimtest": "Aim Testi",
+    "id_aimSub": "Önerilen hassasiyetini tarayıcıdan çıkmadan canlı test et.",
+    "id_ntab-pros": "Pro Oyuncular",
+    "id_prosSub": "Profesyonel esporcuların doğrulanmış mouse, DPI ve hassasiyet ayarları.",
+    "id_ntab-feedback": "Geri Bildirim",
+    "id_fbSub": "Geri bildiriminle uygulamayı daha iyi hale getirmemize yardımcı ol."
   },
-  "customTexts": {},
   "algorithm": {
     "globalSensMultiplier": 1,
     "wristMultiplier": 1,
