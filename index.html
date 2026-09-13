@@ -10867,6 +10867,9 @@
       if (page === 'aimtest') renderAimTest();
       if (page === 'admin') renderAdminPage();
       setTimeout(stripAll, 0);
+      if (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.inlineEditActive) {
+        setTimeout(() => { if (typeof toggleVsInlineEdit === 'function') toggleVsInlineEdit(true); }, 50);
+      }
     }
 
     function resetAndStartNewAnalysis() {
@@ -12884,17 +12887,53 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const container = document.getElementById('page-home');
       if (!container) return;
 
+      const txt = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.texts) ? adminConfig.texts : DEFAULT_ADMIN_CONFIG.texts;
+      const custom = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.customTexts) ? adminConfig.customTexts : {};
+
+      const heroBadgeText = custom['id_homeHeroBadge'] || (isEn ? 'VecSens Precision Tactical Aim Engine' : 'VecSens Taktiksel Aım & Hassasiyet Mimarisi');
+      const heroTitleText = custom['id_homeHeroTitle'] || (isEn ? (txt.homeHeroTitleEn || 'Elevate Your Tactical FPS Aim & Performance') : (txt.homeHeroTitleTr || 'FPS Performansını & Aim Yeteneğini Zirveye Taşı'));
+      const heroSubText = custom['id_homeHeroSub'] || (isEn 
+        ? (txt.homeHeroSubEn || 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.') 
+        : (txt.homeHeroSubTr || '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.'));
+
+      const c1Title = custom['id_homeCardTitle_analysis'] || (isEn ? 'Personalized Aim & Sensitivity Advisor' : 'Kişiselleştirilmiş Aim & Hassasiyet Analizi');
+      const c1Desc = custom['id_homeCardDesc_analysis'] || (isEn 
+        ? 'Analyzes your specific mouse model, DPI, polling rate, mousepad dimensions, hand size, grip style (Palm/Claw/Fingertip), arm/wrist biomechanics, and main in-game roles to compute 3 tailored profiles (Balanced, Speed Flick, Precision Tracking) with custom Esports Player Card export.' 
+        : 'Kullandığın mouse modeli (224+ veritabanı), DPI, polling rate, mousepad ölçün, el boyutun, tutuş şeklin (Palm/Claw/Fingertip), nişan mekaniğin ve oyun rollerine göre sana özel 3 profil (Dengeli, Hızlı Flick, Hassas Tracking) hesaplar ve Esporcu Kartı oluşturur.');
+
+      const c2Title = custom['id_homeCardTitle_converter'] || (isEn ? 'Cross-Game Sens & Scope Converter' : 'Sens & Scope / ADS Dönüştürücü');
+      const c2Desc = custom['id_homeCardDesc_converter'] || (isEn 
+        ? 'Lossless cm/360 and eDPI conversion across Valorant, CS2, Apex Legends, R6, Call of Duty, PUBG, Fortnite, Overwatch 2, The Finals, and more. Includes 1:1 Monitor Match Scope/ADS multipliers.' 
+        : 'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.');
+
+      const c3Title = custom['id_homeCardTitle_aimtest'] || (isEn ? 'Interactive Aim & 180° Calibration' : 'Aim & 180° Kalibrasyon Testi');
+      const c3Desc = custom['id_homeCardDesc_aimtest'] || (isEn 
+        ? 'Test your reflex turning, muscle memory, and angular accuracy directly inside the browser using Pointer Lock. Measures your 180° turn error and provides live recommendations.' 
+        : 'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.');
+
+      const c4Title = custom['id_homeCardTitle_pros'] || (isEn ? 'Pro Player Settings & Hardware DB' : 'Pro Oyuncular & Ekipman Veritabanı');
+      const c4Desc = custom['id_homeCardDesc_pros'] || (isEn 
+        ? 'Verified DPI, sensitivity, eDPI, cm/360, and mouse gear used by Tier-1 professionals across Valorant, CS2, Apex Legends, R6, and Fortnite. Compare your settings directly against pro benchmarks.' 
+        : 'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.');
+
+      const c5Title = custom['id_homeCardTitle_feedback'] || (isEn ? 'Feedback & Mouse Wishlist' : 'Geri Bildirim & Fare İstek Kutusu');
+      const c5Desc = custom['id_homeCardDesc_feedback'] || (isEn 
+        ? 'Request new mouse models to be added to the engine, rate your calculation results, and help improve the VecSens tactical algorithm.' 
+        : 'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.');
+
+      const c6Title = custom['id_homeCardTitle_history'] || (isEn ? 'Analysis History & Cloud Profile' : 'Geçmiş Analizler & Bulut Profili');
+      const c6Desc = custom['id_homeCardDesc_history'] || (isEn 
+        ? 'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, compare settings A/B, and access your settings from any computer.' 
+        : 'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et, 2 profili A/B kıyasla ve tüm cihazlarından tek tıkla geri yükle.');
+
       container.innerHTML = `
         <div class="home-hero">
           <div class="home-hero-badge">
             <span class="dot"></span>
-            <span>${isEn ? 'VecSens Precision Tactical Aim Engine' : 'VecSens Taktiksel Aım & Hassasiyet Mimarisi'}</span>
+            <span id="homeHeroBadge">${heroBadgeText}</span>
           </div>
-          <h2 class="home-hero-title">${isEn ? 'Elevate Your Tactical FPS Aim & Performance' : 'FPS Performansını & Aim Yeteneğini Zirveye Taşı'}</h2>
-          <p class="home-hero-sub">${isEn 
-            ? 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.' 
-            : '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.'}
-          </p>
+          <h2 class="home-hero-title" id="homeHeroTitle">${heroTitleText}</h2>
+          <p class="home-hero-sub" id="homeHeroSub">${heroSubText}</p>
           <div class="home-hero-actions">
             <button class="btn btn-primary" onclick="switchPage('analysis')">
               ${getVsSvg('play', 14)}
@@ -12939,11 +12978,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge">${isEn ? 'Core Feature · 5 Phases' : 'Ana Özellik · 5 Aşamalı'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Personalized Aim & Sensitivity Advisor' : 'Kişiselleştirilmiş Aim & Hassasiyet Analizi'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Analyzes your specific mouse model, DPI, polling rate, mousepad dimensions, hand size, grip style (Palm/Claw/Fingertip), arm/wrist biomechanics, and main in-game roles to compute 3 tailored profiles (Balanced, Speed Flick, Precision Tracking) with custom Esports Player Card export.'
-                : 'Kullandığın mouse modeli (224+ veritabanı), DPI, polling rate, mousepad ölçün, el boyutun, tutuş şeklin (Palm/Claw/Fingertip), nişan mekaniğin ve oyun rollerine göre sana özel 3 profil (Dengeli, Hızlı Flick, Hassas Tracking) hesaplar ve Esporcu Kartı oluşturur.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_analysis">${c1Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_analysis">${c1Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? '224+ Mouse Specs' : '224+ Mouse Donanım Analizi'}</span>
                 <span class="home-card-tag">${isEn ? 'Grip & Hand Ratio' : 'El & Tutuş Ergonomisi'}</span>
@@ -12967,11 +13003,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge">${isEn ? '1:1 Motor Conversion' : '1:1 Motor Çevrimi'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Cross-Game Sens & Scope Converter' : 'Sens & Scope / ADS Dönüştürücü'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Lossless cm/360 and eDPI conversion across Valorant, CS2, Apex Legends, R6, Call of Duty, PUBG, Fortnite, Overwatch 2, The Finals, and more. Includes 1:1 Monitor Match Scope/ADS multipliers.'
-                : 'Valorant, CS2, Apex Legends, Rainbow Six Siege, Warzone, PUBG, Fortnite, Overwatch 2 ve 12+ oyun arasında cm/360 korumalı kayıpsız hassasiyet çevirisi ve 1:1 Scope/ADS çarpan hesaplayıcı.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_converter">${c2Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_converter">${c2Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? '12+ FPS Engines' : '12+ FPS Motoru'}</span>
                 <span class="home-card-tag">${isEn ? 'cm/360 Preservation' : 'cm/360 Koruma'}</span>
@@ -12994,11 +13027,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge">${isEn ? 'Interactive Lab' : 'Canlı Laboratuvar'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Interactive Aim & 180° Calibration' : 'Aim & 180° Kalibrasyon Testi'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Test your reflex turning, muscle memory, and angular accuracy directly inside the browser using Pointer Lock. Measures your 180° turn error and provides live recommendations.'
-                : 'Tarayıcıdan çıkmadan Pointer Lock ile 180° arkaya ani dönüş refleksini, kas hafızanı ve hedef sapma oranını canlı test et. Sens ayarının sana hızlı mı yavaş mı geldiğini anında öğren.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_aimtest">${c3Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_aimtest">${c3Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? '180° Muscle Memory' : '180° Kas Hafızası'}</span>
                 <span class="home-card-tag">${isEn ? 'Reaction Time Tracker' : 'Tepki Süresi Ölçümü'}</span>
@@ -13020,11 +13050,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge">${isEn ? 'Esports DB' : 'Espor Veritabanı'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Pro Player Settings & Hardware DB' : 'Pro Oyuncular & Ekipman Veritabanı'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Verified DPI, sensitivity, eDPI, cm/360, and mouse gear used by Tier-1 professionals across Valorant, CS2, Apex Legends, R6, and Fortnite. Compare your settings directly against pro benchmarks.'
-                : 'TenZ, s1mple, Aspas, NiKo, Boaster ve yüzlerce Tier-1 esporcunun doğrulanmış mouse modelleri, DPI, sens, eDPI ve cm/360 ayarları. Kendi ayarlarınla profesyonelleri anlık kıyasla.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_pros">${c4Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_pros">${c4Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? 'Tier-1 Esports Benchmarks' : 'Tier-1 Esporcular'}</span>
                 <span class="home-card-tag">${isEn ? 'Mice & Hardware Used' : 'Kullandıkları Mouselar'}</span>
@@ -13047,11 +13074,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge">${isEn ? 'Community' : 'Topluluk'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Feedback & Mouse Wishlist' : 'Geri Bildirim & Fare İstek Kutusu'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Request new mouse models to be added to the engine, rate your calculation results, and help improve the VecSens tactical algorithm.'
-                : 'Veritabanına eklenmesini istediğin yeni fare modellerini bildir, analiz deneyimini puanla ve algoritmaların gelişimine doğrudan yön ver.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_feedback">${c5Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_feedback">${c5Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? 'Mouse Model Wishlist' : 'Yeni Model Talebi'}</span>
                 <span class="home-card-tag">${isEn ? 'Star Rating System' : 'Yıldız Puanlama'}</span>
@@ -13072,11 +13096,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
                 </div>
                 <div class="home-card-badge" style="color:var(--purple);border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.1)">${isEn ? 'Cloud Vault' : 'Bulut Kasası'}</div>
               </div>
-              <h3 class="home-card-title">${isEn ? 'Analysis History & Cloud Profile' : 'Geçmiş Analizler & Bulut Profili'}</h3>
-              <p class="home-card-desc">${isEn 
-                ? 'Save your sensitivity calibrations, monitor your aim progression across multiple FPS engines, compare settings A/B, and access your settings from any computer.'
-                : 'Yaptığın hassasiyet kalibrasyonlarını kaydet, farklı oyunlardaki aim gelişimini takip et, 2 profili A/B kıyasla ve tüm cihazlarından tek tıkla geri yükle.'}
-              </p>
+              <h3 class="home-card-title" id="homeCardTitle_history">${c6Title}</h3>
+              <p class="home-card-desc" id="homeCardDesc_history">${c6Desc}</p>
               <div class="home-card-tags">
                 <span class="home-card-tag">${isEn ? 'Cloud Sync & Vault' : 'Bulut Senkronizasyonu'}</span>
                 <span class="home-card-tag">${isEn ? 'A/B Sens Comparison' : 'A/B Karşılaştırma'}</span>
@@ -16743,11 +16764,18 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const fbSub = document.getElementById('fbSub');
       if (fbSub) fbSub.textContent = dict.fbSub;
 
-      setBadge('histBadge', dict.histBadge || (isEn ? 'Cloud & Analysis History' : 'Bulut & Analiz Geçmişi'));
+      const cfgTxt = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.texts) ? adminConfig.texts : DEFAULT_ADMIN_CONFIG.texts;
+      const cfgCustom = (typeof adminConfig !== 'undefined' && adminConfig && adminConfig.customTexts) ? adminConfig.customTexts : {};
+
+      setBadge('histBadge', cfgCustom['id_histBadge'] || dict.histBadge || (isEn ? 'Cloud & Analysis History' : 'Bulut & Analiz Geçmişi'));
       const histTitle = document.getElementById('histTitle');
-      if (histTitle) histTitle.textContent = dict.histTitle || (isEn ? 'Saved Analyses Vault' : 'Geçmiş Analizlerim');
+      if (histTitle) {
+        histTitle.innerHTML = cfgCustom['id_histTitle'] || (isEn ? (cfgTxt.histTitleEn || dict.histTitle || 'Saved Analyses Vault') : (cfgTxt.histTitleTr || dict.histTitle || 'Geçmiş Analizlerim'));
+      }
       const histSub = document.getElementById('histSub');
-      if (histSub) histSub.textContent = dict.histSub || (isEn ? 'Your cloud aim optimization records' : 'Kişisel aim optimizasyon kayıtların');
+      if (histSub) {
+        histSub.innerHTML = cfgCustom['id_histSub'] || (isEn ? (cfgTxt.histSubEn || dict.histSub || 'Your cloud aim optimization records, sensitivity evolution, and saved profiles') : (cfgTxt.histSubTr || dict.histSub || 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin'));
+      }
       
       const foot = document.getElementById('footerText');
       if (foot) foot.textContent = dict.footer;
@@ -16782,7 +16810,23 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       themeDark: { bg: '#0b0f19', card: '#111827', border: '#1f2937', cyan: '#94a3b8', blue: '#64748b', vctRed: '#f43f5e', purple: '#a855f7', green: '#10b981', gbtnStart: '#475569', gbtnEnd: '#1e293b' },
       themeLight: { bg: '#f8fafc', card: '#ffffff', border: '#cbd5e1', cyan: '#334155', blue: '#1e293b', vctRed: '#e11d48', purple: '#4338ca', green: '#059669', gbtnStart: '#334155', gbtnEnd: '#0f172a' },
       layout: { containerMaxWidth: 890, cardPadding: 34, borderRadius: 16, boxGap: 20, fontScale: 100, cardBlur: 24, glowIntensity: 30, heroLogoSize: 84, heroLogoOffsetY: 0, heroLogoAlign: 'center', heroLogoGlass: false, badgeLogoSize: 18, navLogoSize: 26, fontFamily: 'Plus Jakarta Sans', displayFont: 'Space Grotesk', hudFont: 'JetBrains Mono' },
-      texts: { brandName: 'VecSens', headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>', headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>', headerSubTr: 'Oyun tarzını analiz ederek en uygun ayarları hesaplıyoruz.', headerSubEn: 'Analyze your playstyle to compute your ideal sensitivity.', footerTr: 'Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli', footerEn: 'All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure' },
+      texts: {
+        brandName: 'VecSens',
+        headerTitleTr: 'VecSens<br/><span class="header-sub-gradient">Kişiselleştirilmiş Aim Analizi</span>',
+        headerTitleEn: 'VecSens<br/><span class="header-sub-gradient">Personalized Aim Optimizer</span>',
+        headerSubTr: 'Oyun tarzını, ekipmanını ve fiziksel özelliklerini analiz ederek en uygun mouse ayarlarını hesaplıyoruz.',
+        headerSubEn: 'Analyze your playstyle, hardware, and ergonomics to compute your ideal mouse DPI and sensitivity.',
+        homeHeroTitleTr: 'FPS Performansını & Aim Yeteneğini Zirveye Taşı',
+        homeHeroTitleEn: 'Elevate Your Tactical FPS Aim & Performance',
+        homeHeroSubTr: '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.',
+        homeHeroSubEn: 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.',
+        histTitleTr: 'Geçmiş Analizlerim',
+        histTitleEn: 'Saved Analyses Vault',
+        histSubTr: 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin',
+        histSubEn: 'Your cloud aim optimization records, sensitivity evolution, and saved profiles',
+        footerTr: 'Tüm analiz kayıtlarınız ve profilleriniz güvenli Bulut Kasasında (VecSens Cloud Vault) şifreli saklanır · 100% Güvenli',
+        footerEn: 'All analysis records and profiles are securely stored in the encrypted VecSens Cloud Vault · 100% Secure'
+      },
       cloud: { supabaseUrl: 'https://focusbneqlnxznppguhy.supabase.co', supabaseAnonKey: 'sb_publishable_FhSgi2EgTmjqzmvy58RC1A_slBpzzK9' },
       customTexts: {},
       algorithm: { globalSensMultiplier: 1.0, wristMultiplier: 1.0, armMultiplier: 1.0 },
@@ -17213,14 +17257,11 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       });
 
       if (conf.customTexts) {
-        const reservedI18nIds = ['headerTitle', 'headerSub', 'footerText', 'ntab-home', 'ntab-analysis', 'ntab-converter', 'ntab-aimtest', 'ntab-pros', 'ntab-feedback', 'aimTitle', 'aimSub', 'convTitle', 'convSub', 'prosTitle', 'prosSub', 'fbTitle', 'fbSub'];
         Object.entries(conf.customTexts).forEach(([key, htmlVal]) => {
           if (key.startsWith('id_')) {
             const targetId = key.replace('id_', '');
-            if (!reservedI18nIds.includes(targetId)) {
-              const targetEl = document.getElementById(targetId);
-              if (targetEl) targetEl.innerHTML = htmlVal;
-            }
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.innerHTML = htmlVal;
           }
         });
       }
@@ -17228,16 +17269,34 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
       const isEn = currentLang === 'en';
       const dict = (typeof I18N !== 'undefined' && I18N[currentLang]) ? I18N[currentLang] : (I18N?.tr || {});
       const txt = conf.texts || DEFAULT_ADMIN_CONFIG.texts;
+      const custom = conf.customTexts || {};
+
       const hTitle = document.getElementById('headerTitle');
-      if (hTitle && (!conf.customTexts || !conf.customTexts['id_headerTitle'])) {
+      if (hTitle && !custom['id_headerTitle']) {
         hTitle.innerHTML = isEn ? (txt.headerTitleEn || dict.title || '') : (txt.headerTitleTr || dict.title || '');
       }
       const hSub = document.getElementById('headerSub');
-      if (hSub && (!conf.customTexts || !conf.customTexts['id_headerSub'])) {
+      if (hSub && !custom['id_headerSub']) {
         hSub.textContent = isEn ? (txt.headerSubEn || dict.sub || '') : (txt.headerSubTr || dict.sub || '');
       }
+      const homeTitle = document.getElementById('homeHeroTitle');
+      if (homeTitle && !custom['id_homeHeroTitle']) {
+        homeTitle.innerHTML = isEn ? (txt.homeHeroTitleEn || '') : (txt.homeHeroTitleTr || '');
+      }
+      const homeSub = document.getElementById('homeHeroSub');
+      if (homeSub && !custom['id_homeHeroSub']) {
+        homeSub.innerHTML = isEn ? (txt.homeHeroSubEn || '') : (txt.homeHeroSubTr || '');
+      }
+      const histTitle = document.getElementById('histTitle');
+      if (histTitle && !custom['id_histTitle']) {
+        histTitle.innerHTML = isEn ? (txt.histTitleEn || dict.histTitle || '') : (txt.histTitleTr || dict.histTitle || '');
+      }
+      const histSub = document.getElementById('histSub');
+      if (histSub && !custom['id_histSub']) {
+        histSub.innerHTML = isEn ? (txt.histSubEn || dict.histSub || '') : (txt.histSubTr || dict.histSub || '');
+      }
       const fText = document.getElementById('footerText');
-      if (fText && (!conf.customTexts || !conf.customTexts['id_footerText'])) {
+      if (fText && !custom['id_footerText']) {
         fText.textContent = isEn ? (txt.footerEn || txt.footerTr || dict.footer || '') : (txt.footerTr || dict.footer || '');
       }
 
@@ -17261,10 +17320,14 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
         // Target editable elements on current screen
         const selectors = [
+          '#homeHeroTitle', '#homeHeroSub', '#homeHeroBadge', '.home-hero-badge span',
+          '.home-card-title', '.home-card-desc', '.home-card-tag', '.home-card-badge',
+          '#histTitle', '#histSub', '#histBadge',
           '#headerTitle', '#headerSub', '#convTitle', '#convSub',
           '#aimTitle', '#aimSub', '#prosTitle', '#prosSub',
-          '#fbTitle', '#fbSub', '#footerText', '.question-title',
-          '.question-subtitle', '.btn', '.badge', '.nav-tab', '.phase-dot'
+          '#fbTitle', '#fbSub', '#footerText',
+          '.question-title', '.question-subtitle', '.page-header h2', '.page-header p',
+          '.btn', '.badge', '.nav-tab', '.phase-dot'
         ];
 
         document.querySelectorAll(selectors.join(',')).forEach(el => {
@@ -17272,10 +17335,38 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
           el.setAttribute('spellcheck', 'false');
           el.setAttribute('data-vs-editable', 'true');
 
+          el.onclick = function (e) {
+            if (adminConfig.inlineEditActive) {
+              e.stopPropagation();
+            }
+          };
+
           el.onblur = function () {
-            const key = el.id ? `id_${el.id}` : `txt_${el.textContent.trim().slice(0, 20)}`;
+            const key = el.id ? `id_${el.id}` : `txt_${el.textContent.trim().slice(0, 30)}`;
             adminConfig.customTexts = adminConfig.customTexts || {};
             adminConfig.customTexts[key] = el.innerHTML;
+
+            // Also keep bilingual adminConfig.texts in sync for primary fields
+            adminConfig.texts = adminConfig.texts || {};
+            if (el.id === 'homeHeroTitle') {
+              if (isEn) adminConfig.texts.homeHeroTitleEn = el.innerHTML;
+              else adminConfig.texts.homeHeroTitleTr = el.innerHTML;
+            } else if (el.id === 'homeHeroSub') {
+              if (isEn) adminConfig.texts.homeHeroSubEn = el.innerHTML;
+              else adminConfig.texts.homeHeroSubTr = el.innerHTML;
+            } else if (el.id === 'histTitle') {
+              if (isEn) adminConfig.texts.histTitleEn = el.innerHTML;
+              else adminConfig.texts.histTitleTr = el.innerHTML;
+            } else if (el.id === 'histSub') {
+              if (isEn) adminConfig.texts.histSubEn = el.innerHTML;
+              else adminConfig.texts.histSubTr = el.innerHTML;
+            } else if (el.id === 'headerTitle') {
+              if (isEn) adminConfig.texts.headerTitleEn = el.innerHTML;
+              else adminConfig.texts.headerTitleTr = el.innerHTML;
+            } else if (el.id === 'headerSub') {
+              if (isEn) adminConfig.texts.headerSubEn = el.innerHTML;
+              else adminConfig.texts.headerSubTr = el.innerHTML;
+            }
           };
         });
 
@@ -17287,6 +17378,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
         document.querySelectorAll('[data-vs-editable="true"]').forEach(el => {
           el.removeAttribute('contenteditable');
+          el.removeAttribute('data-vs-editable');
+          el.onclick = null;
           el.onblur = null;
         });
 
@@ -17570,7 +17663,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     }
 
     // ── ADVANCED MODAL (PRO DB, FEEDBACKS, BACKUP & PIN) ──
-    function openVsAdvancedModal(activeTab = 'pros') {
+    function openVsAdvancedModal(activeTab = 'texts') {
       const isEn = currentLang === 'en';
       const modal = document.getElementById('vsAdvancedModal');
       if (!modal) return;
@@ -17585,7 +17678,8 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
             <button class="vs-btn danger btn-sm" onclick="document.getElementById('vsAdvancedModal').className='admin-form-modal hidden'"></button>
           </div>
 
-          <div class="nav-tabs" style="margin-bottom:16px;justify-content:flex-start">
+          <div class="nav-tabs" style="margin-bottom:16px;justify-content:flex-start;flex-wrap:wrap;gap:6px">
+            <button class="nav-tab ${activeTab === 'texts' ? 'active' : ''}" onclick="openVsAdvancedModal('texts')"> ${isEn ? 'Texts & Descriptions' : 'Metinler & Açıklamalar'}</button>
             <button class="nav-tab ${activeTab === 'pros' ? 'active' : ''}" onclick="openVsAdvancedModal('pros')"> ${isEn ? 'Pro DB' : 'Pro Veritabanı'}</button>
             <button class="nav-tab ${activeTab === 'feedbacks' ? 'active' : ''}" onclick="openVsAdvancedModal('feedbacks')"> ${isEn ? 'Feedbacks' : 'Geri Bildirimler'}</button>
             <button class="nav-tab ${activeTab === 'algo' ? 'active' : ''}" onclick="openVsAdvancedModal('algo')"> ${isEn ? 'Algorithm' : 'Algoritma'}</button>
@@ -17601,6 +17695,129 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
 
     function renderVsAdvTabInner(tab) {
       const isEn = currentLang === 'en';
+
+      if (tab === 'texts') {
+        const txt = (adminConfig && adminConfig.texts) || DEFAULT_ADMIN_CONFIG.texts;
+        return `
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:12px;flex-wrap:wrap;gap:10px">
+              <div>
+                <b style="color:var(--t1);font-size:15px;display:flex;align-items:center;gap:8px">
+                  <span>${getVsSvg('edit', 16)}</span> <span>${isEn ? 'Live Text & Copy Management' : 'Sayfa Başlıkları & Açıklama Metinleri'}</span>
+                </b>
+                <p style="font-size:12px;color:var(--t3);margin-top:2px">${isEn ? 'Directly edit descriptions and titles for Home, History, and Header in both languages.' : 'Anasayfa, Geçmiş ve diğer sayfaların başlık ile açıklama yazılarını Türkçe ve İngilizce olarak düzenleyin.'}</p>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-secondary btn-sm" onclick="resetVsTextsToDefault()">${isEn ? 'Reset to Defaults' : 'Varsayılanlara Sıfırla'}</button>
+                <button class="btn btn-primary btn-sm" onclick="saveVsTextsFromModal()">${getVsSvg('check', 14)} <span>${isEn ? 'Save & Apply' : 'Kaydet & Uygula'}</span></button>
+              </div>
+            </div>
+
+            <!-- SECTION 1: HOMEPAGE (ANASAYFA) -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px">
+              <div style="font-weight:700;font-size:13px;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+                <span>🏠</span> <span>${isEn ? 'Home Page Hero Section' : 'Anasayfa Ana Başlık & Açıklama Metni'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Hero Title (TR)' : 'Anasayfa Başlığı (TR)'}</label>
+                  <input type="text" class="input-field" id="adv_homeHeroTitleTr" value="${escapeHtml(txt.homeHeroTitleTr || 'FPS Performansını & Aim Yeteneğini Zirveye Taşı')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Hero Title (EN)' : 'Anasayfa Başlığı (EN)'}</label>
+                  <input type="text" class="input-field" id="adv_homeHeroTitleEn" value="${escapeHtml(txt.homeHeroTitleEn || 'Elevate Your Tactical FPS Aim & Performance')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Hero Description Subtitle (TR)' : 'Anasayfa Açıklama Yazısı (TR)'}</label>
+                  <textarea class="input-field" id="adv_homeHeroSubTr" rows="3" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.homeHeroSubTr || '224+ oyuncu faresi ve fiziksel özelliklerine göre matematiksel hassasiyet analizi, oyunlar arası 1:1 kayıpsız sens & scope dönüştürücü, canlı 180° kas hafızası kalibrasyon testi ve esporcu veritabanı.')}</textarea>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Hero Description Subtitle (EN)' : 'Anasayfa Açıklama Yazısı (EN)'}</label>
+                  <textarea class="input-field" id="adv_homeHeroSubEn" rows="3" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.homeHeroSubEn || 'Personalized sensitivity calculation engineered for 224+ mouse models, 1:1 cross-game converter, real-time 180° muscle memory calibration lab, and verified pro player settings database.')}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 2: HISTORY PAGE (GEÇMİŞ) -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px">
+              <div style="font-weight:700;font-size:13px;color:var(--purple);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+                <span>📁</span> <span>${isEn ? 'History & Cloud Vault Section' : 'Geçmiş Analizler & Bulut Kasası Başlık & Açıklama Metni'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Title (TR)' : 'Geçmiş Başlığı (TR)'}</label>
+                  <input type="text" class="input-field" id="adv_histTitleTr" value="${escapeHtml(txt.histTitleTr || 'Geçmiş Analizlerim')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Title (EN)' : 'Geçmiş Başlığı (EN)'}</label>
+                  <input type="text" class="input-field" id="adv_histTitleEn" value="${escapeHtml(txt.histTitleEn || 'Saved Analyses Vault')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Description Subtitle (TR)' : 'Geçmiş Açıklama Yazısı (TR)'}</label>
+                  <textarea class="input-field" id="adv_histSubTr" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubTr || 'Kişisel aim optimizasyon kayıtların, hassasiyet evrimin ve kayıtlı profillerin')}</textarea>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'History Description Subtitle (EN)' : 'Geçmiş Açıklama Yazısı (EN)'}</label>
+                  <textarea class="input-field" id="adv_histSubEn" rows="2" style="font-size:12.5px;resize:vertical;line-height:1.4;margin-bottom:0">${escapeHtml(txt.histSubEn || 'Your cloud aim optimization records, sensitivity evolution, and saved profiles')}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: HEADER BANNER (ÜST BAŞLIK) -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px">
+              <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+                <span>🎯</span> <span>${isEn ? 'Site Header / Banner' : 'Site Üst Başlık & Slogan'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Header Title (TR)' : 'Üst Başlık (TR)'}</label>
+                  <input type="text" class="input-field" id="adv_headerTitleTr" value="${escapeHtml(txt.headerTitleTr || '')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Header Title (EN)' : 'Üst Başlık (EN)'}</label>
+                  <input type="text" class="input-field" id="adv_headerTitleEn" value="${escapeHtml(txt.headerTitleEn || '')}" style="font-size:13px;margin-bottom:0"/>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Header Subtitle (TR)' : 'Üst Slogan / Alt Başlık (TR)'}</label>
+                  <input type="text" class="input-field" id="adv_headerSubTr" value="${escapeHtml(txt.headerSubTr || '')}" style="font-size:12.5px;margin-bottom:0"/>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Header Subtitle (EN)' : 'Üst Slogan / Alt Başlık (EN)'}</label>
+                  <input type="text" class="input-field" id="adv_headerSubEn" value="${escapeHtml(txt.headerSubEn || '')}" style="font-size:12.5px;margin-bottom:0"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: FOOTER (ALT BİLGİ) -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px">
+              <div style="font-weight:700;font-size:13px;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+                <span>🛡️</span> <span>${isEn ? 'Footer Security Notice' : 'Alt Bilgi (Footer) Güvenlik Yazısı'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Footer Text (TR)' : 'Footer Metni (TR)'}</label>
+                  <input type="text" class="input-field" id="adv_footerTr" value="${escapeHtml(txt.footerTr || '')}" style="font-size:12.5px;margin-bottom:0"/>
+                </div>
+                <div>
+                  <label class="admin-field-label" style="font-size:12px">${isEn ? 'Footer Text (EN)' : 'Footer Metni (EN)'}</label>
+                  <input type="text" class="input-field" id="adv_footerEn" value="${escapeHtml(txt.footerEn || '')}" style="font-size:12.5px;margin-bottom:0"/>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:6px">
+              <button class="btn btn-secondary" onclick="document.getElementById('vsAdvancedModal').className='admin-form-modal hidden'">${isEn ? 'Close' : 'Kapat'}</button>
+              <button class="btn btn-primary" onclick="saveVsTextsFromModal()">${getVsSvg('check', 14)} <span>${isEn ? 'Save & Apply All Texts' : 'Tüm Metinleri Kaydet & Uygula'}</span></button>
+            </div>
+          </div>
+        `;
+      }
 
       if (tab === 'pros') {
         const customCount = Object.keys(adminConfig.customPros || {}).length;
@@ -17670,6 +17887,73 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
         `;
       }
       return '';
+    }
+
+    function saveVsTextsFromModal() {
+      const isEn = currentLang === 'en';
+      adminConfig.texts = adminConfig.texts || {};
+
+      const g = id => {
+        const el = document.getElementById(id);
+        return el ? el.value.trim() : null;
+      };
+
+      const hhtTr = g('adv_homeHeroTitleTr'); if (hhtTr !== null) adminConfig.texts.homeHeroTitleTr = hhtTr;
+      const hhtEn = g('adv_homeHeroTitleEn'); if (hhtEn !== null) adminConfig.texts.homeHeroTitleEn = hhtEn;
+      const hhsTr = g('adv_homeHeroSubTr'); if (hhsTr !== null) adminConfig.texts.homeHeroSubTr = hhsTr;
+      const hhsEn = g('adv_homeHeroSubEn'); if (hhsEn !== null) adminConfig.texts.homeHeroSubEn = hhsEn;
+
+      const htTr = g('adv_histTitleTr'); if (htTr !== null) adminConfig.texts.histTitleTr = htTr;
+      const htEn = g('adv_histTitleEn'); if (htEn !== null) adminConfig.texts.histTitleEn = htEn;
+      const hsTr = g('adv_histSubTr'); if (hsTr !== null) adminConfig.texts.histSubTr = hsTr;
+      const hsEn = g('adv_histSubEn'); if (hsEn !== null) adminConfig.texts.histSubEn = hsEn;
+
+      const hedTr = g('adv_headerTitleTr'); if (hedTr !== null) adminConfig.texts.headerTitleTr = hedTr;
+      const hedEn = g('adv_headerTitleEn'); if (hedEn !== null) adminConfig.texts.headerTitleEn = hedEn;
+      const hedsTr = g('adv_headerSubTr'); if (hedsTr !== null) adminConfig.texts.headerSubTr = hedsTr;
+      const hedsEn = g('adv_headerSubEn'); if (hedsEn !== null) adminConfig.texts.headerSubEn = hedsEn;
+
+      const ftTr = g('adv_footerTr'); if (ftTr !== null) adminConfig.texts.footerTr = ftTr;
+      const ftEn = g('adv_footerEn'); if (ftEn !== null) adminConfig.texts.footerEn = ftEn;
+
+      // Clean up direct customTexts overrides for these so the bilingual texts take precedence cleanly
+      if (adminConfig.customTexts) {
+        delete adminConfig.customTexts['id_homeHeroTitle'];
+        delete adminConfig.customTexts['id_homeHeroSub'];
+        delete adminConfig.customTexts['id_histTitle'];
+        delete adminConfig.customTexts['id_histSub'];
+        delete adminConfig.customTexts['id_headerTitle'];
+        delete adminConfig.customTexts['id_headerSub'];
+        delete adminConfig.customTexts['id_footerText'];
+      }
+
+      saveVsConfig();
+      applyLanguage();
+      if (state.currentPage === 'home') renderHomePage();
+      if (state.currentPage === 'history') VecSensCloud.renderHistoryPage();
+
+      showToast(isEn ? ' Texts updated and applied successfully!' : ' Başlık ve açıklama metinleri başarıyla güncellendi!');
+    }
+
+    function resetVsTextsToDefault() {
+      const isEn = currentLang === 'en';
+      if (!confirm(isEn ? 'Reset all titles and descriptions to defaults?' : 'Tüm başlık ve açıklamaları varsayılana sıfırlamak istiyor musunuz?')) return;
+      adminConfig.texts = JSON.parse(JSON.stringify(DEFAULT_ADMIN_CONFIG.texts));
+      if (adminConfig.customTexts) {
+        delete adminConfig.customTexts['id_homeHeroTitle'];
+        delete adminConfig.customTexts['id_homeHeroSub'];
+        delete adminConfig.customTexts['id_histTitle'];
+        delete adminConfig.customTexts['id_histSub'];
+        delete adminConfig.customTexts['id_headerTitle'];
+        delete adminConfig.customTexts['id_headerSub'];
+        delete adminConfig.customTexts['id_footerText'];
+      }
+      saveVsConfig();
+      applyLanguage();
+      if (state.currentPage === 'home') renderHomePage();
+      if (state.currentPage === 'history') VecSensCloud.renderHistoryPage();
+      openVsAdvancedModal('texts');
+      showToast(isEn ? ' Texts reset to defaults!' : ' Metinler varsayılana sıfırlandı!');
     }
 
     function exportFeedbacksCSV() {
@@ -17800,20 +18084,7 @@ ${item.note ? `📝 Not: ${item.note}\n` : ''}🔗 vecsens.com`;
     //  INIT (BULLETPROOF SYNCHRONOUS + ASYNC CONFIG)
     // ════════════════════════════════════════════════════════════
     function initVecSens() {
-      // 1. Purge any stale customTexts from localStorage immediately
-      try {
-        const stored = localStorage.getItem('vecsens_admin_config');
-        if (stored) {
-          const p = JSON.parse(stored);
-          if (p.customTexts && Object.keys(p.customTexts).length > 0) {
-            p.customTexts = {};
-            localStorage.setItem('vecsens_admin_config', JSON.stringify(p));
-            adminConfig.customTexts = {};
-          }
-        }
-      } catch (e) {}
-
-      // 2. Render UI immediately (Zero Blank Page Delay)
+      // 1. Render UI immediately (Zero Blank Page Delay)
       applyAdminConfig(adminConfig);
       renderQuestion(0);
       applyTheme();
